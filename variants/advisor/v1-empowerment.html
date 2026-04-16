@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expand Your Reach. Keep Your Edge. — Butler Button Advisor Program</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #c9a84c; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #f5f5f0; padding: 110px 40px 90px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(38px, 5vw, 68px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #555; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .hero-stats { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 40px; padding: 32px; background: #fff; border: 1px solid #e0e0d8; }
+  .hero-stat-num { font-family: Georgia, serif; font-size: 40px; color: #000; }
+  .hero-stat-label { font-size: 13px; color: #888; margin-top: 6px; line-height: 1.4; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 44px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  .how-it-works { padding: 100px 40px; }
+  .how-inner { max-width: 1000px; margin: 0 auto; }
+  .how-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .how-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .how-item { padding: 36px 28px; background: #f9f9f5; border-top: 3px solid #c9a84c; }
+  .how-num { font-family: Georgia, serif; font-size: 48px; color: #e8e8e0; line-height: 1; margin-bottom: 16px; }
+  .how-item h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .how-item p { font-size: 14px; color: #555; line-height: 1.6; }
+
+  .white-label { padding: 100px 40px; background: #000; color: #fff; }
+  .wl-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .wl-left h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 20px; }
+  .wl-left p { font-size: 16px; color: #aaa; line-height: 1.7; margin-bottom: 20px; }
+  .wl-right { background: #111; border: 1px solid #333; padding: 40px; }
+  .wl-example-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; margin-bottom: 20px; }
+  .wl-example-name { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  .wl-example-tag { font-size: 13px; color: #888; margin-bottom: 28px; }
+  .wl-powered { font-size: 11px; color: #444; letter-spacing: 1px; border-top: 1px solid #222; padding-top: 16px; }
+
+  .metrics { padding: 100px 40px; background: #f5f5f0; }
+  .metrics-inner { max-width: 900px; margin: 0 auto; }
+  .metrics-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #e0e0d8; }
+  .metric-cell { background: #fff; padding: 40px 32px; text-align: center; }
+  .metric-num { font-family: Georgia, serif; font-size: 52px; color: #000; line-height: 1; }
+  .metric-label { font-size: 13px; color: #888; margin-top: 10px; line-height: 1.5; }
+
+  .cta-section { padding: 100px 40px; text-align: center; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #666; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #c9a84c; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .how-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .wl-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .how-it-works, .white-label, .metrics, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Apply Now</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Advisor Program — Butler Button</div>
+    <h1>Expand Your Reach.<br>Keep Your Edge.</h1>
+    <p class="hero-sub">Give your clients 24/7 human concierge support under your brand. Your relationships stay yours. Our infrastructure delivers the experience.</p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">40%</div><div class="hero-stat-label">More client touchpoints per trip</div></div>
+      <div><div class="hero-stat-num">2.3×</div><div class="hero-stat-label">Booking frequency increase</div></div>
+      <div><div class="hero-stat-num">92%</div><div class="hero-stat-label">Client retention after in-trip support</div></div>
+    </div>
+    <a class="hero-cta" href="#">Apply for Advisor Partnership</a>
+  </div>
+</section>
+
+<section class="how-it-works">
+  <div class="how-inner">
+    <h2>How the advisor program works.</h2>
+    <p class="how-sub">Your brand. Our infrastructure. Your clients' experience elevated.</p>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <h3>You introduce Butler Button</h3>
+        <p>Offer concierge support to clients as part of your service — under your brand, positioned as your premium offering. White-labeled to your practice.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <h3>We deliver the experience</h3>
+        <p>Our expert team provides 24/7 support to your clients throughout their trips. They interact under your brand. You get the credit for the quality.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <h3>Your business grows</h3>
+        <p>Clients who feel supported in-trip book more frequently, refer more actively, and stay loyal longer. The data on this is consistent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white-label">
+  <div class="wl-inner">
+    <div class="wl-left">
+      <h2>Your brand.<br>Our infrastructure.</h2>
+      <p>Every client interaction carries your practice name. Your clients see their advisor's brand — not ours. We're the engine. You're the experience they remember.</p>
+      <p>White-label setup included in your partnership. No additional technology investment required.</p>
+    </div>
+    <div class="wl-right">
+      <div class="wl-example-label">Example — White Label Setup</div>
+      <div class="wl-example-name">Hartley Travel Concierge</div>
+      <div class="wl-example-tag">"Available 24/7 for your journey"</div>
+      <div style="font-size:13px;color:#666;line-height:1.6;">"Hi James — I see your connection at Heathrow has a 45-minute delay. I'm monitoring this and will contact you if it affects your onward flight. All looks manageable at this stage."</div>
+      <div class="wl-powered">Powered by Butler Button infrastructure</div>
+    </div>
+  </div>
+</section>
+
+<section class="metrics">
+  <div class="metrics-inner">
+    <h2>What advisor partners see.</h2>
+    <div class="metrics-grid">
+      <div class="metric-cell">
+        <div class="metric-num">40%</div>
+        <div class="metric-label">More client touchpoints per trip with in-trip concierge support</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">2.3×</div>
+        <div class="metric-label">Booking frequency increase for clients with active concierge access</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">92%</div>
+        <div class="metric-label">Client retention rate after experiencing in-trip support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to expand what you offer?</h2>
+  <p>Apply for the Butler Button Advisor Partnership program.</p>
+  <a class="cta-btn" href="#">Apply for Advisor Partnership</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

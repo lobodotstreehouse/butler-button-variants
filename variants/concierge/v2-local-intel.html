@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Difference Between a Trip and an Experience — Butler Button</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { padding: 110px 40px 90px; background: #f5f5f0; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 66px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #555; line-height: 1.7; max-width: 680px; margin-bottom: 16px; }
+  .hero-sub2 { font-size: 17px; color: #888; line-height: 1.7; max-width: 680px; margin-bottom: 40px; font-style: italic; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 44px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  .rome-story { padding: 100px 40px; background: #000; color: #fff; }
+  .rome-inner { max-width: 800px; margin: 0 auto; }
+  .rome-inner .tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .rome-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 32px; line-height: 1.3; }
+  .rome-inner p { font-size: 17px; color: #aaa; line-height: 1.8; margin-bottom: 20px; }
+  .rome-inner p strong { color: #fff; }
+  .rome-result { background: #111; border-left: 3px solid #c9a84c; padding: 24px 28px; margin-top: 32px; }
+  .rome-result p { font-size: 16px; color: #ccc; margin: 0; }
+  .rome-result strong { color: #c9a84c; }
+
+  .intel-grid { padding: 100px 40px; }
+  .intel-inner { max-width: 1000px; margin: 0 auto; }
+  .intel-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .intel-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
+  .intel-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .intel-card { border-top: 3px solid #c9a84c; padding: 32px 28px; background: #f9f9f5; }
+  .intel-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .intel-card p { font-size: 14px; color: #555; line-height: 1.6; }
+
+  .contrast { padding: 100px 40px; background: #f5f5f0; }
+  .contrast-inner { max-width: 900px; margin: 0 auto; }
+  .contrast-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #e0e0d8; }
+  .contrast-col { background: #fff; padding: 48px 40px; }
+  .contrast-col.highlight { background: #000; color: #fff; }
+  .contrast-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .contrast-col .contrast-label { color: #bbb; }
+  .contrast-col.highlight .contrast-label { color: #c9a84c; }
+  .contrast-item { font-size: 15px; line-height: 1.6; margin-bottom: 16px; padding-left: 20px; position: relative; }
+  .contrast-col .contrast-item { color: #888; }
+  .contrast-col .contrast-item::before { content: '✕'; position: absolute; left: 0; color: #ddd; }
+  .contrast-col.highlight .contrast-item { color: #ccc; }
+  .contrast-col.highlight .contrast-item::before { content: '✓'; position: absolute; left: 0; color: #c9a84c; }
+
+  .cta-section { padding: 100px 40px; text-align: center; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #666; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #c9a84c; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .intel-cards, .contrast-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .rome-story, .intel-grid, .contrast, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Get Started</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Concierge — Butler Button</div>
+    <h1>The Difference Between<br>a Trip and an Experience.</h1>
+    <p class="hero-sub">Generic travel advice gets you to the destination. Local knowledge is what makes it worth the journey.</p>
+    <p class="hero-sub2">"When the restaurant your guide recommends is actually the one locals avoid, your Butler knows."</p>
+    <a class="hero-cta" href="#">Get Concierge — From $25/Day</a>
+  </div>
+</section>
+
+<section class="rome-story">
+  <div class="rome-inner">
+    <div class="tag">Rome · Day 3 · A Real Story</div>
+    <h2>"The restaurant had given your table away.<br>No apology. No alternative.<br>Except yours texted us."</h2>
+    <p>It's Day 3 in Rome. You've been looking forward to this dinner since before you boarded the flight. You arrive at 8pm and the maître d' tells you your reservation doesn't exist. Someone made a mistake. They're full. They shrug.</p>
+    <p><strong>Without a Butler:</strong> You spend 45 minutes on a street corner searching for something half as good and settle for a tourist trap near the Colosseum.</p>
+    <p><strong>With a Butler:</strong> You text us while still standing at the door. We know your preferences, your neighbourhood, your occasion. We find an alternative — a better kitchen, same Trastevere area, table for 8pm.</p>
+    <div class="rome-result">
+      <p><strong>New reservation confirmed in 6 minutes.</strong> You were seated before the couple next to you stopped arguing about where to go.</p>
+    </div>
+  </div>
+</section>
+
+<section class="intel-grid">
+  <div class="intel-inner">
+    <h2>What local intelligence actually means.</h2>
+    <p class="intel-sub">The kind of knowledge that doesn't make it onto a list.</p>
+    <div class="intel-cards">
+      <div class="intel-card">
+        <h3>The timing no one tells you</h3>
+        <p>The best table at that restaurant is available at 6:30pm on a Tuesday because the regulars come later. The popular bakery sells out by 9:15am. Your Butler knows.</p>
+      </div>
+      <div class="intel-card">
+        <h3>The neighbourhood reality</h3>
+        <p>What looks like a 10-minute walk on Google Maps is a 10-minute walk through a street market on Saturday morning. Your Butler routes around it without being asked.</p>
+      </div>
+      <div class="intel-card">
+        <h3>The access that requires relationships</h3>
+        <p>Some restaurants don't take public reservations. Some experiences require knowing who to contact. Some things are only available to people who've been there before.</p>
+      </div>
+      <div class="intel-card">
+        <h3>The seasonal reality</h3>
+        <p>That famous viewpoint is beautiful — and completely obscured by construction scaffolding this year. Your Butler already knew. Your itinerary already adapted.</p>
+      </div>
+      <div class="intel-card">
+        <h3>The local vs. tourist divide</h3>
+        <p>Every popular destination has two sets of restaurants: the ones in every guide and the ones locals go to. Your Butler knows which is which and books the right one.</p>
+      </div>
+      <div class="intel-card">
+        <h3>The safety context</h3>
+        <p>Not "is it safe" — the nuanced version: safe in which context, for whom, at what time of day. Honest, calibrated, not alarming and not dismissive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contrast">
+  <div class="contrast-inner">
+    <h2>Generic advice vs. local knowledge.</h2>
+    <div class="contrast-grid">
+      <div class="contrast-col">
+        <div class="contrast-label">Generic Travel Advice</div>
+        <div class="contrast-item">"Highly rated on TripAdvisor"</div>
+        <div class="contrast-item">"Popular neighbourhood to explore"</div>
+        <div class="contrast-item">"Must-see attraction"</div>
+        <div class="contrast-item">"Great for food lovers"</div>
+        <div class="contrast-item">"15 minutes from city centre"</div>
+      </div>
+      <div class="contrast-col highlight">
+        <div class="contrast-label">Butler Button Local Intelligence</div>
+        <div class="contrast-item">Specific table recommendation with the right booking window</div>
+        <div class="contrast-item">Which blocks are worth your time and which aren't</div>
+        <div class="contrast-item">Whether it's genuinely unmissable or just famous</div>
+        <div class="contrast-item">Three specific dishes and one to avoid</div>
+        <div class="contrast-item">15 minutes, but not between 5–7pm on a weekday</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Local knowledge from $25/day.</h2>
+  <p>The difference between a trip and an experience.</p>
+  <a class="cta-btn" href="#">Get Concierge Now</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

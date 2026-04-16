@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tool Your Clients Will Brag About — Butler Button Advisor</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  .runner-badge { position: fixed; top: 60px; right: 0; background: #666; color: #fff; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #f5f5f0; padding: 110px 40px 90px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 66px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #555; line-height: 1.7; max-width: 680px; margin-bottom: 16px; }
+  .hero-detail { font-size: 17px; color: #888; font-style: italic; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .hero-stat { display: inline-flex; align-items: baseline; gap: 12px; background: #000; color: #fff; padding: 20px 32px; margin-bottom: 32px; }
+  .hero-stat-num { font-family: Georgia, serif; font-size: 48px; color: #c9a84c; line-height: 1; }
+  .hero-stat-label { font-size: 14px; color: #aaa; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 44px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  .story { padding: 100px 40px; background: #000; color: #fff; }
+  .story-inner { max-width: 800px; margin: 0 auto; }
+  .story-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .story h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 32px; line-height: 1.3; }
+  .story p { font-size: 17px; color: #aaa; line-height: 1.8; margin-bottom: 20px; }
+  .story strong { color: #fff; }
+  .story-result { background: #111; border-left: 3px solid #c9a84c; padding: 24px 28px; margin-top: 32px; font-size: 16px; color: #ccc; }
+  .story-result strong { color: #c9a84c; }
+
+  .mechanic { padding: 100px 40px; }
+  .mech-inner { max-width: 900px; margin: 0 auto; }
+  .mech-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .mech-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
+  .mech-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .mech-step { text-align: center; padding: 32px 20px; background: #f9f9f5; }
+  .mech-icon { font-size: 32px; margin-bottom: 16px; }
+  .mech-step h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .mech-step p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  .stats-band { background: #f5f5f0; padding: 80px 40px; }
+  .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #e0e0d8; }
+  .stat-cell { background: #fff; padding: 40px 32px; text-align: center; }
+  .stat-num { font-family: Georgia, serif; font-size: 52px; color: #000; line-height: 1; }
+  .stat-label { font-size: 13px; color: #888; margin-top: 10px; line-height: 1.5; }
+
+  .cta-section { padding: 100px 40px; text-align: center; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #666; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #c9a84c; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .mech-steps { grid-template-columns: repeat(2,1fr); }
+    .stats-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .story, .mechanic, .stats-band, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="runner-badge">☆ RUNNER-UP</div>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Apply Now</div>
+</nav>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Advisor Program — Butler Button</div>
+    <h1>The Tool Your Clients<br>Will Brag About.</h1>
+    <p class="hero-sub">When your client's flight cancels at 11pm in Bangkok and they're rebooked with a hotel in 40 minutes — they don't forget that.</p>
+    <p class="hero-detail">"And they tell everyone."</p>
+    <div class="hero-stat">
+      <div class="hero-stat-num">76%</div>
+      <div class="hero-stat-label">of clients refer within 90 days of an in-trip support experience</div>
+    </div>
+    <br>
+    <a class="hero-cta" href="#">Apply for Advisor Partnership</a>
+  </div>
+</section>
+<section class="story">
+  <div class="story-inner">
+    <div class="story-tag">The Story Your Clients Tell</div>
+    <h2>"I need to tell you about my travel advisor."</h2>
+    <p>It starts at a dinner party. Someone asks how the trip was. Your client says it was incredible — and then mentions the night the flight was cancelled.</p>
+    <p><strong>11pm. Bangkok. Gate board flashes cancelled.</strong> Most travelers would panic. Your client texted their Butler — your Butler, under your brand. Three rebook options arrived in minutes. A hotel at the terminal was arranged. By 1am they were asleep.</p>
+    <p>"My travel advisor has this service where there's a real person available 24/7. They knew my entire itinerary. The whole thing was sorted in 40 minutes."</p>
+    <div class="story-result">
+      <strong>That story — with your name on it — is worth more than any advertising campaign you could run.</strong> And 76% of clients who experience it refer someone within 90 days.
+    </div>
+  </div>
+</section>
+<section class="mechanic">
+  <div class="mech-inner">
+    <h2>The word-of-mouth mechanic.</h2>
+    <p class="mech-sub">Why in-trip support generates referrals that other services don't.</p>
+    <div class="mech-steps">
+      <div class="mech-step"><div class="mech-icon">◎</div><h3>The crisis happens</h3><p>Something goes wrong mid-trip. Flight, restaurant, logistics — the kind of story people tell afterward.</p></div>
+      <div class="mech-step"><div class="mech-icon">◈</div><h3>Your Butler resolves it</h3><p>Under your brand, a human expert handles it — fast, calmly, completely. Client barely had to think.</p></div>
+      <div class="mech-step"><div class="mech-icon">◉</div><h3>Client remembers it vividly</h3><p>Crisis + resolution = memorable story. More memorable than any itinerary detail or restaurant recommendation.</p></div>
+      <div class="mech-step"><div class="mech-icon">◆</div><h3>Client tells everyone</h3><p>The story is compelling, specific, and has your name on it. 76% refer within 90 days. You grow without trying.</p></div>
+    </div>
+  </div>
+</section>
+<section class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-cell"><div class="stat-num">76%</div><div class="stat-label">Refer within 90 days of an in-trip support experience</div></div>
+    <div class="stat-cell"><div class="stat-num">28%</div><div class="stat-label">More referrals in first 6 months for advisor partners</div></div>
+    <div class="stat-cell"><div class="stat-num">92%</div><div class="stat-label">Client retention after experiencing in-trip support</div></div>
+  </div>
+</section>
+<section class="cta-section">
+  <h2>Give your clients a story worth telling.</h2>
+  <p>Apply for the Butler Button Advisor Partnership program.</p>
+  <a class="cta-btn" href="#">Apply for Advisor Partnership</a>
+</section>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

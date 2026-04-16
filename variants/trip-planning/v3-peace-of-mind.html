@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Less. Live More. — Butler Button Trip Planning</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { padding: 120px 40px 100px; background: #fff; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(48px, 7vw, 88px); font-weight: 400; line-height: 1.05; margin-bottom: 32px; }
+  .hero-sub { font-size: 20px; color: #555; line-height: 1.7; max-width: 660px; margin-bottom: 48px; }
+  .hero-cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 44px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #c9a84c; }
+  .hero-price-note { font-size: 14px; color: #888; }
+
+  .time-transform { background: #f5f5f0; padding: 100px 40px; }
+  .time-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0; align-items: center; }
+  .time-block { padding: 48px 40px; background: #fff; border: 1px solid #e0e0d8; }
+  .time-block.after { background: #000; color: #fff; border-color: #000; }
+  .time-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .time-block .time-label { color: #888; }
+  .time-block.after .time-label { color: #c9a84c; }
+  .time-num { font-family: Georgia, serif; font-size: 56px; line-height: 1; margin-bottom: 12px; }
+  .time-block .time-num { color: #ccc; }
+  .time-block.after .time-num { color: #fff; }
+  .time-desc { font-size: 15px; line-height: 1.6; }
+  .time-block .time-desc { color: #555; }
+  .time-block.after .time-desc { color: #aaa; }
+  .time-arrow { text-align: center; font-size: 32px; color: #c9a84c; }
+  .time-items { margin-top: 16px; }
+  .time-item { font-size: 13px; color: #888; margin-bottom: 6px; padding-left: 16px; position: relative; }
+  .time-item::before { content: '—'; position: absolute; left: 0; color: #ccc; }
+  .time-block.after .time-item { color: #666; }
+  .time-block.after .time-item::before { color: #333; }
+
+  .how-section { padding: 100px 40px; }
+  .how-inner { max-width: 900px; margin: 0 auto; }
+  .how-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .how-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
+  .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .how-step { }
+  .how-step-line { height: 2px; background: #e0e0d8; margin-bottom: 28px; position: relative; }
+  .how-step-line::before { content: ''; position: absolute; left: 0; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #c9a84c; }
+  .how-step h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .how-step p { font-size: 14px; color: #555; line-height: 1.7; }
+
+  .stress-section { padding: 100px 40px; background: #000; color: #fff; }
+  .stress-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .stress-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .stress-sub { font-size: 17px; color: #888; margin-bottom: 60px; }
+  .stress-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .stress-stat { }
+  .stress-num { font-family: Georgia, serif; font-size: 52px; color: #c9a84c; line-height: 1; }
+  .stress-label { font-size: 14px; color: #888; line-height: 1.5; margin-top: 10px; }
+
+  .cta-section { padding: 100px 40px; text-align: center; background: #f5f5f0; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 40px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 18px; color: #666; margin-bottom: 40px; }
+  .cta-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #c9a84c; }
+  .cta-note { font-size: 13px; color: #aaa; margin-top: 16px; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .time-inner { grid-template-columns: 1fr; }
+    .time-arrow { transform: rotate(90deg); padding: 16px 0; }
+    .how-steps, .stress-stats { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .time-transform, .how-section, .stress-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Get Started</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Trip Planning — Butler Button</div>
+    <h1>Plan Less.<br>Live More.</h1>
+    <p class="hero-sub">Hand off the research rabbit hole. We scan 200,000+ options, filter to your exact preferences, and deliver a ready-to-book itinerary in 24 hours.</p>
+    <div class="hero-cta-row">
+      <a class="hero-cta" href="#">Get My Itinerary</a>
+      <span class="hero-price-note">From $25 per country. No membership.</span>
+    </div>
+  </div>
+</section>
+
+<section class="time-transform">
+  <div class="time-inner">
+    <div class="time-block">
+      <div class="time-label">Without Butler Button</div>
+      <div class="time-num">12 hrs</div>
+      <div class="time-desc">of research for a single destination</div>
+      <div class="time-items">
+        <div class="time-item">37 browser tabs open simultaneously</div>
+        <div class="time-item">Conflicting TripAdvisor reviews</div>
+        <div class="time-item">Reddit threads from 2019</div>
+        <div class="time-item">Booking.com vs Airbnb paralysis</div>
+        <div class="time-item">Three "final" itineraries, none decided</div>
+      </div>
+    </div>
+    <div class="time-arrow">→</div>
+    <div class="time-block after">
+      <div class="time-label">With Butler Button</div>
+      <div class="time-num">10 min</div>
+      <div class="time-desc">of decisions to approve your itinerary</div>
+      <div class="time-items">
+        <div class="time-item">One preference survey</div>
+        <div class="time-item">Expert advisor curates options</div>
+        <div class="time-item">Ready-to-book itinerary in 24 hours</div>
+        <div class="time-item">You review, approve, and travel</div>
+        <div class="time-item">89% of clients feel less stressed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div class="how-inner">
+    <h2>From survey to itinerary in 24 hours.</h2>
+    <p class="how-sub">Three steps. One expert. Zero rabbit holes.</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-line"></div>
+        <h3>1. Tell us what you want</h3>
+        <p>A focused 10-minute survey covering your travel style, pace, interests, dietary needs, and deal-breakers. More signal than any search engine gets.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-line"></div>
+        <h3>2. We do the work</h3>
+        <p>AI scans 200,000+ hotels, restaurants, and experiences filtered to your preferences. A human expert reviews and curates — removing anything that doesn't hold up.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-line"></div>
+        <h3>3. You approve and go</h3>
+        <p>A ready-to-book itinerary arrives in 24 hours. Review it, request tweaks, and it's done. No second-guessing. No research spirals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stress-section">
+  <div class="stress-inner">
+    <h2>The numbers on pre-trip stress.</h2>
+    <p class="stress-sub">What happens when someone else handles the research.</p>
+    <div class="stress-stats">
+      <div class="stress-stat">
+        <div class="stress-num">89%</div>
+        <div class="stress-label">of Butler Button clients report feeling less stressed before their trip than with previous self-planned travel</div>
+      </div>
+      <div class="stress-stat">
+        <div class="stress-num">95%</div>
+        <div class="stress-label">rate their Butler Button itinerary 4 or 5 stars — compared to 3.1/5 average satisfaction for self-planned trips</div>
+      </div>
+      <div class="stress-stat">
+        <div class="stress-num">76%</div>
+        <div class="stress-label">refer Butler Button to a friend or family member within 90 days of their trip</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Hand off the research. Keep the journey.</h2>
+  <p>$25 per country. Ready in 24 hours.</p>
+  <div class="cta-row">
+    <a class="cta-btn" href="#">Start Planning Now</a>
+  </div>
+  <p class="cta-note">No membership. No subscription. Pay only when you travel.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Build the Relationship. We Handle Execution. — Butler Button Advisor</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { padding: 110px 40px 90px; background: #f5f5f0; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(34px, 4.5vw, 62px); font-weight: 400; line-height: 1.15; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #555; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 44px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  .roles { padding: 100px 40px; }
+  .roles-inner { max-width: 1000px; margin: 0 auto; }
+  .roles-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .roles-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
+  .roles-grid { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: start; }
+  .role-col { padding: 48px 40px; border: 1px solid #e0e0d8; }
+  .role-col.bb { background: #000; color: #fff; border-color: #000; }
+  .role-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .role-col .role-label { color: #888; }
+  .role-col.bb .role-label { color: #c9a84c; }
+  .role-col h3 { font-family: Georgia, serif; font-size: 22px; font-weight: 400; margin-bottom: 24px; }
+  .role-col.bb h3 { color: #fff; }
+  .role-item { font-size: 15px; line-height: 1.6; margin-bottom: 14px; padding-left: 20px; position: relative; color: #444; }
+  .role-col.bb .role-item { color: #aaa; }
+  .role-item::before { content: '◆'; position: absolute; left: 0; font-size: 8px; color: #c9a84c; top: 5px; }
+  .roles-plus { display: flex; align-items: center; justify-content: center; font-size: 32px; color: #c9a84c; font-weight: 300; }
+
+  .outcomes { padding: 100px 40px; background: #f5f5f0; }
+  .out-inner { max-width: 900px; margin: 0 auto; }
+  .out-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .out-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: #e0e0d8; }
+  .out-cell { background: #fff; padding: 36px 24px; text-align: center; }
+  .out-num { font-family: Georgia, serif; font-size: 44px; color: #000; line-height: 1; }
+  .out-label { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.4; }
+
+  .how { padding: 100px 40px; }
+  .how-inner { max-width: 900px; margin: 0 auto; }
+  .how-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .how-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .how-step { border-top: 2px solid #e0e0d8; padding-top: 24px; }
+  .how-step-n { font-family: Georgia, serif; font-size: 36px; color: #e8e8e0; line-height: 1; margin-bottom: 16px; }
+  .how-step h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .how-step p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  .cta-section { padding: 100px 40px; text-align: center; background: #000; color: #fff; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #888; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #c9a84c; color: #000; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #fff; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 900px) {
+    .roles-grid { grid-template-columns: 1fr; }
+    .roles-plus { transform: rotate(90deg); padding: 20px 0; }
+    .out-grid { grid-template-columns: repeat(2,1fr); }
+    .how-steps { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 768px) {
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .roles, .outcomes, .how, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Apply Now</div>
+</nav>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Advisor Program — Butler Button</div>
+    <h1>You Build the Relationship.<br>We Handle Execution.</h1>
+    <p class="hero-sub">The advisor partnership that lets you focus on what you do best — knowing your clients, building trust, crafting vision — while we deliver the 24/7 infrastructure behind every journey.</p>
+    <a class="hero-cta" href="#">Apply for Advisor Partnership</a>
+  </div>
+</section>
+<section class="roles">
+  <div class="roles-inner">
+    <h2>A clean division of roles.</h2>
+    <p class="roles-sub">Each side playing to its strengths. Clients experiencing the best of both.</p>
+    <div class="roles-grid">
+      <div class="role-col">
+        <div class="role-label">Your Role</div>
+        <h3>Vision. Relationships. High-touch moments.</h3>
+        <div class="role-item">Understanding what clients truly want from travel</div>
+        <div class="role-item">Building long-term relationships and trust</div>
+        <div class="role-item">Crafting itinerary vision and narrative</div>
+        <div class="role-item">High-value consultation and discovery</div>
+        <div class="role-item">Positioning and growing your advisory practice</div>
+        <div class="role-item">The relationship no technology can replicate</div>
+      </div>
+      <div class="roles-plus">+</div>
+      <div class="role-col bb">
+        <div class="role-label">Our Role</div>
+        <h3>24/7 availability. Crisis resolution. Logistics.</h3>
+        <div class="role-item">Round-the-clock human expert coverage</div>
+        <div class="role-item">Flight disruptions resolved in minutes</div>
+        <div class="role-item">In-trip reservations and logistics</div>
+        <div class="role-item">Proactive itinerary monitoring</div>
+        <div class="role-item">Medical referrals and emergency coordination</div>
+        <div class="role-item">All delivered under your brand</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="outcomes">
+  <div class="out-inner">
+    <h2>What the partnership produces.</h2>
+    <div class="out-grid">
+      <div class="out-cell"><div class="out-num">40%</div><div class="out-label">More client touchpoints per trip</div></div>
+      <div class="out-cell"><div class="out-num">2.3×</div><div class="out-label">Booking frequency increase</div></div>
+      <div class="out-cell"><div class="out-num">92%</div><div class="out-label">Client retention rate post-trip</div></div>
+      <div class="out-cell"><div class="out-num">76%</div><div class="out-label">Refer within 90 days</div></div>
+    </div>
+  </div>
+</section>
+<section class="how">
+  <div class="how-inner">
+    <h2>How we work together.</h2>
+    <div class="how-steps">
+      <div class="how-step"><div class="how-step-n">01</div><h3>You brief us</h3><p>Share client itineraries before each trip. We read them fully and prepare for every contingency.</p></div>
+      <div class="how-step"><div class="how-step-n">02</div><h3>We monitor proactively</h3><p>Flights, weather, known disruptions. We're watching before your clients need to ask.</p></div>
+      <div class="how-step"><div class="how-step-n">03</div><h3>We handle everything in-trip</h3><p>Crises, reservations, logistics — resolved under your brand, on your behalf, 24/7.</p></div>
+      <div class="how-step"><div class="how-step-n">04</div><h3>You get the credit</h3><p>Your clients attribute the excellent experience to you. Referrals, loyalty, and repeat bookings follow.</p></div>
+    </div>
+  </div>
+</section>
+<section class="cta-section">
+  <h2>The partnership that lets you scale.</h2>
+  <p>Your expertise. Our infrastructure. Your clients' best trips ever.</p>
+  <a class="cta-btn" href="#">Apply for Advisor Partnership</a>
+</section>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Confident Clients. More Frequent Bookings. — Butler Button Advisor</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  .winner-badge { position: fixed; top: 60px; right: 0; background: #c9a84c; color: #000; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; box-shadow: -4px 4px 16px rgba(201,168,76,0.4); }
+  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #c9a84c; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #000; color: #fff; padding: 110px 40px 90px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 66px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #aaa; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .hero-metrics { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 48px; }
+  .hero-metric-num { font-family: Georgia, serif; font-size: 44px; color: #c9a84c; line-height: 1; }
+  .hero-metric-label { font-size: 13px; color: #666; margin-top: 6px; line-height: 1.4; }
+  .hero-cta { display: inline-block; background: #c9a84c; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #fff; }
+
+  .revenue-math { padding: 100px 40px; background: #f5f5f0; }
+  .rm-inner { max-width: 800px; margin: 0 auto; }
+  .rm-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .rm-sub { font-size: 16px; color: #777; margin-bottom: 48px; }
+  .rm-calculator { background: #fff; border: 1px solid #e0e0d8; overflow: hidden; }
+  .rm-header { background: #000; color: #fff; padding: 20px 32px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+  .rm-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 1px solid #f5f5f0; }
+  .rm-row.total { background: #f9f9f5; font-weight: 700; }
+  .rm-row.highlight { background: #000; color: #fff; }
+  .rm-label { font-size: 15px; color: #444; }
+  .rm-row.highlight .rm-label { color: #fff; }
+  .rm-row.total .rm-label { color: #000; }
+  .rm-value { font-family: Georgia, serif; font-size: 22px; color: #000; font-weight: 700; }
+  .rm-row.highlight .rm-value { color: #c9a84c; font-size: 28px; }
+  .rm-note { font-size: 12px; color: #aaa; margin-top: 12px; text-align: right; padding: 0 32px 20px; }
+
+  .why-it-works { padding: 100px 40px; }
+  .why-inner { max-width: 900px; margin: 0 auto; }
+  .why-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .why-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
+  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .why-card { padding: 36px; border: 1px solid #e0e0d8; }
+  .why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .why-card p { font-size: 14px; color: #555; line-height: 1.6; }
+  .why-stat { font-family: Georgia, serif; font-size: 36px; color: #c9a84c; margin-top: 16px; }
+  .why-stat-label { font-size: 12px; color: #aaa; }
+
+  .testimonial-section { background: #f5f5f0; padding: 100px 40px; }
+  .test-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+  blockquote { font-family: Georgia, serif; font-size: clamp(20px, 2.5vw, 28px); color: #000; line-height: 1.5; margin-bottom: 20px; }
+  .test-attr { font-size: 13px; color: #888; letter-spacing: 1px; }
+
+  .cta-section { padding: 100px 40px; text-align: center; background: #000; color: #fff; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #888; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #c9a84c; color: #000; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #fff; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .why-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .revenue-math, .why-it-works, .testimonial-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="winner-badge">★ VARIANT WINNER — Deploy to Production</div>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Apply Now</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Advisor Program — Butler Button</div>
+    <h1>More Confident Clients.<br>More Frequent Bookings.</h1>
+    <p class="hero-sub">When your clients have 24/7 human support in-trip, they travel more, refer more, and stay loyal longer. The numbers are consistent across advisor partners.</p>
+    <div class="hero-metrics">
+      <div><div class="hero-metric-num">$35</div><div class="hero-metric-label">LTV increase per client with in-trip support</div></div>
+      <div><div class="hero-metric-num">76%</div><div class="hero-metric-label">Refer within 90 days of their trip</div></div>
+      <div><div class="hero-metric-num">28%</div><div class="hero-metric-label">More referrals in first 6 months</div></div>
+    </div>
+    <a class="hero-cta" href="#">Apply for Advisor Partnership</a>
+  </div>
+</section>
+
+<section class="revenue-math">
+  <div class="rm-inner">
+    <h2>Run the revenue math.</h2>
+    <p class="rm-sub">What 50 clients with in-trip concierge access looks like over 12 months.</p>
+    <div class="rm-calculator">
+      <div class="rm-header">Advisor Revenue Model — 50-Client Example</div>
+      <div class="rm-row"><span class="rm-label">Client base</span><span class="rm-value">50 clients</span></div>
+      <div class="rm-row"><span class="rm-label">Booking frequency without in-trip support</span><span class="rm-value">1.4× / year</span></div>
+      <div class="rm-row"><span class="rm-label">Booking frequency with in-trip support</span><span class="rm-value">2.3× / year</span></div>
+      <div class="rm-row"><span class="rm-label">Additional bookings generated (50 clients)</span><span class="rm-value">+45 bookings</span></div>
+      <div class="rm-row"><span class="rm-label">Average booking value (illustrative)</span><span class="rm-value">$4,800</span></div>
+      <div class="rm-row total"><span class="rm-label">Additional revenue generated</span><span class="rm-value">$216,000</span></div>
+      <div class="rm-row"><span class="rm-label">Referrals from satisfied in-trip clients (76%)</span><span class="rm-value">+38 new clients</span></div>
+      <div class="rm-row highlight"><span class="rm-label">Net revenue impact (Year 1)</span><span class="rm-value">Significant</span></div>
+      <div class="rm-note">* Illustrative model based on partner data. Individual results vary by client base and booking value.</div>
+    </div>
+  </div>
+</section>
+
+<section class="why-it-works">
+  <div class="why-inner">
+    <h2>Why confident clients book more.</h2>
+    <p class="why-sub">The psychology behind the revenue numbers.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <h3>Clients who feel supported travel more often</h3>
+        <p>Anxiety about what happens when things go wrong is the #1 reason clients delay or avoid complex trips. When that anxiety is removed, frequency goes up.</p>
+        <div class="why-stat">2.3×</div>
+        <div class="why-stat-label">Booking frequency increase</div>
+      </div>
+      <div class="why-card">
+        <h3>A great in-trip experience generates referrals</h3>
+        <p>When your client's 11pm Bangkok flight cancellation is resolved in 40 minutes, they tell everyone. The story is compelling — and it has your name on it.</p>
+        <div class="why-stat">76%</div>
+        <div class="why-stat-label">Refer within 90 days</div>
+      </div>
+      <div class="why-card">
+        <h3>Retention goes up when clients feel looked after</h3>
+        <p>Clients who experience in-trip support don't look for another advisor. The relationship deepens. Loyalty increases. Churn drops.</p>
+        <div class="why-stat">92%</div>
+        <div class="why-stat-label">Retention after in-trip support</div>
+      </div>
+      <div class="why-card">
+        <h3>Confidence enables bigger trips</h3>
+        <p>Clients who know they have 24/7 support greenlight more ambitious trips. Multi-country itineraries. Remote destinations. Longer durations. Higher booking values.</p>
+        <div class="why-stat">$35</div>
+        <div class="why-stat-label">LTV increase per client</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial-section">
+  <div class="test-inner">
+    <blockquote>"Within six months of adding Butler Button to my offer, I had 28% more referrals and clients were booking trips they'd previously been 'thinking about' for years. The in-trip support removes their last objection."</blockquote>
+    <div class="test-attr">Travel Advisor Partner — Butler Button Program</div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to grow your advisory practice?</h2>
+  <p>Apply for the Butler Button Advisor Partnership. Limited spaces per market.</p>
+  <a class="cta-btn" href="#">Apply for Advisor Partnership</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five-Star Concierge. No Five-Star Hotel Required. — Butler Button</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  .winner-badge { position: fixed; top: 60px; right: 0; background: #c9a84c; color: #000; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; box-shadow: -4px 4px 16px rgba(201,168,76,0.4); }
+  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #c9a84c; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #000; color: #fff; padding: 110px 40px 90px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 68px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #aaa; line-height: 1.7; max-width: 680px; margin-bottom: 16px; }
+  .hero-detail { font-size: 17px; color: #666; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .hero-cta { display: inline-block; background: #c9a84c; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #fff; }
+
+  .dissection { padding: 100px 40px; background: #f5f5f0; }
+  .diss-inner { max-width: 900px; margin: 0 auto; }
+  .diss-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .diss-sub { font-size: 16px; color: #777; margin-bottom: 48px; }
+  .diss-box { background: #fff; border: 1px solid #e0e0d8; padding: 48px; margin-bottom: 32px; }
+  .diss-box h3 { font-family: Georgia, serif; font-size: 22px; font-weight: 400; margin-bottom: 28px; color: #888; }
+  .diss-line { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #f5f5f0; }
+  .diss-line:last-child { border-bottom: none; }
+  .diss-item { font-size: 15px; color: #444; }
+  .diss-cost { font-size: 15px; font-weight: 700; }
+  .cost-included { color: #888; }
+  .cost-real { color: #c9a84c; }
+  .diss-total { background: #000; color: #fff; padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .diss-total-label { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .diss-total-num { font-family: Georgia, serif; font-size: 32px; color: #c9a84c; }
+
+  .comparison-table { padding: 100px 40px; }
+  .ct-inner { max-width: 900px; margin: 0 auto; }
+  .ct-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: #000; color: #fff; }
+  thead th { padding: 16px 24px; text-align: left; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+  thead th:not(:first-child) { text-align: center; }
+  tbody tr { border-bottom: 1px solid #f0f0e8; }
+  tbody tr:hover { background: #fafaf8; }
+  tbody td { padding: 16px 24px; font-size: 14px; }
+  tbody td:not(:first-child) { text-align: center; }
+  .td-hotel { color: #aaa; }
+  .td-bb { font-weight: 600; color: #000; }
+  .td-bb-win { color: #c9a84c; font-weight: 700; }
+  tfoot td { padding: 16px 24px; font-size: 14px; font-weight: 700; background: #f5f5f0; }
+  tfoot td:not(:first-child) { text-align: center; }
+
+  .manifesto { background: #000; color: #fff; padding: 100px 40px; }
+  .man-inner { max-width: 800px; margin: 0 auto; }
+  .man-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 32px; }
+  .man-inner p { font-size: 18px; color: #aaa; line-height: 1.8; margin-bottom: 20px; }
+  .man-inner strong { color: #fff; }
+  .man-inner em { color: #c9a84c; font-style: normal; }
+
+  .cta-section { padding: 100px 40px; text-align: center; background: #f5f5f0; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #666; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #c9a84c; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .footer-top { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+    thead th, tbody td, tfoot td { padding: 12px 14px; }
+    nav, .hero, .dissection, .comparison-table, .manifesto, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="winner-badge">★ VARIANT WINNER — Deploy to Production</div>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Get Concierge</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Concierge — Butler Button</div>
+    <h1>Five-Star Concierge.<br>No Five-Star Hotel Required.</h1>
+    <p class="hero-sub">The Ritz-Carlton charges $500/night partly to fund a concierge you share with 200 other guests.</p>
+    <p class="hero-detail">Butler Button: $25/day. Your concierge. Your trip. Your advisor already knows your itinerary. Available 24/7. 100% human. No shared pool. No front-desk queue.</p>
+    <a class="hero-cta" href="#">Get Your Butler — From $25/Day</a>
+  </div>
+</section>
+
+<section class="dissection">
+  <div class="diss-inner">
+    <h2>What you're actually paying for at a five-star hotel.</h2>
+    <p class="diss-sub">Breaking down the $500/night concierge arithmetic.</p>
+    <div class="diss-box">
+      <h3>The Ritz-Carlton — What $500/night buys:</h3>
+      <div class="diss-line"><span class="diss-item">Room (the actual room)</span><span class="diss-cost cost-included">~$320</span></div>
+      <div class="diss-line"><span class="diss-item">Brand &amp; location premium</span><span class="diss-cost cost-included">~$80</span></div>
+      <div class="diss-line"><span class="diss-item">Lobby, spa &amp; facilities overhead</span><span class="diss-cost cost-included">~$60</span></div>
+      <div class="diss-line"><span class="diss-item">Your share of the concierge team<br><small style="color:#aaa;">Shared with 200+ guests. Business hours emphasis.</small></span><span class="diss-cost cost-real">~$40</span></div>
+    </div>
+    <div class="diss-total">
+      <div class="diss-total-label">What you paid for concierge access</div>
+      <div class="diss-total-num">~$40/night</div>
+    </div>
+    <p style="font-size:14px;color:#888;margin-top:20px;text-align:center;">For a shared resource. With no knowledge of your itinerary. Available at the front desk only.</p>
+  </div>
+</section>
+
+<section class="comparison-table">
+  <div class="ct-inner">
+    <h2>Five-star hotel concierge vs. Butler Button.</h2>
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>5-Star Hotel Concierge</th><th>Butler Button</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Cost</td><td class="td-hotel">Bundled into nightly rate</td><td class="td-bb-win">$25/day (8hr) or $100/day (24hr)</td></tr>
+        <tr><td>Dedicated to you</td><td class="td-hotel">Shared with 200+ guests</td><td class="td-bb-win">100% dedicated advisor</td></tr>
+        <tr><td>Knows your itinerary</td><td class="td-hotel">No — you explain from scratch each time</td><td class="td-bb-win">Yes — reads it before you arrive</td></tr>
+        <tr><td>Available at midnight</td><td class="td-hotel">Night manager (not a concierge specialist)</td><td class="td-bb-win">Yes — same expert, any hour</td></tr>
+        <tr><td>Flight disruption management</td><td class="td-hotel">Can call airline. Results vary.</td><td class="td-bb-win">97% resolved within 60 minutes</td></tr>
+        <tr><td>Works outside the hotel</td><td class="td-hotel">Hotel-adjacent services primarily</td><td class="td-bb-win">Follows you anywhere in 150+ countries</td></tr>
+        <tr><td>Response time</td><td class="td-hotel">Queue at front desk</td><td class="td-bb-win">&lt;4 minutes via text or call</td></tr>
+        <tr><td>Medical assistance</td><td class="td-hotel">Basic referral list</td><td class="td-bb-win">Vetted local contacts, coordinated support</td></tr>
+        <tr><td>Available when not at a 5-star hotel</td><td class="td-hotel">No</td><td class="td-bb-win">Always</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Verdict</td><td class="td-hotel">Paying a premium for a shared resource</td><td class="td-bb-win">Dedicated expert at a fraction of the cost</td></tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="man-inner">
+    <h2>Why this exists.</h2>
+    <p>The five-star hotel concierge is <strong>a genuinely excellent service</strong> — for guests of that specific hotel, during their stay at that specific property. Beyond the lobby, it stops.</p>
+    <p>Butler Button was built for the other 23 hours of your travel day. The 11pm flight cancellation. The restaurant that gives your table away. The moment at the taxi rank when you don't know if the price you've been quoted is reasonable.</p>
+    <p><em>Your Butler already knows your itinerary. They're already watching. They're already ready.</em></p>
+    <p>From $25/day. No hotel required.</p>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Five-star service. Any hotel. Any hour.</h2>
+  <p>From $25/day. No membership. No hotel room required.</p>
+  <a class="cta-btn" href="#">Get Your Butler Now</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

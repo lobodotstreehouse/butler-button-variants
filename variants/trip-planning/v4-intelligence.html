@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Finds the Options. Experts Make the Call. — Butler Button</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { padding: 110px 40px 90px; background: #f5f5f0; }
+  .hero-inner { max-width: 1000px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 68px); font-weight: 400; line-height: 1.1; margin-bottom: 32px; }
+  .hero-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .hero-col p { font-size: 17px; color: #555; line-height: 1.7; margin-bottom: 20px; }
+  .hero-col-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 16px; padding: 6px 0; border-bottom: 2px solid; display: inline-block; }
+  .label-ai { color: #3a7bd5; border-color: #3a7bd5; }
+  .label-human { color: #c9a84c; border-color: #c9a84c; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 40px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  .quote-break { background: #000; padding: 80px 40px; text-align: center; }
+  .quote-break blockquote { font-family: Georgia, serif; font-size: clamp(20px, 3vw, 32px); color: #fff; font-weight: 400; max-width: 800px; margin: 0 auto; line-height: 1.5; }
+  .quote-break blockquote em { color: #c9a84c; font-style: normal; }
+
+  .two-col { padding: 100px 40px; }
+  .two-col-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #e0e0d8; }
+  .two-col-panel { background: #fff; padding: 60px 48px; }
+  .two-col-panel.dark { background: #0a0a0a; color: #fff; }
+  .panel-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+  .two-col-panel .panel-label { color: #3a7bd5; }
+  .two-col-panel.dark .panel-label { color: #c9a84c; }
+  .panel-title { font-family: Georgia, serif; font-size: 28px; font-weight: 400; margin-bottom: 20px; line-height: 1.3; }
+  .panel-body { font-size: 15px; line-height: 1.7; }
+  .two-col-panel .panel-body { color: #555; }
+  .two-col-panel.dark .panel-body { color: #aaa; }
+  .panel-stats { margin-top: 28px; padding-top: 28px; border-top: 1px solid #f0f0e8; }
+  .two-col-panel.dark .panel-stats { border-color: #222; }
+  .panel-stat-num { font-family: Georgia, serif; font-size: 40px; }
+  .two-col-panel .panel-stat-num { color: #3a7bd5; }
+  .two-col-panel.dark .panel-stat-num { color: #c9a84c; }
+  .panel-stat-label { font-size: 13px; color: #888; margin-top: 4px; }
+
+  .what-ai-cant { padding: 100px 40px; background: #f5f5f0; }
+  .wac-inner { max-width: 900px; margin: 0 auto; }
+  .wac-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .wac-sub { font-size: 16px; color: #777; margin-bottom: 48px; }
+  .wac-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .wac-item { background: #fff; padding: 32px; border-left: 3px solid #c9a84c; }
+  .wac-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .wac-item p { font-size: 14px; color: #555; line-height: 1.6; }
+
+  .pricing { padding: 100px 40px; text-align: center; }
+  .pricing-inner { max-width: 600px; margin: 0 auto; }
+  .pricing h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .pricing p { font-size: 16px; color: #777; margin-bottom: 48px; }
+  .price-box { background: #000; color: #fff; padding: 52px; margin-bottom: 28px; }
+  .price-box .price { font-size: 72px; font-weight: 700; line-height: 1; }
+  .price-box .unit { font-size: 18px; color: #888; margin-top: 8px; }
+  .price-box .desc { font-size: 15px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+  .btn-plan { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .btn-plan:hover { background: #c9a84c; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .hero-cols, .two-col-inner, .wac-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .quote-break, .two-col, .what-ai-cant, .pricing, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Get Started</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Trip Planning — Butler Button</div>
+    <h1>AI Finds the Options.<br>Experts Make the Call.</h1>
+    <div class="hero-cols">
+      <div class="hero-col">
+        <div class="hero-col-label label-ai">The Machine</div>
+        <p>Our AI scans more than 200,000 hotels, restaurants, experiences, and transport options across your destination in seconds. No human researcher can match that scale. Filtered instantly against your exact preferences — not sponsored placements, not generic bestsellers.</p>
+        <p>Speed. Scale. Signal extraction.</p>
+      </div>
+      <div class="hero-col">
+        <div class="hero-col-label label-human">The Expert</div>
+        <p>A human advisor who knows your destination reviews everything the AI surfaces. They remove what looks good on paper but doesn't hold up in practice. They add what the algorithm can't know. They package it into an itinerary that's genuinely ready to book.</p>
+        <p>Judgment. Context. Local knowledge.</p>
+        <a class="hero-cta" href="#">Plan My Trip — $25/Country</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="quote-break">
+  <blockquote>"AI can scan <em>200,000 options</em> in seconds. It can't tell which boutique hotel smells like cigarettes."</blockquote>
+</div>
+
+<section class="two-col">
+  <div class="two-col-inner">
+    <div class="two-col-panel">
+      <div class="panel-label">AI Scanning</div>
+      <div class="panel-title">Scale no human researcher can match.</div>
+      <div class="panel-body">
+        <p>Manually researching a 10-day trip takes the average traveler 12–18 hours. That's with access to Google, TripAdvisor, travel blogs, and Reddit threads that may be years out of date.</p>
+        <p style="margin-top:16px;">Our AI processes 200,000+ options across your destination in the time it takes to read this sentence — hotels, restaurants, day trips, transport, timing, seasonal factors. Every option filtered against what you actually told us you want.</p>
+      </div>
+      <div class="panel-stats">
+        <div class="panel-stat-num">200,000+</div>
+        <div class="panel-stat-label">Options scanned per destination</div>
+      </div>
+    </div>
+    <div class="two-col-panel dark">
+      <div class="panel-label">Human Expert Review</div>
+      <div class="panel-title">Judgment the machine can't replicate.</div>
+      <div class="panel-body">
+        <p>Data can tell you a hotel has a 4.7-star average. It can't tell you the 4.7 is driven by business travelers and the leisure experience is mediocre. It can't tell you the restaurant is technically excellent but the neighbourhood is uncomfortable after dark.</p>
+        <p style="margin-top:16px;">Your advisor has been there, knows people who have, or has the professional network to find out. That layer of judgment is what separates a good itinerary from a great trip.</p>
+      </div>
+      <div class="panel-stats">
+        <div class="panel-stat-num">95%</div>
+        <div class="panel-stat-label">Client itinerary satisfaction rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="what-ai-cant">
+  <div class="wac-inner">
+    <h2>What AI can't know. What your expert does.</h2>
+    <p class="wac-sub">The knowledge that lives in experience, not databases.</p>
+    <div class="wac-grid">
+      <div class="wac-item">
+        <h3>The hotel that photographs beautifully but isn't</h3>
+        <p>Curated Instagram content and professional photography can make any property look exceptional. Your advisor knows the difference — and steers you away.</p>
+      </div>
+      <div class="wac-item">
+        <h3>The restaurant that's great on a Tuesday</h3>
+        <p>Some of the best tables in the world are inconsistent. An insider knows which nights, which sections, which chef is working — and which nights to go elsewhere.</p>
+      </div>
+      <div class="wac-item">
+        <h3>The neighbourhood that changes after 9pm</h3>
+        <p>Online ratings don't come with a time-of-day caveat. Local knowledge does. Your itinerary accounts for when you'll actually be there.</p>
+      </div>
+      <div class="wac-item">
+        <h3>The experience that's worth the queue</h3>
+        <p>Some things are genuinely worth the wait or premium. Others aren't. Knowing which is which comes from being there — or knowing someone who was.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <div class="pricing-inner">
+    <h2>Machine scale. Human judgment. One price.</h2>
+    <p>Both working together, for $25 per country.</p>
+    <div class="price-box">
+      <div class="price">$25</div>
+      <div class="unit">per country</div>
+      <div class="desc">AI scan of 200,000+ options + full expert review and curation. Ready-to-book itinerary delivered in 24 hours.</div>
+    </div>
+    <a class="btn-plan" href="#">Start Planning Now</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

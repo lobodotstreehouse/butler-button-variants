@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be the Advisor Who Never Sleeps — Butler Button Advisor Program</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #000; color: #fff; padding: 110px 40px 90px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(38px, 5vw, 70px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 19px; color: #aaa; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .hero-cta { display: inline-block; background: #c9a84c; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #fff; }
+
+  .contrast { padding: 100px 40px; background: #f5f5f0; }
+  .contrast-inner { max-width: 900px; margin: 0 auto; }
+  .contrast-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #e0e0d8; }
+  .col-other { background: #fff; padding: 48px 40px; }
+  .col-bb { background: #000; color: #fff; padding: 48px 40px; }
+  .col-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+  .col-other .col-label { color: #bbb; }
+  .col-bb .col-label { color: #c9a84c; }
+  .col-other h3 { font-family: Georgia, serif; font-size: 22px; font-weight: 400; color: #888; margin-bottom: 24px; }
+  .col-bb h3 { font-family: Georgia, serif; font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 24px; }
+  .col-item { font-size: 15px; line-height: 1.6; margin-bottom: 14px; padding-left: 20px; position: relative; }
+  .col-other .col-item { color: #aaa; }
+  .col-other .col-item::before { content: '—'; position: absolute; left: 0; color: #ccc; }
+  .col-bb .col-item { color: #ccc; }
+  .col-bb .col-item::before { content: '✓'; position: absolute; left: 0; color: #c9a84c; }
+
+  .scenario { padding: 100px 40px; }
+  .scenario-inner { max-width: 800px; margin: 0 auto; }
+  .scenario-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .scenario-block { background: #f5f5f0; padding: 48px; border-left: 4px solid #c9a84c; margin-bottom: 32px; }
+  .scenario-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; margin-bottom: 16px; }
+  .scenario-block p { font-size: 16px; color: #333; line-height: 1.7; margin-bottom: 16px; }
+  .scenario-result { font-size: 15px; font-weight: 700; color: #000; }
+
+  .features { padding: 100px 40px; background: #f5f5f0; }
+  .feat-inner { max-width: 900px; margin: 0 auto; }
+  .feat-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feat-card { background: #fff; padding: 32px 28px; }
+  .feat-icon { font-size: 24px; color: #c9a84c; margin-bottom: 16px; }
+  .feat-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .feat-card p { font-size: 13px; color: #666; line-height: 1.6; }
+
+  .cta-section { padding: 100px 40px; text-align: center; background: #000; color: #fff; }
+  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .cta-section p { font-size: 17px; color: #888; margin-bottom: 40px; }
+  .cta-btn { display: inline-block; background: #c9a84c; color: #000; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #fff; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+  @media (max-width: 768px) {
+    .contrast-grid { grid-template-columns: 1fr; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .contrast, .scenario, .features, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Apply Now</div>
+</nav>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Advisor Program — Butler Button</div>
+    <h1>Be the Advisor<br>Who Never Sleeps.</h1>
+    <p class="hero-sub">While other advisors hand clients a phone number and hope for the best, yours have a dedicated human expert available 24/7 — under your brand.</p>
+    <a class="hero-cta" href="#">Apply for Advisor Partnership</a>
+  </div>
+</section>
+<section class="contrast">
+  <div class="contrast-inner">
+    <h2>Every other advisor vs. you.</h2>
+    <div class="contrast-grid">
+      <div class="col-other">
+        <div class="col-label">Most Travel Advisors</div>
+        <h3>"Call this number if anything goes wrong."</h3>
+        <div class="col-item">Provides an airline support number</div>
+        <div class="col-item">Available during business hours only</div>
+        <div class="col-item">Clients handle crises alone in-trip</div>
+        <div class="col-item">No itinerary-aware support available</div>
+        <div class="col-item">Reactive only — after the client calls</div>
+        <div class="col-item">Brand value stops at booking</div>
+      </div>
+      <div class="col-bb">
+        <div class="col-label">You — with Butler Button</div>
+        <h3>"Your dedicated expert is already watching."</h3>
+        <div class="col-item">24/7 human expert on call for every client</div>
+        <div class="col-item">Available at midnight, Bangkok, no exceptions</div>
+        <div class="col-item">Crises resolved in minutes, not hours</div>
+        <div class="col-item">Butler reads full itinerary before departure</div>
+        <div class="col-item">Proactive monitoring — acts before clients ask</div>
+        <div class="col-item">Your brand associated with exceptional outcomes</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="scenario">
+  <div class="scenario-inner">
+    <h2>What your clients experience.</h2>
+    <div class="scenario-block">
+      <div class="scenario-tag">Bangkok · 11pm — Your Client's Story</div>
+      <p>Your client texts you at 11:03pm Bangkok time. Their flight is cancelled. In the old world, you'd see that message at 7am the next morning. By then they've spent the night on an airport seat.</p>
+      <p>With Butler Button under your brand: they receive three rebook options within minutes. A hotel is arranged. By 1am they're asleep. By morning they've texted five people about how good their travel advisor is.</p>
+      <div class="scenario-result">That story — with your name on it — is worth more than any marketing.</div>
+    </div>
+  </div>
+</section>
+<section class="features">
+  <div class="feat-inner">
+    <h2>What you get as a partner.</h2>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">◎</div><h3>White-label setup</h3><p>All client communications carry your brand. They experience you — we deliver the infrastructure.</p></div>
+      <div class="feat-card"><div class="feat-icon">◈</div><h3>24/7 expert coverage</h3><p>Your clients have access to a human expert at any hour, in 150+ countries. You don't need to be awake.</p></div>
+      <div class="feat-card"><div class="feat-icon">◉</div><h3>Itinerary-aware from day one</h3><p>Your Butler reads each client's trip before departure. No explaining from scratch during a crisis.</p></div>
+      <div class="feat-card"><div class="feat-icon">◆</div><h3>Partner dashboard</h3><p>See activity across your client portfolio. Know when clients are in-trip, when things happen, how they're resolved.</p></div>
+      <div class="feat-card"><div class="feat-icon">◇</div><h3>Referral tracking</h3><p>Track how in-trip support is generating new client referrals. The 76% refer stat is measurable in your own data.</p></div>
+      <div class="feat-card"><div class="feat-icon">◑</div><h3>No technology investment</h3><p>No platform to build. No app to maintain. Fully managed infrastructure — you focus on relationships.</p></div>
+    </div>
+  </div>
+</section>
+<section class="cta-section">
+  <h2>Be the advisor who never sleeps.</h2>
+  <p>Apply for the Butler Button Advisor Partnership. Limited spaces per market.</p>
+  <a class="cta-btn" href="#">Apply for Advisor Partnership</a>
+</section>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

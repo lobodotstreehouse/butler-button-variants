@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Trip. Your Way. Finally. — Butler Button Trip Planning</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
+  .nav-links a:hover { color: #000; }
+  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #f5f5f0; padding: 100px 40px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(42px, 6vw, 76px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 20px; color: #555; line-height: 1.7; max-width: 640px; margin-bottom: 40px; }
+  .hero-price { display: inline-flex; align-items: baseline; gap: 8px; background: #000; color: #fff; padding: 16px 32px; margin-bottom: 32px; }
+  .hero-price-num { font-size: 36px; font-weight: 700; }
+  .hero-price-unit { font-size: 14px; color: #aaa; }
+  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 40px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  .process { padding: 100px 40px; }
+  .process-inner { max-width: 900px; margin: 0 auto; }
+  .process h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .process-sub { color: #777; font-size: 16px; margin-bottom: 60px; }
+  .steps-list { }
+  .step-row { display: grid; grid-template-columns: 80px 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid #f0f0e8; align-items: start; }
+  .step-row:first-child { border-top: 1px solid #f0f0e8; }
+  .step-number { font-family: Georgia, serif; font-size: 56px; color: #e8e8e0; line-height: 1; }
+  .step-content h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .step-content p { font-size: 15px; color: #555; line-height: 1.7; }
+  .step-highlight { background: #f5f5f0; border-left: 3px solid #c9a84c; padding: 16px 20px; margin-top: 16px; font-size: 14px; color: #333; }
+
+  .what-you-get { background: #000; padding: 100px 40px; color: #fff; }
+  .wyg-inner { max-width: 900px; margin: 0 auto; }
+  .wyg-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+  .wyg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: #222; }
+  .wyg-item { background: #000; padding: 36px 32px; }
+  .wyg-item h3 { font-size: 16px; font-weight: 700; color: #c9a84c; margin-bottom: 10px; }
+  .wyg-item p { font-size: 14px; color: #888; line-height: 1.6; }
+
+  .pricing-block { padding: 100px 40px; background: #f5f5f0; }
+  .pricing-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .pricing-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
+  .pricing-inner p { color: #777; font-size: 16px; margin-bottom: 48px; }
+  .price-display { background: #fff; border: 1px solid #e0e0d8; padding: 48px; margin-bottom: 32px; }
+  .price-big { font-size: 72px; font-weight: 700; color: #000; line-height: 1; }
+  .price-unit { font-size: 18px; color: #888; margin: 8px 0 20px; }
+  .price-includes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
+  .price-includes li { list-style: none; font-size: 14px; color: #444; display: flex; gap: 8px; }
+  .price-includes li::before { content: '✓'; color: #c9a84c; font-weight: 700; }
+  .btn-start { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .btn-start:hover { background: #c9a84c; }
+
+  .stat-row { display: flex; gap: 0; border: 1px solid #e0e0d8; background: #fff; overflow: hidden; margin-top: 48px; }
+  .stat-cell { flex: 1; padding: 28px 20px; text-align: center; border-right: 1px solid #e0e0d8; }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell-num { font-family: Georgia, serif; font-size: 32px; color: #000; }
+  .stat-cell-label { font-size: 11px; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; line-height: 1.4; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+
+  @media (max-width: 768px) {
+    .step-row { grid-template-columns: 1fr; gap: 16px; }
+    .wyg-grid { grid-template-columns: 1fr; }
+    .price-includes { grid-template-columns: 1fr; }
+    .stat-row { flex-direction: column; }
+    .stat-cell { border-right: none; border-bottom: 1px solid #e0e0d8; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .process, .what-you-get, .pricing-block, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+  <div class="nav-cta">Get Started</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Trip Planning — Butler Button</div>
+    <h1>Your Trip.<br>Your Way.<br>Finally.</h1>
+    <p class="hero-sub">Stop building trips from templates. One preference survey. One advisor. One itinerary that actually fits you.</p>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div class="hero-price"><div class="hero-price-num">$25</div><div class="hero-price-unit">per country</div></div>
+      <a class="hero-cta" href="#">Start My Trip</a>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="process-inner">
+    <h2>How your itinerary gets built.</h2>
+    <p class="process-sub">Three steps. 24 hours. One trip that's genuinely yours.</p>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h3>Tell us what you actually want</h3>
+          <p>A 10-minute preference survey covers your travel style, pace, interests, dietary needs, budget range, and deal-breakers. Not a generic form — a real conversation framework built by advisors who've heard every type of traveler.</p>
+          <div class="step-highlight">Takes 10 minutes. Replaces 12 hours of research.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h3>AI scans 200,000+ options</h3>
+          <p>Our system processes hotels, restaurants, experiences, transport options, and timing across your destination — filtered instantly against your preferences. No filler. No paid placements. No generic bestseller lists.</p>
+          <div class="step-highlight">200,000+ options scanned. Your preferences as the filter.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h3>Your expert reviews and curates</h3>
+          <p>A human advisor who knows your destination reviews the AI output — removing anything that doesn't pass the smell test, adding local context the algorithm can't know, and packaging it into a ready-to-book itinerary.</p>
+          <div class="step-highlight">Human judgment on top of machine scale. Delivered in 24 hours.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="what-you-get">
+  <div class="wyg-inner">
+    <h2>What's in your itinerary.</h2>
+    <div class="wyg-grid">
+      <div class="wyg-item"><h3>Day-by-day plan</h3><p>Timed, sequenced, logistically sensible. Mornings that work with jetlag. Evenings that flow naturally.</p></div>
+      <div class="wyg-item"><h3>Curated accommodation</h3><p>Options at your price point, filtered for what matters to you. Not what has the biggest commission.</p></div>
+      <div class="wyg-item"><h3>Restaurant selections</h3><p>Specific recommendations with booking notes — which require reservations, which are walk-in, which are worth the queue.</p></div>
+      <div class="wyg-item"><h3>Experiences &amp; access</h3><p>Activities timed to season, day of week, and your energy level. Including things most guides miss entirely.</p></div>
+      <div class="wyg-item"><h3>Transport logic</h3><p>Getting between points without wasted time. Train vs taxi vs walk — with actual time estimates, not optimistic ones.</p></div>
+      <div class="wyg-item"><h3>Pre-departure brief</h3><p>What to know before you arrive. Entry requirements, customs, tipping norms, local etiquette, sim card advice.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-block">
+  <div class="pricing-inner">
+    <h2>Simple, transparent pricing.</h2>
+    <p>One price per country. No upsells. No membership required.</p>
+    <div class="price-display">
+      <div class="price-big">$25</div>
+      <div class="price-unit">per country</div>
+      <ul class="price-includes">
+        <li>Preference survey + advisor consultation</li>
+        <li>AI scan of 200,000+ options</li>
+        <li>Full expert review &amp; curation</li>
+        <li>Day-by-day ready-to-book itinerary</li>
+        <li>Accommodation &amp; dining recommendations</li>
+        <li>Transport &amp; logistics plan</li>
+        <li>Pre-departure brief</li>
+        <li>Delivered in 24 hours</li>
+      </ul>
+    </div>
+    <a class="btn-start" href="#">Start Planning — $25/Country</a>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-cell-num">95%</div><div class="stat-cell-label">Itinerary satisfaction rate</div></div>
+      <div class="stat-cell"><div class="stat-cell-num">89%</div><div class="stat-cell-label">Less stressed pre-trip</div></div>
+      <div class="stat-cell"><div class="stat-cell-num">76%</div><div class="stat-cell-label">Refer within 90 days</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Own Your Journey™ — Butler Button by VELTM</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #fff; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; }
+
+  .hero { min-height: 100vh; background: linear-gradient(180deg, #000 0%, #0d0d0d 50%, #1a1a0a 100%); display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 40px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(201,168,76,0.08) 0%, transparent 60%); }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #c9a84c; margin-bottom: 28px; }
+  .hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(52px, 8vw, 96px); font-weight: 400; color: #fff; line-height: 1.1; margin-bottom: 28px; }
+  .hero-sub { font-size: 20px; color: #aaa; margin-bottom: 48px; font-weight: 300; letter-spacing: 0.5px; }
+  .hero-cta { display: inline-block; background: #fff; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-right: 16px; transition: background 0.2s; }
+  .hero-cta:hover { background: #c9a84c; }
+  .hero-cta-secondary { font-size: 13px; color: #888; letter-spacing: 1px; text-decoration: underline; text-underline-offset: 4px; }
+  .hero-cta-secondary:hover { color: #fff; }
+  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: 2px; color: #555; text-transform: uppercase; }
+  .scroll-hint::after { content: ''; display: block; width: 1px; height: 40px; background: linear-gradient(180deg, #555, transparent); margin: 10px auto 0; }
+
+  .section-intro { padding: 100px 40px; max-width: 900px; margin: 0 auto; text-align: center; }
+  .section-intro h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 20px; }
+  .section-intro p { font-size: 18px; color: #555; line-height: 1.8; }
+
+  .stats-dark { background: #000; padding: 80px 40px; }
+  .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .stat-block { padding: 40px 20px; text-align: center; border-right: 1px solid #222; }
+  .stat-block:last-child { border-right: none; }
+  .stat-num { font-family: Georgia, serif; font-size: 42px; color: #c9a84c; line-height: 1; }
+  .stat-label { font-size: 11px; color: #666; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 10px; line-height: 1.4; }
+
+  .scenarios { padding: 100px 40px; background: #f5f5f0; }
+  .scenarios-inner { max-width: 1000px; margin: 0 auto; }
+  .scenarios h2 { font-family: Georgia, serif; font-size: 32px; font-weight: 400; text-align: center; margin-bottom: 60px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .scenario-card { background: #fff; padding: 36px; border-top: 3px solid #c9a84c; }
+  .scenario-location { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; margin-bottom: 14px; }
+  .scenario-card p { font-size: 15px; line-height: 1.7; color: #333; }
+  .scenario-time { font-size: 13px; font-weight: 600; color: #000; margin-top: 16px; }
+
+  .pricing-intro { padding: 100px 40px; }
+  .pricing-inner { max-width: 900px; margin: 0 auto; }
+  .pricing-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 16px; }
+  .pricing-inner .sub { text-align: center; color: #777; margin-bottom: 60px; font-size: 16px; }
+  .pricing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .price-card { border: 1px solid #e0e0d8; padding: 40px 32px; text-align: center; }
+  .price-card-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 20px; }
+  .price-card-price { font-family: Georgia, serif; font-size: 48px; color: #000; }
+  .price-card-unit { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .price-card-desc { font-size: 14px; color: #555; line-height: 1.6; }
+  .btn-book { display: block; margin-top: 28px; background: #000; color: #fff; padding: 14px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; }
+  .btn-book:hover { background: #c9a84c; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1000px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; transition: color 0.2s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .scenario-cards, .pricing-cards { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .back-link, nav, .hero, .stats-dark, .scenarios, .pricing-intro, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Trip Planning</a>
+    <a href="#">Concierge</a>
+    <a href="#">Advisors</a>
+    <a href="#">Pricing</a>
+    <a href="#">FAQ</a>
+  </div>
+  <div class="nav-cta">Get Started</div>
+</nav>
+
+<section class="hero">
+  <div style="position:relative;z-index:1;">
+    <div class="hero-eyebrow">Butler Button by VELTM</div>
+    <h1>Own Your<br>Journey™</h1>
+    <p class="hero-sub">100% human. Always on. From $25.</p>
+    <div>
+      <a class="hero-cta" href="#">Start Planning</a>
+      <a class="hero-cta-secondary" href="#">See how it works</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<section class="section-intro">
+  <h2>The world's best trips aren't built from templates.</h2>
+  <p>They're built by people who know the difference between the restaurant on the list and the one around the corner from it. Since 2019, Butler Button has provided 100% human concierge support to travelers who refuse to settle for good enough.</p>
+</section>
+
+<section class="stats-dark">
+  <div class="stats-grid">
+    <div class="stat-block">
+      <div class="stat-num">97%</div>
+      <div class="stat-label">Disruptions resolved within 60 minutes</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">&lt;4 min</div>
+      <div class="stat-label">Average response time, 24/7</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Countries covered worldwide</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Human first contact — always</div>
+    </div>
+  </div>
+</section>
+
+<section class="scenarios">
+  <div class="scenarios-inner">
+    <h2>When things go wrong, we go to work.</h2>
+    <div class="scenario-cards">
+      <div class="scenario-card">
+        <div class="scenario-location">Bangkok · 11pm</div>
+        <p>Flight cancelled at the gate. Three rebook options delivered in minutes — priority route or cheapest fare, traveler's choice.</p>
+        <div class="scenario-time">Rebooked + hotel arranged in 40 minutes.</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-location">Rome · Day 3</div>
+        <p>Restaurant gave away the table without notice. Alternative found that matched the original brief — same neighbourhood, better kitchen.</p>
+        <div class="scenario-time">New reservation confirmed in 6 minutes.</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-location">Lisbon · Midnight</div>
+        <p>Late-night cancellation. Client already at the airport. Full rebook on the earliest viable connection, zero additional cost.</p>
+        <div class="scenario-time">Rebooked in 14 minutes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-intro">
+  <div class="pricing-inner">
+    <h2>Transparent pricing. No membership.</h2>
+    <p class="sub">Pay only when you travel. No annual fees, no retainers.</p>
+    <div class="pricing-cards">
+      <div class="price-card">
+        <div class="price-card-name">Trip Planning</div>
+        <div class="price-card-price">$25</div>
+        <div class="price-card-unit">per country</div>
+        <div class="price-card-desc">One preference survey. One expert advisor. One itinerary built around you — ready to book in 24 hours.</div>
+        <a class="btn-book" href="#">Plan My Trip</a>
+      </div>
+      <div class="price-card" style="border-color:#000; border-width:2px;">
+        <div class="price-card-name">Concierge · 8-Hour</div>
+        <div class="price-card-price">$25</div>
+        <div class="price-card-unit">per day</div>
+        <div class="price-card-desc">Human expert on call during your active travel hours. Reservations, logistics, local intel — handled.</div>
+        <a class="btn-book" href="#">Get Concierge</a>
+      </div>
+      <div class="price-card">
+        <div class="price-card-name">Concierge · 24-Hour</div>
+        <div class="price-card-price">$100</div>
+        <div class="price-card-unit">per day</div>
+        <div class="price-card-desc">Round-the-clock coverage for the trips where everything needs to be right. 100% human, always available.</div>
+        <a class="btn-book" href="#">Go 24-Hour</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">VELTM</div>
+        <p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#">Trip Planning</a>
+        <a href="#">Concierge 8hr</a>
+        <a href="#">Concierge 24hr</a>
+        <a href="#">Advisor Program</a>
+      </div>
+      <div class="footer-col">
+        <h4>Compare</h4>
+        <a href="#">vs Amex Platinum</a>
+        <a href="#">vs Chase Reserve</a>
+        <a href="#">vs Mindtrip</a>
+        <a href="#">vs Quintessentially</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">FAQ</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 VELTM. All rights reserved.</span>
+      <span>Own Your Journey™</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

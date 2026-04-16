@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phone Conversation Demo — Butler Button</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
+  a { color: inherit; text-decoration: none; }
+  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
+  .back-link:hover { color: #000; }
+  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #fff; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .hero { background: #000; min-height: 100vh; padding: 100px 40px; display: flex; align-items: center; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .hero-left { }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 4vw, 58px); font-weight: 400; color: #fff; line-height: 1.2; margin-bottom: 24px; }
+  .hero-sub { font-size: 17px; color: #888; line-height: 1.7; margin-bottom: 40px; }
+  .hero-cta { display: inline-block; background: #fff; color: #000; padding: 16px 40px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-right: 16px; }
+  .hero-cta:hover { background: #c9a84c; }
+
+  /* Phone mockup */
+  .phone-wrap { display: flex; justify-content: center; }
+  .phone { background: #0d0d0d; border: 2px solid #333; border-radius: 40px; padding: 16px; width: 320px; box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px #444; }
+  .phone-notch { width: 100px; height: 24px; background: #000; border-radius: 12px; margin: 0 auto 12px; }
+  .phone-screen { background: #1a1a1a; border-radius: 28px; overflow: hidden; }
+  .phone-header { background: #0d0d0d; padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #222; }
+  .phone-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #c9a84c, #a07830); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #000; flex-shrink: 0; }
+  .phone-contact { }
+  .phone-contact-name { font-size: 13px; color: #fff; font-weight: 600; }
+  .phone-contact-status { font-size: 10px; color: #4caf50; }
+  .chat-area { padding: 16px 12px; min-height: 400px; }
+  .chat-time { text-align: center; font-size: 10px; color: #555; margin: 8px 0 12px; letter-spacing: 1px; }
+  .bubble { margin-bottom: 10px; display: flex; flex-direction: column; }
+  .bubble-butler { align-items: flex-start; }
+  .bubble-traveler { align-items: flex-end; }
+  .bubble-text { max-width: 80%; padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.5; }
+  .bubble-butler .bubble-text { background: #2a2a2a; color: #e0e0e0; border-bottom-left-radius: 4px; }
+  .bubble-traveler .bubble-text { background: #c9a84c; color: #000; font-weight: 500; border-bottom-right-radius: 4px; }
+  .bubble-label { font-size: 10px; color: #555; margin-top: 4px; padding: 0 4px; }
+  .bubble-options { margin: 8px 0; }
+  .option-pill { display: inline-block; background: #1a2a1a; border: 1px solid #2a4a2a; color: #4caf50; border-radius: 20px; padding: 6px 14px; font-size: 11px; margin: 3px 2px; }
+  .typing { display: flex; align-items: center; gap: 4px; padding: 10px 14px; background: #2a2a2a; border-radius: 16px; border-bottom-left-radius: 4px; width: fit-content; }
+  .typing-dot { width: 6px; height: 6px; background: #888; border-radius: 50%; animation: pulse 1.4s infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .phone-input { background: #0d0d0d; padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #222; }
+  .input-box { flex: 1; background: #222; border-radius: 20px; padding: 8px 14px; font-size: 12px; color: #666; }
+  .input-send { width: 30px; height: 30px; background: #c9a84c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #000; }
+
+  .proof-bar { background: #f5f5f0; padding: 60px 40px; }
+  .proof-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+  .proof-num { font-family: Georgia, serif; font-size: 36px; color: #000; }
+  .proof-label { font-size: 12px; color: #888; margin-top: 6px; line-height: 1.4; }
+
+  .how-it-works { padding: 100px 40px; }
+  .how-inner { max-width: 900px; margin: 0 auto; }
+  .how-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 60px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .step { text-align: center; }
+  .step-num { font-family: Georgia, serif; font-size: 48px; color: #e0e0d8; line-height: 1; margin-bottom: 16px; }
+  .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .step p { font-size: 14px; color: #666; line-height: 1.6; }
+
+  .cta-band { background: #000; padding: 80px 40px; text-align: center; }
+  .cta-band h2 { font-family: Georgia, serif; font-size: 36px; color: #fff; font-weight: 400; margin-bottom: 16px; }
+  .cta-band p { color: #888; font-size: 16px; margin-bottom: 36px; }
+  .cta-btn { display: inline-block; background: #c9a84c; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .cta-btn:hover { background: #fff; }
+
+  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
+  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
+
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .proof-inner { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    nav, .hero, .proof-bar, .how-it-works, .cta-band, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+
+<nav>
+  <div class="nav-logo">VELTM</div>
+  <div class="nav-links">
+    <a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a>
+    <a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a>
+  </div>
+  <div class="nav-cta">Get Started</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Butler Button — Real Human. Real Time.</div>
+      <h1>See It Work. Right Now.</h1>
+      <p class="hero-sub">This is what happens when your flight cancels at 11pm in Bangkok and you have a Butler. Not an AI. Not a queue. A human expert who already knows your trip.</p>
+      <a class="hero-cta" href="#">Get Your Butler</a>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">BB</div>
+            <div class="phone-contact">
+              <div class="phone-contact-name">Butler Button</div>
+              <div class="phone-contact-status">● Online now</div>
+            </div>
+          </div>
+          <div class="chat-area">
+            <div class="chat-time">TONIGHT · 11:03 PM · SUVARNABHUMI AIRPORT</div>
+            <div class="bubble bubble-butler">
+              <div class="bubble-text">Hi Sarah — I see Thai Airways TG892 to London has just been cancelled. I'm already on this.</div>
+              <div class="bubble-label">Butler · 11:03pm</div>
+            </div>
+            <div class="bubble bubble-traveler">
+              <div class="bubble-text">Yes!! What do I do?? I'm at the gate</div>
+              <div class="bubble-label">You · 11:04pm</div>
+            </div>
+            <div class="bubble bubble-butler">
+              <div class="bubble-text">Stay where you are. I have 3 rebook options ready:</div>
+              <div class="bubble-options">
+                <div class="option-pill">✓ BA0009 · 7:45am · Priority routing</div>
+                <div class="option-pill">✓ EK380 · 6:10am · Via Dubai</div>
+                <div class="option-pill">✓ QR835 · 5:55am · Cheapest fare</div>
+              </div>
+              <div class="bubble-label">Butler · 11:05pm</div>
+            </div>
+            <div class="bubble bubble-traveler">
+              <div class="bubble-text">The 7:45am BA one please. Do I need a hotel?</div>
+              <div class="bubble-label">You · 11:06pm</div>
+            </div>
+            <div class="bubble bubble-butler">
+              <div class="bubble-text">Already sorted. Novotel Suvarnabhumi is 400m from this terminal — I'm booking you in now. Checkout by 5:30am. Thai Airways covers the cost.</div>
+              <div class="bubble-label">Butler · 11:07pm</div>
+            </div>
+            <div class="bubble bubble-traveler">
+              <div class="bubble-text">You are an actual lifesaver</div>
+              <div class="bubble-label">You · 11:08pm</div>
+            </div>
+            <div class="bubble bubble-butler">
+              <div class="bubble-text">Confirmation sent to your email. New boarding pass attached. Go get some sleep — I'll send a wake-up reminder at 4:45am. ✓</div>
+              <div class="bubble-label">Butler · 11:09pm</div>
+            </div>
+            <div style="margin-top:12px;">
+              <div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+            </div>
+          </div>
+          <div class="phone-input">
+            <div class="input-box">Message Butler...</div>
+            <div class="input-send">↑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof-bar">
+  <div class="proof-inner">
+    <div><div class="proof-num">40 min</div><div class="proof-label">Bangkok flight cancelled → rebooked + hotel arranged</div></div>
+    <div><div class="proof-num">6 min</div><div class="proof-label">Rome restaurant closed → new reservation confirmed</div></div>
+    <div><div class="proof-num">14 min</div><div class="proof-label">Lisbon midnight cancellation → rebooked</div></div>
+    <div><div class="proof-num">97%</div><div class="proof-label">All disruptions resolved within 60 minutes</div></div>
+  </div>
+</section>
+
+<section class="how-it-works">
+  <div class="how-inner">
+    <h2>How it works.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Share your itinerary</h3>
+        <p>Your Butler reads your full trip before you depart. Flights, hotels, plans — they know it all before anything happens.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Travel freely</h3>
+        <p>Text, WhatsApp, or call whenever you need something — or when things go wrong. Response in under 4 minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>We handle everything</h3>
+        <p>Flight changes, reservations, local intel, logistics — resolved before you've finished explaining the problem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>Your first crisis is waiting.</h2>
+  <p>Be ready for it. From $25/day.</p>
+  <a class="cta-btn" href="#">Get Started — From $25</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
+      <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+  </div>
+</footer>
+
+</body>
+</html>
