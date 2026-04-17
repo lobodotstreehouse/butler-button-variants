@@ -3,184 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>More Confident Clients. More Frequent Bookings. — Butler Button Advisor</title>
+<title>More Confident Clients. More Frequent Bookings. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-  .winner-badge { position: fixed; top: 60px; right: 0; background: #c9a84c; color: #000; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; box-shadow: -4px 4px 16px rgba(201,168,76,0.4); }
-  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
-  .nav-links a:hover { color: #fff; }
-  .nav-cta { background: #c9a84c; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-
-  .hero { background: #000; color: #fff; padding: 110px 40px 90px; }
-  .hero-inner { max-width: 900px; margin: 0 auto; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 66px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
-  .hero-sub { font-size: 19px; color: #aaa; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
-  .hero-metrics { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 48px; }
-  .hero-metric-num { font-family: Georgia, serif; font-size: 44px; color: #c9a84c; line-height: 1; }
-  .hero-metric-label { font-size: 13px; color: #666; margin-top: 6px; line-height: 1.4; }
-  .hero-cta { display: inline-block; background: #c9a84c; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .hero-cta:hover { background: #fff; }
-
-  .revenue-math { padding: 100px 40px; background: #f5f5f0; }
-  .rm-inner { max-width: 800px; margin: 0 auto; }
-  .rm-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .rm-sub { font-size: 16px; color: #777; margin-bottom: 48px; }
-  .rm-calculator { background: #fff; border: 1px solid #e0e0d8; overflow: hidden; }
-  .rm-header { background: #000; color: #fff; padding: 20px 32px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-  .rm-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 1px solid #f5f5f0; }
-  .rm-row.total { background: #f9f9f5; font-weight: 700; }
-  .rm-row.highlight { background: #000; color: #fff; }
-  .rm-label { font-size: 15px; color: #444; }
-  .rm-row.highlight .rm-label { color: #fff; }
-  .rm-row.total .rm-label { color: #000; }
-  .rm-value { font-family: Georgia, serif; font-size: 22px; color: #000; font-weight: 700; }
-  .rm-row.highlight .rm-value { color: #c9a84c; font-size: 28px; }
-  .rm-note { font-size: 12px; color: #aaa; margin-top: 12px; text-align: right; padding: 0 32px 20px; }
-
-  .why-it-works { padding: 100px 40px; }
-  .why-inner { max-width: 900px; margin: 0 auto; }
-  .why-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .why-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
-  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-  .why-card { padding: 36px; border: 1px solid #e0e0d8; }
-  .why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-  .why-card p { font-size: 14px; color: #555; line-height: 1.6; }
-  .why-stat { font-family: Georgia, serif; font-size: 36px; color: #c9a84c; margin-top: 16px; }
-  .why-stat-label { font-size: 12px; color: #aaa; }
-
-  .testimonial-section { background: #f5f5f0; padding: 100px 40px; }
-  .test-inner { max-width: 800px; margin: 0 auto; text-align: center; }
-  blockquote { font-family: Georgia, serif; font-size: clamp(20px, 2.5vw, 28px); color: #000; line-height: 1.5; margin-bottom: 20px; }
-  .test-attr { font-size: 13px; color: #888; letter-spacing: 1px; }
-
-  .cta-section { padding: 100px 40px; text-align: center; background: #000; color: #fff; }
-  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .cta-section p { font-size: 17px; color: #888; margin-bottom: 40px; }
-  .cta-btn { display: inline-block; background: #c9a84c; color: #000; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .cta-btn:hover { background: #fff; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-  @media (max-width: 768px) {
-    .why-grid { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .revenue-math, .why-it-works, .testimonial-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
+  .hero-metrics {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem;
+    margin: 2rem 0; max-width: 680px; margin-left: auto; margin-right: auto;
   }
+  .hm { text-align: center; padding: 1.25rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; }
+  .hm-num { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.04em; color: var(--indigo-lt); }
+  .hm-label { font-size: 0.68rem; color: var(--text-mute); margin-top: 0.2rem; line-height: 1.4; }
+
+  /* Revenue story */
+  .revenue-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .revenue-inner { max-width: 900px; margin: 0 auto; }
+  .revenue-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.5rem; align-items: start; }
+  .revenue-col h3 { font-size: 1rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+  .revenue-col p { font-size: 0.88rem; color: var(--text-mute); line-height: 1.7; margin-bottom: 0.75rem; }
+  .revenue-stat-row { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .rev-num { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.04em; color: var(--indigo-lt); min-width: 4.5rem; }
+  .rev-desc { font-size: 0.78rem; color: var(--text-mute); line-height: 1.4; }
+
+  @media (max-width:640px) { .revenue-cols,.hero-metrics { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-<div class="winner-badge">★ VARIANT WINNER — Deploy to Production</div>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
-  <div class="nav-cta">Apply Now</div>
+<div class="scroll-progress"></div>
+<div class="winner-tab">&#9733; Primary Winner</div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Advisor V2 &mdash; Revenue</span>
+</div>
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Trip Planning</a></li><li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Apply Now</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Advisor Program — Butler Button</div>
-    <h1>More Confident Clients.<br>More Frequent Bookings.</h1>
-    <p class="hero-sub">When your clients have 24/7 human support in-trip, they travel more, refer more, and stay loyal longer. The numbers are consistent across advisor partners.</p>
-    <div class="hero-metrics">
-      <div><div class="hero-metric-num">$35</div><div class="hero-metric-label">LTV increase per client with in-trip support</div></div>
-      <div><div class="hero-metric-num">76%</div><div class="hero-metric-label">Refer within 90 days of their trip</div></div>
-      <div><div class="hero-metric-num">28%</div><div class="hero-metric-label">More referrals in first 6 months</div></div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Advisor Program &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>More Confident Clients.<br><span>More Frequent Bookings.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">When your clients have 24/7 human support in-trip, they travel more, refer more, and stay loyal longer. The numbers are consistent across advisor partners.</p>
+    <div class="hero-metrics" data-reveal style="--delay:0.18s">
+      <div class="hm"><div class="hm-num">$35</div><div class="hm-label">LTV increase per client with in-trip support</div></div>
+      <div class="hm"><div class="hm-num">76%</div><div class="hm-label">Refer within 90 days of their trip</div></div>
+      <div class="hm"><div class="hm-num">28%</div><div class="hm-label">More referrals in first 6 months</div></div>
     </div>
-    <a class="hero-cta" href="#">Apply for Advisor Partnership</a>
-  </div>
-</section>
-
-<section class="revenue-math">
-  <div class="rm-inner">
-    <h2>Run the revenue math.</h2>
-    <p class="rm-sub">What 50 clients with in-trip concierge access looks like over 12 months.</p>
-    <div class="rm-calculator">
-      <div class="rm-header">Advisor Revenue Model — 50-Client Example</div>
-      <div class="rm-row"><span class="rm-label">Client base</span><span class="rm-value">50 clients</span></div>
-      <div class="rm-row"><span class="rm-label">Booking frequency without in-trip support</span><span class="rm-value">1.4× / year</span></div>
-      <div class="rm-row"><span class="rm-label">Booking frequency with in-trip support</span><span class="rm-value">2.3× / year</span></div>
-      <div class="rm-row"><span class="rm-label">Additional bookings generated (50 clients)</span><span class="rm-value">+45 bookings</span></div>
-      <div class="rm-row"><span class="rm-label">Average booking value (illustrative)</span><span class="rm-value">$4,800</span></div>
-      <div class="rm-row total"><span class="rm-label">Additional revenue generated</span><span class="rm-value">$216,000</span></div>
-      <div class="rm-row"><span class="rm-label">Referrals from satisfied in-trip clients (76%)</span><span class="rm-value">+38 new clients</span></div>
-      <div class="rm-row highlight"><span class="rm-label">Net revenue impact (Year 1)</span><span class="rm-value">Significant</span></div>
-      <div class="rm-note">* Illustrative model based on partner data. Individual results vary by client base and booking value.</div>
+    <div class="hero-actions" data-reveal style="--delay:0.26s">
+      <a class="btn btn-indigo btn-lg" href="#">Apply for Advisor Partnership</a>
     </div>
   </div>
 </section>
 
-<section class="why-it-works">
-  <div class="why-inner">
-    <h2>Why confident clients book more.</h2>
-    <p class="why-sub">The psychology behind the revenue numbers.</p>
-    <div class="why-grid">
-      <div class="why-card">
-        <h3>Clients who feel supported travel more often</h3>
-        <p>Anxiety about what happens when things go wrong is the #1 reason clients delay or avoid complex trips. When that anxiety is removed, frequency goes up.</p>
-        <div class="why-stat">2.3×</div>
-        <div class="why-stat-label">Booking frequency increase</div>
+<section class="revenue-section">
+  <div class="revenue-inner">
+    <div style="text-align:center" data-reveal>
+      <span class="eyebrow eyebrow-soft">The Revenue Case</span>
+      <h2 class="section-title-light">Why in-trip support changes the economics.</h2>
+    </div>
+    <div class="revenue-cols" data-reveal style="--delay:0.1s">
+      <div class="revenue-col">
+        <h3>What the data shows</h3>
+        <p>Across Butler Button advisor partners, clients who receive in-trip concierge support show measurably different booking behaviour within 12 months.</p>
+        <div class="revenue-stat-row"><span class="rev-num">2.3&times;</span><span class="rev-desc">Booking frequency increase vs clients without in-trip support</span></div>
+        <div class="revenue-stat-row"><span class="rev-num">35%</span><span class="rev-desc">LTV increase per client over 12 months</span></div>
+        <div class="revenue-stat-row"><span class="rev-num">92%</span><span class="rev-desc">Retention rate after an in-trip support experience</span></div>
+        <div class="revenue-stat-row"><span class="rev-num">76%</span><span class="rev-desc">Refer within 90 days of returning home</span></div>
       </div>
-      <div class="why-card">
-        <h3>A great in-trip experience generates referrals</h3>
-        <p>When your client's 11pm Bangkok flight cancellation is resolved in 40 minutes, they tell everyone. The story is compelling — and it has your name on it.</p>
-        <div class="why-stat">76%</div>
-        <div class="why-stat-label">Refer within 90 days</div>
-      </div>
-      <div class="why-card">
-        <h3>Retention goes up when clients feel looked after</h3>
-        <p>Clients who experience in-trip support don't look for another advisor. The relationship deepens. Loyalty increases. Churn drops.</p>
-        <div class="why-stat">92%</div>
-        <div class="why-stat-label">Retention after in-trip support</div>
-      </div>
-      <div class="why-card">
-        <h3>Confidence enables bigger trips</h3>
-        <p>Clients who know they have 24/7 support greenlight more ambitious trips. Multi-country itineraries. Remote destinations. Longer durations. Higher booking values.</p>
-        <div class="why-stat">$35</div>
-        <div class="why-stat-label">LTV increase per client</div>
+      <div class="revenue-col">
+        <h3>Why it happens</h3>
+        <p>A resolved crisis at 11pm in Bangkok doesn't just save the trip &mdash; it creates a story the client tells for years. That story always ends with your name attached to it.</p>
+        <p>Clients who feel genuinely supported in the moments that matter don't comparison-shop. They don't wonder if there's a better advisor. They book again, and they send their friends.</p>
+        <p>Butler Button gives you the infrastructure to deliver that experience at scale, under your brand, without adding headcount.</p>
+        <div style="margin-top:1.5rem">
+          <a class="btn btn-indigo btn-md" href="#">Apply for Advisor Partnership</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="testimonial-section">
-  <div class="test-inner">
-    <blockquote>"Within six months of adding Butler Button to my offer, I had 28% more referrals and clients were booking trips they'd previously been 'thinking about' for years. The in-trip support removes their last objection."</blockquote>
-    <div class="test-attr">Travel Advisor Partner — Butler Button Program</div>
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
   </div>
 </section>
 
-<section class="cta-section">
-  <h2>Ready to grow your advisory practice?</h2>
-  <p>Apply for the Butler Button Advisor Partnership. Limited spaces per market.</p>
-  <a class="cta-btn" href="#">Apply for Advisor Partnership</a>
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">What Your Clients Experience</span>
+      <h2 class="section-title-light">The moments that build loyalty.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Your client calls you to say thank you. Not the airline.</div><div class="scard__tag">40 minutes. Your credit. &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative confirmed in 6 minutes. Your client never panics.</div><div class="scard__tag">6 minutes. Your reputation. &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Rebooked in 14 minutes. They tell everyone at the dinner party.</div><div class="scard__tag">14 minutes. Your referral. &rarr;</div></div>
+    </div>
+  </div>
 </section>
 
-<footer>
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">What Your Clients Get</span>
+    <h2 class="section-title-light">Under your brand. Delivered by us.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Expert itineraries for your clients.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Learn More</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Human expert on call, every travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>&lt;4 min response time</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Learn More</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock for high-value clients.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Learn More</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

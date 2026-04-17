@@ -3,210 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Know Your Trip Is Good Before You Leave — Butler Button</title>
+<title>Know Your Trip Is Good Before You Leave. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-  .runner-badge { position: fixed; top: 60px; right: 0; background: #666; color: #fff; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
-  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
-  .nav-links a:hover { color: #000; }
-  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
 
-  .hero { padding: 110px 40px 90px; background: #f5f5f0; }
-  .hero-inner { max-width: 860px; margin: 0 auto; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(38px, 5vw, 68px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
-  .hero-sub { font-size: 20px; color: #555; line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
-  .confidence-bar { display: flex; align-items: center; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
-  .conf-item { text-align: center; }
-  .conf-num { font-family: Georgia, serif; font-size: 52px; color: #000; line-height: 1; }
-  .conf-label { font-size: 12px; color: #888; margin-top: 6px; line-height: 1.4; max-width: 120px; }
-  .conf-vs { font-size: 24px; color: #ccc; }
-  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 44px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .hero-cta:hover { background: #c9a84c; }
-
-  .comparison-table { padding: 100px 40px; }
-  .ct-inner { max-width: 900px; margin: 0 auto; }
-  .ct-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .ct-sub { font-size: 16px; color: #777; margin-bottom: 48px; }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: #000; color: #fff; }
-  thead th { padding: 16px 24px; text-align: left; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
-  thead th:not(:first-child) { text-align: center; }
-  tbody tr { border-bottom: 1px solid #f0f0e8; }
-  tbody tr:hover { background: #fafaf8; }
-  tbody td { padding: 18px 24px; font-size: 15px; color: #333; }
-  tbody td:not(:first-child) { text-align: center; }
-  .td-self { color: #bbb; }
-  .td-bb { color: #000; font-weight: 600; }
-  .td-bb-good { color: #2a7a2a; font-weight: 700; }
-  tfoot tr { background: #f5f5f0; }
-  tfoot td { padding: 18px 24px; font-size: 14px; font-weight: 700; }
-  .score-good { color: #2a7a2a; }
-  .score-bad { color: #aaa; }
-
-  .testimonials { padding: 100px 40px; background: #000; color: #fff; }
-  .test-inner { max-width: 900px; margin: 0 auto; }
-  .test-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
-  .test-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .test-card { background: #111; border: 1px solid #222; padding: 36px; }
-  .test-stars { color: #c9a84c; font-size: 16px; margin-bottom: 16px; letter-spacing: 2px; }
-  .test-quote { font-family: Georgia, serif; font-size: 17px; color: #ddd; line-height: 1.6; margin-bottom: 20px; font-style: italic; }
-  .test-attr { font-size: 12px; color: #666; letter-spacing: 1px; text-transform: uppercase; }
-
-  .cta-section { padding: 100px 40px; text-align: center; }
-  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .cta-section p { font-size: 17px; color: #666; margin-bottom: 40px; }
-  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .cta-btn:hover { background: #c9a84c; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-  @media (max-width: 768px) {
-    .test-grid { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    table { font-size: 13px; }
-    thead th, tbody td, tfoot td { padding: 12px 14px; }
-    nav, .hero, .comparison-table, .testimonials, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  /* Confidence bar */
+  .confidence-bar {
+    display: inline-flex; align-items: center; gap: 1.5rem;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 1.25rem 2rem; margin: 2rem 0;
   }
+  .conf-item { text-align: center; }
+  .conf-num { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.045em; color: var(--indigo-lt); }
+  .conf-num.dim { color: rgba(255,255,255,0.25); }
+  .conf-label { font-size: 0.68rem; color: var(--text-mute); margin-top: 0.2rem; }
+  .conf-vs { font-size: 0.72rem; color: rgba(255,255,255,0.2); font-weight: 600; letter-spacing: 0.06em; }
+
+  /* Comparison table */
+  .compare-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .compare-table { max-width: 900px; margin: 2.5rem auto 0; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; }
+  .ct-head { display: grid; grid-template-columns: 2fr 1fr 1fr; background: rgba(255,255,255,0.02); }
+  .ct-head-cell { padding: 12px 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+  .ct-head-cell:last-child { color: var(--indigo-lt); }
+  .ct-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-top: 1px solid rgba(255,255,255,0.05); }
+  .ct-cell { padding: 12px 20px; font-size: 0.82rem; color: rgba(255,255,255,0.45); }
+  .ct-cell-bad { color: rgba(255,100,100,0.6); }
+  .ct-cell-good { color: var(--indigo-lt); font-weight: 600; }
+
+  @media (max-width:640px) { .confidence-bar { flex-direction:column; } .ct-head,.ct-row { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-<div class="runner-badge">☆ RUNNER-UP</div>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
-  <div class="nav-cta">Get Started</div>
+<div class="scroll-progress"></div>
+<div class="runner-tab">&#9734; Runner-Up</div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Trip Planning V5 &mdash; Trust</span>
+</div>
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Trip Planning</a></li><li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Trip Planning — Butler Button</div>
-    <h1>Know Your Trip Is Good<br>Before You Leave.</h1>
-    <p class="hero-sub">95% of travelers rate their Butler Button itinerary 4–5 stars. Compare that to the 3.1/5 average confidence score for self-planned trips. The difference is knowing — before you go.</p>
-    <div class="confidence-bar">
-      <div class="conf-item">
-        <div class="conf-num">95%</div>
-        <div class="conf-label">Butler Button satisfaction rate</div>
-      </div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Trip Planning &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>Know Your Trip Is <span>Good</span><br>Before You Leave.</h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">95% of travelers rate their Butler Button itinerary 4&ndash;5 stars. Compare that to the 3.1/5 average confidence score for self-planned trips. The difference is knowing &mdash; before you go.</p>
+    <div class="confidence-bar" data-reveal style="--delay:0.18s">
+      <div class="conf-item"><div class="conf-num">95%</div><div class="conf-label">Butler Button satisfaction rate</div></div>
       <div class="conf-vs">vs</div>
-      <div class="conf-item">
-        <div class="conf-num" style="color:#bbb;">3.1/5</div>
-        <div class="conf-label">Avg self-planned confidence score</div>
-      </div>
+      <div class="conf-item"><div class="conf-num dim">3.1/5</div><div class="conf-label">Avg self-planned confidence score</div></div>
     </div>
-    <a class="hero-cta" href="#">Plan with Confidence — $25/Country</a>
-  </div>
-</section>
-
-<section class="comparison-table">
-  <div class="ct-inner">
-    <h2>Self-planned vs. Butler Button.</h2>
-    <p class="ct-sub">Five criteria that determine whether your trip actually delivers.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Criteria</th>
-          <th>Self-Planned</th>
-          <th>Butler Button</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Pre-departure confidence</td>
-          <td class="td-self">3.1 / 5 avg</td>
-          <td class="td-bb-good">4.8 / 5 avg</td>
-        </tr>
-        <tr>
-          <td>Itinerary quality (post-trip rating)</td>
-          <td class="td-self">3.4 / 5 avg</td>
-          <td class="td-bb-good">95% rate 4–5 stars</td>
-        </tr>
-        <tr>
-          <td>Time spent on research</td>
-          <td class="td-self">12–18 hours</td>
-          <td class="td-bb-good">10 minutes (survey)</td>
-        </tr>
-        <tr>
-          <td>Local accuracy of recommendations</td>
-          <td class="td-self">Variable — depends on sources</td>
-          <td class="td-bb-good">Expert-reviewed, destination-specific</td>
-        </tr>
-        <tr>
-          <td>Pre-trip stress level</td>
-          <td class="td-self">High — 73% report anxiety</td>
-          <td class="td-bb-good">89% feel less stressed</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>Overall</td>
-          <td class="score-bad">High effort, uncertain outcome</td>
-          <td class="score-good">Low effort, expert-backed confidence</td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-</section>
-
-<section class="testimonials">
-  <div class="test-inner">
-    <h2>What confidence feels like.</h2>
-    <div class="test-grid">
-      <div class="test-card">
-        <div class="test-stars">★★★★★</div>
-        <div class="test-quote">"For the first time in years, I actually looked forward to the trip instead of dreading whether I'd planned it right. Everything was exactly what was described — and then some."</div>
-        <div class="test-attr">Sarah M. — Japan, 12 days</div>
-      </div>
-      <div class="test-card">
-        <div class="test-stars">★★★★★</div>
-        <div class="test-quote">"We've been burned by bad itineraries before. Butler Button was the first time we landed and thought 'yes — this is exactly right.' Not a single wasted day."</div>
-        <div class="test-attr">James &amp; Caroline T. — Italy, 9 days</div>
-      </div>
-      <div class="test-card">
-        <div class="test-stars">★★★★★</div>
-        <div class="test-quote">"I spent 14 hours planning our last trip. I spent 10 minutes on this one. The Butler Button version was objectively better in every measurable way."</div>
-        <div class="test-attr">David K. — Portugal, 8 days</div>
-      </div>
-      <div class="test-card">
-        <div class="test-stars">★★★★☆</div>
-        <div class="test-quote">"Skeptical going in. By day two of the trip, I was texting everyone I knew to tell them about it. The restaurant on night three alone was worth the $25."</div>
-        <div class="test-attr">Priya S. — Morocco, 7 days</div>
-      </div>
+    <div class="hero-actions" data-reveal style="--delay:0.26s">
+      <a class="btn btn-indigo btn-lg" href="#">Plan with Confidence &mdash; $25/Country</a>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
-  <h2>Travel with confidence, not doubt.</h2>
-  <p>$25 per country. Expert-built. Ready in 24 hours.</p>
-  <a class="cta-btn" href="#">Plan My Trip Now</a>
+<section class="compare-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">Side by Side</span>
+    <h2 class="section-title-light">Self-planned vs. Butler Button.</h2>
+    <p class="section-sub-light">Five criteria that determine whether your trip actually delivers.</p>
+  </div>
+  <div class="compare-table" data-reveal style="--delay:0.1s">
+    <div class="ct-head">
+      <div class="ct-head-cell">Criteria</div>
+      <div class="ct-head-cell">Self-Planned</div>
+      <div class="ct-head-cell">Butler Button</div>
+    </div>
+    <div class="ct-row"><div class="ct-cell">Pre-departure confidence (1&ndash;5)</div><div class="ct-cell ct-cell-bad">3.1 / 5</div><div class="ct-cell ct-cell-good">4.8 / 5</div></div>
+    <div class="ct-row"><div class="ct-cell">Time spent on research</div><div class="ct-cell ct-cell-bad">12+ hours</div><div class="ct-cell ct-cell-good">10 minutes</div></div>
+    <div class="ct-row"><div class="ct-cell">Itinerary personalised to preferences</div><div class="ct-cell ct-cell-bad">Partially</div><div class="ct-cell ct-cell-good">Completely</div></div>
+    <div class="ct-row"><div class="ct-cell">In-trip support when things go wrong</div><div class="ct-cell ct-cell-bad">Solo</div><div class="ct-cell ct-cell-good">Human expert &lt;4 min</div></div>
+    <div class="ct-row"><div class="ct-cell">Post-trip satisfaction (4&ndash;5 star)</div><div class="ct-cell ct-cell-bad">61%</div><div class="ct-cell ct-cell-good">95%</div></div>
+  </div>
 </section>
 
-<footer>
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Client asleep by 1am.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Know your trip is good before you leave.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>AI scans 200,000+ options</li><li>Expert review in 24 hours</li><li>95% satisfaction rate</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan with Confidence</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

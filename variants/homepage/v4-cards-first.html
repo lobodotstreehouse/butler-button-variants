@@ -3,294 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal Travel Concierge — Butler Button (Conversion Winner)</title>
+<title>Personal Travel Concierge. Pick Your Level. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-
-  /* WINNER BADGE */
-  .winner-badge { position: fixed; top: 60px; right: 0; background: #c9a84c; color: #000; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; box-shadow: -4px 4px 16px rgba(201,168,76,0.4); }
-
-  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #000; }
-  .nav-tagline { font-size: 10px; color: #888; letter-spacing: 2px; text-transform: uppercase; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; transition: color 0.2s; }
-  .nav-links a:hover { color: #000; }
-  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: background 0.2s; }
-  .nav-cta:hover { background: #c9a84c; }
-
-  .hero { padding: 72px 40px 60px; text-align: center; border-bottom: 1px solid #f0f0e8; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(28px, 4vw, 44px); font-weight: 400; color: #000; margin-bottom: 12px; }
-  .hero-sub { font-size: 16px; color: #888; margin-bottom: 0; }
-
-  /* PRICING CARDS — ABOVE THE FOLD */
-  .cards-section { padding: 40px 40px 80px; background: #fff; }
-  .cards-inner { max-width: 1000px; margin: 0 auto; }
-  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-
-  .card { border: 1px solid #e0e0d8; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s; }
-  .card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.10); transform: translateY(-3px); }
-  .card-featured { border-color: #000; border-width: 2px; }
-  .card-header { padding: 32px 32px 0; }
-  .card-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; margin-bottom: 20px; }
-  .badge-basic { background: #f5f5f0; color: #888; }
-  .badge-popular { background: #000; color: #fff; }
-  .badge-premium { background: #c9a84c22; color: #a07830; }
-  .card-name { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
-  .card-title { font-family: Georgia, serif; font-size: 22px; font-weight: 400; color: #000; margin-bottom: 20px; line-height: 1.3; }
-  .card-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
-  .card-price { font-size: 52px; font-weight: 700; color: #000; line-height: 1; }
-  .card-price-unit { font-size: 14px; color: #888; }
-  .card-price-note { font-size: 12px; color: #aaa; margin-bottom: 28px; }
-  .card-divider { height: 1px; background: #f0f0e8; margin: 0 -32px 28px; }
-  .card-body { padding: 0 32px 32px; flex: 1; display: flex; flex-direction: column; }
-  .card-features { list-style: none; margin-bottom: 28px; flex: 1; }
-  .card-features li { display: flex; gap: 10px; font-size: 14px; color: #444; margin-bottom: 12px; line-height: 1.4; }
-  .card-features li::before { content: '✓'; color: #c9a84c; font-weight: 700; flex-shrink: 0; }
-  .card-cta { display: block; text-align: center; padding: 14px 24px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: background 0.2s, color 0.2s; }
-  .cta-primary { background: #000; color: #fff; }
-  .cta-primary:hover { background: #c9a84c; }
-  .cta-secondary { background: #f5f5f0; color: #000; }
-  .cta-secondary:hover { background: #000; color: #fff; }
-
-  .no-membership { text-align: center; padding: 20px; font-size: 13px; color: #aaa; border-top: 1px solid #f0f0e8; }
-  .no-membership strong { color: #000; }
-
-  /* TRUST ROW */
-  .trust-row { background: #000; padding: 40px; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
-  .trust-item { text-align: center; color: #fff; }
-  .trust-num { font-family: Georgia, serif; font-size: 32px; color: #c9a84c; }
-  .trust-label { font-size: 11px; color: #666; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
-
-  /* SCENARIO STRIP */
-  .scenarios { padding: 80px 40px; background: #f5f5f0; }
-  .scenarios-inner { max-width: 1000px; margin: 0 auto; }
-  .scenarios h2 { font-family: Georgia, serif; font-size: 32px; font-weight: 400; margin-bottom: 8px; }
-  .scenarios-sub { font-size: 16px; color: #888; margin-bottom: 48px; }
-  .scenario-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #e0e0d8; }
-  .scenario-item { background: #fff; padding: 36px 28px; }
-  .scenario-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; font-weight: 700; margin-bottom: 12px; }
-  .scenario-item p { font-size: 14px; color: #444; line-height: 1.7; }
-  .scenario-result { font-size: 13px; font-weight: 700; color: #000; margin-top: 14px; border-top: 1px solid #f0f0e8; padding-top: 14px; }
-
-  /* HOW IT WORKS */
-  .how { padding: 80px 40px; }
-  .how-inner { max-width: 900px; margin: 0 auto; }
-  .how h2 { font-family: Georgia, serif; font-size: 32px; font-weight: 400; text-align: center; margin-bottom: 48px; }
-  .how-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  .how-step { text-align: center; padding: 24px; }
-  .how-step-num { width: 40px; height: 40px; border: 1px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin: 0 auto 16px; }
-  .how-step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-  .how-step p { font-size: 13px; color: #666; line-height: 1.5; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-
-  @media (max-width: 900px) {
-    .cards-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-    .how-steps { grid-template-columns: repeat(2, 1fr); }
-    .scenario-list { grid-template-columns: 1fr; }
+  /* V4 CARDS-FIRST — pricing cards above fold, conversion winner */
+  .hero {
+    min-height: auto;
+    padding: 8rem 5vw 5rem;
+    background: var(--dark-2);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-align: center;
   }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .trust-row { gap: 28px; padding: 30px 20px; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .cards-section, .scenarios, .how, footer { padding-left: 20px; padding-right: 20px; }
+  .hero-content { max-width: 700px; margin: 0 auto; }
+  .hero-h1-mid {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 700; letter-spacing: -0.035em; line-height: 1.1;
+    color: #f5f5f7; margin-bottom: 0.75rem;
   }
+  .hero-h1-mid span { color: var(--indigo-lt); }
+
+  /* How it works strip */
+  .how-strip {
+    background: var(--dark-2);
+    padding: clamp(4rem, 8vw, 7rem) 5vw;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .how-steps-grid {
+    max-width: 900px; margin: 2.5rem auto 0;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .how-step { text-align: center; }
+  .how-step-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(129,140,248,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; color: var(--indigo-lt);
+    margin: 0 auto 1rem;
+  }
+  .how-step h3 { font-size: 0.88rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.5rem; }
+  .how-step p { font-size: 0.78rem; color: var(--text-mute); line-height: 1.55; }
+  @media (max-width: 700px) { .how-steps-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
-<div class="winner-badge">★ VARIANT WINNER — Deploy to Production</div>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<div class="scroll-progress"></div>
+<div class="winner-tab">&#9733; Conversion Winner</div>
 
-<nav>
-  <div>
-    <div class="nav-logo">VELTM</div>
-    <div class="nav-tagline">Own Your Journey™</div>
-  </div>
-  <div class="nav-links">
-    <a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a>
-    <a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a>
-  </div>
-  <a class="nav-cta" href="#">Get Started</a>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Homepage V4 &mdash; Cards-First</span>
+</div>
+
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Trip Planning</a></li>
+    <li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
 </nav>
 
 <section class="hero">
-  <h1>Personal Travel Concierge. Pick Your Level.</h1>
-  <p class="hero-sub">100% human experts. 150+ countries. No membership required.</p>
+  <div class="hero-content">
+    <span class="eyebrow eyebrow-soft" data-reveal>Butler Button by VELTM</span>
+    <h1 class="hero-h1-mid" data-reveal style="--delay:0.08s">Personal Travel Concierge.<br><span>Pick Your Level.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.16s">100% human experts. 150+ countries. No membership required.</p>
+  </div>
 </section>
 
-<section class="cards-section">
-  <div class="cards-inner">
-    <div class="cards-grid">
-
-      <!-- Card 1: Trip Planning -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-badge badge-basic">Trip Planning</div>
-          <div class="card-name">Plan your trip</div>
-          <div class="card-title">Your itinerary, built around you.</div>
-          <div class="card-price-row">
-            <div class="card-price">$25</div>
-            <div class="card-price-unit">/ country</div>
-          </div>
-          <div class="card-price-note">One-time. No subscription.</div>
-        </div>
-        <div class="card-divider"></div>
-        <div class="card-body">
-          <ul class="card-features">
-            <li>One preference survey — 10 minutes</li>
-            <li>AI scans 200,000+ options</li>
-            <li>Expert advisor review &amp; curation</li>
-            <li>Ready-to-book itinerary in 24 hours</li>
-            <li>95% client satisfaction rate</li>
-          </ul>
-          <a class="card-cta cta-secondary" href="#">Plan My Trip →</a>
-        </div>
+<section class="section-products" style="background:var(--dark-2);padding-top:3rem">
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal>
+      <div class="pcard__bar"></div>
+      <div class="pcard__tier">Trip Planning</div>
+      <div class="pcard__name">Your itinerary, built around you.</div>
+      <div class="pcard__price-row">
+        <span class="pcard__price">$25</span>
+        <span class="pcard__unit">/ country</span>
       </div>
-
-      <!-- Card 2: Concierge 8hr (MOST POPULAR) -->
-      <div class="card card-featured">
-        <div class="card-header">
-          <div class="card-badge badge-popular">Most Popular</div>
-          <div class="card-name">Concierge — 8 Hour</div>
-          <div class="card-title">Expert on call during your travel day.</div>
-          <div class="card-price-row">
-            <div class="card-price">$25</div>
-            <div class="card-price-unit">/ day</div>
-          </div>
-          <div class="card-price-note">Active hours coverage. Pay only travel days.</div>
-        </div>
-        <div class="card-divider"></div>
-        <div class="card-body">
-          <ul class="card-features">
-            <li>Human expert — &lt;4 min response</li>
-            <li>Flight disruption management</li>
-            <li>Restaurant &amp; experience reservations</li>
-            <li>Local intelligence &amp; recommendations</li>
-            <li>Ground transport &amp; logistics</li>
-            <li>40+ languages covered</li>
-          </ul>
-          <a class="card-cta cta-primary" href="#">Get Concierge →</a>
-        </div>
-      </div>
-
-      <!-- Card 3: Concierge 24hr -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-badge badge-premium">Full Coverage</div>
-          <div class="card-name">Concierge — 24 Hour</div>
-          <div class="card-title">Round-the-clock. Any hour. Any crisis.</div>
-          <div class="card-price-row">
-            <div class="card-price">$100</div>
-            <div class="card-price-unit">/ day</div>
-          </div>
-          <div class="card-price-note">Complete coverage. Nothing left to chance.</div>
-        </div>
-        <div class="card-divider"></div>
-        <div class="card-body">
-          <ul class="card-features">
-            <li>Everything in 8-hour, plus:</li>
-            <li>24/7 availability — midnight included</li>
-            <li>Proactive flight monitoring</li>
-            <li>Medical referral &amp; assistance</li>
-            <li>Same advisor, start to finish</li>
-            <li>97% disruptions resolved in 60 min</li>
-          </ul>
-          <a class="card-cta cta-secondary" href="#">Go 24-Hour →</a>
-        </div>
-      </div>
-
+      <p style="font-size:0.72rem;color:var(--text-mute);margin-bottom:1rem">One-time. No subscription.</p>
+      <hr class="pcard__divider">
+      <ul class="pcard__features">
+        <li>One preference survey &mdash; 10 minutes</li>
+        <li>AI scans 200,000+ options</li>
+        <li>Expert advisor review &amp; curation</li>
+        <li>Ready-to-book itinerary in 24 hours</li>
+        <li>95% client satisfaction rate</li>
+      </ul>
+      <a class="btn btn-outline-light btn-md" href="#">Plan My Trip &rarr;</a>
     </div>
-    <div class="no-membership">
-      <strong>No membership. No annual fee. No hidden costs.</strong> Pay only for the days you travel.
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s">
+      <div class="pcard__badge">Most Popular</div>
+      <div class="pcard__bar"></div>
+      <div class="pcard__tier">Concierge &mdash; 8 Hour</div>
+      <div class="pcard__name">Expert on call during your travel day.</div>
+      <div class="pcard__price-row">
+        <span class="pcard__price">$25</span>
+        <span class="pcard__unit">/ day</span>
+      </div>
+      <p style="font-size:0.72rem;color:rgba(199,210,254,0.6);margin-bottom:1rem">Active hours coverage. Pay only travel days.</p>
+      <hr class="pcard__divider">
+      <ul class="pcard__features">
+        <li>Human expert &mdash; &lt;4 min response</li>
+        <li>Flight disruption management</li>
+        <li>Restaurant &amp; experience reservations</li>
+        <li>Local intelligence &amp; recommendations</li>
+        <li>Ground transport &amp; logistics</li>
+        <li>40+ languages covered</li>
+      </ul>
+      <a class="btn btn-indigo btn-md" href="#">Get Concierge &rarr;</a>
+    </div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s">
+      <div class="pcard__bar"></div>
+      <div class="pcard__tier">Concierge &mdash; 24 Hour</div>
+      <div class="pcard__name">Round-the-clock. Any hour. Any crisis.</div>
+      <div class="pcard__price-row">
+        <span class="pcard__price">$100</span>
+        <span class="pcard__unit">/ day</span>
+      </div>
+      <p style="font-size:0.72rem;color:var(--text-mute);margin-bottom:1rem">Complete coverage. Nothing left to chance.</p>
+      <hr class="pcard__divider">
+      <ul class="pcard__features">
+        <li>Everything in 8-hour, plus:</li>
+        <li>24/7 availability &mdash; midnight included</li>
+        <li>Proactive flight monitoring</li>
+        <li>Medical referral &amp; assistance</li>
+        <li>Same advisor, start to finish</li>
+        <li>97% disruptions resolved in 60 min</li>
+      </ul>
+      <a class="btn btn-outline-light btn-md" href="#">Go 24-Hour &rarr;</a>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.2);margin-top:1.5rem">No membership. No annual fee. No hidden costs. Pay only for the days you travel.</p>
+</section>
+
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal>
+      <div class="stat-num">97<sup>%</sup></div>
+      <div class="stat-label">Disruptions resolved &lt;60 min</div>
+    </div>
+    <div data-reveal style="--delay:0.08s">
+      <div class="stat-num">&lt;4<sup>min</sup></div>
+      <div class="stat-label">Avg response time 24/7</div>
+    </div>
+    <div data-reveal style="--delay:0.16s">
+      <div class="stat-num">150<sup>+</sup></div>
+      <div class="stat-label">Countries covered</div>
+    </div>
+    <div data-reveal style="--delay:0.24s">
+      <div class="stat-num">100<sup>%</sup></div>
+      <div class="stat-label">Human first contact</div>
     </div>
   </div>
 </section>
 
-<div class="trust-row">
-  <div class="trust-item"><div class="trust-num">97%</div><div class="trust-label">Disruptions resolved &lt;60 min</div></div>
-  <div class="trust-item"><div class="trust-num">&lt;4 min</div><div class="trust-label">Avg response time 24/7</div></div>
-  <div class="trust-item"><div class="trust-num">150+</div><div class="trust-label">Countries covered</div></div>
-  <div class="trust-item"><div class="trust-num">100%</div><div class="trust-label">Human first contact</div></div>
-  <div class="trust-item"><div class="trust-num">76%</div><div class="trust-label">Refer within 90 days</div></div>
-</div>
-
-<section class="scenarios">
-  <div class="scenarios-inner">
-    <h2>Real situations. Real resolutions.</h2>
-    <p class="scenarios-sub">What actually happens when you have a Butler.</p>
-    <div class="scenario-list">
-      <div class="scenario-item">
-        <div class="scenario-tag">Bangkok · 11pm</div>
-        <p>Flight cancelled at the gate. Three rebook options delivered within minutes. Hotel arranged. Client asleep by 1am.</p>
-        <div class="scenario-result">Resolved in 40 minutes.</div>
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">Real Situations. Real Resolutions.</span>
+      <h2 class="section-title-light">What actually happens when you have a Butler.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal>
+        <div class="scard__where">Bangkok &middot; 11pm</div>
+        <div class="scard__situation">Flight cancelled at the gate. Three rebook options delivered within minutes. Hotel arranged. Client asleep by 1am.</div>
+        <div class="scard__tag">Resolved in 40 minutes &rarr;</div>
       </div>
-      <div class="scenario-item">
-        <div class="scenario-tag">Rome · Day 3</div>
-        <p>Restaurant gave away the reservation without notice. Alternative found in the same neighbourhood — better kitchen.</p>
-        <div class="scenario-result">New table confirmed in 6 minutes.</div>
+      <div class="scard" data-reveal style="--delay:0.1s">
+        <div class="scard__where">Rome &middot; Day 3</div>
+        <div class="scard__situation">Restaurant gave away the reservation without notice. Alternative found in the same neighbourhood &mdash; better kitchen.</div>
+        <div class="scard__tag">New table confirmed in 6 minutes &rarr;</div>
       </div>
-      <div class="scenario-item">
-        <div class="scenario-tag">Lisbon · Midnight</div>
-        <p>Late-night cancellation at the airport. Full rebook on earliest viable connection. Zero additional cost to traveler.</p>
-        <div class="scenario-result">Rebooked in 14 minutes.</div>
+      <div class="scard" data-reveal style="--delay:0.2s">
+        <div class="scard__where">Lisbon &middot; Midnight</div>
+        <div class="scard__situation">Late-night cancellation at the airport. Full rebook on earliest viable connection. Zero additional cost to traveler.</div>
+        <div class="scard__tag">Rebooked in 14 minutes &rarr;</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="how">
-  <div class="how-inner">
-    <h2>Simple to start. Powerful when it matters.</h2>
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="how-step-num">1</div>
-        <h3>Choose your level</h3>
-        <p>Trip planning, 8-hour concierge, or full 24/7 coverage. Pick what your trip needs.</p>
-      </div>
-      <div class="how-step">
-        <div class="how-step-num">2</div>
-        <h3>Share your itinerary</h3>
-        <p>Your Butler reads your plans before you depart. They know your trip before anything happens.</p>
-      </div>
-      <div class="how-step">
-        <div class="how-step-num">3</div>
-        <h3>Travel freely</h3>
-        <p>Text, WhatsApp, or call whenever you need something. Under 4 minutes to a human expert.</p>
-      </div>
-      <div class="how-step">
-        <div class="how-step-num">4</div>
-        <h3>We handle the rest</h3>
-        <p>Disruptions, reservations, local intel. Resolved before you've finished explaining the problem.</p>
-      </div>
+<section class="how-strip">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">Simple to Start</span>
+    <h2 class="section-title-light">Powerful when it matters.</h2>
+  </div>
+  <div class="how-steps-grid">
+    <div class="how-step" data-reveal>
+      <div class="how-step-num">1</div>
+      <h3>Choose your level</h3>
+      <p>Trip planning, 8-hour concierge, or full 24/7 coverage. Pick what your trip needs.</p>
+    </div>
+    <div class="how-step" data-reveal style="--delay:0.08s">
+      <div class="how-step-num">2</div>
+      <h3>Share your itinerary</h3>
+      <p>Your Butler reads your plans before you depart. They know your trip before anything happens.</p>
+    </div>
+    <div class="how-step" data-reveal style="--delay:0.16s">
+      <div class="how-step-num">3</div>
+      <h3>Travel freely</h3>
+      <p>Text, WhatsApp, or call whenever you need something. Under 4 minutes to a human expert.</p>
+    </div>
+    <div class="how-step" data-reveal style="--delay:0.24s">
+      <div class="how-step-num">4</div>
+      <h3>We handle the rest</h3>
+      <p>Disruptions, reservations, local intel. Resolved before you've finished explaining the problem.</p>
     </div>
   </div>
 </section>
 
-<footer>
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand">
+        <div class="nav-brand">VELT<em>M</em></div>
+        <p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p>
+      </div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 VELTM. All rights reserved.</span>
+      <span><em>Own Your Journey&trade;</em></span>
+    </div>
   </div>
 </footer>
 
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

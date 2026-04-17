@@ -3,179 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Where Every Journey Has a Human Expert — Butler Button</title>
+<title>Every Journey Has a Human Expert Behind It &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #0a0a1a; color: #fff; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #0d0d2a; padding: 10px 40px; font-size: 12px; color: #666; letter-spacing: 1px; border-bottom: 1px solid #1a1a3a; }
-  .back-link:hover { color: #c9a84c; }
-  nav { background: rgba(10,10,26,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
-  .nav-links { display: flex; gap: 32px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); transition: color 0.2s; }
-  .nav-links a:hover { color: #fff; }
-  .nav-cta { background: #c9a84c; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: background 0.2s; }
-  .nav-cta:hover { background: #fff; }
-
-  .hero { min-height: 100vh; background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 40px 80px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%); top: -100px; right: -100px; }
-  .hero::after { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(100,50,200,0.10) 0%, transparent 70%); bottom: 0; left: -50px; }
-  .hero-inner { position: relative; z-index: 1; text-align: center; max-width: 900px; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #c9a84c; margin-bottom: 28px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(36px, 5vw, 70px); font-weight: 400; line-height: 1.15; margin-bottom: 24px; color: #fff; }
-  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 52px; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-  /* Glass cards */
-  .glass-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 960px; margin: 0 auto 48px; }
-  .glass-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 36px 28px; text-align: left; transition: background 0.3s, border-color 0.3s, transform 0.2s; }
-  .glass-card:hover { background: rgba(255,255,255,0.10); border-color: rgba(201,168,76,0.4); transform: translateY(-4px); }
-  .glass-card-icon { font-size: 24px; margin-bottom: 16px; }
-  .glass-card-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; margin-bottom: 10px; }
-  .glass-card-title { font-family: Georgia, serif; font-size: 19px; font-weight: 400; margin-bottom: 12px; line-height: 1.3; }
-  .glass-card-price { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-  .glass-card-unit { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 16px; }
-  .glass-card-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 20px; }
-  .glass-card-cta { display: block; text-align: center; padding: 12px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.2); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; border-radius: 4px; transition: background 0.2s; }
-  .glass-card-cta:hover { background: #c9a84c; border-color: #c9a84c; color: #000; }
-
-  .hero-cta { display: inline-block; background: #fff; color: #000; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: background 0.2s; }
-  .hero-cta:hover { background: #c9a84c; }
-
-  /* Stats strip */
-  .stats { background: rgba(255,255,255,0.03); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 48px 40px; }
-  .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; text-align: center; }
-  .stat-num { font-family: Georgia, serif; font-size: 32px; color: #c9a84c; }
-  .stat-label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; line-height: 1.4; }
-
-  /* Features section */
-  .features { padding: 100px 40px; }
-  .features-inner { max-width: 1000px; margin: 0 auto; }
-  .features h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 60px; color: #fff; }
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.05); }
-  .feature { padding: 40px 32px; background: rgba(10,10,26,1); }
-  .feature-icon { font-size: 20px; margin-bottom: 16px; color: #c9a84c; }
-  .feature h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
-  .feature p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
-
-  /* Quote section */
-  .quote { padding: 100px 40px; text-align: center; }
-  .quote-inner { max-width: 800px; margin: 0 auto; }
-  .quote blockquote { font-family: Georgia, serif; font-size: clamp(22px, 3vw, 36px); font-weight: 400; color: rgba(255,255,255,0.85); line-height: 1.5; margin-bottom: 24px; }
-  .quote-attr { font-size: 12px; color: #c9a84c; letter-spacing: 2px; text-transform: uppercase; }
-
-  footer { background: #000; border-top: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #555; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #444; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #1a1a1a; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #333; }
-
-  @media (max-width: 900px) {
-    .glass-cards { grid-template-columns: 1fr; max-width: 420px; }
-    .stats-inner { grid-template-columns: repeat(3, 1fr); }
-    .features-grid { grid-template-columns: 1fr; }
+  /* V5 GLASSMORPHISM — frosted glass panels on dark radial gradient */
+  .hero {
+    min-height: 100vh;
+    background: #000;
+    padding: 8rem 5vw 5rem;
+    align-items: center; justify-content: center;
   }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .stats, .features, .quote, footer { padding-left: 20px; padding-right: 20px; }
+  .hero-bg {
+    background: radial-gradient(ellipse 110% 80% at 50% 50%, #0d0520 0%, #000 65%);
+  }
+  .hero-content { max-width: 1000px; }
+  .hero-h1-glass {
+    font-size: clamp(2.8rem, 6.5vw, 6rem);
+    font-weight: 700; letter-spacing: -0.04em; line-height: 1.02;
+    color: #f5f5f7; margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .hero-h1-glass span { color: var(--indigo-lt); }
+
+  /* Frosted glass cards grid */
+  .glass-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin: 2.5rem 0;
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 1.75rem 1.5rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .glass-card:hover {
+    border-color: rgba(129,140,248,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(79,70,229,0.15);
+  }
+  .glass-card--featured {
+    border-color: rgba(129,140,248,0.3);
+    background: rgba(79,70,229,0.1);
+  }
+  .glass-label {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--indigo-lt); margin-bottom: 0.6rem;
+  }
+  .glass-title {
+    font-size: 1rem; font-weight: 600; color: #f5f5f7;
+    letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 1rem;
+  }
+  .glass-price {
+    font-size: 2.4rem; font-weight: 700; letter-spacing: -0.045em;
+    color: var(--indigo-lt); line-height: 1;
+  }
+  .glass-unit { font-size: 0.78rem; color: var(--text-mute); margin-bottom: 0.75rem; }
+  .glass-desc { font-size: 0.8rem; color: rgba(255,255,255,0.45); line-height: 1.55; margin-bottom: 1.25rem; }
+  .glass-cta {
+    display: inline-block; font-size: 0.78rem; font-weight: 600;
+    color: var(--indigo-lt); letter-spacing: -0.01em;
+    border-bottom: 1px solid rgba(129,140,248,0.3);
+    padding-bottom: 2px; transition: color 0.2s, border-color 0.2s;
+  }
+  .glass-cta:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* Features grid */
+  .features-section {
+    background: var(--dark-2);
+    padding: clamp(5rem, 10vw, 9rem) 5vw;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .features-grid {
+    max-width: 1080px; margin: 2.5rem auto 0;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .feature { padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; }
+  .feature-icon { font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--indigo-lt); }
+  .feature h3 { font-size: 0.92rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.5rem; }
+  .feature p { font-size: 0.82rem; color: var(--text-mute); line-height: 1.6; }
+
+  @media (max-width: 720px) {
+    .glass-cards { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
+<div class="scroll-progress"></div>
 
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links">
-    <a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a>
-    <a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a>
-  </div>
-  <div class="nav-cta">Get Started</div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Homepage V5 &mdash; Glassmorphism</span>
+</div>
+
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Trip Planning</a></li>
+    <li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Butler Button by VELTM</div>
-    <h1>Where Every Journey Has<br>a Human Expert Behind It.</h1>
-    <p class="hero-sub">Premium travel concierge. 100% human. 150+ countries. Available any hour — from $25.</p>
-    <div class="glass-cards">
+  <div class="hero-bg"></div>
+  <div class="hero-orb" style="width:800px;height:800px;opacity:0.6"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Butler Button by VELTM
+    </div>
+    <h1 class="hero-h1-glass" data-reveal>Where Every Journey Has<br>a <span>Human Expert</span> Behind It.</h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">Premium travel concierge. 100% human. 150+ countries. Available any hour &mdash; from $25.</p>
+    <div class="glass-cards" data-reveal style="--delay:0.2s">
       <div class="glass-card">
-        <div class="glass-card-label">Trip Planning</div>
-        <div class="glass-card-title">Your itinerary, built for you.</div>
-        <div class="glass-card-price">$25</div>
-        <div class="glass-card-unit">per country</div>
-        <div class="glass-card-desc">Expert advisor + AI scan of 200,000+ options. Ready in 24 hours.</div>
-        <a class="glass-card-cta" href="#">Plan a Trip</a>
+        <div class="glass-label">Trip Planning</div>
+        <div class="glass-title">Your itinerary, built for you.</div>
+        <div class="glass-price">$25</div>
+        <div class="glass-unit">per country</div>
+        <div class="glass-desc">Expert advisor + AI scan of 200,000+ options. Ready in 24 hours.</div>
+        <a class="glass-cta" href="#">Plan a Trip</a>
       </div>
-      <div class="glass-card" style="border-color:rgba(201,168,76,0.35); background:rgba(201,168,76,0.06);">
-        <div class="glass-card-label">Concierge · 8 Hour</div>
-        <div class="glass-card-title">Expert on call, your travel day.</div>
-        <div class="glass-card-price">$25</div>
-        <div class="glass-card-unit">per day</div>
-        <div class="glass-card-desc">Reservations, logistics, flight issues — under 4 minutes to a human.</div>
-        <a class="glass-card-cta" href="#">Get Concierge</a>
+      <div class="glass-card glass-card--featured">
+        <div class="glass-label">Concierge &middot; 8 Hour</div>
+        <div class="glass-title">Expert on call, your travel day.</div>
+        <div class="glass-price">$25</div>
+        <div class="glass-unit">per day</div>
+        <div class="glass-desc">Reservations, logistics, flight issues &mdash; under 4 minutes to a human.</div>
+        <a class="glass-cta" href="#">Get Concierge</a>
       </div>
       <div class="glass-card">
-        <div class="glass-card-label">Concierge · 24 Hour</div>
-        <div class="glass-card-title">Full coverage. Any hour. Any crisis.</div>
-        <div class="glass-card-price">$100</div>
-        <div class="glass-card-unit">per day</div>
-        <div class="glass-card-desc">Round-the-clock human support. 97% of disruptions resolved in 60 min.</div>
-        <a class="glass-card-cta" href="#">Go 24-Hour</a>
+        <div class="glass-label">Concierge &middot; 24 Hour</div>
+        <div class="glass-title">Full coverage. Any hour. Any crisis.</div>
+        <div class="glass-price">$100</div>
+        <div class="glass-unit">per day</div>
+        <div class="glass-desc">Round-the-clock human support. 97% of disruptions resolved in 60 min.</div>
+        <a class="glass-cta" href="#">Go 24-Hour</a>
       </div>
     </div>
-    <a class="hero-cta" href="#">Start Your Journey</a>
+    <div class="hero-actions" data-reveal style="--delay:0.3s">
+      <a class="btn btn-indigo btn-lg" href="#">Start Your Journey</a>
+    </div>
   </div>
 </section>
 
-<section class="stats">
+<section class="section-stats">
   <div class="stats-inner">
-    <div><div class="stat-num">97%</div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
-    <div><div class="stat-num">&lt;4 min</div><div class="stat-label">Response time 24/7</div></div>
-    <div><div class="stat-num">150+</div><div class="stat-label">Countries covered</div></div>
-    <div><div class="stat-num">100%</div><div class="stat-label">Human first contact</div></div>
-    <div><div class="stat-num">89%</div><div class="stat-label">Less stressed pre-trip</div></div>
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
   </div>
 </section>
 
-<section class="features">
-  <div class="features-inner">
-    <h2>Premium concierge. Accessible pricing.</h2>
-    <div class="features-grid">
-      <div class="feature"><div class="feature-icon">◎</div><h3>Human first contact</h3><p>Not a bot, not a queue. Every contact — 24/7 — reaches a real person who knows your itinerary.</p></div>
-      <div class="feature"><div class="feature-icon">◈</div><h3>150+ countries</h3><p>From rural Japan to central Africa. The same quality of expert support wherever your journey takes you.</p></div>
-      <div class="feature"><div class="feature-icon">◉</div><h3>Crisis resolution</h3><p>Bangkok 11pm flight cancellation — rebooked with hotel in 40 minutes. Rome restaurant — alternative in 6.</p></div>
-      <div class="feature"><div class="feature-icon">◆</div><h3>Itinerary-aware</h3><p>Your Butler reads your full trip before you depart. When things happen, they act without needing to ask.</p></div>
-      <div class="feature"><div class="feature-icon">◇</div><h3>40+ languages</h3><p>Language barriers don't exist in your journey. Local expertise in every region we cover.</p></div>
-      <div class="feature"><div class="feature-icon">◑</div><h3>No membership</h3><p>Pay only when you travel. No annual fees, no retainers. The economics of premium travel, reimagined.</p></div>
+<section class="features-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">Premium Concierge</span>
+    <h2 class="section-title-light">Accessible pricing.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature" data-reveal>
+      <div class="feature-icon">&#9675;</div>
+      <h3>Human first contact</h3>
+      <p>Not a bot, not a queue. Every contact &mdash; 24/7 &mdash; reaches a real person who knows your itinerary.</p>
+    </div>
+    <div class="feature" data-reveal style="--delay:0.08s">
+      <div class="feature-icon">&#9672;</div>
+      <h3>150+ countries</h3>
+      <p>From rural Japan to central Africa. The same quality of expert support wherever your journey takes you.</p>
+    </div>
+    <div class="feature" data-reveal style="--delay:0.16s">
+      <div class="feature-icon">&#9673;</div>
+      <h3>Crisis resolution</h3>
+      <p>Bangkok 11pm flight cancellation &mdash; rebooked with hotel in 40 minutes. Rome restaurant &mdash; alternative in 6.</p>
+    </div>
+    <div class="feature" data-reveal style="--delay:0.08s">
+      <div class="feature-icon">&#9670;</div>
+      <h3>Itinerary-aware</h3>
+      <p>Your Butler reads your full trip before you depart. When things happen, they act without needing to ask.</p>
+    </div>
+    <div class="feature" data-reveal style="--delay:0.16s">
+      <div class="feature-icon">&#9671;</div>
+      <h3>40+ languages</h3>
+      <p>Language barriers don't exist in your journey. Local expertise in every region we cover.</p>
+    </div>
+    <div class="feature" data-reveal style="--delay:0.24s">
+      <div class="feature-icon">&#9681;</div>
+      <h3>No membership</h3>
+      <p>Pay only when you travel. No annual fees, no retainers. The economics of premium travel, reimagined.</p>
     </div>
   </div>
 </section>
 
-<section class="quote">
-  <div class="quote-inner">
-    <blockquote>"The five-star experience used to require a five-star hotel. We changed that."</blockquote>
-    <div class="quote-attr">Butler Button — VELTM · Est. 2019</div>
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled at gate. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Client asleep by 1am.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same neighbourhood, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost to traveler.</div><div class="scard__tag">14 minutes &rarr;</div></div>
+    </div>
   </div>
 </section>
 
-<footer>
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
 
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

@@ -3,195 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Trip. Your Way. Finally. — Butler Button Trip Planning</title>
+<title>Your Trip. Your Way. Finally. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
-  .nav-links a:hover { color: #000; }
-  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-
-  .hero { background: #f5f5f0; padding: 100px 40px; }
-  .hero-inner { max-width: 900px; margin: 0 auto; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(42px, 6vw, 76px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
-  .hero-sub { font-size: 20px; color: #555; line-height: 1.7; max-width: 640px; margin-bottom: 40px; }
-  .hero-price { display: inline-flex; align-items: baseline; gap: 8px; background: #000; color: #fff; padding: 16px 32px; margin-bottom: 32px; }
-  .hero-price-num { font-size: 36px; font-weight: 700; }
-  .hero-price-unit { font-size: 14px; color: #aaa; }
-  .hero-cta { display: inline-block; background: #000; color: #fff; padding: 16px 40px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .hero-cta:hover { background: #c9a84c; }
-
-  .process { padding: 100px 40px; }
-  .process-inner { max-width: 900px; margin: 0 auto; }
-  .process h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .process-sub { color: #777; font-size: 16px; margin-bottom: 60px; }
-  .steps-list { }
-  .step-row { display: grid; grid-template-columns: 80px 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid #f0f0e8; align-items: start; }
-  .step-row:first-child { border-top: 1px solid #f0f0e8; }
-  .step-number { font-family: Georgia, serif; font-size: 56px; color: #e8e8e0; line-height: 1; }
-  .step-content h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
-  .step-content p { font-size: 15px; color: #555; line-height: 1.7; }
-  .step-highlight { background: #f5f5f0; border-left: 3px solid #c9a84c; padding: 16px 20px; margin-top: 16px; font-size: 14px; color: #333; }
-
-  .what-you-get { background: #000; padding: 100px 40px; color: #fff; }
-  .wyg-inner { max-width: 900px; margin: 0 auto; }
-  .wyg-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
-  .wyg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: #222; }
-  .wyg-item { background: #000; padding: 36px 32px; }
-  .wyg-item h3 { font-size: 16px; font-weight: 700; color: #c9a84c; margin-bottom: 10px; }
-  .wyg-item p { font-size: 14px; color: #888; line-height: 1.6; }
-
-  .pricing-block { padding: 100px 40px; background: #f5f5f0; }
-  .pricing-inner { max-width: 700px; margin: 0 auto; text-align: center; }
-  .pricing-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .pricing-inner p { color: #777; font-size: 16px; margin-bottom: 48px; }
-  .price-display { background: #fff; border: 1px solid #e0e0d8; padding: 48px; margin-bottom: 32px; }
-  .price-big { font-size: 72px; font-weight: 700; color: #000; line-height: 1; }
-  .price-unit { font-size: 18px; color: #888; margin: 8px 0 20px; }
-  .price-includes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
-  .price-includes li { list-style: none; font-size: 14px; color: #444; display: flex; gap: 8px; }
-  .price-includes li::before { content: '✓'; color: #c9a84c; font-weight: 700; }
-  .btn-start { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .btn-start:hover { background: #c9a84c; }
-
-  .stat-row { display: flex; gap: 0; border: 1px solid #e0e0d8; background: #fff; overflow: hidden; margin-top: 48px; }
-  .stat-cell { flex: 1; padding: 28px 20px; text-align: center; border-right: 1px solid #e0e0d8; }
-  .stat-cell:last-child { border-right: none; }
-  .stat-cell-num { font-family: Georgia, serif; font-size: 32px; color: #000; }
-  .stat-cell-label { font-size: 11px; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; line-height: 1.4; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-
-  @media (max-width: 768px) {
-    .step-row { grid-template-columns: 1fr; gap: 16px; }
-    .wyg-grid { grid-template-columns: 1fr; }
-    .price-includes { grid-template-columns: 1fr; }
-    .stat-row { flex-direction: column; }
-    .stat-cell { border-right: none; border-bottom: 1px solid #e0e0d8; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .process, .what-you-get, .pricing-block, footer { padding-left: 20px; padding-right: 20px; }
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
+  .hero-price-pill {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    background: rgba(79,70,229,0.12); border: 1px solid rgba(129,140,248,0.2);
+    border-radius: 980px; padding: 6px 16px; margin-bottom: 2rem;
   }
+  .hero-price-big { font-size: 1.6rem; font-weight: 700; color: var(--indigo-lt); letter-spacing: -0.04em; }
+  .hero-price-unit { font-size: 0.8rem; color: var(--text-mute); }
+
+  .process-section {
+    background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .steps-list { max-width: 860px; margin: 2.5rem auto 0; }
+  .step-row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 2rem; padding: 2rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .step-number {
+    font-size: 3rem; font-weight: 700; letter-spacing: -0.06em;
+    color: rgba(129,140,248,0.25); line-height: 1;
+  }
+  .step-content h3 { font-size: 1.1rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.6rem; }
+  .step-content p { font-size: 0.9rem; color: var(--text-mute); line-height: 1.7; }
+  .step-highlight {
+    margin-top: 0.75rem; font-size: 0.78rem; font-weight: 600;
+    color: var(--indigo-lt); letter-spacing: -0.01em;
+  }
+
+  .what-you-get { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .wyg-grid {
+    max-width: 1080px; margin: 2.5rem auto 0;
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem;
+  }
+  .wyg-item {
+    background: var(--dark-2); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .wyg-item h4 { font-size: 0.88rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.4rem; }
+  .wyg-item p { font-size: 0.78rem; color: var(--text-mute); line-height: 1.55; }
+
+  @media (max-width:700px) { .step-row { grid-template-columns:1fr; gap:1rem; } .wyg-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
-  <div class="nav-cta">Get Started</div>
+<div class="scroll-progress"></div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Trip Planning V1 &mdash; Freedom</span>
+</div>
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Trip Planning</a></li><li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Trip Planning — Butler Button</div>
-    <h1>Your Trip.<br>Your Way.<br>Finally.</h1>
-    <p class="hero-sub">Stop building trips from templates. One preference survey. One advisor. One itinerary that actually fits you.</p>
-    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-      <div class="hero-price"><div class="hero-price-num">$25</div><div class="hero-price-unit">per country</div></div>
-      <a class="hero-cta" href="#">Start My Trip</a>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Trip Planning &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>Your Trip.<br>Your Way.<br><span>Finally.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">Stop building trips from templates. One preference survey. One advisor. One itinerary that actually fits you.</p>
+    <div class="hero-actions" data-reveal style="--delay:0.2s">
+      <div class="hero-price-pill"><span class="hero-price-big">$25</span><span class="hero-price-unit">per country</span></div>
+      <a class="btn btn-indigo btn-lg" href="#">Start My Trip</a>
     </div>
   </div>
 </section>
 
-<section class="process">
-  <div class="process-inner">
-    <h2>How your itinerary gets built.</h2>
-    <p class="process-sub">Three steps. 24 hours. One trip that's genuinely yours.</p>
-    <div class="steps-list">
-      <div class="step-row">
-        <div class="step-number">01</div>
-        <div class="step-content">
-          <h3>Tell us what you actually want</h3>
-          <p>A 10-minute preference survey covers your travel style, pace, interests, dietary needs, budget range, and deal-breakers. Not a generic form — a real conversation framework built by advisors who've heard every type of traveler.</p>
-          <div class="step-highlight">Takes 10 minutes. Replaces 12 hours of research.</div>
-        </div>
-      </div>
-      <div class="step-row">
-        <div class="step-number">02</div>
-        <div class="step-content">
-          <h3>AI scans 200,000+ options</h3>
-          <p>Our system processes hotels, restaurants, experiences, transport options, and timing across your destination — filtered instantly against your preferences. No filler. No paid placements. No generic bestseller lists.</p>
-          <div class="step-highlight">200,000+ options scanned. Your preferences as the filter.</div>
-        </div>
-      </div>
-      <div class="step-row">
-        <div class="step-number">03</div>
-        <div class="step-content">
-          <h3>Your expert reviews and curates</h3>
-          <p>A human advisor who knows your destination reviews the AI output — removing anything that doesn't pass the smell test, adding local context the algorithm can't know, and packaging it into a ready-to-book itinerary.</p>
-          <div class="step-highlight">Human judgment on top of machine scale. Delivered in 24 hours.</div>
-        </div>
+<section class="process-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">How It Works</span>
+    <h2 class="section-title-light">How your itinerary gets built.</h2>
+    <p class="section-sub-light">Three steps. 24 hours. One trip that's genuinely yours.</p>
+  </div>
+  <div class="steps-list">
+    <div class="step-row" data-reveal>
+      <div class="step-number">01</div>
+      <div class="step-content">
+        <h3>Tell us what you actually want</h3>
+        <p>A 10-minute preference survey covers your travel style, pace, interests, dietary needs, budget range, and deal-breakers. Not a generic form &mdash; a real conversation framework built by advisors who've heard every type of traveler.</p>
+        <div class="step-highlight">Takes 10 minutes. Replaces 12 hours of research.</div>
       </div>
     </div>
+    <div class="step-row" data-reveal style="--delay:0.08s">
+      <div class="step-number">02</div>
+      <div class="step-content">
+        <h3>AI scans 200,000+ options</h3>
+        <p>Our system processes hotels, restaurants, experiences, transport options, and timing across your destination &mdash; filtered instantly against your preferences. No filler. No paid placements. No generic bestseller lists.</p>
+        <div class="step-highlight">200,000+ options scanned. Your preferences as the filter.</div>
+      </div>
+    </div>
+    <div class="step-row" data-reveal style="--delay:0.16s">
+      <div class="step-number">03</div>
+      <div class="step-content">
+        <h3>Your expert reviews and curates</h3>
+        <p>A human advisor who knows your destination reviews the AI output &mdash; removing anything that doesn't pass the smell test, adding local context the algorithm can't know, and packaging it into a ready-to-book itinerary.</p>
+        <div class="step-highlight">Human judgment on top of machine scale. Delivered in 24 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
   </div>
 </section>
 
 <section class="what-you-get">
-  <div class="wyg-inner">
-    <h2>What's in your itinerary.</h2>
-    <div class="wyg-grid">
-      <div class="wyg-item"><h3>Day-by-day plan</h3><p>Timed, sequenced, logistically sensible. Mornings that work with jetlag. Evenings that flow naturally.</p></div>
-      <div class="wyg-item"><h3>Curated accommodation</h3><p>Options at your price point, filtered for what matters to you. Not what has the biggest commission.</p></div>
-      <div class="wyg-item"><h3>Restaurant selections</h3><p>Specific recommendations with booking notes — which require reservations, which are walk-in, which are worth the queue.</p></div>
-      <div class="wyg-item"><h3>Experiences &amp; access</h3><p>Activities timed to season, day of week, and your energy level. Including things most guides miss entirely.</p></div>
-      <div class="wyg-item"><h3>Transport logic</h3><p>Getting between points without wasted time. Train vs taxi vs walk — with actual time estimates, not optimistic ones.</p></div>
-      <div class="wyg-item"><h3>Pre-departure brief</h3><p>What to know before you arrive. Entry requirements, customs, tipping norms, local etiquette, sim card advice.</p></div>
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">What You Receive</span>
+    <h2 class="section-title-light">Everything in your itinerary.</h2>
+  </div>
+  <div class="wyg-grid">
+    <div class="wyg-item" data-reveal><h4>Accommodation</h4><p>Hotels, rentals, and guesthouses matched to your style, budget, and location priorities &mdash; not sponsored placements.</p></div>
+    <div class="wyg-item" data-reveal style="--delay:0.08s"><h4>Restaurants</h4><p>Curated to your dietary preferences and cuisine interests. Includes booking-required reservations handled for you.</p></div>
+    <div class="wyg-item" data-reveal style="--delay:0.16s"><h4>Experiences</h4><p>Activities, tours, and cultural experiences filtered by your pace, interests, and group composition.</p></div>
+    <div class="wyg-item" data-reveal><h4>Transport</h4><p>Getting between places without the research headache. Transfers, trains, domestic flights &mdash; whatever makes sense.</p></div>
+    <div class="wyg-item" data-reveal style="--delay:0.08s"><h4>Timing</h4><p>A day-by-day structure that doesn't overbook or leave you scrambling. Buffer time built in.</p></div>
+    <div class="wyg-item" data-reveal style="--delay:0.16s"><h4>Local notes</h4><p>Context the algorithm can't surface. What to know. What to avoid. What to ask for.</p></div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled at gate. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Resolved before most travelers noticed the board change.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the table without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook on earliest viable connection. Zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
     </div>
   </div>
 </section>
 
-<section class="pricing-block">
-  <div class="pricing-inner">
-    <h2>Simple, transparent pricing.</h2>
-    <p>One price per country. No upsells. No membership required.</p>
-    <div class="price-display">
-      <div class="price-big">$25</div>
-      <div class="price-unit">per country</div>
-      <ul class="price-includes">
-        <li>Preference survey + advisor consultation</li>
-        <li>AI scan of 200,000+ options</li>
-        <li>Full expert review &amp; curation</li>
-        <li>Day-by-day ready-to-book itinerary</li>
-        <li>Accommodation &amp; dining recommendations</li>
-        <li>Transport &amp; logistics plan</li>
-        <li>Pre-departure brief</li>
-        <li>Delivered in 24 hours</li>
-      </ul>
-    </div>
-    <a class="btn-start" href="#">Start Planning — $25/Country</a>
-    <div class="stat-row">
-      <div class="stat-cell"><div class="stat-cell-num">95%</div><div class="stat-cell-label">Itinerary satisfaction rate</div></div>
-      <div class="stat-cell"><div class="stat-cell-num">89%</div><div class="stat-cell-label">Less stressed pre-trip</div></div>
-      <div class="stat-cell"><div class="stat-cell-num">76%</div><div class="stat-cell-label">Refer within 90 days</div></div>
-    </div>
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>AI scans 200,000+ options</li><li>Expert review &amp; curation</li><li>Ready-to-book in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
   </div>
 </section>
 
-<footer>
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

@@ -4,241 +4,359 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Butler Button — Variant Test Suite</title>
+<link rel="stylesheet" href="css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
-  header { background: #1a1a1a; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; }
-  header .logo { color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.12em; text-decoration: none; }
-  header .subtitle { color: #888; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hero { background: #1a1a1a; padding: 60px 40px 50px; text-align: center; border-bottom: 1px solid #333; }
-  .hero h1 { color: #fff; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 12px; }
-  .hero p { color: #aaa; font-size: 1rem; max-width: 560px; margin: 0 auto 20px; line-height: 1.6; }
-  .legend { display: inline-flex; gap: 24px; background: rgba(255,255,255,0.06); border: 1px solid #333; border-radius: 8px; padding: 10px 20px; }
-  .legend span { font-size: 0.78rem; color: #ccc; }
-  .legend .win { color: #c9a84c; }
-  .legend .run { color: #999; }
-  main { max-width: 1100px; margin: 0 auto; padding: 50px 24px 80px; }
-  .section { margin-bottom: 56px; }
-  .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #1a1a1a; }
-  .section-header h2 { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
-  .section-header .count { font-size: 0.78rem; color: #888; font-weight: 400; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-  .card { background: #fff; border: 1px solid #e0e0d8; border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.15s, transform 0.15s; position: relative; }
-  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
-  .card.winner { border-color: #c9a84c; border-width: 2px; }
-  .card.runner { border-color: #aaa; border-style: dashed; }
-  .badge { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; }
-  .badge.winner { background: #c9a84c; color: #1a1a1a; }
-  .badge.runner { background: #e8e8e4; color: #555; }
-  .badge.test { background: #f0f0ec; color: #888; }
-  .card-num { font-size: 0.7rem; color: #bbb; font-weight: 600; letter-spacing: 0.08em; margin-bottom: 6px; }
-  .card h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; line-height: 1.35; }
-  .card p { font-size: 0.75rem; color: #666; line-height: 1.5; margin-top: 6px; }
-  .card .verdict { font-size: 0.68rem; color: #999; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0ec; font-style: italic; }
-  footer { background: #1a1a1a; color: #888; text-align: center; padding: 30px 24px; font-size: 0.78rem; }
-  footer a { color: #c9a84c; text-decoration: none; }
-  @media (max-width: 600px) { header { padding: 16px 20px; } main { padding: 30px 16px 60px; } .hero { padding: 40px 20px; } }
+  /* Hub-specific overrides */
+  .hub-hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    position: relative; overflow: clip;
+    padding: 8rem 5vw 5rem;
+    background: #000;
+  }
+  .hub-hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 60%, #0d0720 0%, #000 65%);
+  }
+  .hub-hero-content { position: relative; z-index: 2; max-width: 760px; }
+  .hub-h1 {
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 700; letter-spacing: -0.04em; line-height: 1.05;
+    color: #f5f5f7; margin-bottom: 1.2rem;
+  }
+  .hub-h1 span { color: var(--indigo-lt); }
+  .hub-sub {
+    font-size: 1rem; color: rgba(255,255,255,0.5);
+    max-width: 520px; margin: 0 auto 2rem; line-height: 1.6;
+  }
+  .legend-row {
+    display: inline-flex; gap: 1.5rem; flex-wrap: wrap;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 10px 24px;
+  }
+  .legend-item { font-size: 0.72rem; display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .legend-win  .legend-dot { background: var(--indigo); }
+  .legend-run  .legend-dot { background: var(--indigo-lt); }
+  .legend-test .legend-dot { background: rgba(255,255,255,0.25); }
+  .legend-win  { color: var(--indigo-lt); }
+  .legend-run  { color: rgba(129,140,248,0.7); }
+  .legend-test { color: rgba(255,255,255,0.4); }
+
+  /* Main grid area */
+  main { max-width: 1100px; margin: 0 auto; padding: 4rem 5vw 6rem; }
+  .hub-section { margin-bottom: 4rem; }
+  .hub-section-header {
+    display: flex; align-items: baseline; gap: 10px;
+    margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .hub-section-header h2 {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--indigo-lt);
+  }
+  .hub-section-header .count {
+    font-size: 0.72rem; color: rgba(255,255,255,0.25);
+  }
+  .hub-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .hcard {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 14px; padding: 1.25rem;
+    text-decoration: none; color: inherit; display: block;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .hcard:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(79,70,229,0.1); }
+  .hcard.winner {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 1px rgba(79,70,229,0.2), 0 4px 24px rgba(79,70,229,0.15);
+  }
+  .hcard.winner:hover { box-shadow: 0 0 0 1px rgba(79,70,229,0.4), 0 12px 40px rgba(79,70,229,0.25); }
+  .hcard.runner {
+    border-color: rgba(129,140,248,0.3);
+    border-style: dashed;
+  }
+  .hcard.runner:hover { border-color: rgba(129,140,248,0.6); }
+  .hbadge {
+    display: inline-block; font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 6px; margin-bottom: 0.75rem;
+  }
+  .hbadge-win  { background: var(--indigo); color: #fff; }
+  .hbadge-run  { background: rgba(129,140,248,0.12); color: var(--indigo-lt); border: 1px solid rgba(129,140,248,0.25); }
+  .hbadge-test { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); }
+  .hcard-num { font-size: 0.62rem; color: rgba(255,255,255,0.2); font-weight: 600; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .hcard h3 { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.35; color: #f5f5f7; }
+  .hcard p  { font-size: 0.72rem; color: var(--text-mute); line-height: 1.5; margin-top: 0.3rem; }
+  .hcard-verdict {
+    font-size: 0.65rem; color: rgba(255,255,255,0.25);
+    margin-top: 0.75rem; padding-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-style: italic; line-height: 1.5;
+  }
 </style>
 </head>
 <body>
-<header>
-  <a href="#" class="logo">VELTM</a>
-  <span class="subtitle">Butler Button — Variant Suite</span>
-</header>
-<div class="hero">
-  <h1>15 Variants Across 3 Products + 5 Hero Tests</h1>
-  <p>Full output from the <strong>Variant Testing Analysis</strong> section of the Butler Button audit. Review all 20 rendered variants, compare copy treatments, and validate winners before deployment.</p>
-  <div class="legend">
-    <span class="win">★ Winner — Deploy</span>
-    <span class="run">☆ Runner-Up — Test vs Winner</span>
-    <span class="test">◦ Test / Channel Use</span>
+
+<div class="scroll-progress"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Trip Planning</a></li>
+    <li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
+</nav>
+
+<div class="hub-hero">
+  <div class="hub-hero-bg"></div>
+  <div class="hub-hero-content">
+    <span class="eyebrow eyebrow-soft" data-reveal>VELTM &mdash; Butler Button</span>
+    <h1 class="hub-h1" data-reveal style="--delay:0.08s">20 Variant Treatments.<br><span>One Consistent Voice.</span></h1>
+    <p class="hub-sub" data-reveal style="--delay:0.16s">Full output from the Variant Testing Analysis. Review all 20 rendered variants, compare copy treatments, and validate winners before deployment.</p>
+    <div class="legend-row" data-reveal style="--delay:0.24s">
+      <span class="legend-item legend-win"><span class="legend-dot"></span> Winner &mdash; Deploy</span>
+      <span class="legend-item legend-run"><span class="legend-dot"></span> Runner-Up &mdash; A/B Test</span>
+      <span class="legend-item legend-test"><span class="legend-dot"></span> Test / Channel Use</span>
+    </div>
   </div>
 </div>
+
 <main>
 
   <!-- HOMEPAGE HERO -->
-  <div class="section">
-    <div class="section-header">
+  <div class="hub-section">
+    <div class="hub-section-header">
       <h2>Homepage Hero</h2>
       <span class="count">5 variants &mdash; 5 hero treatments</span>
     </div>
-    <div class="grid">
-      <a class="card test" href="variants/homepage/v1-cinematic.html">
-        <span class="badge test">◦ Awareness</span>
-        <div class="card-num">V1</div>
-        <h3>Own Your Journey™</h3>
+    <div class="hub-grid">
+      <a class="hcard" href="variants/homepage/v1-cinematic.html">
+        <span class="hbadge hbadge-test">Awareness</span>
+        <div class="hcard-num">V1</div>
+        <h3>Own Your Journey&trade;</h3>
         <p>Cinematic</p>
-        <div class="verdict">Full-bleed photo + dark overlay. Emotional. Best for awareness / brand campaigns.</div>
+        <div class="hcard-verdict">Full-bleed photo + dark overlay. Emotional. Best for awareness / brand campaigns.</div>
       </a>
-      <a class="card runner" href="variants/homepage/v2-type-forward.html">
-        <span class="badge runner">☆ B-Test</span>
-        <div class="card-num">V2</div>
+      <a class="hcard runner" href="variants/homepage/v2-type-forward.html">
+        <span class="hbadge hbadge-run">B-Test</span>
+        <div class="hcard-num">V2</div>
         <h3>The Travel Concierge That Never Sleeps.</h3>
         <p>Type-Forward</p>
-        <div class="verdict">Editorial serif headline. Secondary test vs V4.</div>
+        <div class="hcard-verdict">Editorial serif headline. Secondary test vs V4.</div>
       </a>
-      <a class="card test" href="variants/homepage/v3-phone-mockup.html">
-        <span class="badge test">◦ Social/Mobile</span>
-        <div class="card-num">V3</div>
+      <a class="hcard" href="variants/homepage/v3-phone-mockup.html">
+        <span class="hbadge hbadge-test">Social/Mobile</span>
+        <div class="hcard-num">V3</div>
         <h3>See the Conversation</h3>
         <p>Phone Mockup</p>
-        <div class="verdict">Animated SMS demo. Best for social/mobile formats.</div>
+        <div class="hcard-verdict">Animated SMS demo. Best for social/mobile formats.</div>
       </a>
-      <a class="card winner" href="variants/homepage/v4-cards-first.html">
-        <span class="badge winner">★ Conversion Winner</span>
-        <div class="card-num">V4</div>
+      <a class="hcard winner" href="variants/homepage/v4-cards-first.html">
+        <span class="hbadge hbadge-win">Conversion Winner</span>
+        <div class="hcard-num">V4</div>
         <h3>Personal Travel Concierge. Pick Your Level.</h3>
         <p>Cards-First</p>
-        <div class="verdict">Three pricing cards above fold. Deploy as homepage default.</div>
+        <div class="hcard-verdict">Three pricing cards above fold. Deploy as homepage default.</div>
       </a>
-      <a class="card test" href="variants/homepage/v5-glassmorphism.html">
-        <span class="badge test">◦ Brand-Building</span>
-        <div class="card-num">V5</div>
+      <a class="hcard" href="variants/homepage/v5-glassmorphism.html">
+        <span class="hbadge hbadge-test">Brand-Building</span>
+        <div class="hcard-num">V5</div>
         <h3>Every Journey Has a Human Expert Behind It.</h3>
         <p>Glassmorphism</p>
-        <div class="verdict">Frosted glass, gradient orbs. Premium brand-building segment.</div>
+        <div class="hcard-verdict">Frosted glass, gradient orbs. Premium brand-building segment.</div>
       </a>
     </div>
   </div>
 
   <!-- TRIP PLANNING -->
-  <div class="section">
-    <div class="section-header">
+  <div class="hub-section">
+    <div class="hub-section-header">
       <h2>Trip Planning</h2>
       <span class="count">5 variants</span>
     </div>
-    <div class="grid">
-      <a class="card test" href="variants/trip-planning/v1-freedom.html">
-        <span class="badge test">◦ Test</span>
-        <div class="card-num">V1</div>
+    <div class="hub-grid">
+      <a class="hcard" href="variants/trip-planning/v1-freedom.html">
+        <span class="hbadge hbadge-test">Test</span>
+        <div class="hcard-num">V1</div>
         <h3>Your Trip. Your Way. Finally.</h3>
         <p>Freedom angle</p>
-        <div class="verdict">Customization / anti-template. Test further before committing.</div>
+        <div class="hcard-verdict">Customization / anti-template. Test further before committing.</div>
       </a>
-      <a class="card winner" href="variants/trip-planning/v2-democratization.html">
-        <span class="badge winner">★ Primary Winner</span>
-        <div class="card-num">V2</div>
+      <a class="hcard winner" href="variants/trip-planning/v2-democratization.html">
+        <span class="hbadge hbadge-win">Primary Winner</span>
+        <div class="hcard-num">V2</div>
         <h3>The Concierge Your Parents Couldn't Afford. $25/Country.</h3>
         <p>Democratization angle</p>
-        <div class="verdict">Price anchoring + access narrative. Deploy to Trip Planning page.</div>
+        <div class="hcard-verdict">Price anchoring + access narrative. Deploy to Trip Planning page.</div>
       </a>
-      <a class="card test" href="variants/trip-planning/v3-peace-of-mind.html">
-        <span class="badge test">◦ Email</span>
-        <div class="card-num">V3</div>
+      <a class="hcard" href="variants/trip-planning/v3-peace-of-mind.html">
+        <span class="hbadge hbadge-test">Email</span>
+        <div class="hcard-num">V3</div>
         <h3>Plan Less. Live More.</h3>
         <p>Peace of mind</p>
-        <div class="verdict">Stress-reduction angle. Best for email channel nurture.</div>
+        <div class="hcard-verdict">Stress-reduction angle. Best for email channel nurture.</div>
       </a>
-      <a class="card test" href="variants/trip-planning/v4-intelligence.html">
-        <span class="badge test">◦ B2B/Advisor</span>
-        <div class="card-num">V4</div>
+      <a class="hcard" href="variants/trip-planning/v4-intelligence.html">
+        <span class="hbadge hbadge-test">B2B/Advisor</span>
+        <div class="hcard-num">V4</div>
         <h3>AI Finds the Options. Experts Make the Call.</h3>
         <p>Intelligence angle</p>
-        <div class="verdict">AI+human hybrid positioning. Better fit for B2B/Advisor audience.</div>
+        <div class="hcard-verdict">AI+human hybrid positioning. Better fit for B2B/Advisor audience.</div>
       </a>
-      <a class="card runner" href="variants/trip-planning/v5-trust.html">
-        <span class="badge runner">☆ Runner-Up</span>
-        <div class="card-num">V5</div>
+      <a class="hcard runner" href="variants/trip-planning/v5-trust.html">
+        <span class="hbadge hbadge-run">Runner-Up</span>
+        <div class="hcard-num">V5</div>
         <h3>Know Your Trip Is Good Before You Leave.</h3>
         <p>Trust / pre-departure confidence</p>
-        <div class="verdict">Pre-departure confidence gap (4.8 vs 3.1). Test vs V2.</div>
+        <div class="hcard-verdict">Pre-departure confidence gap (4.8 vs 3.1). Test vs V2.</div>
       </a>
     </div>
   </div>
 
   <!-- CONCIERGE -->
-  <div class="section">
-    <div class="section-header">
+  <div class="hub-section">
+    <div class="hub-section-header">
       <h2>Concierge Service</h2>
       <span class="count">5 variants</span>
     </div>
-    <div class="grid">
-      <a class="card test" href="variants/concierge/v1-lifeline.html">
-        <span class="badge test">◦ Test</span>
-        <div class="card-num">V1</div>
+    <div class="hub-grid">
+      <a class="hcard" href="variants/concierge/v1-lifeline.html">
+        <span class="hbadge hbadge-test">Test</span>
+        <div class="hcard-num">V1</div>
         <h3>Your Personal Expert. Anywhere. Any Hour.</h3>
         <p>Lifeline angle</p>
-        <div class="verdict">Availability + global reach. Test against V4.</div>
+        <div class="hcard-verdict">Availability + global reach. Test against V4.</div>
       </a>
-      <a class="card test" href="variants/concierge/v2-local-intel.html">
-        <span class="badge test">◦ Social</span>
-        <div class="card-num">V2</div>
+      <a class="hcard" href="variants/concierge/v2-local-intel.html">
+        <span class="hbadge hbadge-test">Social</span>
+        <div class="hcard-num">V2</div>
         <h3>The Difference Between a Trip and an Experience.</h3>
         <p>Local intelligence</p>
-        <div class="verdict">Insider knowledge angle. Best for social media placement.</div>
+        <div class="hcard-verdict">Insider knowledge angle. Best for social media placement.</div>
       </a>
-      <a class="card test" href="variants/concierge/v3-seamless.html">
-        <span class="badge test">◦ 24-hr Upsell</span>
-        <div class="card-num">V3</div>
+      <a class="hcard" href="variants/concierge/v3-seamless.html">
+        <span class="hbadge hbadge-test">24-hr Upsell</span>
+        <div class="hcard-num">V3</div>
         <h3>Zero Friction. Total Confidence.</h3>
         <p>Seamless / frictionless</p>
-        <div class="verdict">Proactive resolution angle. Best in 24-hr upsell funnel.</div>
+        <div class="hcard-verdict">Proactive resolution angle. Best in 24-hr upsell funnel.</div>
       </a>
-      <a class="card winner" href="variants/concierge/v4-democratization.html">
-        <span class="badge winner">★ Primary Winner</span>
-        <div class="card-num">V4</div>
+      <a class="hcard winner" href="variants/concierge/v4-democratization.html">
+        <span class="hbadge hbadge-win">Primary Winner</span>
+        <div class="hcard-num">V4</div>
         <h3>Five-Star Concierge. No Five-Star Hotel Required.</h3>
         <p>Democratization angle</p>
-        <div class="verdict">Ritz cost dissection + $25/day access. Deploy to Concierge page.</div>
+        <div class="hcard-verdict">Ritz cost dissection + $25/day access. Deploy to Concierge page.</div>
       </a>
-      <a class="card runner" href="variants/concierge/v5-human.html">
-        <span class="badge runner">☆ Runner-Up</span>
-        <div class="card-num">V5</div>
+      <a class="hcard runner" href="variants/concierge/v5-human.html">
+        <span class="hbadge hbadge-run">Runner-Up</span>
+        <div class="hcard-num">V5</div>
         <h3>Not a Chatbot. A Real Person Who Already Knows Your Trip.</h3>
         <p>Human connection</p>
-        <div class="verdict">Anti-AI differentiation. Strong runner-up. Test vs V4.</div>
+        <div class="hcard-verdict">Anti-AI differentiation. Strong runner-up. Test vs V4.</div>
       </a>
     </div>
   </div>
 
   <!-- ADVISOR PROGRAM -->
-  <div class="section">
-    <div class="section-header">
+  <div class="hub-section">
+    <div class="hub-section-header">
       <h2>Advisor Program</h2>
       <span class="count">5 variants</span>
     </div>
-    <div class="grid">
-      <a class="card test" href="variants/advisor/v1-empowerment.html">
-        <span class="badge test">◦ Test</span>
-        <div class="card-num">V1</div>
+    <div class="hub-grid">
+      <a class="hcard" href="variants/advisor/v1-empowerment.html">
+        <span class="hbadge hbadge-test">Test</span>
+        <div class="hcard-num">V1</div>
         <h3>Expand Your Reach. Keep Your Edge.</h3>
         <p>Empowerment angle</p>
-        <div class="verdict">Scale + differentiation. Test against V2.</div>
+        <div class="hcard-verdict">Scale + differentiation. Test against V2.</div>
       </a>
-      <a class="card winner" href="variants/advisor/v2-revenue.html">
-        <span class="badge winner">★ Primary Winner</span>
-        <div class="card-num">V2</div>
+      <a class="hcard winner" href="variants/advisor/v2-revenue.html">
+        <span class="hbadge hbadge-win">Primary Winner</span>
+        <div class="hcard-num">V2</div>
         <h3>More Confident Clients. More Frequent Bookings.</h3>
         <p>Revenue angle</p>
-        <div class="verdict">2.3× bookings + 35% LTV increase. Deploy to Advisor page.</div>
+        <div class="hcard-verdict">2.3&times; bookings + 35% LTV increase. Deploy to Advisor page.</div>
       </a>
-      <a class="card test" href="variants/advisor/v3-differentiation.html">
-        <span class="badge test">◦ Boutique</span>
-        <div class="card-num">V3</div>
+      <a class="hcard" href="variants/advisor/v3-differentiation.html">
+        <span class="hbadge hbadge-test">Boutique</span>
+        <div class="hcard-num">V3</div>
         <h3>Be the Advisor Who Never Sleeps.</h3>
         <p>Differentiation angle</p>
-        <div class="verdict">Competitive positioning vs other advisors. Best for boutique segment.</div>
+        <div class="hcard-verdict">Competitive positioning vs other advisors. Best for boutique segment.</div>
       </a>
-      <a class="card test" href="variants/advisor/v4-partnership.html">
-        <span class="badge test">◦ Nurture</span>
-        <div class="card-num">V4</div>
+      <a class="hcard" href="variants/advisor/v4-partnership.html">
+        <span class="hbadge hbadge-test">Nurture</span>
+        <div class="hcard-num">V4</div>
         <h3>You Build the Relationship. We Handle Execution.</h3>
         <p>Partnership angle</p>
-        <div class="verdict">Role delineation framing. Best in nurture email sequence.</div>
+        <div class="hcard-verdict">Role delineation framing. Best in nurture email sequence.</div>
       </a>
-      <a class="card runner" href="variants/advisor/v5-client-trust.html">
-        <span class="badge runner">☆ Runner-Up</span>
-        <div class="card-num">V5</div>
+      <a class="hcard runner" href="variants/advisor/v5-client-trust.html">
+        <span class="hbadge hbadge-run">Runner-Up</span>
+        <div class="hcard-num">V5</div>
         <h3>The Tool Your Clients Will Brag About.</h3>
         <p>Client trust / referral story</p>
-        <div class="verdict">Word-of-mouth mechanic. 76% refer stat. Test vs V2.</div>
+        <div class="hcard-verdict">Word-of-mouth mechanic. 76% refer stat. Test vs V2.</div>
       </a>
     </div>
   </div>
 
 </main>
-<footer>
-  <p>Butler Button Variant Test Suite &mdash; <a href="https://lobodotstreehouse.github.io/veltm-butler-button/audit/#variants">Source: Audit #variants</a></p>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-brand">VELT<em>M</em></div>
+        <p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#">Trip Planning</a>
+        <a href="#">Concierge 8hr</a>
+        <a href="#">Concierge 24hr</a>
+        <a href="#">Advisor Program</a>
+      </div>
+      <div class="footer-col">
+        <h4>Compare</h4>
+        <a href="#">vs Amex Platinum</a>
+        <a href="#">vs Chase Reserve</a>
+        <a href="#">vs Mindtrip</a>
+        <a href="#">vs Quintessentially</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">FAQ</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 VELTM. All rights reserved.</span>
+      <span>Butler Button Variant Suite &mdash; <a href="https://lobodotstreehouse.github.io/veltm-butler-button/audit/#variants" style="color:var(--indigo-lt)">Source: Audit #variants</a></span>
+    </div>
+  </div>
 </footer>
+
+<script src="js/veltm.js"></script>
 </body>
 </html>

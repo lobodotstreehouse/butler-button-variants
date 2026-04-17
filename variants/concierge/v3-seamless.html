@@ -3,206 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zero Friction. Total Confidence. — Butler Button Concierge</title>
+<title>Zero Friction. Total Confidence. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
-  .nav-links a:hover { color: #000; }
-  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; text-align: center; }
+  .hero-content { max-width: 760px; }
 
-  .hero { background: #000; color: #fff; padding: 110px 40px 90px; text-align: center; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(42px, 6vw, 80px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
-  .hero-sub { font-size: 19px; color: #aaa; line-height: 1.7; max-width: 640px; margin: 0 auto 48px; }
-  .hero-cta { display: inline-block; background: #c9a84c; color: #000; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .hero-cta:hover { background: #fff; }
+  /* Before / after */
+  .ba-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .ba-inner { max-width: 940px; margin: 2.5rem auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .ba-col { border-radius: 20px; padding: 2rem; }
+  .ba-col.before { background: rgba(255,60,60,0.05); border: 1px solid rgba(255,80,80,0.1); }
+  .ba-col.after { background: rgba(79,70,229,0.08); border: 1px solid rgba(129,140,248,0.2); }
+  .ba-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; }
+  .ba-col.before .ba-label { color: rgba(255,100,100,0.7); }
+  .ba-col.after .ba-label { color: var(--indigo-lt); }
+  .ba-col h3 { font-size: 1rem; font-weight: 700; color: #f5f5f7; margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .ba-items { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ba-item { font-size: 0.8rem; color: rgba(255,255,255,0.45); padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 0.5rem; }
+  .ba-item::before { flex-shrink: 0; font-weight: 700; }
+  .ba-col.before .ba-item::before { content: '\2715'; color: rgba(255,100,100,0.6); }
+  .ba-col.after .ba-item::before { content: '\2713'; color: var(--indigo-lt); }
 
-  .before-after { padding: 100px 40px; background: #f5f5f0; }
-  .ba-inner { max-width: 1100px; margin: 0 auto; }
-  .ba-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 16px; }
-  .ba-sub { text-align: center; font-size: 16px; color: #777; margin-bottom: 60px; }
-  .scenario-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
-  .scenario-panel { }
-  .scenario-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-  .label-without { color: #aaa; }
-  .label-with { color: #c9a84c; }
-  .label-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .dot-without { background: #ddd; }
-  .dot-with { background: #c9a84c; }
-  .scenario-card-without { background: #fff; border: 1px solid #e0e0d8; border-top: 3px solid #ddd; padding: 32px; }
-  .scenario-card-with { background: #000; color: #fff; border-top: 3px solid #c9a84c; padding: 32px; }
-  .scenario-location { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
-  .scenario-card-without .scenario-location { color: #bbb; }
-  .scenario-card-with .scenario-location { color: #c9a84c; }
-  .scenario-narrative { font-size: 15px; line-height: 1.7; margin-bottom: 16px; }
-  .scenario-card-without .scenario-narrative { color: #777; }
-  .scenario-card-with .scenario-narrative { color: #ccc; }
-  .scenario-outcome { font-size: 14px; font-weight: 700; padding: 12px 16px; }
-  .scenario-card-without .scenario-outcome { background: #f5f5f0; color: #aaa; }
-  .scenario-card-with .scenario-outcome { background: #111; color: #c9a84c; }
-
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #e0e0d8; max-width: 900px; margin: 0 auto; }
-  .stats-cell { background: #fff; padding: 36px 24px; text-align: center; }
-  .stats-num { font-family: Georgia, serif; font-size: 36px; color: #000; }
-  .stats-label { font-size: 12px; color: #888; margin-top: 8px; letter-spacing: 1px; text-transform: uppercase; line-height: 1.4; }
-
-  .process { padding: 100px 40px; }
-  .process-inner { max-width: 900px; margin: 0 auto; }
-  .process h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .process-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
-  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-  .process-step { text-align: center; }
-  .process-step-icon { width: 52px; height: 52px; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 18px; font-weight: 700; }
-  .process-step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-  .process-step p { font-size: 13px; color: #666; line-height: 1.5; }
-
-  .pricing-band { background: #000; padding: 80px 40px; text-align: center; color: #fff; }
-  .pricing-band h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
-  .price-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
-  .price-option { background: #111; border: 1px solid #333; padding: 40px 48px; min-width: 240px; }
-  .price-option.featured { border-color: #c9a84c; }
-  .price-option-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .price-option-price { font-family: Georgia, serif; font-size: 52px; line-height: 1; }
-  .price-option-unit { font-size: 13px; color: #666; margin: 6px 0 20px; }
-  .price-option-cta { display: block; background: #fff; color: #000; padding: 12px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-  .price-option.featured .price-option-cta { background: #c9a84c; }
-  .price-option-cta:hover { background: #c9a84c; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-  @media (max-width: 900px) {
-    .scenario-panels { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: repeat(2,1fr); }
-    .process-steps { grid-template-columns: repeat(2,1fr); }
-  }
-  @media (max-width: 768px) {
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .before-after, .process, .pricing-band, footer { padding-left: 20px; padding-right: 20px; }
-  }
+  @media (max-width:640px) { .ba-inner { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
-  <div class="nav-cta">Get Started</div>
+<div class="scroll-progress"></div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Concierge V3 &mdash; Seamless</span>
+</div>
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Trip Planning</a></li><li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">Concierge — Butler Button</div>
-  <h1>Zero Friction.<br>Total Confidence.</h1>
-  <p class="hero-sub">Travel is supposed to feel good. When things go wrong, your Butler turns chaos into resolution — while you carry on with your trip.</p>
-  <a class="hero-cta" href="#">Get Concierge — From $25/Day</a>
-</section>
-
-<section class="before-after">
-  <div class="ba-inner">
-    <h2>The same situation. Two very different trips.</h2>
-    <p class="ba-sub">See what happens when things go wrong — with and without a Butler.</p>
-
-    <div class="scenario-panels">
-      <div class="scenario-panel">
-        <div class="scenario-label label-without"><span class="label-dot dot-without"></span>Without Butler Button</div>
-        <div class="scenario-card-without">
-          <div class="scenario-location">Bangkok · 11pm · Suvarnabhumi Airport</div>
-          <div class="scenario-narrative">Gate board shows "Cancelled." You join a queue of 200 people at the airline counter. An hour later you reach the desk. The next available flight is in 36 hours. No hotel voucher. No one to help you navigate the options. You spend the night on an airport seat.</div>
-          <div class="scenario-outcome">Resolved in: 4+ hours. Night lost.</div>
-        </div>
-      </div>
-      <div class="scenario-panel">
-        <div class="scenario-label label-with"><span class="label-dot dot-with"></span>With Butler Button</div>
-        <div class="scenario-card-with">
-          <div class="scenario-location">Bangkok · 11pm · Suvarnabhumi Airport</div>
-          <div class="scenario-narrative">Gate board shows "Cancelled." You text your Butler. Three rebook options arrive in minutes — priority routing, price priority, or earliest departure. Hotel at the terminal arranged simultaneously. You choose, confirm, and head to check-in. Done.</div>
-          <div class="scenario-outcome">Resolved in: 40 minutes. Client asleep by 1am.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenario-panels">
-      <div class="scenario-panel">
-        <div class="scenario-label label-without"><span class="label-dot dot-without"></span>Without Butler Button</div>
-        <div class="scenario-card-without">
-          <div class="scenario-location">Rome · Day 3 · Trastevere</div>
-          <div class="scenario-narrative">The restaurant gave away your table. The maître d' apologises but there's nothing available. You spend 45 minutes searching on your phone. Everything decent is either full or a tourist trap. You end up somewhere mediocre because it was the only option still open.</div>
-          <div class="scenario-outcome">Outcome: Disappointing dinner. Evening mood affected.</div>
-        </div>
-      </div>
-      <div class="scenario-panel">
-        <div class="scenario-label label-with"><span class="label-dot dot-with"></span>With Butler Button</div>
-        <div class="scenario-card-with">
-          <div class="scenario-location">Rome · Day 3 · Trastevere</div>
-          <div class="scenario-narrative">The restaurant gave away your table. You text your Butler while standing at the door. They know your preferences, your neighbourhood, your occasion. Six minutes later a better alternative is confirmed — same area, same calibre, table for your group at 8pm.</div>
-          <div class="scenario-outcome">New table confirmed in 6 minutes. Dinner saved.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stats-cell"><div class="stats-num">97%</div><div class="stats-label">Disruptions resolved &lt;60 min</div></div>
-      <div class="stats-cell"><div class="stats-num">&lt;4 min</div><div class="stats-label">Average response time</div></div>
-      <div class="stats-cell"><div class="stats-num">150+</div><div class="stats-label">Countries covered</div></div>
-      <div class="stats-cell"><div class="stats-num">100%</div><div class="stats-label">Human first contact</div></div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Concierge &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>Zero Friction.<br><span>Total Confidence.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">Travel is supposed to feel good. When things go wrong, your Butler turns chaos into resolution &mdash; while you carry on with your trip.</p>
+    <div class="hero-actions" data-reveal style="--delay:0.2s">
+      <a class="btn btn-indigo btn-lg" href="#">Get Concierge &mdash; From $25/Day</a>
     </div>
   </div>
 </section>
 
-<section class="process">
-  <div class="process-inner">
-    <h2>How zero friction works.</h2>
-    <p class="process-sub">The mechanics behind the confidence.</p>
-    <div class="process-steps">
-      <div class="process-step"><div class="process-step-icon">1</div><h3>Share your itinerary</h3><p>Before you depart, your Butler reads your full trip — flights, hotels, plans, preferences.</p></div>
-      <div class="process-step"><div class="process-step-icon">2</div><h3>Travel normally</h3><p>Your Butler monitors proactively — you only hear from them when there's something to act on or ask.</p></div>
-      <div class="process-step"><div class="process-step-icon">3</div><h3>Contact when needed</h3><p>Text, WhatsApp, or call at any hour. Under 4 minutes to a human who knows your trip.</p></div>
-      <div class="process-step"><div class="process-step-icon">4</div><h3>We resolve it</h3><p>Options presented, action taken, confirmation sent. You carry on with your trip.</p></div>
+<section class="ba-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">The Difference</span>
+    <h2 class="section-title-light">Travel with friction. Travel without.</h2>
+  </div>
+  <div class="ba-inner" data-reveal style="--delay:0.1s">
+    <div class="ba-col before">
+      <div class="ba-label">Without a Butler</div>
+      <h3>"I'll figure it out when I get there."</h3>
+      <div class="ba-items">
+        <div class="ba-item">45 minutes searching for a replacement restaurant</div>
+        <div class="ba-item">Hold music with the airline for 90 minutes</div>
+        <div class="ba-item">Three apps open trying to rebook a flight</div>
+        <div class="ba-item">Language barrier at the hotel front desk</div>
+        <div class="ba-item">Midnight panic about tomorrow's transfer</div>
+        <div class="ba-item">Google Maps, not local knowledge</div>
+      </div>
+    </div>
+    <div class="ba-col after">
+      <div class="ba-label">With a Butler</div>
+      <h3>"Already sorted. Enjoy your dinner."</h3>
+      <div class="ba-items">
+        <div class="ba-item">New reservation confirmed in 6 minutes</div>
+        <div class="ba-item">Rebooked before you leave the gate area</div>
+        <div class="ba-item">Three flight options, you pick one, done</div>
+        <div class="ba-item">Butler handles it in the local language</div>
+        <div class="ba-item">Transfer confirmed before you go to sleep</div>
+        <div class="ba-item">Insider knowledge, not algorithm results</div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="pricing-band">
-  <h2>Two levels. Zero friction either way.</h2>
-  <div class="price-row">
-    <div class="price-option">
-      <div class="price-option-name">8-Hour Concierge</div>
-      <div class="price-option-price">$25</div>
-      <div class="price-option-unit">per day</div>
-      <a class="price-option-cta" href="#">Get 8-Hour</a>
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
     </div>
-    <div class="price-option featured">
-      <div class="price-option-name">24-Hour Concierge</div>
-      <div class="price-option-price">$100</div>
-      <div class="price-option-unit">per day</div>
-      <a class="price-option-cta" href="#">Get 24-Hour</a>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Client asleep by 1am.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
     </div>
   </div>
-</div>
+</section>
 
-<footer>
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

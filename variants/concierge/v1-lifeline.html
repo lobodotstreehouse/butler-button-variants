@@ -3,206 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Personal Expert. Anywhere. Any Hour. — Butler Button Concierge</title>
+<title>Your Personal Expert. Anywhere. Any Hour. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-  nav { background: #000; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; color: #fff; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; }
-  .nav-links a:hover { color: #fff; }
-  .nav-cta { background: #fff; color: #000; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-
-  .hero { background: #000; color: #fff; padding: 110px 40px 90px; }
-  .hero-inner { max-width: 900px; margin: 0 auto; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(38px, 5vw, 68px); font-weight: 400; line-height: 1.1; margin-bottom: 28px; }
-  .hero-sub { font-size: 19px; color: #aaa; line-height: 1.7; max-width: 640px; margin-bottom: 48px; }
-  .stats-inline { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 48px; }
-  .stat-inline-num { font-family: Georgia, serif; font-size: 36px; color: #c9a84c; }
-  .stat-inline-label { font-size: 12px; color: #666; margin-top: 4px; letter-spacing: 1px; line-height: 1.4; }
-  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
-  .cta-primary { display: inline-block; background: #fff; color: #000; padding: 16px 40px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .cta-primary:hover { background: #c9a84c; }
-  .cta-secondary { display: inline-block; border: 1px solid #444; color: #aaa; padding: 16px 32px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
-  .cta-secondary:hover { border-color: #fff; color: #fff; }
-
-  .services { padding: 100px 40px; }
-  .services-inner { max-width: 1000px; margin: 0 auto; }
-  .services h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .services-sub { font-size: 16px; color: #777; margin-bottom: 60px; }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #e8e8e0; }
-  .service-card { background: #fff; padding: 40px 32px; }
-  .service-icon { font-size: 28px; margin-bottom: 20px; }
-  .service-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
-  .service-desc { font-size: 14px; color: #555; line-height: 1.6; }
-  .service-example { font-size: 13px; color: #c9a84c; margin-top: 14px; font-style: italic; }
-
-  .stats-bar { background: #f5f5f0; padding: 60px 40px; }
-  .stats-bar-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
-  .sb-num { font-family: Georgia, serif; font-size: 40px; color: #000; }
-  .sb-label { font-size: 12px; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px; line-height: 1.4; }
-
-  .pricing-section { padding: 100px 40px; }
-  .pricing-inner { max-width: 800px; margin: 0 auto; }
-  .pricing-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
-  .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .price-card { border: 1px solid #e0e0d8; padding: 40px 32px; }
-  .price-card.featured { border-color: #000; border-width: 2px; }
-  .price-card-name { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 12px; }
-  .price-card-price { font-family: Georgia, serif; font-size: 52px; color: #000; line-height: 1; }
-  .price-card-unit { font-size: 14px; color: #888; margin: 6px 0 20px; }
-  .price-card-features { list-style: none; margin-bottom: 28px; }
-  .price-card-features li { font-size: 14px; color: #444; margin-bottom: 10px; display: flex; gap: 8px; }
-  .price-card-features li::before { content: '✓'; color: #c9a84c; font-weight: 700; }
-  .btn-card { display: block; text-align: center; background: #000; color: #fff; padding: 14px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-  .btn-card:hover { background: #c9a84c; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-  @media (max-width: 768px) {
-    .services-grid { grid-template-columns: 1fr; }
-    .stats-bar-inner { grid-template-columns: repeat(2,1fr); }
-    .pricing-cards { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .services, .stats-bar, .pricing-section, footer { padding-left: 20px; padding-right: 20px; }
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
+  .hero-stats-inline {
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+    margin: 2rem 0;
   }
+  .hsi { text-align: center; }
+  .hsi-num { font-size: 2rem; font-weight: 700; letter-spacing: -0.04em; color: var(--indigo-lt); }
+  .hsi-label { font-size: 0.72rem; color: var(--text-mute); margin-top: 0.2rem; }
+
+  /* Services grid */
+  .services-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .services-grid { max-width: 1080px; margin: 2.5rem auto 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  .service-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 1.5rem; transition: border-color 0.2s; }
+  .service-card:hover { border-color: rgba(129,140,248,0.3); }
+  .service-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .service-title { font-size: 0.92rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.4rem; }
+  .service-desc { font-size: 0.78rem; color: var(--text-mute); line-height: 1.6; margin-bottom: 0.6rem; }
+  .service-example { font-size: 0.7rem; color: var(--indigo-lt); font-style: italic; }
+
+  @media (max-width:720px) { .services-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
-  <div class="nav-cta">Get Concierge</div>
+<div class="scroll-progress"></div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Concierge V1 &mdash; Lifeline</span>
+</div>
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Trip Planning</a></li><li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Concierge</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Concierge — Butler Button</div>
-    <h1>Your Personal Expert.<br>Anywhere. Any Hour.</h1>
-    <p class="hero-sub">A human travel expert on call throughout your journey. Flights, reservations, local intelligence, crises — handled before they become problems.</p>
-    <div class="stats-inline">
-      <div><div class="stat-inline-num">&lt;4 min</div><div class="stat-inline-label">Average response time, 24/7</div></div>
-      <div><div class="stat-inline-num">97%</div><div class="stat-inline-label">Disruptions resolved in &lt;60 min</div></div>
-      <div><div class="stat-inline-num">150+</div><div class="stat-inline-label">Countries covered</div></div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Concierge &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>Your Personal Expert.<br><span>Anywhere. Any Hour.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">A human travel expert on call throughout your journey. Flights, reservations, local intelligence, crises &mdash; handled before they become problems.</p>
+    <div class="hero-stats-inline" data-reveal style="--delay:0.18s">
+      <div class="hsi"><div class="hsi-num">&lt;4 min</div><div class="hsi-label">Average response time, 24/7</div></div>
+      <div class="hsi"><div class="hsi-num">97%</div><div class="hsi-label">Disruptions resolved in &lt;60 min</div></div>
+      <div class="hsi"><div class="hsi-num">150+</div><div class="hsi-label">Countries covered</div></div>
     </div>
-    <div class="hero-ctas">
-      <a class="cta-primary" href="#">Get Concierge — From $25/Day</a>
-      <a class="cta-secondary" href="#">See What's Covered</a>
-    </div>
-  </div>
-</section>
-
-<section class="services">
-  <div class="services-inner">
-    <h2>Six categories. One expert. Every situation.</h2>
-    <p class="services-sub">Whatever your journey throws at you — your Butler handles it.</p>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">✈</div>
-        <div class="service-title">Flight Disruptions</div>
-        <div class="service-desc">Cancellations, delays, missed connections — rebooked on the best available option before you've finished texting us.</div>
-        <div class="service-example">Bangkok 11pm cancellation → rebooked + hotel in 40 min</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🍽</div>
-        <div class="service-title">Reservations &amp; Access</div>
-        <div class="service-desc">Tables at restaurants that don't take online bookings. Experiences that require connections. Access that requires knowing who to call.</div>
-        <div class="service-example">Rome table gone → alternative confirmed in 6 min</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">◎</div>
-        <div class="service-title">Local Intelligence</div>
-        <div class="service-desc">What's actually worth your time right now. What to skip. Which neighbourhood is genuinely safe after midnight. The stuff no guidebook knows.</div>
-        <div class="service-example">Insider knowledge in 150+ countries</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">◈</div>
-        <div class="service-title">Ground Logistics</div>
-        <div class="service-desc">Transfers, drivers, private vehicles, train bookings, inter-city logistics — arranged and confirmed so you're never stranded.</div>
-        <div class="service-example">24/7 ground support in every destination</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">◉</div>
-        <div class="service-title">Medical Referrals</div>
-        <div class="service-desc">Trusted, vetted clinics and hospitals when you need them. Translated, coordinated, followed up — so a health issue doesn't become a nightmare.</div>
-        <div class="service-example">Verified medical contacts in 150+ countries</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">◆</div>
-        <div class="service-title">Translation &amp; Local Liaison</div>
-        <div class="service-desc">40+ languages covered. Language barriers eliminated from restaurant orders to hotel disputes to police interactions.</div>
-        <div class="service-example">40+ languages. No miscommunication.</div>
-      </div>
+    <div class="hero-actions" data-reveal style="--delay:0.26s">
+      <a class="btn btn-indigo btn-lg" href="#">Get Concierge &mdash; From $25/Day</a>
+      <a class="btn btn-ghost-light btn-lg" href="#">See What's Covered</a>
     </div>
   </div>
 </section>
 
-<div class="stats-bar">
-  <div class="stats-bar-inner">
-    <div><div class="sb-num">97%</div><div class="sb-label">Disruptions resolved within 60 minutes</div></div>
-    <div><div class="sb-num">&lt;4 min</div><div class="sb-label">Average response time, any hour</div></div>
-    <div><div class="sb-num">150+</div><div class="sb-label">Countries covered worldwide</div></div>
-    <div><div class="sb-num">100%</div><div class="sb-label">Human first contact — guaranteed</div></div>
+<section class="services-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">Six Categories</span>
+    <h2 class="section-title-light">One expert. Every situation.</h2>
+    <p class="section-sub-light">Whatever your journey throws at you &mdash; your Butler handles it.</p>
   </div>
-</div>
-
-<section class="pricing-section">
-  <div class="pricing-inner">
-    <h2>Two levels. One standard.</h2>
-    <div class="pricing-cards">
-      <div class="price-card">
-        <div class="price-card-name">Concierge — 8 Hour</div>
-        <div class="price-card-price">$25</div>
-        <div class="price-card-unit">per day</div>
-        <ul class="price-card-features">
-          <li>Human expert during active travel hours</li>
-          <li>Flight &amp; transport disruptions</li>
-          <li>Restaurant &amp; experience reservations</li>
-          <li>Local intelligence &amp; recommendations</li>
-          <li>40+ languages</li>
-        </ul>
-        <a class="btn-card" href="#">Get 8-Hour Concierge</a>
-      </div>
-      <div class="price-card featured">
-        <div class="price-card-name">Concierge — 24 Hour</div>
-        <div class="price-card-price">$100</div>
-        <div class="price-card-unit">per day</div>
-        <ul class="price-card-features">
-          <li>Everything in 8-hour, plus:</li>
-          <li>Round-the-clock availability</li>
-          <li>Proactive flight monitoring</li>
-          <li>Medical referral &amp; assistance</li>
-          <li>Same advisor start to finish</li>
-        </ul>
-        <a class="btn-card" href="#">Get 24-Hour Concierge</a>
-      </div>
+  <div class="services-grid">
+    <div class="service-card" data-reveal>
+      <div class="service-icon">&#9992;</div>
+      <div class="service-title">Flight Disruptions</div>
+      <div class="service-desc">Cancellations, delays, missed connections &mdash; rebooked on the best available option before you've finished texting us.</div>
+      <div class="service-example">Bangkok 11pm cancellation &rarr; rebooked + hotel in 40 min</div>
+    </div>
+    <div class="service-card" data-reveal style="--delay:0.08s">
+      <div class="service-icon">&#127869;</div>
+      <div class="service-title">Reservations &amp; Access</div>
+      <div class="service-desc">Tables at restaurants that don't take online bookings. Experiences that require connections. Access that requires knowing who to call.</div>
+      <div class="service-example">Rome table gone &rarr; alternative confirmed in 6 min</div>
+    </div>
+    <div class="service-card" data-reveal style="--delay:0.16s">
+      <div class="service-icon">&#128205;</div>
+      <div class="service-title">Local Intelligence</div>
+      <div class="service-desc">Not recommendations from a list. Real knowledge from someone who knows the difference between what looks good on paper and what actually is.</div>
+      <div class="service-example">The restaurant around the corner from the famous one</div>
+    </div>
+    <div class="service-card" data-reveal>
+      <div class="service-icon">&#128652;</div>
+      <div class="service-title">Ground Transport</div>
+      <div class="service-desc">Airport transfers, intercity logistics, last-minute car hire. Your Butler knows the best operators and the ones to avoid.</div>
+      <div class="service-example">Reliable. Pre-vetted. Ready when you land.</div>
+    </div>
+    <div class="service-card" data-reveal style="--delay:0.08s">
+      <div class="service-icon">&#9889;</div>
+      <div class="service-title">Crisis Management</div>
+      <div class="service-desc">Medical referrals. Lost documents. Accommodation emergencies. The situations where you need a real person who already knows your trip.</div>
+      <div class="service-example">Available 24/7. Not a chatbot. Not a queue.</div>
+    </div>
+    <div class="service-card" data-reveal style="--delay:0.16s">
+      <div class="service-icon">&#127760;</div>
+      <div class="service-title">40+ Languages</div>
+      <div class="service-desc">Language barriers don't exist in your journey. Your Butler can communicate locally on your behalf wherever you are in the world.</div>
+      <div class="service-example">150+ countries. Same quality everywhere.</div>
     </div>
   </div>
 </section>
 
-<footer>
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Client asleep by 1am.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
+<script src="../../js/veltm.js"></script>
 </body>
 </html>

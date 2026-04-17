@@ -3,215 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Concierge Your Parents Couldn't Afford — Butler Button</title>
+<title>The Concierge Your Parents Couldn't Afford. $25/Country. &mdash; Butler Button</title>
+<link rel="stylesheet" href="../../css/veltm.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #1a1a1a; }
-  a { color: inherit; text-decoration: none; }
-  .back-link { display: block; background: #f5f5f0; padding: 10px 40px; font-size: 12px; color: #888; letter-spacing: 1px; border-bottom: 1px solid #e0e0d8; }
-  .back-link:hover { color: #000; }
-  .winner-badge { position: fixed; top: 60px; right: 0; background: #c9a84c; color: #000; font-size: 11px; font-weight: 700; padding: 10px 20px 10px 16px; letter-spacing: 1.5px; z-index: 200; border-top-left-radius: 4px; border-bottom-left-radius: 4px; box-shadow: -4px 4px 16px rgba(201,168,76,0.4); }
-  nav { background: #fff; border-bottom: 1px solid #e8e8e0; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; }
-  .nav-links a:hover { color: #000; }
-  .nav-cta { background: #000; color: #fff; padding: 10px 24px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
 
-  .hero { background: #000; color: #fff; padding: 110px 40px 90px; }
-  .hero-inner { max-width: 900px; margin: 0 auto; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; margin-bottom: 24px; }
-  .hero h1 { font-family: Georgia, serif; font-size: clamp(38px, 5.5vw, 72px); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
-  .hero h1 span { color: #c9a84c; }
-  .hero-sub { font-size: 20px; color: #aaa; line-height: 1.7; max-width: 680px; margin: 24px 0 40px; }
-  .hero-cta { display: inline-block; background: #c9a84c; color: #000; padding: 18px 48px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .hero-cta:hover { background: #fff; }
-
-  .savings-math { padding: 100px 40px; background: #f5f5f0; }
-  .savings-inner { max-width: 800px; margin: 0 auto; }
-  .savings-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
-  .savings-table { background: #fff; border: 1px solid #e0e0d8; overflow: hidden; }
-  .savings-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid #f0f0e8; }
-  .savings-row:last-child { border-bottom: none; }
-  .savings-row.header { background: #000; color: #fff; }
-  .savings-cell { padding: 18px 24px; font-size: 15px; }
-  .savings-row.header .savings-cell { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; }
-  .savings-row.header .savings-cell:first-child { color: #fff; }
-  .savings-row.total { background: #f9f9f5; font-weight: 700; }
-  .savings-row.highlight { background: #000; color: #fff; }
-  .savings-row.highlight .savings-cell { color: #c9a84c; font-weight: 700; font-size: 18px; }
-  .old-price { color: #aaa; text-decoration: line-through; }
-  .new-price { color: #000; font-weight: 700; }
-  .savings-amount { color: #c9a84c; font-weight: 700; }
-
-  .manifesto { padding: 100px 40px; }
-  .manifesto-inner { max-width: 800px; margin: 0 auto; }
-  .manifesto h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 32px; }
-  .manifesto p { font-size: 18px; color: #333; line-height: 1.8; margin-bottom: 24px; }
-  .manifesto em { font-style: italic; color: #555; }
-  .manifesto strong { font-weight: 700; color: #000; }
-
-  .compare-old-new { padding: 100px 40px; background: #000; color: #fff; }
-  .compare-inner { max-width: 900px; margin: 0 auto; }
-  .compare-inner h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
-  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #222; }
-  .compare-col { background: #000; padding: 48px 40px; }
-  .compare-col-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
-  .compare-col.old .compare-col-label { color: #555; }
-  .compare-col.new .compare-col-label { color: #c9a84c; }
-  .compare-col h3 { font-family: Georgia, serif; font-size: 24px; font-weight: 400; margin-bottom: 24px; }
-  .compare-col.old h3 { color: #666; }
-  .compare-col.new h3 { color: #fff; }
-  .compare-list { list-style: none; }
-  .compare-list li { font-size: 15px; line-height: 1.6; margin-bottom: 14px; padding-left: 20px; position: relative; }
-  .compare-col.old .compare-list li { color: #555; }
-  .compare-col.old .compare-list li::before { content: '✕'; position: absolute; left: 0; color: #444; }
-  .compare-col.new .compare-list li { color: #ccc; }
-  .compare-col.new .compare-list li::before { content: '✓'; position: absolute; left: 0; color: #c9a84c; }
-
-  .cta-section { padding: 100px 40px; text-align: center; background: #f5f5f0; }
-  .cta-section h2 { font-family: Georgia, serif; font-size: 36px; font-weight: 400; margin-bottom: 16px; }
-  .cta-section p { font-size: 17px; color: #666; margin-bottom: 40px; }
-  .cta-btn { display: inline-block; background: #000; color: #fff; padding: 18px 52px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .cta-btn:hover { background: #c9a84c; }
-
-  footer { background: #1a1a1a; color: #fff; padding: 60px 40px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-  .footer-brand .logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-  .footer-brand p { font-size: 13px; color: #666; line-height: 1.6; }
-  .footer-col h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 8px; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #444; }
-  @media (max-width: 768px) {
-    .savings-row { grid-template-columns: 1fr 1fr; }
-    .savings-row .savings-cell:last-child { display: none; }
-    .compare-grid { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav, .hero, .savings-math, .manifesto, .compare-old-new, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  /* Savings comparison */
+  .savings-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .savings-table { max-width: 860px; margin: 2.5rem auto 0; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; }
+  .savings-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
+  .savings-row:last-child { border-bottom: none; }
+  .savings-cell { padding: 14px 20px; font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+  .savings-row.header .savings-cell { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.02); }
+  .old-price { color: rgba(255,100,100,0.7); text-decoration: line-through; }
+  .new-price { color: var(--indigo-lt); font-weight: 700; }
+
+  /* Manifesto */
+  .manifesto-section { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .manifesto-inner { max-width: 760px; margin: 0 auto; }
+  .manifesto-inner h2 { font-size: clamp(1.8rem,4vw,3rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; color: #f5f5f7; margin-bottom: 1.5rem; }
+  .manifesto-inner p { font-size: 1rem; color: var(--text-mute); line-height: 1.75; margin-bottom: 1rem; }
+  .manifesto-inner p strong { color: var(--indigo-lt); }
+
+  @media (max-width:640px) { .savings-row { grid-template-columns: 1fr; } .savings-cell { padding: 8px 14px; } }
 </style>
 </head>
 <body>
-<div class="winner-badge">★ VARIANT WINNER — Deploy to Production</div>
-<a class="back-link" href="../../index.html">← Back to Variant Suite</a>
-<nav>
-  <div class="nav-logo">VELTM</div>
-  <div class="nav-links"><a href="#">Home</a><a href="#">Trip Planning</a><a href="#">Concierge</a><a href="#">Advisors</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
-  <div class="nav-cta">Get Started</div>
+<div class="scroll-progress"></div>
+<div class="winner-tab">&#9733; Primary Winner</div>
+<div class="back-bar">
+  <a href="../../index.html">&larr; Variant Suite</a>
+  <span class="back-bar-label">Trip Planning V2 &mdash; Democratization</span>
+</div>
+<nav class="nav" style="top:32px">
+  <a class="nav-brand" href="#">VELT<em>M</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Trip Planning</a></li><li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">FAQ</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Trip Planning — Butler Button</div>
-    <h1>The Concierge Your<br>Parents Couldn't Afford.<br><span>$25/Country.</span></h1>
-    <p class="hero-sub">Five-star planning used to require a full-service travel agent on retainer. Now it's $25 per country. No membership. No gatekeeping.</p>
-    <a class="hero-cta" href="#">Start Planning — $25/Country</a>
-  </div>
-</section>
-
-<section class="savings-math">
-  <div class="savings-inner">
-    <h2>Run the numbers.</h2>
-    <div class="savings-table">
-      <div class="savings-row header">
-        <div class="savings-cell">Service</div>
-        <div class="savings-cell">Traditional</div>
-        <div class="savings-cell">Butler Button</div>
-      </div>
-      <div class="savings-row">
-        <div class="savings-cell">Trip planning (5-country Europe trip)</div>
-        <div class="savings-cell old-price">$300–500</div>
-        <div class="savings-cell new-price">$125</div>
-      </div>
-      <div class="savings-row">
-        <div class="savings-cell">Annual retainer / membership</div>
-        <div class="savings-cell old-price">$500–2,000</div>
-        <div class="savings-cell new-price">$0</div>
-      </div>
-      <div class="savings-row">
-        <div class="savings-cell">In-trip support (10 days)</div>
-        <div class="savings-cell old-price">Included — if they answer</div>
-        <div class="savings-cell new-price">$250 (8-hr plan)</div>
-      </div>
-      <div class="savings-row">
-        <div class="savings-cell">Access to human expert 24/7</div>
-        <div class="savings-cell old-price">Not guaranteed</div>
-        <div class="savings-cell new-price">Always included</div>
-      </div>
-      <div class="savings-row total">
-        <div class="savings-cell">Typical total</div>
-        <div class="savings-cell old-price">$800–2,500+</div>
-        <div class="savings-cell new-price">$375</div>
-      </div>
-      <div class="savings-row highlight">
-        <div class="savings-cell">You save</div>
-        <div class="savings-cell savings-amount">—</div>
-        <div class="savings-cell savings-amount">$425–$2,125+</div>
-      </div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Trip Planning &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>The Concierge Your<br>Parents Couldn't<br>Afford. <span>$25/Country.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">Five-star planning used to require a full-service travel agent on retainer. Now it's $25 per country. No membership. No gatekeeping.</p>
+    <div class="hero-actions" data-reveal style="--delay:0.2s">
+      <a class="btn btn-indigo btn-lg" href="#">Start Planning &mdash; $25/Country</a>
+      <a class="btn btn-ghost-light btn-lg" href="#">See how it works</a>
     </div>
   </div>
 </section>
 
-<section class="manifesto">
-  <div class="manifesto-inner">
-    <h2>The way travel planning used to work.</h2>
-    <p>Until recently, if you wanted a trip built around your exact preferences — not a template, not a tour package — you needed a <strong>personal travel consultant on retainer</strong>. That meant knowing the right person, paying their annual fee, and booking through them exclusively.</p>
-    <p><em>If you had to ask the price, you couldn't afford it.</em></p>
-    <p>That world still exists. And it's excellent for the people in it. But Butler Button was built on the premise that <strong>the quality of your travel experience should not depend on how wealthy your family was</strong>.</p>
-    <p>One preference survey. One expert. One itinerary that actually fits you. <strong>$25 per country.</strong></p>
+<section class="savings-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">Run the Numbers</span>
+    <h2 class="section-title-light">What you used to pay. What you pay now.</h2>
   </div>
-</section>
-
-<section class="compare-old-new">
-  <div class="compare-inner">
-    <h2>Then vs. now.</h2>
-    <div class="compare-grid">
-      <div class="compare-col old">
-        <div class="compare-col-label">Traditional Travel Planning</div>
-        <h3>"Let me check with my agent."</h3>
-        <ul class="compare-list">
-          <li>Retainer fees of $500–2,000/year</li>
-          <li>Works banker's hours</li>
-          <li>Limited to their preferred suppliers</li>
-          <li>Commission-driven recommendations</li>
-          <li>You wait 3–5 days for a response</li>
-          <li>Itinerary built from their templates</li>
-        </ul>
-      </div>
-      <div class="compare-col new">
-        <div class="compare-col-label">Butler Button — Trip Planning</div>
-        <h3>"Done. Ready to book."</h3>
-        <ul class="compare-list">
-          <li>$25 per country. No membership.</li>
-          <li>Available any hour, any day</li>
-          <li>200,000+ options, unfiltered by commission</li>
-          <li>Your preferences as the only filter</li>
-          <li>Ready-to-book itinerary in 24 hours</li>
-          <li>Built entirely around you</li>
-        </ul>
-      </div>
+  <div class="savings-table" data-reveal style="--delay:0.1s">
+    <div class="savings-row header">
+      <div class="savings-cell">Service</div>
+      <div class="savings-cell">Traditional</div>
+      <div class="savings-cell">Butler Button</div>
+    </div>
+    <div class="savings-row">
+      <div class="savings-cell">Trip planning (5-country Europe trip)</div>
+      <div class="savings-cell old-price">$300&ndash;500</div>
+      <div class="savings-cell new-price">$125</div>
+    </div>
+    <div class="savings-row">
+      <div class="savings-cell">Annual retainer / membership</div>
+      <div class="savings-cell old-price">$500&ndash;2,000</div>
+      <div class="savings-cell new-price">$0</div>
+    </div>
+    <div class="savings-row">
+      <div class="savings-cell">In-trip support (10 days)</div>
+      <div class="savings-cell old-price">Included &mdash; if they answer</div>
+      <div class="savings-cell new-price">$250 (8-hr plan)</div>
+    </div>
+    <div class="savings-row">
+      <div class="savings-cell">Access to human expert 24/7</div>
+      <div class="savings-cell old-price">Not guaranteed</div>
+      <div class="savings-cell new-price">Always</div>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
-  <h2>Your parents couldn't get this. You can.</h2>
-  <p>Five-star trip planning. $25 per country. No membership required.</p>
-  <a class="cta-btn" href="#">Start Planning Now</a>
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
 </section>
 
-<footer>
+<section class="manifesto-section">
+  <div class="manifesto-inner" data-reveal>
+    <span class="eyebrow eyebrow-soft">The Access Story</span>
+    <h2>Five-star planning used to be a luxury. Now it's arithmetic.</h2>
+    <p>For decades, premium travel planning required either a credit card with a concierge line you rarely used, or a full-service travel agent charging retainer fees most people couldn't justify. The result: expensive trips built from the same template everyone else uses.</p>
+    <p>Butler Button changes the math. <strong>One preference survey.</strong> AI scanning 200,000+ options. A human expert who knows your destination reviewing everything. A ready-to-book itinerary in 24 hours. $25 per country.</p>
+    <p>The concierge your parents couldn't afford is now less than a dinner out.</p>
+    <div style="margin-top:2rem">
+      <a class="btn btn-indigo btn-lg" href="#">Start Planning &mdash; $25/Country</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Client asleep by 1am.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>AI scans 200,000+ options</li><li>Expert review in 24 hours</li><li>95% satisfaction rate</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-brand"><div class="logo">VELTM</div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
+      <div class="footer-brand"><div class="nav-brand">VELT<em>M</em></div><p>Butler Button is the travel concierge service by VELTM. Human experts. Any hour. Any country.</p></div>
       <div class="footer-col"><h4>Services</h4><a href="#">Trip Planning</a><a href="#">Concierge 8hr</a><a href="#">Concierge 24hr</a><a href="#">Advisor Program</a></div>
       <div class="footer-col"><h4>Compare</h4><a href="#">vs Amex Platinum</a><a href="#">vs Chase Reserve</a><a href="#">vs Mindtrip</a><a href="#">vs Quintessentially</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Privacy</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 VELTM. All rights reserved.</span><span>Own Your Journey™</span></div>
+    <div class="footer-bottom"><span>&copy; 2025 VELTM. All rights reserved.</span><span><em>Own Your Journey&trade;</em></span></div>
   </div>
 </footer>
+<script src="../../js/veltm.js"></script>
 </body>
 </html>
