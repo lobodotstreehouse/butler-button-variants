@@ -1,0 +1,176 @@
+(function(){
+  // Load CSS
+  var l=document.createElement('link');l.rel='stylesheet';
+  l.href='https://lobodotstreehouse.github.io/butler-button-variants/css/veltm.css';document.head.appendChild(l);
+  // Page-specific + hide Zoho chrome
+  var s=document.createElement('style');
+  s.textContent=`
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
+  .hero-pull { font-size: 1.1rem; color: rgba(255,255,255,0.35); font-style: italic; margin-bottom: 1.5rem; }
+  .hero-stat-block {
+    display: inline-flex; flex-direction: column; align-items: center;
+    background: rgba(79,70,229,0.1); border: 1px solid rgba(129,140,248,0.2);
+    border-radius: 18px; padding: 1.5rem 2.5rem; margin: 1.5rem 0;
+  }
+  .hero-stat-num { font-size: 4rem; font-weight: 700; letter-spacing: -0.05em; color: var(--indigo-lt); line-height: 1; }
+  .hero-stat-label { font-size: 0.78rem; color: var(--text-mute); margin-top: 0.25rem; text-align: center; max-width: 240px; line-height: 1.45; }
+
+  /* Story section */
+  .story-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .story-inner { max-width: 760px; margin: 0 auto; }
+  .story-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--indigo-lt); margin-bottom: 1rem; }
+  .story-inner h2 { font-size: clamp(1.5rem,3vw,2.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.25; color: #f5f5f7; margin-bottom: 1.5rem; }
+  .story-inner p { font-size: 0.95rem; color: #c8c8d0; line-height: 1.75; margin-bottom: 1rem; }
+  .story-inner p strong { color: var(--indigo-lt); }
+  .story-quote {
+    margin: 2rem 0; padding: 1.5rem;
+    background: rgba(79,70,229,0.06); border: 1px solid rgba(129,140,248,0.15);
+    border-left: 3px solid var(--indigo-lt); border-radius: 0 12px 12px 0;
+    font-size: 1rem; color: rgba(255,255,255,0.7); font-style: italic; line-height: 1.65;
+  }
+
+  /* ── Photo-background: story + scenarios sections ── */
+  .story-section, .section-scenarios {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .story-section::before, .section-scenarios::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 0;
+  }
+  .story-section > *, .section-scenarios > * { position: relative; z-index: 1; }
+\n
+.zs-header-section,.zs-footer-section,.zs-sections-wrapper,.zs-banner-wrapper,
+.zcms-page-body,[class*="zs-widget"],.site-header-wrap,.site-footer-wrap,
+.zcms-header,header.site-header,footer.site-footer{display:none!important}
+html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}
+`;
+  document.head.appendChild(s);
+  // Inject page HTML
+  var d=document.createElement('div');
+  d.id='bb-page';
+  d.innerHTML=`<div class="scroll-progress"></div>
+<nav class="nav">
+  <a class="nav-brand" href="#">Butler<em>Button</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#trip-planning">Trip Planning</a></li><li><a href="#concierge">Concierge</a></li>
+    <li><a href="#advisor">Travel Advisor</a></li>
+  </ul>
+  <a class="nav-book" href="#">Apply Now</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Advisor Program &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>The Tool Your Clients<br><span>Will Brag About.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">When your client's flight cancels at 11pm in Bangkok and they're rebooked with a hotel in 40 minutes &mdash; they don't forget that.</p>
+    <p class="hero-pull" data-reveal style="--delay:0.16s">"And they tell everyone."</p>
+    <div class="hero-stat-block" data-reveal style="--delay:0.22s">
+      <div class="hero-stat-num">76%</div>
+      <div class="hero-stat-label">of clients refer within 90 days of an in-trip support experience</div>
+    </div>
+    <div class="hero-actions" data-reveal style="--delay:0.3s">
+      <a class="btn btn-indigo btn-lg" href="#">Apply for Advisor Partnership</a>
+    </div>
+  </div>
+</section>
+
+<section class="story-section">
+  <div class="story-inner" data-reveal>
+    <div class="story-tag">The Story Your Clients Tell</div>
+    <h2>"I need to tell you about my travel advisor."</h2>
+    <p>It starts at a dinner party. Someone asks how the trip was. Your client says it was incredible &mdash; and then mentions the night the flight was cancelled.</p>
+    <p>"We were at the gate in Bangkok. 11pm. The board just went blank. And before I even figured out what was happening, I got a text from my advisor's concierge team. Three rebooking options. Hotel already arranged. I just picked one."</p>
+    <div class="story-quote">"I don't know how they did it. But I need to introduce you to my advisor. She's next-level."</div>
+    <p>That conversation &mdash; at a dinner table, at a school pickup, at an office lunch &mdash; is how your practice grows. Not from ads. Not from social posts. From the moment your client realized they had a <strong>human expert in their corner</strong> when it mattered most.</p>
+    <p>Butler Button gives you the infrastructure to create that moment. Consistently. At scale. Under your brand.</p>
+    <div style="margin-top:2rem"><a class="btn btn-indigo btn-lg" href="#">Apply for Advisor Partnership</a></div>
+  </div>
+</section>
+
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">What Your Clients Experience</span>
+      <h2 class="section-title-light">The moments that become the stories.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Your client calls you to say thank you. Then tells ten people.</div><div class="scard__tag">40 minutes. Your legend. &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative confirmed in 6 minutes. Your client never panics.</div><div class="scard__tag">6 minutes. Your reputation. &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Rebooked in 14 minutes. They brag about you for a year.</div><div class="scard__tag">14 minutes. Your referral engine. &rarr;</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">What Your Clients Get</span>
+    <h2 class="section-title-light">Under your brand. Delivered by us.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Expert itineraries for your clients.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Learn More</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Human expert on call, every travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>&lt;4 min response time</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Learn More</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock for high-value clients.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Learn More</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <a class="footer-brand" href="#">Butler<em>Button</em> by VELTM</a>
+  <ul class="footer-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Trip Planning</a></li>
+    <li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisor</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <span class="footer-legal">&copy; 2026 VELTM Tours</span>
+</footer>`;
+  document.body.appendChild(d);
+  // Load veltm.js
+  var js=document.createElement('script');
+  js.src='https://lobodotstreehouse.github.io/butler-button-variants/js/veltm.js';
+  js.onload=function(){ (function() {
+  var photos = [
+    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
+    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
+    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
+    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
+    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
+    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
+    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+  ];
+  var pool = photos.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+  function setBg(sel, pick) {
+    var el = document.querySelector(sel);
+    if (el && pick) {
+      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=1800&q=80)';
+      el.setAttribute('data-destination', pick.place);
+    }
+  }
+  setBg('.story-section', pool[0]);
+  setBg('.section-scenarios', pool[1]);
+})(); };
+  document.body.appendChild(js);
+})();
