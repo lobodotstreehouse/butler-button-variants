@@ -49,19 +49,19 @@
   .diss-vs-unit { font-size: 0.84rem; color: var(--text-mute); }
 
   /* ── Photo-background: pricing + reality-check sections ── */
-  .section-products, .anti-ai-section {
+  .section-products, .anti-ai-section, .section-scenarios {
     position: relative;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
-  .section-products::before, .anti-ai-section::before {
+  .section-products::before, .anti-ai-section::before, .section-scenarios::before {
     content: '';
     position: absolute; inset: 0;
     background: rgba(0,0,0,0.72);
     z-index: 0;
   }
-  .section-products > *, .anti-ai-section > * { position: relative; z-index: 1; }
+  .section-products > *, .anti-ai-section > *, .section-scenarios > * { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
@@ -230,6 +230,7 @@
   }
   setBg('.section-products', pool[0]);
   setBg('.anti-ai-section', pool[1]);
+  setBg('.section-scenarios', pool[2]);
 })();
 </script>
 </body>
