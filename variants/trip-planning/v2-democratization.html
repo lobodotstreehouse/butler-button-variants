@@ -22,12 +22,16 @@
   .old-price { color: rgba(255,100,100,0.7); text-decoration: line-through; }
   .new-price { color: var(--indigo-lt); font-weight: 700; }
 
-  /* Manifesto */
-  .manifesto-section { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
-  .manifesto-inner { max-width: 760px; margin: 0 auto; }
-  .manifesto-inner h2 { font-size: clamp(1.8rem,4vw,3rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; color: #f5f5f7; margin-bottom: 1.5rem; }
-  .manifesto-inner p { font-size: 1rem; color: var(--text-mute); line-height: 1.75; margin-bottom: 1rem; }
-  .manifesto-inner p strong { color: var(--indigo-lt); }
+  /* Combined access section */
+  .access-section { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .access-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .manifesto-copy h2 { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; color: #f5f5f7; margin-bottom: 1.5rem; }
+  .manifesto-copy p { font-size: 0.96rem; color: var(--text-mute); line-height: 1.75; margin-bottom: 1rem; }
+  .manifesto-copy p strong { color: var(--indigo-lt); }
+  .access-table-col { padding-top: 0.25rem; }
+  .access-table-col .table-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1rem; display: block; }
+  .access-table-col .savings-table { max-width: none; margin: 0; }
+  @media (max-width: 900px) { .access-inner { grid-template-columns: 1fr; gap: 3rem; } }
 
   @media (max-width:640px) { .savings-row { grid-template-columns: 1fr; } .savings-cell { padding: 8px 14px; } }
 
@@ -445,49 +449,47 @@
   </div>
 </section>
 
-<section class="manifesto-section">
-  <div class="manifesto-inner" data-reveal>
-    <span class="eyebrow eyebrow-soft">The Access Story</span>
-    <h2>Five-star planning used to be a luxury. Now it's arithmetic.</h2>
-    <p>For decades, premium travel planning required either a credit card with a concierge line you rarely used, or a full-service travel agent charging retainer fees most people couldn't justify. The result: expensive trips built from the same template everyone else uses.</p>
-    <p>Butler Button changes the math. <strong>One preference survey.</strong> AI scanning 200,000+ options. A human expert who knows your destination reviewing everything. A ready-to-book itinerary in 24 hours. $25 per country.</p>
-    <p>The concierge your parents couldn't afford is now less than a dinner out.</p>
-    <div style="margin-top:2rem">
-      <a class="btn btn-indigo btn-lg" href="#">Start Planning &mdash; $25/Country</a>
+<section class="access-section">
+  <div class="access-inner" data-reveal>
+    <div class="manifesto-copy">
+      <span class="eyebrow eyebrow-soft">The Access Story</span>
+      <h2>Five-star planning used to be a luxury. Now it's arithmetic.</h2>
+      <p>For decades, premium travel planning required either a credit card with a concierge line you rarely used, or a full-service travel agent charging retainer fees most people couldn't justify. The result: expensive trips built from the same template everyone else uses.</p>
+      <p>Butler Button changes the math. <strong>One preference survey.</strong> AI scanning 200,000+ options. A human expert who knows your destination reviewing everything. A ready-to-book itinerary in 24 hours. $25 per country.</p>
+      <p>The concierge your parents couldn't afford is now less than a dinner out.</p>
+      <div style="margin-top:2rem">
+        <a class="btn btn-indigo btn-lg" href="#">Start Planning &mdash; $25/Country</a>
+      </div>
     </div>
-  </div>
-</section>
-
-<section class="savings-section">
-  <div style="text-align:center" data-reveal>
-    <span class="eyebrow eyebrow-soft">Run the Numbers</span>
-    <h2 class="section-title-light">What you used to pay. What you pay now.</h2>
-  </div>
-  <div class="savings-table" data-reveal style="--delay:0.1s">
-    <div class="savings-row header">
-      <div class="savings-cell">Service</div>
-      <div class="savings-cell">Traditional</div>
-      <div class="savings-cell">Butler Button</div>
-    </div>
-    <div class="savings-row">
-      <div class="savings-cell">Trip planning (5-country Europe trip)</div>
-      <div class="savings-cell old-price">$300&ndash;500</div>
-      <div class="savings-cell new-price">$125</div>
-    </div>
-    <div class="savings-row">
-      <div class="savings-cell">Annual retainer / membership</div>
-      <div class="savings-cell old-price">$500&ndash;2,000</div>
-      <div class="savings-cell new-price">$0</div>
-    </div>
-    <div class="savings-row">
-      <div class="savings-cell">In-trip support (10 days)</div>
-      <div class="savings-cell old-price">Included &mdash; if they answer</div>
-      <div class="savings-cell new-price">$250 (8-hr plan)</div>
-    </div>
-    <div class="savings-row">
-      <div class="savings-cell">Access to human expert 24/7</div>
-      <div class="savings-cell old-price">Not guaranteed</div>
-      <div class="savings-cell new-price">Always</div>
+    <div class="access-table-col">
+      <span class="table-label">Run the Numbers</span>
+      <div class="savings-table">
+        <div class="savings-row header">
+          <div class="savings-cell">Service</div>
+          <div class="savings-cell">Traditional</div>
+          <div class="savings-cell">Butler Button</div>
+        </div>
+        <div class="savings-row">
+          <div class="savings-cell">Trip planning (5-country Europe trip)</div>
+          <div class="savings-cell old-price">$300&ndash;500</div>
+          <div class="savings-cell new-price">$125</div>
+        </div>
+        <div class="savings-row">
+          <div class="savings-cell">Annual retainer / membership</div>
+          <div class="savings-cell old-price">$500&ndash;2,000</div>
+          <div class="savings-cell new-price">$0</div>
+        </div>
+        <div class="savings-row">
+          <div class="savings-cell">In-trip support (10 days)</div>
+          <div class="savings-cell old-price">Included &mdash; if they answer</div>
+          <div class="savings-cell new-price">$250 (8-hr plan)</div>
+        </div>
+        <div class="savings-row">
+          <div class="savings-cell">Access to human expert 24/7</div>
+          <div class="savings-cell old-price">Not guaranteed</div>
+          <div class="savings-cell new-price">Always</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
