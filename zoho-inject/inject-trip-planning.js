@@ -1,0 +1,693 @@
+(function(){
+  // Load CSS
+  var l=document.createElement('link');l.rel='stylesheet';
+  l.href='https://lobodotstreehouse.github.io/butler-button-variants/css/veltm.css';document.head.appendChild(l);
+  // Page-specific + hide Zoho chrome
+  var s=document.createElement('style');
+  s.textContent=`
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
+
+  /* Savings comparison */
+  .savings-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .savings-table { max-width: 860px; margin: 2.5rem auto 0; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; }
+  .savings-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .savings-row:last-child { border-bottom: none; }
+  .savings-cell { padding: 14px 20px; font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+  .savings-row.header .savings-cell { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.02); }
+  .old-price { color: rgba(255,100,100,0.7); text-decoration: line-through; }
+  .new-price { color: var(--indigo-lt); font-weight: 700; }
+
+  /* Combined access section */
+  .access-section { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .access-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .manifesto-copy h2 { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; color: #f5f5f7; margin-bottom: 1.5rem; }
+  .manifesto-copy p { font-size: 0.96rem; color: var(--text-mute); line-height: 1.75; margin-bottom: 1rem; }
+  .manifesto-copy p strong { color: var(--indigo-lt); }
+  .access-table-col { padding-top: 0.25rem; }
+  .access-table-col .table-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 1.25rem; display: block; }
+  /* Verdict comparison */
+  .verdict-table { border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; }
+  .verdict-header-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; background: rgba(255,255,255,0.06); }
+  .vh-cell { padding: 10px 14px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .vh-cell.bb-head { color: var(--indigo-lt); background: rgba(79,70,229,0.2); }
+  .verdict-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; border-top: 1px solid rgba(255,255,255,0.08); }
+  .verdict-cell { padding: 13px 14px; font-size: 0.82rem; line-height: 1.3; }
+  .vc-label { color: rgba(255,255,255,0.75); font-size: 0.78rem; }
+  .vc-trad { color: rgba(255,255,255,0.65); }
+  .vc-bb { color: var(--indigo-lt); font-weight: 700; background: rgba(79,70,229,0.12); }
+  .verdict-foot { margin-top: 1.1rem; font-size: 0.72rem; color: rgba(255,255,255,0.6); letter-spacing: 0.03em; }
+  @media (max-width: 900px) { .access-inner { grid-template-columns: 1fr; gap: 3rem; } }
+
+  @media (max-width:640px) { .savings-row { grid-template-columns: 1fr; } .savings-cell { padding: 8px 14px; } }
+
+  .what-you-get { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .wyg-grid {
+    max-width: 1080px; margin: 2.5rem auto 0;
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem;
+  }
+  .wyg-item {
+    background: var(--dark-2); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .wyg-item h4 { font-size: 0.88rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.4rem; }
+  .wyg-item p { font-size: 0.78rem; color: var(--text-mute); line-height: 1.55; }
+  .section-title-light { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; color: #f5f5f7; margin-top: 0.75rem; }
+  @media (max-width:700px) { .wyg-grid { grid-template-columns: 1fr; } }
+
+  /* ── Phone demo section ── */
+  .phone-demo-section {
+    background: var(--dark-2);
+    padding: clamp(5rem,9vw,9rem) 5vw clamp(6rem,10vw,10rem);
+    position: relative;
+    overflow: clip;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .phone-demo-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 360px;
+    gap: 5rem; align-items: center;
+  }
+  .phone-demo-copy .how-label {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--indigo-lt);
+    margin-bottom: 2.5rem; display: block;
+  }
+  .phone-demo-copy h2 {
+    font-size: clamp(2rem,4vw,3.2rem);
+    font-weight: 700; letter-spacing: -0.035em; line-height: 1.1;
+    color: #f5f5f7; margin-bottom: 1rem;
+  }
+  .phone-demo-copy h2 span { color: var(--indigo-lt); }
+  .phone-demo-copy .phone-demo-sub {
+    font-size: 1rem; color: rgba(255,255,255,0.5);
+    line-height: 1.65; letter-spacing: -0.01em;
+    max-width: 420px; margin-bottom: 2.5rem;
+  }
+  .phone-step-list-wrap {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: 2.5rem;
+  }
+  #stepArrow2 {
+    position: absolute; left: 0; top: 1.25rem;
+    color: var(--indigo-lt); font-size: 1.1rem; font-weight: 900; line-height: 1;
+    pointer-events: none; user-select: none;
+    transition: top 0.45s cubic-bezier(0.22,1,0.36,1), transform 0.18s ease;
+  }
+  #stepArrow2.pulse { transform: scale(1.4); }
+  .phone-step-list { list-style: none; padding: 0; margin: 0; }
+  .phone-step-list li {
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    cursor: default;
+    transition: border-color 0.4s ease;
+  }
+  .phone-step-list li[data-active="true"] { border-color: rgba(129,140,248,0.3); }
+  .phone-step-tag {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.28);
+    margin-bottom: 0.45rem; transition: color 0.4s ease;
+  }
+  .phone-step-list li[data-active="true"] .phone-step-tag { color: var(--indigo-lt); }
+  .phone-step-title {
+    font-size: clamp(0.95rem,1.6vw,1.15rem); font-weight: 700;
+    letter-spacing: -0.025em; color: rgba(255,255,255,0.45);
+    margin-bottom: 0.4rem; line-height: 1.25; transition: color 0.4s ease;
+  }
+  .phone-step-list li[data-active="true"] .phone-step-title { color: #f5f5f7; }
+  .phone-step-body {
+    font-size: 0.84rem; color: rgba(255,255,255,0.25);
+    line-height: 1.6; letter-spacing: -0.01em; transition: color 0.4s ease;
+  }
+  .phone-step-list li[data-active="true"] .phone-step-body { color: var(--text-mute); }
+  .phone {
+    width: 340px; background: var(--near-black);
+    border-radius: 44px; padding: 10px;
+    box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255,255,255,0.1);
+    position: relative;
+  }
+  .phone__notch {
+    width: 120px; height: 28px; background: var(--near-black);
+    border-radius: 0 0 16px 16px;
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10;
+  }
+  .phone__screen {
+    background: #EEF2FF; border-radius: 34px;
+    overflow: hidden; height: 640px; position: relative;
+  }
+  .screen {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden; transition: opacity 0.45s ease;
+    display: flex; flex-direction: column; pointer-events: none; overflow: hidden;
+  }
+  .screen[data-active="true"] { opacity: 1; visibility: visible; }
+  .widget-chrome { background: white; display: flex; flex-direction: column; height: 100%; padding-top: 36px; }
+  .widget-topbar { padding: 6px 12px 0; border-bottom: 1px solid #F3F4F6; }
+  .widget-brand-row { display: flex; align-items: center; gap: 6px; padding-bottom: 6px; }
+  .widget-brand-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--indigo); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.65rem; }
+  .widget-brand-text strong { font-size: 0.72rem; display: block; color: var(--near-black); line-height: 1.1; }
+  .widget-brand-text small { font-size: 0.55rem; color: var(--gray-400); }
+  .widget-steps { display: flex; align-items: center; padding: 7px 0 8px; overflow: hidden; }
+  .wstep { display: flex; flex-direction: column; align-items: center; flex: 1; font-size: 0.48rem; color: #9CA3AF; gap: 2px; }
+  .wstep-circle { width: 18px; height: 18px; border-radius: 50%; background: #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 0.55rem; font-weight: 700; color: #9CA3AF; }
+  .wstep.done .wstep-circle { background: var(--indigo); color: white; }
+  .wstep.done .wstep-circle::after { content: '✓'; }
+  .wstep.active .wstep-circle { background: var(--indigo); color: white; }
+  .wstep.active { color: var(--indigo); font-weight: 700; }
+  .wstep-line { flex: 0.6; height: 1.5px; background: #E5E7EB; margin-bottom: 12px; }
+  .wstep-line.done { background: var(--indigo); }
+  .widget-body { flex: 1; padding: 10px 12px; overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
+  .widget-section-label { font-size: 0.68rem; font-weight: 700; color: var(--near-black); margin-bottom: 4px; }
+  .svc-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; }
+  .svc-card { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 7px 4px; text-align: center; cursor: pointer; transition: all 0.2s; }
+  .svc-card.selected { border-color: var(--indigo); background: #EEF2FF; }
+  .svc-card-icon { font-size: 0.9rem; margin-bottom: 2px; }
+  .svc-card-name { font-size: 0.58rem; font-weight: 700; color: var(--near-black); display: block; }
+  .svc-card.selected .svc-card-name,.svc-card.selected .svc-card-price { color: var(--indigo); }
+  .svc-card-price { font-size: 0.55rem; color: #6B7280; display: block; margin-top: 1px; }
+  .svc-card-sub { font-size: 0.48rem; color: #9CA3AF; margin-top: 1px; display: block; }
+  .dest-field { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 7px 9px; display: flex; align-items: center; gap: 5px; font-size: 0.62rem; color: #9CA3AF; background: white; }
+  .dest-tag { display: inline-flex; align-items: center; gap: 3px; background: #F3F4F6; border-radius: 4px; padding: 2px 6px; font-size: 0.6rem; font-weight: 600; color: var(--near-black); margin-right: 4px; }
+  .dest-tag .x { color: #9CA3AF; font-size: 0.55rem; }
+  .widget-cta { background: #D1D5DB; color: #6B7280; border: none; border-radius: 8px; padding: 9px; font-size: 0.68rem; font-weight: 600; text-align: center; width: 100%; }
+  .widget-cta.active { background: var(--gradient); color: white; }
+  .hint-text { font-size: 0.52rem; color: #9CA3AF; text-align: center; display: flex; align-items: center; justify-content: center; gap: 3px; }
+  .travelers-row { display: flex; align-items: center; gap: 6px; }
+  .qty-btn { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--near-black); font-weight: 600; }
+  .qty-val { font-size: 0.75rem; font-weight: 700; color: var(--near-black); min-width: 14px; text-align: center; }
+  .solo-pill { background: #F3F4F6; border-radius: 999px; padding: 3px 8px; font-size: 0.55rem; font-weight: 600; color: var(--gray-600); display: flex; align-items: center; gap: 3px; }
+  .solo-hint { font-size: 0.55rem; color: #9CA3AF; margin-top: 2px; }
+  .date-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 6px; }
+  .date-pill { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 6px; text-align: center; }
+  .date-pill.selected { border-color: var(--indigo); background: #EEF2FF; }
+  .date-pill-label { font-size: 0.6rem; font-weight: 700; display: block; }
+  .date-pill.selected .date-pill-label { color: var(--indigo); }
+  .date-pill-sub { font-size: 0.5rem; color: #9CA3AF; }
+  .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  .date-input { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 6px 7px; font-size: 0.6rem; color: var(--near-black); display: flex; align-items: center; gap: 4px; }
+  .mix-toggle-row { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; }
+  .mix-toggle-text strong { font-size: 0.6rem; color: #92400E; display: block; }
+  .mix-toggle-text small { font-size: 0.52rem; color: #B45309; }
+  .toggle-switch { width: 26px; height: 14px; border-radius: 999px; background: #D1D5DB; position: relative; }
+  .toggle-switch::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  .form-input-row { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 6px 8px; font-size: 0.62rem; color: var(--near-black); background: white; display: flex; align-items: center; gap: 5px; }
+  .form-input-row.filled { border-color: #C7D2FE; background: #F5F3FF; }
+  .phone-code { font-size: 0.6rem; color: #6B7280; border-right: 1px solid #E5E7EB; padding-right: 5px; margin-right: 2px; }
+  .wa-check-row { display: flex; align-items: center; gap: 5px; }
+  .wa-check-circle { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #E5E7EB; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .wa-check-circle.checked { background: #25D366; border-color: #25D366; color: white; font-size: 0.55rem; }
+  .wa-check-label { font-size: 0.6rem; color: var(--near-black); }
+  .promo-row { display: flex; align-items: center; gap: 5px; }
+  .promo-input { flex: 1; border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 6px 8px; font-size: 0.62rem; color: var(--near-black); background: white; font-family: ui-monospace,monospace; letter-spacing: 0.06em; display: flex; align-items: center; gap: 4px; }
+  .promo-input.applied { border-color: #22C55E; background: #F0FDF4; color: #166534; }
+  .promo-icon { font-size: 0.7rem; opacity: 0.5; }
+  .promo-apply-btn { background: var(--indigo); color: white; border: none; border-radius: 8px; padding: 6px 9px; font-size: 0.6rem; font-weight: 700; flex-shrink: 0; }
+  .promo-apply-btn.success { background: #22C55E; }
+  .promo-success-msg { font-size: 0.57rem; color: #166534; font-weight: 600; display: flex; align-items: center; gap: 3px; margin-top: 3px; }
+  .order-summary { background: #F9FAFB; border-radius: 8px; padding: 8px 10px; }
+  .order-summary-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #9CA3AF; margin-bottom: 5px; }
+  .order-row { display: flex; justify-content: space-between; font-size: 0.62rem; color: #6B7280; margin-bottom: 2px; }
+  .order-row.total { color: var(--near-black); font-weight: 700; font-size: 0.72rem; border-top: 1px solid #E5E7EB; padding-top: 5px; margin-top: 4px; }
+  .strike { text-decoration: line-through; color: #D1D5DB; margin-right: 3px; }
+  .discount-badge { color: #22C55E; font-weight: 700; }
+  .processing-screen { background: white; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px 20px; }
+  .spinner { width: 52px; height: 52px; border-radius: 50%; border: 3px solid #E5E7EB; border-top-color: var(--indigo); animation: spin 0.85s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .proc-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--near-black); margin-bottom: 4px; }
+  .proc-sub { font-size: 0.72rem; color: #6B7280; line-height: 1.5; }
+  .proc-dots { display: flex; gap: 5px; justify-content: center; margin-top: 16px; }
+  .proc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--indigo); animation: dot-bounce 1.2s ease-in-out infinite; }
+  .proc-dot:nth-child(2) { animation-delay: 0.2s; } .proc-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-bounce { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+  .confirm-screen { background: linear-gradient(180deg,#F0FDF4 0%,white 50%); padding: 36px 20px 20px; align-items: center; justify-content: center; text-align: center; }
+  .confirm-check { width: 60px; height: 60px; border-radius: 50%; background: #22C55E; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: white; font-size: 1.6rem; animation: pop-in 0.55s cubic-bezier(0.4,0,0.2,1); }
+  @keyframes pop-in { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15);opacity:1} 100%{transform:scale(1)} }
+  .confirm-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--near-black); margin-bottom: 6px; }
+  .confirm-sub { font-size: 0.72rem; color: #6B7280; line-height: 1.55; margin-bottom: 14px; padding: 0 6px; }
+  .confirm-detail-box { background: white; border: 1px solid #E5E7EB; border-radius: 10px; padding: 10px 14px; text-align: left; font-size: 0.62rem; color: #6B7280; width: 100%; margin-bottom: 14px; }
+  .confirm-detail-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .confirm-detail-row:last-child { margin-bottom: 0; }
+  .confirm-detail-row strong { color: var(--near-black); }
+  .confirm-ref { font-family: ui-monospace,monospace; font-size: 0.6rem; color: #9CA3AF; margin-bottom: 14px; }
+  .wa-cta-btn { background: #25D366; color: white; border: none; border-radius: 999px; padding: 10px 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+  .wa-logo { width: 14px; height: 14px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .wa-screen { background: #E5DDD5; display: flex; flex-direction: column; }
+  .wa-header { background: #075E54; color: white; padding: 38px 12px 8px; display: flex; align-items: center; gap: 8px; }
+  .wa-back { font-size: 0.75rem; opacity: 0.9; }
+  .wa-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--indigo); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 700; font-family: var(--font-display); }
+  .wa-name { font-size: 0.75rem; font-weight: 600; line-height: 1.2; } .wa-status { font-size: 0.55rem; opacity: 0.8; }
+  .wa-icons { margin-left: auto; display: flex; gap: 10px; font-size: 0.85rem; opacity: 0.85; }
+  .wa-body { flex: 1; padding: 8px 8px 4px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+  .wa-date-chip { align-self: center; background: rgba(225,245,254,0.92); padding: 2px 8px; border-radius: 6px; font-size: 0.52rem; color: #4A5568; margin-bottom: 2px; }
+  .wa-msg { max-width: 86%; padding: 6px 8px 5px; border-radius: 8px; font-size: 0.65rem; line-height: 1.45; box-shadow: 0 1px 1px rgba(0,0,0,0.1); opacity: 0; animation: wa-pop 0.35s ease forwards; }
+  .wa-msg--butler { background: white; align-self: flex-start; border-top-left-radius: 2px; }
+  .wa-msg--user { background: #D9FDD3; align-self: flex-end; border-top-right-radius: 2px; }
+  .wa-time { font-size: 0.5rem; color: rgba(0,0,0,0.4); float: right; margin-left: 6px; margin-top: 2px; }
+  .screen[data-active="true"] .wa-msg:nth-child(2){animation-delay:0.3s}
+  .screen[data-active="true"] .wa-msg:nth-child(3){animation-delay:1.4s}
+  .screen[data-active="true"] .wa-msg:nth-child(4){animation-delay:2.3s}
+  .screen[data-active="true"] .wa-msg:nth-child(5){animation-delay:3.2s}
+  @keyframes wa-pop { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .wa-input-bar { background: #F0F2F5; padding: 5px 8px; display: flex; align-items: center; gap: 5px; }
+  .wa-input-box { flex: 1; background: white; border-radius: 20px; padding: 5px 10px; font-size: 0.6rem; color: #9CA3AF; }
+  .wa-send-btn { width: 28px; height: 28px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; }
+  .replay-btn { position: absolute; bottom: -44px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); border: 1px solid var(--border-gray); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.7rem; color: var(--indigo); font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: var(--shadow-sm); cursor: pointer; }
+  .replay-btn:hover { background: var(--indigo-tint); }
+  @media(max-width:860px){
+    .phone-demo-inner { grid-template-columns: 1fr; justify-items: center; }
+    .phone-demo-copy { text-align: center; }
+    .phone-demo-copy .phone-demo-sub { margin-left: auto; margin-right: auto; }
+    .phone-step-list-wrap { display: none; }
+  }
+
+  /* ── Photo-background: pricing section ── */
+  .section-products {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .section-products::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 0;
+  }
+  .section-products > * { position: relative; z-index: 1; }
+
+  /* ── Solid card backgrounds so text is readable over photo ── */
+  .pcard--trip  { background: rgba(10,10,18,0.88) !important; border-color: rgba(129,140,248,0.18) !important; }
+  .pcard--elite { background: rgba(20,10,32,0.88) !important; border-color: rgba(124,58,237,0.2) !important; }
+  .pcard--trip:hover,
+  .pcard--elite:hover { border-color: rgba(129,140,248,0.35) !important; }
+
+  /* ── Photo-background: access section (same pattern as section-products) ── */
+  .access-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .access-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.80);
+    z-index: 0;
+  }
+  .access-section > * { position: relative; z-index: 1; }
+\n
+.zs-header-section,.zs-footer-section,.zs-sections-wrapper,.zs-banner-wrapper,
+.zcms-page-body,[class*="zs-widget"],.site-header-wrap,.site-footer-wrap,
+.zcms-header,header.site-header,footer.site-footer{display:none!important}
+html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}
+`;
+  document.head.appendChild(s);
+  // Inject page HTML
+  var d=document.createElement('div');
+  d.id='bb-page';
+  d.innerHTML=`<div class="scroll-progress"></div>
+<nav class="nav">
+  <a class="nav-brand" href="#">Butler<em>Button</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#trip-planning">Trip Planning</a></li><li><a href="#concierge">Concierge</a></li>
+    <li><a href="#advisor">Travel Advisor</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Started</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Trip Planning &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>Know Your Trip is Good.<br><span>Before You Leave.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">Five-star vacation planning used to require a full-service travel agent on retainer.<br>Now it's $25 per trip.<br>No membership. No gatekeeping.</p>
+    <div class="hero-actions" data-reveal style="--delay:0.2s">
+      <a class="btn btn-indigo btn-lg" href="#">Start Planning &mdash; $25/Trip Plan</a>
+      <a class="btn btn-ghost-light btn-lg" href="#">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ trip plan</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>No limit on countries included</li><li>AI scans 200,000+ options</li><li>Expert review in 24 hours</li><li>Up to 5 revisions within 180 days</li><li>Request within 180 days of purchase</li><li>Book components individually or bundled</li><li>Reserve now, pay at supplier on arrival</li><li>Purchase with your card to earn points</li><li>Redeem loyalty points at no extra fee</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<section class="phone-demo-section" id="how">
+  <div class="phone-demo-inner">
+
+    <!-- Left: copy + live step tracker -->
+    <div class="phone-demo-copy">
+      <span class="how-label">Simple to Start</span>
+      <h2>Powerful when<br><span>it matters.</span></h2>
+      <p class="phone-demo-sub">Four steps to your personal travel expert. Watch how simple it is →</p>
+
+      <div class="phone-step-list-wrap">
+        <div id="stepArrow2" aria-hidden="true" class="" style="top: 244px;">→</div>
+        <ul class="phone-step-list" id="stepList2">
+          <li data-step="1">
+            <div class="phone-step-tag">01 — Choose</div>
+            <div class="phone-step-title">Pick your service level.</div>
+            <div class="phone-step-body">Trip planning, 8-hour concierge, or full 24/7 coverage. Pick what your trip needs.</div>
+          </li>
+          <li data-step="2">
+            <div class="phone-step-tag">02 — Itinerary</div>
+            <div class="phone-step-title">Share your plans.</div>
+            <div class="phone-step-body">Your Butler reads your itinerary before you depart. They know your trip before anything happens.</div>
+          </li>
+          <li data-step="3" data-active="true">
+            <div class="phone-step-tag">03 — Travel</div>
+            <div class="phone-step-title">Travel freely.</div>
+            <div class="phone-step-body">Text, WhatsApp, or call whenever you need something. Under 4 minutes to a human expert.</div>
+          </li>
+          <li data-step="4">
+            <div class="phone-step-tag">04 — Handled</div>
+            <div class="phone-step-title">We handle the rest.</div>
+            <div class="phone-step-body">Disruptions, reservations, local intel. Resolved before you've finished explaining the problem.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right: Phone mockup -->
+    <div style="position:relative;">
+      <div class="phone">
+        <div class="phone__notch"></div>
+        <div class="phone__screen" id="phoneScreen2">
+
+          <!-- Screen 2: Widget — Service selection -->
+          <div class="screen" data-screen="2">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><path d="M9 15s1.5 2 3 2 3-2 3-2"></path></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep active"><div class="wstep-circle">1</div>Service</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">2</div>Destination</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">3</div>Details</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-section-label">Choose your service</div>
+                <div class="svc-cards">
+                  <div class="svc-card"><div class="svc-card-icon">⊙</div><span class="svc-card-name">Trip Planning</span><span class="svc-card-price">$25/trip plan</span><span class="svc-card-sub">5 Revisions</span></div>
+                  <div class="svc-card selected"><div class="svc-card-icon" style="color:var(--indigo);">🕐</div><span class="svc-card-name">8-Hour</span><span class="svc-card-price">$25/day</span><span class="svc-card-sub">Remote Support</span></div>
+                  <div class="svc-card"><div class="svc-card-icon">🕐</div><span class="svc-card-name">24-Hour</span><span class="svc-card-price">$100/day</span><span class="svc-card-sub">Full Day</span></div>
+                </div>
+                <div class="widget-section-label" style="margin-top:4px;">Where are you headed?</div>
+                <div class="dest-field"><span>🔍</span><span>Type a country name...</span></div>
+                <div class="widget-cta" style="margin-top:auto;">Select a Destination to continue</div>
+                <div class="hint-text">ⓘ Complete: destination, purpose, dates, name, email, phone</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 3: Destination + travelers + dates -->
+          <div class="screen" data-screen="3">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><path d="M9 15s1.5 2 3 2 3-2 3-2"></path></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep done"><div class="wstep-circle"></div>Service</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Destination</div><div class="wstep-line"></div><div class="wstep active"><div class="wstep-circle">3</div>Details</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div style="display:flex;gap:4px;flex-wrap:wrap;"><div class="dest-tag" style="background:#EEF2FF;color:var(--indigo);">🕐 8-Hour · $25/day</div><div class="dest-tag">🇮🇹 Italy <span class="x">×</span></div></div>
+                <div class="widget-section-label">How many travelers?</div>
+                <div class="travelers-row"><div class="qty-btn">−</div><div class="qty-val">1</div><div class="qty-btn">+</div><div class="solo-pill">👤 Solo</div></div>
+                <div class="solo-hint">Solo travel — personalized just for you</div>
+                <div class="widget-section-label">When are you traveling?</div>
+                <div class="date-toggle"><div class="date-pill selected"><span class="date-pill-label">📅 Fixed Dates</span><span class="date-pill-sub">I know my exact dates</span></div><div class="date-pill"><span class="date-pill-label" style="color:#6B7280;">🕐 Tentative</span><span class="date-pill-sub">I'm flexible</span></div></div>
+                <div class="date-row"><div class="date-input"><span>📅</span> May 01, 2026</div><div class="date-input"><span>📅</span> May 08, 2026</div></div>
+                <div class="mix-toggle-row"><div class="mix-toggle-text"><strong>Mix service levels per day?</strong><small>Customize 8-hour vs 24-hour per day</small></div><div class="toggle-switch"></div></div>
+                <div class="widget-cta active" style="margin-top:auto;">Continue →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 4: Contact form + promo -->
+          <div class="screen" data-screen="4" data-active="true">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><path d="M9 15s1.5 2 3 2 3-2 3-2"></path></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep done"><div class="wstep-circle"></div>Service</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Destination</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Details</div><div class="wstep-line"></div><div class="wstep active"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-section-label">Your details</div>
+                <div class="form-input-row filled"><span style="font-size:0.7rem;">👤</span>Alex Pires</div>
+                <div class="form-input-row filled"><span style="font-size:0.7rem;">✉️</span>apires@gmail.com</div>
+                <div class="form-input-row filled"><span>🇺🇸</span><span class="phone-code">+1</span>555 123 4567</div>
+                <div class="wa-check-row"><div class="wa-check-circle checked">✓</div><span class="wa-check-label">Add WhatsApp for trip updates</span></div>
+                <div class="widget-section-label" style="margin-top:4px;">🎁 Promo Code (Optional)</div>
+                <div class="promo-row"><div class="promo-input applied"><span class="promo-icon">🏷️</span>SEVENSPRINGS</div><button class="promo-apply-btn success">✓</button></div>
+                <div class="promo-success-msg">✓ Partner discount applied — 20% off</div>
+                <div class="order-summary" style="margin-top:4px;">
+                  <div class="order-summary-label">Order Summary</div>
+                  <div class="order-row"><span>8 days × 1 country</span><span>$200.00</span></div>
+                  <div class="order-row"><span>Discount (SEVENSPRINGS)</span><span class="discount-badge">−$40.00</span></div>
+                  <div class="order-row total"><span>Total</span><span><span class="strike">$200</span> $160.00</span></div>
+                </div>
+                <div class="widget-cta active" style="margin-top:auto;">Continue to checkout — $160.00 →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 5: Processing -->
+          <div class="screen" data-screen="5">
+            <div class="processing-screen">
+              <div class="spinner"></div>
+              <div class="proc-title">Securing your Butler…</div>
+              <div class="proc-sub">Confirming payment<br>Matching your advisor</div>
+              <div class="proc-dots"><div class="proc-dot"></div><div class="proc-dot"></div><div class="proc-dot"></div></div>
+            </div>
+          </div>
+
+          <!-- Screen 6: Confirmation -->
+          <div class="screen confirm-screen" data-screen="6">
+            <div class="confirm-check">✓</div>
+            <div class="confirm-title">You're booked!</div>
+            <div class="confirm-sub">Your Butler has been assigned. Expect a WhatsApp message within 4 minutes.</div>
+            <div class="confirm-detail-box">
+              <div class="confirm-detail-row"><span>Service</span><strong>8-Hour Butler</strong></div>
+              <div class="confirm-detail-row"><span>Destination</span><strong>Italy</strong></div>
+              <div class="confirm-detail-row"><span>Dates</span><strong>May 1–8, 2026</strong></div>
+              <div class="confirm-detail-row"><span>Total paid</span><strong>$160.00</strong></div>
+            </div>
+            <div class="confirm-ref">Ref: BB-2026-IT-A42X</div>
+            <button class="wa-cta-btn"><div class="wa-logo"><svg width="9" height="9" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></div>Open WhatsApp →</button>
+          </div>
+
+          <!-- Screen 7: WhatsApp handoff -->
+          <div class="screen wa-screen" data-screen="7">
+            <div class="wa-header">
+              <div class="wa-back">←</div>
+              <div class="wa-avatar">B</div>
+              <div><div class="wa-name">Butler · VELTM</div><div class="wa-status">online</div></div>
+              <div class="wa-icons">📞 ⋮</div>
+            </div>
+            <div class="wa-body">
+              <div class="wa-date-chip">Today, May 1</div>
+              <div class="wa-msg wa-msg--butler">Hi Alex! 👋 I'm your VELTM Butler for Italy, May 1–8. Booking confirmed — ref BB-2026-IT-A42X.<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--butler">Nice save with the SEVENSPRINGS code 😄 Are you heading to a specific city, or want me to plan a multi-city route?<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--user">Rome + Amalfi coast please!<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--butler">Perfect combo. I'll have your full day-by-day itinerary ready in ~4 hours. Any dietary needs or must-do experiences?<span class="wa-time">Just now ✓✓</span></div>
+            </div>
+            <div class="wa-input-bar"><div class="wa-input-box">Type a message...</div><div class="wa-send-btn">↑</div></div>
+          </div>
+
+        </div><!-- /phone__screen -->
+      </div><!-- /phone -->
+      <button class="replay-btn" id="replayBtn2">↺ Replay demo</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="access-section">
+  <div class="access-inner" data-reveal>
+    <div class="manifesto-copy">
+      <span class="eyebrow eyebrow-soft">The Access Story</span>
+      <h2>Five-star planning used to be a luxury. Now it's arithmetic.</h2>
+      <p>For decades, premium travel planning required either a credit card with a concierge line you rarely used, or a full-service travel agent charging retainer fees most people couldn't justify. The result: expensive trips built from the same template everyone else uses.</p>
+      <p>Butler Button changes the math. <strong>One preference survey.</strong> AI scanning 200,000+ options. A human expert who knows your destination reviewing everything. A ready-to-book itinerary in 24 hours. $25 per trip plan — no limit on how many countries.</p>
+      <p>The concierge your parents couldn't afford is now less than a dinner out.</p>
+      <div style="margin-top:2rem">
+        <a class="btn btn-indigo btn-lg" href="#">Start Planning &mdash; $25/Trip Plan</a>
+      </div>
+    </div>
+    <div class="access-table-col">
+      <span class="table-label">The Difference</span>
+      <div class="verdict-table">
+        <div class="verdict-header-row">
+          <div class="vh-cell"></div>
+          <div class="vh-cell">Traditional</div>
+          <div class="vh-cell bb-head">Butler Button</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Planning cost</div>
+          <div class="verdict-cell vc-trad">$300&ndash;500</div>
+          <div class="verdict-cell vc-bb">$25 / trip plan</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Ready in</div>
+          <div class="verdict-cell vc-trad">1&ndash;2 weeks</div>
+          <div class="verdict-cell vc-bb">24 hours</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Human expert</div>
+          <div class="verdict-cell vc-trad">If they answer</div>
+          <div class="verdict-cell vc-bb">Always</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Annual fees</div>
+          <div class="verdict-cell vc-trad">$500&ndash;2,000</div>
+          <div class="verdict-cell vc-bb">$0</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Options scanned</div>
+          <div class="verdict-cell vc-trad">What they know</div>
+          <div class="verdict-cell vc-bb">200,000+</div>
+        </div>
+      </div>
+      <p class="verdict-foot">One flat fee per trip plan. No limit on countries. No retainers, no surprises.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
+</section>
+
+<section class="what-you-get">
+  <div style="text-align:center" data-reveal="" class="visible">
+    <span class="eyebrow eyebrow-soft">What You Receive</span>
+    <h2 class="section-title-light">Everything in your itinerary.</h2>
+  </div>
+  <div class="wyg-grid">
+    <div class="wyg-item visible" data-reveal=""><h4>Accommodation</h4><p>Hotels, rentals, and guesthouses matched to your style, budget, and location priorities — not sponsored placements.</p></div>
+    <div class="wyg-item visible" data-reveal="" style="--delay:0.08s"><h4>Restaurants</h4><p>Curated to your dietary preferences and cuisine interests. Includes booking-required reservations handled for you.</p></div>
+    <div class="wyg-item visible" data-reveal="" style="--delay:0.16s"><h4>Experiences</h4><p>Activities, tours, and cultural experiences filtered by your pace, interests, and group composition.</p></div>
+    <div class="wyg-item visible" data-reveal=""><h4>Transport</h4><p>Getting between places without the research headache. Transfers, trains, domestic flights — whatever makes sense.</p></div>
+    <div class="wyg-item visible" data-reveal="" style="--delay:0.08s"><h4>Timing</h4><p>A day-by-day structure that doesn't overbook or leave you scrambling. Buffer time built in.</p></div>
+    <div class="wyg-item visible" data-reveal="" style="--delay:0.16s"><h4>Local notes</h4><p>Context the algorithm can't surface. What to know. What to avoid. What to ask for.</p></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <a class="footer-brand" href="#">Butler<em>Button</em> by VELTM</a>
+  <ul class="footer-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Trip Planning</a></li>
+    <li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisor</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <span class="footer-legal">&copy; 2026 VELTM Tours</span>
+</footer>`;
+  document.body.appendChild(d);
+  // Load veltm.js
+  var js=document.createElement('script');
+  js.src='https://lobodotstreehouse.github.io/butler-button-variants/js/veltm.js';
+  js.onload=function(){ (function () {
+  var screens   = document.querySelectorAll('#phoneScreen2 .screen');
+  var stepItems = document.querySelectorAll('#stepList2 li');
+  var replayBtn = document.getElementById('replayBtn2');
+  var stepArrow = document.getElementById('stepArrow2');
+  var stepList  = document.getElementById('stepList2');
+  var timeline = [
+    { screen: 2, step: 1, duration: 3200 },
+    { screen: 3, step: 2, duration: 3800 },
+    { screen: 4, step: 3, duration: 4500 },
+    { screen: 5, step: 3, duration: 2400 },
+    { screen: 6, step: 4, duration: 4000 },
+    { screen: 7, step: 4, duration: 6000 }
+  ];
+  var currentIndex = 0;
+  var timer = null;
+  function show(idx) {
+    screens.forEach(function(s) { s.removeAttribute('data-active'); });
+    stepItems.forEach(function(li) { li.removeAttribute('data-active'); });
+    var entry = timeline[idx];
+    var scr = document.querySelector('#phoneScreen2 .screen[data-screen="' + entry.screen + '"]');
+    if (scr) scr.setAttribute('data-active', 'true');
+    var li = document.querySelector('#stepList2 li[data-step="' + entry.step + '"]');
+    if (li) {
+      li.setAttribute('data-active', 'true');
+      if (stepArrow && stepList) {
+        var arrowTop = li.offsetTop + 20;
+        stepArrow.style.top = arrowTop + 'px';
+        stepArrow.classList.remove('pulse');
+        void stepArrow.offsetWidth;
+        stepArrow.classList.add('pulse');
+        setTimeout(function () { stepArrow.classList.remove('pulse'); }, 200);
+      }
+    }
+  }
+  function advance() {
+    show(currentIndex);
+    var dur = timeline[currentIndex].duration;
+    timer = setTimeout(function () {
+      currentIndex = (currentIndex + 1) % timeline.length;
+      advance();
+    }, dur);
+  }
+  if (replayBtn) {
+    replayBtn.addEventListener('click', function () {
+      clearTimeout(timer);
+      currentIndex = 0;
+      advance();
+    });
+  }
+  var phoneScreen = document.getElementById('phoneScreen2');
+  if (phoneScreen) {
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !timer) { advance(); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.3 });
+      obs.observe(phoneScreen);
+    } else {
+      advance();
+    }
+  }
+})();
+(function() {
+  var photos = [
+    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
+    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
+    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
+    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
+    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
+    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
+    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+  ];
+  var pool = photos.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+  function setBg(sel, pick) {
+    var el = document.querySelector(sel);
+    if (el && pick) {
+      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=1800&q=80)';
+      el.setAttribute('data-destination', pick.place);
+    }
+  }
+  setBg('.section-products', pool[0]);
+  setBg('.access-section', pool[1] || pool[0]);
+})(); };
+  document.body.appendChild(js);
+})();
