@@ -1379,7 +1379,7 @@
       .phone-demo-copy .phone-demo-sub { margin-left:auto; margin-right:auto; }
       .phone-step-list-wrap { display:none; }
     }
-  \n.zs-header-section,.zs-footer-section,.zs-sections-wrapper,.zs-banner-wrapper,.zcms-page-body,[class*="zs-widget"],.site-header-wrap,.site-footer-wrap,.zcms-header,header.site-header,footer.site-footer{display:none!important}html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}`;
+  \nbody>*:not(#bb-page){display:none!important;visibility:hidden!important}html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}`;
   document.head.appendChild(s);
   var d=document.createElement('div');
   d.id='bb-page';
