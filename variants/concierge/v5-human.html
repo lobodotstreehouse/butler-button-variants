@@ -25,6 +25,26 @@
   .ai-col.ai-good .ai-item::before { content: '\2713'; color: var(--indigo-lt); }
 
   @media (max-width:720px) { .ai-compare { grid-template-columns:1fr; } }
+
+  /* Dissection section */
+  .diss-section { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .diss-inner { max-width: 760px; margin: 0 auto; }
+  .diss-inner h2 { margin-bottom: 0.5rem; }
+  .diss-box { margin-top: 3rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; }
+  .diss-box h3 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 1rem 1.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .diss-line { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.85rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .diss-item { font-size: 0.84rem; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .diss-item small { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.25); margin-top: 0.2rem; }
+  .diss-cost { font-size: 0.84rem; font-weight: 600; white-space: nowrap; }
+  .cost-included { color: rgba(255,255,255,0.25); }
+  .cost-real { color: rgba(250,204,21,0.8); }
+  .diss-total { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: rgba(250,204,21,0.06); }
+  .diss-total-label { font-size: 0.8rem; color: rgba(250,204,21,0.7); font-weight: 600; }
+  .diss-total-price { font-size: 1.1rem; font-weight: 800; color: rgba(250,204,21,0.9); }
+  .diss-vs { margin-top: 2rem; padding: 2rem; background: rgba(79,70,229,0.1); border: 1px solid rgba(129,140,248,0.2); border-radius: 18px; }
+  .diss-vs-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--indigo-lt); margin-bottom: 0.5rem; }
+  .diss-vs-price { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; color: #f5f5f7; line-height: 1; margin-bottom: 0.5rem; }
+  .diss-vs-unit { font-size: 0.84rem; color: var(--text-mute); }
 </style>
 </head>
 <body>
@@ -55,6 +75,18 @@
     <div class="hero-actions" data-reveal style="--delay:0.2s">
       <a class="btn btn-indigo btn-lg" href="#">Get Your Butler &mdash; From $25/Day</a>
     </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Reads your itinerary before departure</li><li>Books, calls, negotiates for you</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
   </div>
 </section>
 
@@ -106,6 +138,30 @@
   </div>
 </section>
 
+<section class="diss-section">
+  <div class="diss-inner" data-reveal>
+    <span class="eyebrow eyebrow-soft">The Arithmetic</span>
+    <h2 class="section-title-light" style="font-size:clamp(1.8rem,4vw,3rem)">What you're actually paying for at a five-star hotel.</h2>
+    <p style="font-size:0.9rem;color:var(--text-mute);margin-bottom:0">Breaking down the $500/night concierge arithmetic.</p>
+    <div class="diss-box">
+      <h3>The Ritz-Carlton — What $500/night buys:</h3>
+      <div class="diss-line"><span class="diss-item">Room (the actual room)</span><span class="diss-cost cost-included">~$320</span></div>
+      <div class="diss-line"><span class="diss-item">Brand &amp; location premium</span><span class="diss-cost cost-included">~$80</span></div>
+      <div class="diss-line"><span class="diss-item">Lobby, spa &amp; facilities overhead</span><span class="diss-cost cost-included">~$60</span></div>
+      <div class="diss-line"><span class="diss-item">Your share of the concierge team<small>Shared with 200+ guests. Business hours emphasis.</small></span><span class="diss-cost cost-real">~$40</span></div>
+      <div class="diss-total">
+        <span class="diss-total-label">What you actually paid for concierge access</span>
+        <span class="diss-total-price">~$40</span>
+      </div>
+    </div>
+    <div class="diss-vs">
+      <div class="diss-vs-label">Butler Button</div>
+      <div class="diss-vs-price">$25<span style="font-size:1.2rem;font-weight:400;color:var(--text-mute)">/day</span></div>
+      <div class="diss-vs-unit">Your own expert. 24/7. Already knows your itinerary.</div>
+    </div>
+  </div>
+</section>
+
 <section class="section-scenarios">
   <div style="max-width:1080px;margin:0 auto">
     <div class="section-head" data-reveal>
@@ -117,18 +173,6 @@
       <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
       <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
     </div>
-  </div>
-</section>
-
-<section class="section-products">
-  <div class="section-head" data-reveal>
-    <span class="eyebrow eyebrow-soft">Pricing</span>
-    <h2 class="section-title-light">Transparent. No membership.</h2>
-  </div>
-  <div class="products-grid">
-    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
-    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Reads your itinerary before departure</li><li>Books, calls, negotiates for you</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
-    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
   </div>
 </section>
 
