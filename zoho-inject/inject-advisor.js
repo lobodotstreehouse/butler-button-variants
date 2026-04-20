@@ -603,6 +603,7 @@ a { text-decoration: none; color: inherit; }
 </script>
 `;
   document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
+  document.documentElement.style.visibility = '';
 
   // 5. Re-execute all inline <script> tags inside the new body content
   Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){

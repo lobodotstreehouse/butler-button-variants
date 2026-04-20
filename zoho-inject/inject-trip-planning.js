@@ -1157,6 +1157,7 @@ a { text-decoration: none; color: inherit; }
   }
 
   applyBody();
+  document.documentElement.style.visibility = '';
 
   // 6. Periodic guard: re-inject if Zoho SPA overwrites our content (runs for 5s after load)
   var _bbN = 0;

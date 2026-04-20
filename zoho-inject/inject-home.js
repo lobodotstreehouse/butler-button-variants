@@ -2364,6 +2364,7 @@
     });
   }
   applyBody();
+  document.documentElement.style.visibility = '';
 
   var _bbN = 0;
   var _bbT = setInterval(function(){
