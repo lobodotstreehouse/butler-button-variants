@@ -816,9 +816,9 @@
     .section-human::before {
       content: '';
       position: absolute; inset: 0;
-      background: rgba(255,255,255,0.58);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 0;
     }
     .section-human .human-inner { position: relative; z-index: 1; }
