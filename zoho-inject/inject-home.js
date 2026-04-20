@@ -1384,7 +1384,23 @@
       .phone-step-list-wrap { display:none; }
     }
   `;
+  style.id = 'bb-styles';
   document.head.appendChild(style);
+
+  // 1b. MutationObserver: block Zoho from re-injecting styles after our clean-slate
+  (function(){
+    var obs = new MutationObserver(function(mutations){
+      mutations.forEach(function(m){
+        m.addedNodes.forEach(function(node){
+          if(node.nodeType !== 1) return;
+          var tag = node.tagName && node.tagName.toLowerCase();
+          if(tag === 'style' && node.id !== 'bb-styles') { node.remove(); return; }
+          if(tag === 'link' && node.rel === 'stylesheet') { node.remove(); return; }
+        });
+      });
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+  })();
 
   // 3. Replace body content entirely
   document.body.innerHTML = `<!-- scroll progress -->
