@@ -1394,6 +1394,7 @@
         m.addedNodes.forEach(function(node){
           if(node.nodeType !== 1) return;
           var tag = node.tagName && node.tagName.toLowerCase();
+          if(tag === 'body') { applyBody(); return; }
           if(tag === 'style' && node.id !== 'bb-styles') { node.remove(); return; }
           if(tag === 'link' && node.rel === 'stylesheet') { node.remove(); return; }
         });
@@ -1402,8 +1403,8 @@
     obs.observe(document.documentElement, { childList: true, subtree: true });
   })();
 
-  // 3. Replace body content entirely
-  document.body.innerHTML = `<!-- scroll progress -->
+  // 3. Body HTML (applied via applyBody so it survives Zoho SPA re-renders)
+  var bodyHTML = `<!-- scroll progress -->
 <div class="scroll-progress" aria-hidden="true"></div>
 
 <!-- ─── NAV ──────────────────────────────────────────────────── -->
@@ -2108,7 +2109,6 @@
     </p>
     <div class="cta-actions" data-reveal style="--delay:.3s">
       <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
-      <a href="../../pricing.html" class="btn btn-ghost-light btn-lg">See All Pricing</a>
     </div>
     <p class="cta-fine" data-reveal style="--delay:.4s">
       Available in 195+ countries &nbsp;·&nbsp; 150+ languages &nbsp;·&nbsp; Starting at $25/day
@@ -2333,14 +2333,31 @@
   setBg('.section-human',     pool[2]);
 })();
 </script>`;
-  document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
 
-  // 4. Re-execute all inline <script> tags inside the new body content
-  Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
-    var newScript = document.createElement('script');
-    if(oldScript.src) { newScript.src = oldScript.src; newScript.async = false; }
-    else { newScript.textContent = oldScript.textContent; }
-    oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
+  function applyBody() {
+    document.body.innerHTML = bodyHTML;
+    document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
+    Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
+      var newScript = document.createElement('script');
+      if(oldScript.src) { newScript.src = oldScript.src; newScript.async = false; }
+      else { newScript.textContent = oldScript.textContent; }
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  }
+  applyBody();
+
+  var _bbN = 0;
+  var _bbT = setInterval(function(){
+    _bbN++;
+    if (_bbN > 50) { clearInterval(_bbT); return; }
+    if (!document.getElementById('bb-styles')) {
+      document.querySelectorAll('style, link[rel="stylesheet"]').forEach(function(el){ el.remove(); });
+      var s2 = document.createElement('style');
+      s2.id = 'bb-styles';
+      s2.textContent = style.textContent;
+      document.head.appendChild(s2);
+      applyBody();
+    }
+  }, 100);
 
 })();
