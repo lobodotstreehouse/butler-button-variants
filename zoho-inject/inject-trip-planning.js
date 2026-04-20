@@ -313,8 +313,8 @@ html,body{background:#000!important;margin:0!important;padding:0!important;overf
 <nav class="nav">
   <a class="nav-brand" href="#">Butler<em>Button</em></a>
   <ul class="nav-links">
-    <li><a href="#">Home</a></li><li><a href="#trip-planning">Trip Planning</a></li><li><a href="#concierge">Concierge</a></li>
-    <li><a href="#advisor">Travel Advisor</a></li>
+    <li><a href="#">Home</a></li><li><a href="https://veltm-butler.zohosites.in/destinations">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/Tours">Concierge</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/contacts">Travel Advisor</a></li>
   </ul>
   <a class="nav-book" href="#">Get Started</a>
 </nav>
