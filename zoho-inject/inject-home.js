@@ -1,8 +1,12 @@
 (function(){
-  var l=document.createElement('link');l.rel='stylesheet';
-  l.href='https://lobodotstreehouse.github.io/butler-button-variants/css/veltm.css';document.head.appendChild(l);
-  var s=document.createElement('style');
-  s.textContent=`
+  // 1. Load butler-widget.js (the reference page uses it)
+  var bw = document.createElement('script');
+  bw.src = 'https://veltmtours.com/butler-widget.js';
+  document.head.appendChild(bw);
+
+  // 2. Inject all inline CSS from the reference <head>
+  var refStyle = document.createElement('style');
+  refStyle.textContent = `
     /* ─── RESET & BASE ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -1379,19 +1383,28 @@
       .phone-demo-copy .phone-demo-sub { margin-left:auto; margin-right:auto; }
       .phone-step-list-wrap { display:none; }
     }
-  \nbody>*:not(#bb-page){display:none!important;visibility:hidden!important}html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}`;
-  document.head.appendChild(s);
-  var d=document.createElement('div');
-  d.id='bb-page';
-  d.innerHTML=`<!-- scroll progress -->
+  `;
+  document.head.appendChild(refStyle);
+
+  // 3. Inject Zoho-hide CSS
+  var hideStyle = document.createElement('style');
+  hideStyle.textContent = `body>*:not(#bb-page){display:none!important;visibility:hidden!important}html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}`;
+  document.head.appendChild(hideStyle);
+
+  // 4 & 5. Create #bb-page and inject exact body content
+  var bbPage = document.createElement('div');
+  bbPage.id = 'bb-page';
+  bbPage.innerHTML = `
+
+<!-- scroll progress -->
 <div class="scroll-progress" aria-hidden="true"></div>
 
 <!-- ─── NAV ──────────────────────────────────────────────────── -->
 <nav class="nav" id="main-nav">
-  <a class="nav-brand" href="#">Butler<em>Button</em></a>
+  <a class="nav-brand" href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Butler<em>Button</em></a>
   <ul class="nav-links">
-    <li><a href="#">Home</a></li><li><a href="https://veltm-butler.zohosites.in/destinations">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/Tours">Concierge</a></li>
-    <li><a href="https://veltm-butler.zohosites.in/contacts">Travel Advisor</a></li><li><a href="#">FAQ</a></li>
+    <li><a href="#">Home</a></li><li><a href="https://lobodotstreehouse.github.io/butler-button-variants/variants/trip-planning/v2-democratization.html">Trip Planning</a></li><li><a href="https://lobodotstreehouse.github.io/butler-button-variants/variants/concierge/v5-human.html">Concierge</a></li>
+    <li><a href="https://lobodotstreehouse.github.io/butler-button-variants/variants/advisor/v5-client-trust.html">Travel Advisor</a></li><li><a href="#">FAQ</a></li>
   </ul>
   <a class="nav-book" href="#">Get Started</a>
 </nav>
@@ -2107,7 +2120,7 @@
 
 <!-- ─── FOOTER ──────────────────────────────────────────────── -->
 <footer class="footer">
-  <a class="footer-brand" href="#">Butler<em>Button</em> by VELTM</a>
+  <a class="footer-brand" href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Butler<em>Button</em> by VELTM</a>
   <ul class="footer-links">
     <li><a href="../../">Home</a></li>
     <li><a href="../../trip-planning/">Trip Planning</a></li>
@@ -2117,11 +2130,11 @@
     <li><a href="../../advisor-program/">Advisors</a></li>
   </ul>
   <span class="footer-legal">&copy; 2026 VELTM Tours</span>
-</footer>`;
-  document.body.appendChild(d);
-  var js=document.createElement('script');
-  js.src='https://lobodotstreehouse.github.io/veltm-butler-button/js/veltm.js';
-  js.onload=function(){ (function () {
+</footer>
+
+
+<script>
+(function () {
   'use strict';
 
   const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2232,9 +2245,9 @@
     /* ── MASK HEADLINE ───────────────────────────── */
     const maskEl = document.getElementById('mask-headline');
     if (maskEl) {
-      const words = maskEl.textContent.trim().split(/\s+/);
+      const words = maskEl.textContent.trim().split(/\\s+/);
       maskEl.innerHTML = words.map((w, i) =>
-        `<span class="mask-word"><span class="mask-inner" style="transition-delay:${0.06 * i + 0.05}s">${w}</span></span>`
+        \`<span class="mask-word"><span class="mask-inner" style="transition-delay:\${0.06 * i + 0.05}s">\${w}</span></span>\`
       ).join(' ');
 
       const maskObs = new IntersectionObserver((entries) => {
@@ -2311,6 +2324,21 @@
   setBg('.section-statement', pool[0]);
   setBg('.section-products',  pool[1]);
   setBg('.section-human',     pool[2]);
-})(); };
-  document.body.appendChild(js);
+})();
+</script>
+`;
+  document.body.appendChild(bbPage);
+
+  // 6. Run the inline scripts from the reference body
+  var scripts = bbPage.querySelectorAll('script');
+  scripts.forEach(function(oldScript) {
+    var newScript = document.createElement('script');
+    if (oldScript.src) {
+      newScript.src = oldScript.src;
+    } else {
+      newScript.textContent = oldScript.textContent;
+    }
+    document.body.appendChild(newScript);
+    oldScript.parentNode.removeChild(oldScript);
+  });
 })();
