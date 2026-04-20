@@ -1413,7 +1413,7 @@
     <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
     <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
   </ul>
-  <a class="nav-book" href="#">Get Started</a>
+  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank">Get Started</a>
 </nav>
 
 
@@ -1438,7 +1438,7 @@
     <div class="hero-visual-wrap" style="display:none;">
 
       <!-- Tab 0: placeholder (hidden) -->
-      <a class="hero-v-panel active" data-phase="0" href="#" data-butler-button>
+      <a class="hero-v-panel active" data-phase="0" href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" data-butler-button>
         <div class="vp-card">
           <div class="itin-hdr">
             <div style="display:flex;align-items:center;gap:6px;">
@@ -1505,7 +1505,7 @@
       </span>
 
       <!-- Tab 1: Human handles it — Bangkok emergency -->
-      <a class="hero-v-panel" data-phase="1" href="#" data-butler-button>
+      <a class="hero-v-panel" data-phase="1" href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" data-butler-button>
         <div class="vp-card">
           <div class="chat-ctx">
             <div>
@@ -1548,7 +1548,7 @@
       </span>
 
       <!-- Tab 2: You enjoy it — Trip Report Card -->
-      <a class="hero-v-panel" data-phase="2" href="#" data-butler-button>
+      <a class="hero-v-panel" data-phase="2" href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" data-butler-button>
         <div class="vp-card vp-report">
           <div class="report-ey vp-item" style="--d:0.04s">Trip Summary · Client #4,821</div>
           <div class="report-title vp-item" style="--d:0.1s">14 Days. 4 Countries.</div>
@@ -1579,7 +1579,7 @@
       </span>
 
       <!-- Tab 3: From $25/day — The Receipt -->
-      <a class="hero-v-panel" data-phase="3" href="#" data-butler-button>
+      <a class="hero-v-panel" data-phase="3" href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" data-butler-button>
         <div class="vp-card vp-receipt">
           <div class="rcpt-hdr vp-item" style="--d:0.04s">
             <div>
@@ -1862,7 +1862,7 @@
 <!-- ── Mid-page CTA ─────────────────────────────────────────── -->
 <div class="cta-strip">
   <span class="cta-strip__text">Ready to plan your next trip?</span>
-  <a href="#" class="btn btn-white btn-md" data-butler-button>Start from $25</a>
+  <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-white btn-md" data-butler-button>Start from $25</a>
 </div>
 
 
@@ -1894,7 +1894,7 @@
         <li>24-hour delivery</li>
         <li>Advisor-reviewed &amp; signed off</li>
       </ul>
-      <a href="#" class="btn btn-ghost-dark btn-md" data-butler-button>Start Planning</a>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-ghost-dark btn-md" data-butler-button>Start Planning</a>
     </div>
 
     <div class="pcard pcard--featured" data-reveal style="--delay:.1s" onclick="this.querySelector('.btn').click()">
@@ -1915,7 +1915,7 @@
         <li>In-person errands &amp; deliveries</li>
         <li>150+ countries, 40+ languages</li>
       </ul>
-      <a href="#" class="btn btn-outline-light btn-md" data-butler-button>Get Concierge</a>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-outline-light btn-md" data-butler-button>Get Concierge</a>
     </div>
 
     <div class="pcard pcard--elite" data-reveal style="--delay:.2s" onclick="this.querySelector('.btn').click()">
@@ -1935,7 +1935,7 @@
         <li>Same advisor start to finish</li>
         <li>97% of disruptions resolved &lt;60 min</li>
       </ul>
-      <a href="#" class="btn btn-ghost-dark btn-md" style="border-color:#7c3aed; color:#7c3aed" data-butler-button>Get 24-Hour</a>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-ghost-dark btn-md" style="border-color:#7c3aed; color:#7c3aed" data-butler-button>Get 24-Hour</a>
     </div>
   </div>
 </section>
@@ -1952,21 +1952,21 @@
   </div>
 
   <div class="scenarios-grid">
-    <a href="#" class="scard" data-butler-button data-reveal>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="scard" data-butler-button data-reveal>
       <div class="scard__where">11 pm · Bangkok</div>
       <p class="scard__situation">"My flight just got cancelled. I have meetings first thing tomorrow."</p>
       <p class="scard__outcome">Your advisor already has your next-day schedule loaded. You're rebooked, transported, and checked into a hotel within 40 minutes — without making a single call yourself.</p>
       <span class="scard__tag">⚡ Resolved in 40 min →</a>
     </span>
 
-    <a href="#" class="scard" data-butler-button data-reveal style="--delay:.1s">
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="scard" data-butler-button data-reveal style="--delay:.1s">
       <div class="scard__where">Day 3 · Rome</div>
       <p class="scard__situation">"The restaurant closed. Our confirmed reservation — gone."</p>
       <p class="scard__outcome">Six minutes later you have a table at a place locals actually eat. One that never appears on any review site's first page. Better than the original.</p>
       <span class="scard__tag">⚡ Resolved in 6 min →</a>
     </span>
 
-    <a href="#" class="scard" data-butler-button data-reveal style="--delay:.2s">
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="scard" data-butler-button data-reveal style="--delay:.2s">
       <div class="scard__where">Morning · Kyoto</div>
       <p class="scard__situation">"What's worth doing today that isn't in any guide?"</p>
       <p class="scard__outcome">Your advisor grew up in the region. You get the answer no algorithm can generate — a place, a moment, a memory that doesn't exist on any platform.</p>
@@ -1982,7 +1982,7 @@
 <section class="section-human">
   <div class="human-inner">
 
-    <a href="#" class="human-img-wrap" data-butler-button data-reveal-left>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="human-img-wrap" data-butler-button data-reveal-left>
       <div class="cmp-card">
         <div class="cmp-label cmp-label--without">Without Butler Button</div>
         <ul class="cmp-list cmp-list--without">
@@ -2034,7 +2034,7 @@
         </div>
       </div>
 
-      <a href="#" class="btn btn-indigo btn-lg" data-butler-button data-reveal style="--delay:.4s">
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-indigo btn-lg" data-butler-button data-reveal style="--delay:.4s">
         Book Your Butler
       </a>
     </div>
@@ -2054,7 +2054,7 @@
   </div>
   <div class="gallery-grid">
     <!-- Bali -->
-    <a href="#" class="gallery-item" data-butler-button>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="gallery-item" data-butler-button>
       <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
@@ -2066,7 +2066,7 @@
       </div>
     </a>
     <!-- Japan -->
-    <a href="#" class="gallery-item" data-butler-button>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="gallery-item" data-butler-button>
       <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
@@ -2078,7 +2078,7 @@
       </div>
     </a>
     <!-- Santorini -->
-    <a href="#" class="gallery-item" data-butler-button>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="gallery-item" data-butler-button>
       <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
@@ -2107,7 +2107,7 @@
       No membership. No annual fee. Cancel before delivery for a full refund.
     </p>
     <div class="cta-actions" data-reveal style="--delay:.3s">
-      <a href="#" class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
       <a href="../../pricing.html" class="btn btn-ghost-light btn-lg">See All Pricing</a>
     </div>
     <p class="cta-fine" data-reveal style="--delay:.4s">
@@ -2121,7 +2121,7 @@
 <div class="sticky-cta" id="sticky-cta">
   <div class="sticky-cta__inner">
     <div class="sticky-cta__text">From <span>$25/day</span></div>
-    <a href="#" class="btn btn-indigo btn-sm" data-butler-button>Start Your Trip</a>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" target="_blank" class="btn btn-indigo btn-sm" data-butler-button>Start Your Trip</a>
   </div>
 </div>
 
