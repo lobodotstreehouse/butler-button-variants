@@ -76,6 +76,169 @@
   </div>
 </section>
 
+<section class="phone-demo-section" id="how">
+  <div class="phone-demo-inner">
+
+    <!-- Left: copy + live step tracker -->
+    <div class="phone-demo-copy">
+      <span class="how-label">Simple to Start</span>
+      <h2>Powerful when<br><span>it matters.</span></h2>
+      <p class="phone-demo-sub">Four steps to your personal travel expert. Watch how simple it is →</p>
+
+      <div class="phone-step-list-wrap">
+        <div id="stepArrow2" aria-hidden="true" class="" style="top: 244px;">→</div>
+        <ul class="phone-step-list" id="stepList2">
+          <li data-step="1">
+            <div class="phone-step-tag">01 — Choose</div>
+            <div class="phone-step-title">Pick your service level.</div>
+            <div class="phone-step-body">Trip planning, 8-hour concierge, or full 24/7 coverage. Pick what your trip needs.</div>
+          </li>
+          <li data-step="2">
+            <div class="phone-step-tag">02 — Itinerary</div>
+            <div class="phone-step-title">Share your plans.</div>
+            <div class="phone-step-body">Your Butler reads your itinerary before you depart. They know your trip before anything happens.</div>
+          </li>
+          <li data-step="3" data-active="true">
+            <div class="phone-step-tag">03 — Travel</div>
+            <div class="phone-step-title">Travel freely.</div>
+            <div class="phone-step-body">Text, WhatsApp, or call whenever you need something. Under 4 minutes to a human expert.</div>
+          </li>
+          <li data-step="4">
+            <div class="phone-step-tag">04 — Handled</div>
+            <div class="phone-step-title">We handle the rest.</div>
+            <div class="phone-step-body">Disruptions, reservations, local intel. Resolved before you've finished explaining the problem.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right: Phone mockup -->
+    <div style="position:relative;">
+      <div class="phone">
+        <div class="phone__notch"></div>
+        <div class="phone__screen" id="phoneScreen2">
+
+          <!-- Screen 2: Widget — Service selection -->
+          <div class="screen" data-screen="2">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><path d="M9 15s1.5 2 3 2 3-2 3-2"></path></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep active"><div class="wstep-circle">1</div>Service</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">2</div>Destination</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">3</div>Details</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-section-label">Choose your service</div>
+                <div class="svc-cards">
+                  <div class="svc-card"><div class="svc-card-icon">⊙</div><span class="svc-card-name">Trip Planning</span><span class="svc-card-price">$25/country</span><span class="svc-card-sub">5 Revisions</span></div>
+                  <div class="svc-card selected"><div class="svc-card-icon" style="color:var(--indigo);">🕐</div><span class="svc-card-name">8-Hour</span><span class="svc-card-price">$25/day</span><span class="svc-card-sub">Remote Support</span></div>
+                  <div class="svc-card"><div class="svc-card-icon">🕐</div><span class="svc-card-name">24-Hour</span><span class="svc-card-price">$100/day</span><span class="svc-card-sub">Full Day</span></div>
+                </div>
+                <div class="widget-section-label" style="margin-top:4px;">Where are you headed?</div>
+                <div class="dest-field"><span>🔍</span><span>Type a country name...</span></div>
+                <div class="widget-cta" style="margin-top:auto;">Select a Destination to continue</div>
+                <div class="hint-text">ⓘ Complete: destination, purpose, dates, name, email, phone</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 3: Destination + travelers + dates -->
+          <div class="screen" data-screen="3">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><path d="M9 15s1.5 2 3 2 3-2 3-2"></path></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep done"><div class="wstep-circle"></div>Service</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Destination</div><div class="wstep-line"></div><div class="wstep active"><div class="wstep-circle">3</div>Details</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div style="display:flex;gap:4px;flex-wrap:wrap;"><div class="dest-tag" style="background:#EEF2FF;color:var(--indigo);">🕐 8-Hour · $25/day</div><div class="dest-tag">🇮🇹 Italy <span class="x">×</span></div></div>
+                <div class="widget-section-label">How many travelers?</div>
+                <div class="travelers-row"><div class="qty-btn">−</div><div class="qty-val">1</div><div class="qty-btn">+</div><div class="solo-pill">👤 Solo</div></div>
+                <div class="solo-hint">Solo travel — personalized just for you</div>
+                <div class="widget-section-label">When are you traveling?</div>
+                <div class="date-toggle"><div class="date-pill selected"><span class="date-pill-label">📅 Fixed Dates</span><span class="date-pill-sub">I know my exact dates</span></div><div class="date-pill"><span class="date-pill-label" style="color:#6B7280;">🕐 Tentative</span><span class="date-pill-sub">I'm flexible</span></div></div>
+                <div class="date-row"><div class="date-input"><span>📅</span> May 01, 2026</div><div class="date-input"><span>📅</span> May 08, 2026</div></div>
+                <div class="mix-toggle-row"><div class="mix-toggle-text"><strong>Mix service levels per day?</strong><small>Customize 8-hour vs 24-hour per day</small></div><div class="toggle-switch"></div></div>
+                <div class="widget-cta active" style="margin-top:auto;">Continue →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 4: Contact form + promo -->
+          <div class="screen" data-screen="4" data-active="true">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><path d="M9 15s1.5 2 3 2 3-2 3-2"></path></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep done"><div class="wstep-circle"></div>Service</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Destination</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Details</div><div class="wstep-line"></div><div class="wstep active"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-section-label">Your details</div>
+                <div class="form-input-row filled"><span style="font-size:0.7rem;">👤</span>Alex Pires</div>
+                <div class="form-input-row filled"><span style="font-size:0.7rem;">✉️</span>apires@gmail.com</div>
+                <div class="form-input-row filled"><span>🇺🇸</span><span class="phone-code">+1</span>555 123 4567</div>
+                <div class="wa-check-row"><div class="wa-check-circle checked">✓</div><span class="wa-check-label">Add WhatsApp for trip updates</span></div>
+                <div class="widget-section-label" style="margin-top:4px;">🎁 Promo Code (Optional)</div>
+                <div class="promo-row"><div class="promo-input applied"><span class="promo-icon">🏷️</span>SEVENSPRINGS</div><button class="promo-apply-btn success">✓</button></div>
+                <div class="promo-success-msg">✓ Partner discount applied — 20% off</div>
+                <div class="order-summary" style="margin-top:4px;">
+                  <div class="order-summary-label">Order Summary</div>
+                  <div class="order-row"><span>8 days × 1 country</span><span>$200.00</span></div>
+                  <div class="order-row"><span>Discount (SEVENSPRINGS)</span><span class="discount-badge">−$40.00</span></div>
+                  <div class="order-row total"><span>Total</span><span><span class="strike">$200</span> $160.00</span></div>
+                </div>
+                <div class="widget-cta active" style="margin-top:auto;">Continue to checkout — $160.00 →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 5: Processing -->
+          <div class="screen" data-screen="5">
+            <div class="processing-screen">
+              <div class="spinner"></div>
+              <div class="proc-title">Securing your Butler…</div>
+              <div class="proc-sub">Confirming payment<br>Matching your advisor</div>
+              <div class="proc-dots"><div class="proc-dot"></div><div class="proc-dot"></div><div class="proc-dot"></div></div>
+            </div>
+          </div>
+
+          <!-- Screen 6: Confirmation -->
+          <div class="screen confirm-screen" data-screen="6">
+            <div class="confirm-check">✓</div>
+            <div class="confirm-title">You're booked!</div>
+            <div class="confirm-sub">Your Butler has been assigned. Expect a WhatsApp message within 4 minutes.</div>
+            <div class="confirm-detail-box">
+              <div class="confirm-detail-row"><span>Service</span><strong>8-Hour Butler</strong></div>
+              <div class="confirm-detail-row"><span>Destination</span><strong>Italy</strong></div>
+              <div class="confirm-detail-row"><span>Dates</span><strong>May 1–8, 2026</strong></div>
+              <div class="confirm-detail-row"><span>Total paid</span><strong>$160.00</strong></div>
+            </div>
+            <div class="confirm-ref">Ref: BB-2026-IT-A42X</div>
+            <button class="wa-cta-btn"><div class="wa-logo"><svg width="9" height="9" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></div>Open WhatsApp →</button>
+          </div>
+
+          <!-- Screen 7: WhatsApp handoff -->
+          <div class="screen wa-screen" data-screen="7">
+            <div class="wa-header">
+              <div class="wa-back">←</div>
+              <div class="wa-avatar">B</div>
+              <div><div class="wa-name">Butler · VELTM</div><div class="wa-status">online</div></div>
+              <div class="wa-icons">📞 ⋮</div>
+            </div>
+            <div class="wa-body">
+              <div class="wa-date-chip">Today, May 1</div>
+              <div class="wa-msg wa-msg--butler">Hi Alex! 👋 I'm your VELTM Butler for Italy, May 1–8. Booking confirmed — ref BB-2026-IT-A42X.<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--butler">Nice save with the SEVENSPRINGS code 😄 Are you heading to a specific city, or want me to plan a multi-city route?<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--user">Rome + Amalfi coast please!<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--butler">Perfect combo. I'll have your full day-by-day itinerary ready in ~4 hours. Any dietary needs or must-do experiences?<span class="wa-time">Just now ✓✓</span></div>
+            </div>
+            <div class="wa-input-bar"><div class="wa-input-box">Type a message...</div><div class="wa-send-btn">↑</div></div>
+          </div>
+
+        </div><!-- /phone__screen -->
+      </div><!-- /phone -->
+      <button class="replay-btn" id="replayBtn2">↺ Replay demo</button>
+    </div>
+
+  </div>
+</section>
+
 <section class="manifesto-section">
   <div class="manifesto-inner" data-reveal>
     <span class="eyebrow eyebrow-soft">The Access Story</span>
