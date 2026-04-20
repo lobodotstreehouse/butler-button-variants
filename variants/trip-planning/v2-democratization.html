@@ -45,6 +45,20 @@
 
   @media (max-width:640px) { .savings-row { grid-template-columns: 1fr; } .savings-cell { padding: 8px 14px; } }
 
+  .what-you-get { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .wyg-grid {
+    max-width: 1080px; margin: 2.5rem auto 0;
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem;
+  }
+  .wyg-item {
+    background: var(--dark-2); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .wyg-item h4 { font-size: 0.88rem; font-weight: 700; color: #f5f5f7; margin-bottom: 0.4rem; }
+  .wyg-item p { font-size: 0.78rem; color: var(--text-mute); line-height: 1.55; }
+  .section-title-light { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; color: #f5f5f7; margin-top: 0.75rem; }
+  @media (max-width:700px) { .wyg-grid { grid-template-columns: 1fr; } }
+
   /* ── Phone demo section ── */
   .phone-demo-section {
     background: var(--dark-2);
