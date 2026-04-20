@@ -279,6 +279,27 @@
     z-index: 0;
   }
   .section-products > * { position: relative; z-index: 1; }
+
+  /* ── Solid card backgrounds so text is readable over photo ── */
+  .pcard--trip  { background: rgba(10,10,18,0.88) !important; border-color: rgba(129,140,248,0.18) !important; }
+  .pcard--elite { background: rgba(20,10,32,0.88) !important; border-color: rgba(124,58,237,0.2) !important; }
+  .pcard--trip:hover,
+  .pcard--elite:hover { border-color: rgba(129,140,248,0.35) !important; }
+
+  /* ── Photo-background: access section (same pattern as section-products) ── */
+  .access-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .access-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.80);
+    z-index: 0;
+  }
+  .access-section > * { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
@@ -322,6 +343,15 @@
     <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ trip plan</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>No limit on countries included</li><li>AI scans 200,000+ options</li><li>Expert review in 24 hours</li><li>Up to 5 revisions within 180 days</li><li>Request within 180 days of purchase</li><li>Book components individually or bundled</li><li>Reserve now, pay at supplier on arrival</li><li>Purchase with your card to earn points</li><li>Redeem loyalty points at no extra fee</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
     <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
     <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
   </div>
 </section>
 
@@ -485,15 +515,6 @@
       <button class="replay-btn" id="replayBtn2">↺ Replay demo</button>
     </div>
 
-  </div>
-</section>
-
-<section class="section-stats">
-  <div class="stats-inner">
-    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
-    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
-    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
-    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
   </div>
 </section>
 
@@ -679,6 +700,7 @@
     }
   }
   setBg('.section-products', pool[0]);
+  setBg('.access-section', pool[1] || pool[0]);
 })();
 </script>
 </body>
