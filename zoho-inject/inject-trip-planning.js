@@ -745,8 +745,8 @@ a { text-decoration: none; color: inherit; }
 <nav class="nav">
   <a class="nav-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em></a>
   <ul class="nav-links">
-    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
-    <li><a href="https://veltm-butler.zohosites.in/advisor">Travel Advisor</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/destinations">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/contacts">Travel Advisor</a></li>
   </ul>
   <a class="nav-book" href="#">Get Started</a>
 </nav>
