@@ -507,7 +507,7 @@ a { text-decoration: none; color: inherit; }
     <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
     <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
   </ul>
-  <a class="nav-book" href="#">Get Concierge</a>
+  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Concierge</a>
 </nav>
 
 <section class="hero">
@@ -520,7 +520,7 @@ a { text-decoration: none; color: inherit; }
     <h1 class="hero-h1" data-reveal>Not a Chatbot.<br>A Real Person Who<br><span>Already Knows Your Trip.</span></h1>
     <p class="hero-sub" data-reveal style="--delay:0.1s">ChatGPT doesn't know your return flight is at 6am. Siri can't rebook you when it's cancelled at 11pm. Your Butler already has your itinerary. That's the difference.</p>
     <div class="hero-actions" data-reveal style="--delay:0.2s">
-      <a class="btn btn-indigo btn-lg" href="#">Get Your Butler &mdash; From $25/Day</a>
+      <a class="btn btn-indigo btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Your Butler &mdash; From $25/Day</a>
     </div>
   </div>
 </section>
@@ -531,9 +531,9 @@ a { text-decoration: none; color: inherit; }
     <h2 class="section-title-light">Transparent. No membership.</h2>
   </div>
   <div class="products-grid">
-    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
-    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Reads your itinerary before departure</li><li>Books, calls, negotiates for you</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
-    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Reads your itinerary before departure</li><li>Books, calls, negotiates for you</li></ul><a class="btn btn-indigo btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Go 24-Hour</a></div>
   </div>
 </section>
 
@@ -662,7 +662,43 @@ a { text-decoration: none; color: inherit; }
   setBg('.anti-ai-section', pool[1]);
   setBg('.section-scenarios', pool[2]);
 })();
-</script>`;
+</script>
+<script>
+(function(){
+  if (window._bbModal) return;
+  window._bbModal = true;
+  var BB = 'https://veltmtours.com/embed/butler-booking?popup=true';
+  function openModal() {
+    var ov = document.getElementById('bb-modal');
+    if (ov) { ov.style.display = 'flex'; return; }
+    ov = document.createElement('div');
+    ov.id = 'bb-modal';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative;width:min(640px,95vw);';
+    var fr = document.createElement('iframe');
+    fr.src = BB;
+    fr.style.cssText = 'width:100%;height:min(720px,90vh);border:none;border-radius:16px;background:#fff;display:block;';
+    var xbtn = document.createElement('button');
+    xbtn.textContent = '×';
+    xbtn.setAttribute('aria-label', 'Close');
+    xbtn.style.cssText = 'position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;padding:0.25rem 0.5rem;';
+    function close() { ov.style.display = 'none'; }
+    xbtn.addEventListener('click', close);
+    ov.addEventListener('click', function(e){ if (e.target === ov) close(); });
+    document.addEventListener('keydown', function onKey(e){ if (e.key === 'Escape') close(); });
+    wrap.appendChild(fr);
+    wrap.appendChild(xbtn);
+    ov.appendChild(wrap);
+    document.body.appendChild(ov);
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-butler-button]');
+    if (t) { e.preventDefault(); openModal(); }
+  });
+})();
+</script>
+`;
   document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
 
   // 5. Re-execute all inline <script> tags inside the new body content
