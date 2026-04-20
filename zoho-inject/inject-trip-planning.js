@@ -724,7 +724,7 @@ a { text-decoration: none; color: inherit; }
   style.id = 'bb-styles';
   document.head.appendChild(style);
 
-  // 3. MutationObserver: block Zoho from re-injecting styles after clean-slate
+  // 3. MutationObserver: block Zoho from re-injecting styles; re-apply if body replaced
   (function(){
     var obs = new MutationObserver(function(mutations){
       mutations.forEach(function(m){
@@ -733,14 +733,15 @@ a { text-decoration: none; color: inherit; }
           var tag = node.tagName && node.tagName.toLowerCase();
           if(tag === 'style' && node.id !== 'bb-styles') { node.remove(); return; }
           if(tag === 'link' && node.rel === 'stylesheet') { node.remove(); return; }
+          if(tag === 'body') { applyBody(); return; }
         });
       });
     });
     obs.observe(document.documentElement, { childList: true, subtree: true });
   })();
 
-  // 4. Replace body content entirely
-  document.body.innerHTML = `
+  // 4. Body HTML stored for re-application by applyBody()
+  var bodyHTML = `
 <div class="scroll-progress"></div>
 <nav class="nav">
   <a class="nav-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em></a>
@@ -1123,14 +1124,33 @@ a { text-decoration: none; color: inherit; }
 })();
 </script>
 `;
-  document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
+  // 5. applyBody: replace DOM content + re-exec scripts (hoisted, called below + by observer/interval)
+  function applyBody() {
+    document.body.innerHTML = bodyHTML;
+    document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
+    Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
+      var newScript = document.createElement('script');
+      if(oldScript.src) { newScript.src = oldScript.src; newScript.async = false; }
+      else { newScript.textContent = oldScript.textContent; }
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  }
 
-  // 5. Re-execute all inline <script> tags inside the new body content
-  Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
-    var newScript = document.createElement('script');
-    if(oldScript.src) { newScript.src = oldScript.src; newScript.async = false; }
-    else { newScript.textContent = oldScript.textContent; }
-    oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
+  applyBody();
+
+  // 6. Periodic guard: re-inject if Zoho SPA overwrites our content (runs for 5s after load)
+  var _bbN = 0;
+  var _bbT = setInterval(function(){
+    _bbN++;
+    if (_bbN > 50) { clearInterval(_bbT); return; }
+    if (!document.getElementById('bb-styles')) {
+      document.querySelectorAll('style, link[rel="stylesheet"]').forEach(function(el){ el.remove(); });
+      var s2 = document.createElement('style');
+      s2.id = 'bb-styles';
+      s2.textContent = style.textContent;
+      document.head.appendChild(s2);
+      applyBody();
+    }
+  }, 100);
 
 })();
