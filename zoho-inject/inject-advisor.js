@@ -486,10 +486,10 @@ a { text-decoration: none; color: inherit; }
   document.body.innerHTML = `
 <div class="scroll-progress"></div>
 <nav class="nav">
-  <a class="nav-brand" href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Butler<em>Button</em></a>
+  <a class="nav-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em></a>
   <ul class="nav-links">
-    <li><a href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Home</a></li><li><a href="https://lobodotstreehouse.github.io/butler-button-variants/variants/trip-planning/v2-democratization.html">Trip Planning</a></li><li><a href="https://lobodotstreehouse.github.io/butler-button-variants/variants/concierge/v5-human.html">Concierge</a></li>
-    <li><a href="https://lobodotstreehouse.github.io/butler-button-variants/variants/advisor/v5-client-trust.html">Travel Advisor</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
   </ul>
   <a class="nav-book" href="#">Apply Now</a>
 </nav>
