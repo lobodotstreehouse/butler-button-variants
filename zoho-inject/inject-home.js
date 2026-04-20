@@ -2127,14 +2127,12 @@
 
 <!-- ─── FOOTER ──────────────────────────────────────────────── -->
 <footer class="footer">
-  <a class="footer-brand" href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Butler<em>Button</em> by VELTM</a>
+  <a class="footer-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em> by VELTM</a>
   <ul class="footer-links">
-    <li><a href="../../">Home</a></li>
-    <li><a href="../../trip-planning/">Trip Planning</a></li>
-    <li><a href="../../concierge/">Concierge</a></li>
-    <li><a href="../../pricing.html">Pricing</a></li>
-    <li><a href="../../faq.html">FAQ</a></li>
-    <li><a href="../../advisor-program/">Advisors</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
   </ul>
   <span class="footer-legal">&copy; 2026 VELTM Tours</span>
 </footer>
