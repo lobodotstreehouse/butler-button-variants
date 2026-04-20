@@ -1,12 +1,12 @@
 (function(){
-  // 1. Load butler-widget.js (the reference page uses it)
-  var bw = document.createElement('script');
-  bw.src = 'https://veltmtours.com/butler-widget.js';
-  document.head.appendChild(bw);
+  'use strict';
 
-  // 2. Inject all inline CSS from the reference <head>
-  var refStyle = document.createElement('style');
-  refStyle.textContent = `
+  // 1. Remove ALL existing <style> and <link rel="stylesheet"> from <head>
+  document.querySelectorAll('style, link[rel="stylesheet"]').forEach(function(el){ el.remove(); });
+
+  // 2. Inject reference CSS clean into <head>
+  var style = document.createElement('style');
+  style.textContent = `
     /* ─── RESET & BASE ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -1384,19 +1384,10 @@
       .phone-step-list-wrap { display:none; }
     }
   `;
-  document.head.appendChild(refStyle);
+  document.head.appendChild(style);
 
-  // 3. Inject Zoho-hide CSS
-  var hideStyle = document.createElement('style');
-  hideStyle.textContent = `body>*:not(#bb-page){display:none!important;visibility:hidden!important}html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}`;
-  document.head.appendChild(hideStyle);
-
-  // 4 & 5. Create #bb-page and inject exact body content
-  var bbPage = document.createElement('div');
-  bbPage.id = 'bb-page';
-  bbPage.innerHTML = `
-
-<!-- scroll progress -->
+  // 3. Replace body content entirely
+  document.body.innerHTML = `<!-- scroll progress -->
 <div class="scroll-progress" aria-hidden="true"></div>
 
 <!-- ─── NAV ──────────────────────────────────────────────────── -->
@@ -2325,20 +2316,15 @@
   setBg('.section-products',  pool[1]);
   setBg('.section-human',     pool[2]);
 })();
-</script>
-`;
-  document.body.appendChild(bbPage);
+</script>`;
+  document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
 
-  // 6. Run the inline scripts from the reference body
-  var scripts = bbPage.querySelectorAll('script');
-  scripts.forEach(function(oldScript) {
+  // 4. Re-execute all inline <script> tags inside the new body content
+  Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
     var newScript = document.createElement('script');
-    if (oldScript.src) {
-      newScript.src = oldScript.src;
-    } else {
-      newScript.textContent = oldScript.textContent;
-    }
-    document.body.appendChild(newScript);
-    oldScript.parentNode.removeChild(oldScript);
+    if(oldScript.src) { newScript.src = oldScript.src; newScript.async = false; }
+    else { newScript.textContent = oldScript.textContent; }
+    oldScript.parentNode.replaceChild(newScript, oldScript);
   });
+
 })();
