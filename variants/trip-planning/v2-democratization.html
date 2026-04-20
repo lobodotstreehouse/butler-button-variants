@@ -264,6 +264,21 @@
     .phone-demo-copy .phone-demo-sub { margin-left: auto; margin-right: auto; }
     .phone-step-list-wrap { display: none; }
   }
+
+  /* ── Photo-background: pricing section ── */
+  .section-products {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .section-products::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 0;
+  }
+  .section-products > * { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
@@ -638,6 +653,32 @@
       advance();
     }
   }
+})();
+</script>
+<script>
+(function() {
+  var photos = [
+    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
+    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
+    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
+    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
+    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
+    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
+    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+  ];
+  var pool = photos.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+  function setBg(sel, pick) {
+    var el = document.querySelector(sel);
+    if (el && pick) {
+      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=1800&q=80)';
+      el.setAttribute('data-destination', pick.place);
+    }
+  }
+  setBg('.section-products', pool[0]);
 })();
 </script>
 </body>

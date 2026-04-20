@@ -47,6 +47,21 @@
   .diss-vs-amount { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; color: #f5f5f7; }
   .diss-vs-per { font-size: 1.2rem; font-weight: 400; color: var(--text-mute); }
   .diss-vs-unit { font-size: 0.84rem; color: var(--text-mute); }
+
+  /* ── Photo-background: pricing + reality-check sections ── */
+  .section-products, .anti-ai-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .section-products::before, .anti-ai-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 0;
+  }
+  .section-products > *, .anti-ai-section > * { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
@@ -190,5 +205,32 @@
   <span class="footer-legal">&copy; 2026 VELTM Tours</span>
 </footer>
 <script src="../../js/veltm.js"></script>
+<script>
+(function() {
+  var photos = [
+    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
+    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
+    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
+    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
+    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
+    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
+    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+  ];
+  var pool = photos.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+  function setBg(sel, pick) {
+    var el = document.querySelector(sel);
+    if (el && pick) {
+      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=1800&q=80)';
+      el.setAttribute('data-destination', pick.place);
+    }
+  }
+  setBg('.section-products', pool[0]);
+  setBg('.anti-ai-section', pool[1]);
+})();
+</script>
 </body>
 </html>
