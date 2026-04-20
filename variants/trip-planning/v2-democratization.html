@@ -29,8 +29,18 @@
   .manifesto-copy p { font-size: 0.96rem; color: var(--text-mute); line-height: 1.75; margin-bottom: 1rem; }
   .manifesto-copy p strong { color: var(--indigo-lt); }
   .access-table-col { padding-top: 0.25rem; }
-  .access-table-col .table-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1rem; display: block; }
-  .access-table-col .savings-table { max-width: none; margin: 0; }
+  .access-table-col .table-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1.25rem; display: block; }
+  /* Verdict comparison */
+  .verdict-table { border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+  .verdict-header-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; background: rgba(255,255,255,0.025); }
+  .vh-cell { padding: 10px 14px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+  .vh-cell.bb-head { color: var(--indigo-lt); background: rgba(79,70,229,0.12); }
+  .verdict-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; border-top: 1px solid rgba(255,255,255,0.05); }
+  .verdict-cell { padding: 13px 14px; font-size: 0.82rem; line-height: 1.3; }
+  .vc-label { color: rgba(255,255,255,0.5); font-size: 0.78rem; }
+  .vc-trad { color: rgba(255,255,255,0.28); }
+  .vc-bb { color: var(--indigo-lt); font-weight: 700; background: rgba(79,70,229,0.07); }
+  .verdict-foot { margin-top: 1.1rem; font-size: 0.72rem; color: rgba(255,255,255,0.22); letter-spacing: 0.03em; }
   @media (max-width: 900px) { .access-inner { grid-template-columns: 1fr; gap: 3rem; } }
 
   @media (max-width:640px) { .savings-row { grid-template-columns: 1fr; } .savings-cell { padding: 8px 14px; } }
@@ -462,34 +472,40 @@
       </div>
     </div>
     <div class="access-table-col">
-      <span class="table-label">Run the Numbers</span>
-      <div class="savings-table">
-        <div class="savings-row header">
-          <div class="savings-cell">Service</div>
-          <div class="savings-cell">Traditional</div>
-          <div class="savings-cell">Butler Button</div>
+      <span class="table-label">The Difference</span>
+      <div class="verdict-table">
+        <div class="verdict-header-row">
+          <div class="vh-cell"></div>
+          <div class="vh-cell">Traditional</div>
+          <div class="vh-cell bb-head">Butler Button</div>
         </div>
-        <div class="savings-row">
-          <div class="savings-cell">Trip planning (5-country Europe trip)</div>
-          <div class="savings-cell old-price">$300&ndash;500</div>
-          <div class="savings-cell new-price">$125</div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Planning cost</div>
+          <div class="verdict-cell vc-trad">$300&ndash;500</div>
+          <div class="verdict-cell vc-bb">$25 / country</div>
         </div>
-        <div class="savings-row">
-          <div class="savings-cell">Annual retainer / membership</div>
-          <div class="savings-cell old-price">$500&ndash;2,000</div>
-          <div class="savings-cell new-price">$0</div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Ready in</div>
+          <div class="verdict-cell vc-trad">1&ndash;2 weeks</div>
+          <div class="verdict-cell vc-bb">24 hours</div>
         </div>
-        <div class="savings-row">
-          <div class="savings-cell">In-trip support (10 days)</div>
-          <div class="savings-cell old-price">Included &mdash; if they answer</div>
-          <div class="savings-cell new-price">$250 (8-hr plan)</div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Human expert</div>
+          <div class="verdict-cell vc-trad">If they answer</div>
+          <div class="verdict-cell vc-bb">Always</div>
         </div>
-        <div class="savings-row">
-          <div class="savings-cell">Access to human expert 24/7</div>
-          <div class="savings-cell old-price">Not guaranteed</div>
-          <div class="savings-cell new-price">Always</div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Annual fees</div>
+          <div class="verdict-cell vc-trad">$500&ndash;2,000</div>
+          <div class="verdict-cell vc-bb">$0</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict-cell vc-label">Options scanned</div>
+          <div class="verdict-cell vc-trad">What they know</div>
+          <div class="verdict-cell vc-bb">200,000+</div>
         </div>
       </div>
+      <p class="verdict-foot">One flat fee per country. No retainers, no surprises.</p>
     </div>
   </div>
 </section>
