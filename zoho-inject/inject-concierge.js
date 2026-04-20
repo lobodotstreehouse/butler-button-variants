@@ -1,0 +1,239 @@
+(function(){
+  // Load CSS
+  var l=document.createElement('link');l.rel='stylesheet';
+  l.href='https://lobodotstreehouse.github.io/butler-button-variants/css/veltm.css';document.head.appendChild(l);
+  // Page-specific + hide Zoho chrome
+  var s=document.createElement('style');
+  s.textContent=`
+  .hero { min-height: 100vh; background: #000; align-items: center; justify-content: center; padding-top: 8rem; }
+  .hero-content { max-width: 860px; }
+
+  /* AI compare */
+  .anti-ai-section { background: var(--dark-2); padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .ai-compare { max-width: 1080px; margin: 2.5rem auto 0; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+  .ai-col { border-radius: 18px; padding: 1.75rem; }
+  .ai-col.ai-bad { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+  .ai-col.ai-good { background: rgba(79,70,229,0.1); border: 1px solid rgba(129,140,248,0.25); }
+  .ai-col-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mute); margin-bottom: 0.75rem; }
+  .ai-col.ai-good .ai-col-label { color: var(--indigo-lt); }
+  .ai-col h3 { font-size: 0.88rem; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 1rem; font-style: italic; }
+  .ai-col.ai-good h3 { color: #f5f5f7; font-style: normal; }
+  .ai-item { font-size: 0.78rem; color: rgba(255,255,255,0.35); padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 0.5rem; }
+  .ai-item::before { content: '\2715'; color: rgba(255,100,100,0.5); flex-shrink: 0; font-weight: 700; }
+  .ai-col.ai-good .ai-item { color: rgba(199,210,254,0.75); }
+  .ai-col.ai-good .ai-item::before { content: '\2713'; color: var(--indigo-lt); }
+
+  @media (max-width:720px) { .ai-compare { grid-template-columns:1fr; } }
+
+  /* Dissection section */
+  .diss-section { background: #000; padding: clamp(5rem,10vw,9rem) 5vw; border-top: 1px solid rgba(255,255,255,0.04); }
+  .diss-inner { max-width: 760px; margin: 0 auto; }
+  .diss-inner h2 { margin-bottom: 0.5rem; }
+  .diss-box { margin-top: 3rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; }
+  .diss-box h3 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 1rem 1.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .diss-line { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.85rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .diss-item { font-size: 0.84rem; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .diss-item small { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.25); margin-top: 0.2rem; }
+  .diss-cost { font-size: 0.84rem; font-weight: 600; white-space: nowrap; }
+  .cost-included { color: rgba(255,255,255,0.25); }
+  .cost-real { color: rgba(250,204,21,0.8); }
+  .diss-total { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: rgba(250,204,21,0.06); }
+  .diss-total-label { font-size: 0.8rem; color: rgba(250,204,21,0.7); font-weight: 600; }
+  .diss-total-price { font-size: 1.1rem; font-weight: 800; color: rgba(250,204,21,0.9); }
+  .diss-vs { margin-top: 2rem; padding: 2rem; background: rgba(79,70,229,0.1); border: 1px solid rgba(129,140,248,0.2); border-radius: 18px; }
+  .diss-vs-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--indigo-lt); margin-bottom: 0.5rem; }
+  .diss-vs-price { display: flex; align-items: baseline; gap: 0.25rem; line-height: 1; margin-bottom: 0.5rem; }
+  .diss-vs-amount { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; color: #f5f5f7; }
+  .diss-vs-per { font-size: 1.2rem; font-weight: 400; color: var(--text-mute); }
+  .diss-vs-unit { font-size: 0.84rem; color: var(--text-mute); }
+
+  /* ── Photo-background: pricing + reality-check sections ── */
+  .section-products, .anti-ai-section, .section-scenarios {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .section-products::before, .anti-ai-section::before, .section-scenarios::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 0;
+  }
+  .section-products > *, .anti-ai-section > *, .section-scenarios > * { position: relative; z-index: 1; }
+\n
+.zs-header-section,.zs-footer-section,.zs-sections-wrapper,.zs-banner-wrapper,
+.zcms-page-body,[class*="zs-widget"],.site-header-wrap,.site-footer-wrap,
+.zcms-header,header.site-header,footer.site-footer{display:none!important}
+html,body{background:#000!important;margin:0!important;padding:0!important;overflow-x:hidden}
+`;
+  document.head.appendChild(s);
+  // Inject page HTML
+  var d=document.createElement('div');
+  d.id='bb-page';
+  d.innerHTML=`<div class="scroll-progress"></div>
+<nav class="nav">
+  <a class="nav-brand" href="#">Butler<em>Button</em></a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#trip-planning">Trip Planning</a></li><li><a href="#concierge">Concierge</a></li>
+    <li><a href="#advisor">Travel Advisor</a></li>
+  </ul>
+  <a class="nav-book" href="#">Get Concierge</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div><div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Concierge &mdash; Butler Button</div>
+    <h1 class="hero-h1" data-reveal>Not a Chatbot.<br>A Real Person Who<br><span>Already Knows Your Trip.</span></h1>
+    <p class="hero-sub" data-reveal style="--delay:0.1s">ChatGPT doesn't know your return flight is at 6am. Siri can't rebook you when it's cancelled at 11pm. Your Butler already has your itinerary. That's the difference.</p>
+    <div class="hero-actions" data-reveal style="--delay:0.2s">
+      <a class="btn btn-indigo btn-lg" href="#">Get Your Butler &mdash; From $25/Day</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-products">
+  <div class="section-head" data-reveal>
+    <span class="eyebrow eyebrow-soft">Pricing</span>
+    <h2 class="section-title-light">Transparent. No membership.</h2>
+  </div>
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="#">Plan My Trip</a></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Human expert &mdash; &lt;4 min response</li><li>Reads your itinerary before departure</li><li>Books, calls, negotiates for you</li></ul><a class="btn btn-indigo btn-md" href="#">Get Concierge</a></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge &mdash; 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="#">Go 24-Hour</a></div>
+  </div>
+</section>
+
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+  </div>
+</section>
+
+<section class="anti-ai-section">
+  <div style="text-align:center" data-reveal>
+    <span class="eyebrow eyebrow-soft">The Reality Check</span>
+    <h2 class="section-title-light">What AI can't do when it counts.</h2>
+  </div>
+  <div class="ai-compare">
+    <div class="ai-col ai-bad" data-reveal>
+      <div class="ai-col-label">ChatGPT / AI Assistants</div>
+      <h3>"Let me help you with that."</h3>
+      <div class="ai-item">Doesn't know your itinerary</div>
+      <div class="ai-item">Can't make a booking</div>
+      <div class="ai-item">Can't call the airline</div>
+      <div class="ai-item">Can't negotiate with a hotel</div>
+      <div class="ai-item">Not monitoring your flights</div>
+      <div class="ai-item">Can hallucinate restaurant details</div>
+    </div>
+    <div class="ai-col ai-bad" data-reveal style="--delay:0.1s">
+      <div class="ai-col-label">Voice Assistants (Siri, Alexa)</div>
+      <h3>"I found some results for that."</h3>
+      <div class="ai-item">No context on your trip</div>
+      <div class="ai-item">Search results, not solutions</div>
+      <div class="ai-item">Can't navigate complex rebooking</div>
+      <div class="ai-item">No local knowledge depth</div>
+      <div class="ai-item">Stops at the query</div>
+      <div class="ai-item">No accountability for outcomes</div>
+    </div>
+    <div class="ai-col ai-good" data-reveal style="--delay:0.2s">
+      <div class="ai-col-label">Butler Button</div>
+      <h3>Already knows your trip. Already on it.</h3>
+      <div class="ai-item">Reads your itinerary before departure</div>
+      <div class="ai-item">Books, calls, negotiates on your behalf</div>
+      <div class="ai-item">Speaks to airlines in their language</div>
+      <div class="ai-item">Monitors your flights proactively</div>
+      <div class="ai-item">Responds in &lt;4 minutes, 24/7</div>
+      <div class="ai-item">Accountable for every resolution</div>
+    </div>
+  </div>
+</section>
+
+<section class="diss-section">
+  <div class="diss-inner" data-reveal>
+    <span class="eyebrow eyebrow-soft">The Arithmetic</span>
+    <h2 class="section-title-light" style="font-size:clamp(1.8rem,4vw,3rem)">What you're actually paying for at a five-star hotel.</h2>
+    <p style="font-size:0.9rem;color:var(--text-mute);margin-bottom:0">Breaking down the $500/night concierge arithmetic.</p>
+    <div class="diss-box">
+      <h3>The Ritz-Carlton — What $500/night buys:</h3>
+      <div class="diss-line"><span class="diss-item">Room (the actual room)</span><span class="diss-cost cost-included">~$320</span></div>
+      <div class="diss-line"><span class="diss-item">Brand &amp; location premium</span><span class="diss-cost cost-included">~$80</span></div>
+      <div class="diss-line"><span class="diss-item">Lobby, spa &amp; facilities overhead</span><span class="diss-cost cost-included">~$60</span></div>
+      <div class="diss-line"><span class="diss-item">Your share of the concierge team<small>Shared with 200+ guests. Business hours emphasis.</small></span><span class="diss-cost cost-real">~$40</span></div>
+      <div class="diss-total">
+        <span class="diss-total-label">What you actually paid for concierge access</span>
+        <span class="diss-total-price">~$40</span>
+      </div>
+    </div>
+    <div class="diss-vs">
+      <div class="diss-vs-label">Butler Button</div>
+      <div class="diss-vs-price"><span class="diss-vs-amount">$25</span><span class="diss-vs-per">/day</span></div>
+      <div class="diss-vs-unit">Your own expert. 24/7. Already knows your itinerary.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section-scenarios">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow eyebrow-soft">When Things Go Wrong</span>
+      <h2 class="section-title-light">We go to work.</h2>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Hotel arranged. Client asleep by 1am.</div><div class="scard__tag">40 minutes total &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative found &mdash; same area, better kitchen.</div><div class="scard__tag">6 minutes &rarr;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Full rebook, zero additional cost.</div><div class="scard__tag">14 minutes &rarr;</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <a class="footer-brand" href="#">Butler<em>Button</em> by VELTM</a>
+  <ul class="footer-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Trip Planning</a></li>
+    <li><a href="#">Concierge</a></li>
+    <li><a href="#">Advisor</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <span class="footer-legal">&copy; 2026 VELTM Tours</span>
+</footer>`;
+  document.body.appendChild(d);
+  // Load veltm.js
+  var js=document.createElement('script');
+  js.src='https://lobodotstreehouse.github.io/butler-button-variants/js/veltm.js';
+  js.onload=function(){ (function() {
+  var photos = [
+    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
+    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
+    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
+    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
+    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
+    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
+    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+  ];
+  var pool = photos.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+  function setBg(sel, pick) {
+    var el = document.querySelector(sel);
+    if (el && pick) {
+      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=1800&q=80)';
+      el.setAttribute('data-destination', pick.place);
+    }
+  }
+  setBg('.section-products', pool[0]);
+  setBg('.anti-ai-section', pool[1]);
+  setBg('.section-scenarios', pool[2]);
+})(); };
+  document.body.appendChild(js);
+})();
