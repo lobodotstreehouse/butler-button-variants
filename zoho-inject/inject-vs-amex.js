@@ -383,12 +383,12 @@ a { text-decoration: none; color: inherit; }
     <!-- Butler Button vs. your credit card concierge. -->
     <h1 class="hero-h1" data-reveal>Butler Button vs. <span>your credit card concierge.</span></h1>
     <p class="hero-sub" data-reveal style="--delay:0.1s">If you hold an Amex Platinum, Chase Sapphire Reserve, or Visa Infinite, you already have a &ldquo;concierge.&rdquo; Here&rsquo;s what that actually costs vs. what Butler Button costs.</p>
-    <div class="urgency-pill" data-reveal style="--delay:.15s">● Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
+    <div class="urgency-pill" data-reveal style="--delay:.15s">&#9679; Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
     <div class="hero-actions" data-reveal style="--delay:0.2s">
       <a class="btn btn-indigo btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Start Planning. $25/Trip Plan</a>
       <a class="btn btn-ghost-light btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Concierge. From $25/Day</a>
     </div>
-    <div class="cta-guarantee" data-reveal style="--delay:.3s">✓ Full refund before delivery &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Cancel any time</div>
+    <div class="cta-guarantee" data-reveal style="--delay:.3s">&#10003; Full refund before delivery &nbsp;&middot;&nbsp; &#10003; &lt;4 min human response &nbsp;&middot;&nbsp; &#10003; Cancel any time</div>
   </div>
 </section>
 
@@ -415,12 +415,13 @@ a { text-decoration: none; color: inherit; }
       <ul class="math-lines">
         <!-- Annual fee $695 -->
         <li><span class="ml-label">Annual fee</span><span class="ml-val">$695</span></li>
-        <li><span class="ml-label">Premium concierge ~$25/day &times; 8</span><span class="ml-val">$200</span></li>
+        <li><span class="ml-label">Attributed from annual fee (you pay fee whether you travel or not)</span><span class="ml-val">$200</span></li>
       </ul>
       <div class="math-total"><span class="mt-label">Total</span><span class="mt-val">$895</span></div>
     </div>
   </div>
-  <p class="math-diff" data-reveal style="--delay:0.2s"><strong>$670 difference</strong>. <em>what a five-star hotel costs per night.</em></p>
+  <p class="math-diff" data-reveal style="--delay:0.2s"><strong>$670 difference</strong>. <em>What a five-star hotel costs per night.</em></p>
+  <small style="display:block;font-size:0.65rem;opacity:0.6;margin-top:0.5rem;text-align:center;max-width:1040px;margin-left:auto;margin-right:auto">Fees as published at time of writing; verify current rates on americanexpress.com.</small>
 </section>
 
 <!-- ═══ FEATURE COMPARISON TABLE ═══ -->
@@ -438,43 +439,43 @@ a { text-decoration: none; color: inherit; }
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Pay only when you travel</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>$25/day, cancel any time</div>
-      <div class="compare-cell amex"><span class="compare-mark no">✗</span>$695-$895 annual fee whether you travel or not</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>$25/day, cancel any time</div>
+      <div class="compare-cell amex"><span class="compare-mark no">&#10007;</span>$695-$895 annual fee whether you travel or not</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Response time</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>&lt;4 min to a human</div>
-      <div class="compare-cell amex"><span class="compare-mark warn">⚠️</span>15-60 min via call center</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>&lt;4 min to a human</div>
+      <div class="compare-cell amex"><span class="compare-mark warn">&#9888;&#65039;</span>15-60 min via call center</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Reads your itinerary before you leave</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>Always</div>
-      <div class="compare-cell amex"><span class="compare-mark no">✗</span>Never. Starts cold each call</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>Always</div>
+      <div class="compare-cell amex"><span class="compare-mark no">&#10007;</span>Never. Starts cold each call</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Same advisor start to finish</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>Yes</div>
-      <div class="compare-cell amex"><span class="compare-mark no">✗</span>Random agent each time</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>Yes</div>
+      <div class="compare-cell amex"><span class="compare-mark no">&#10007;</span>Random agent each time</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Crisis rebookings at 11pm</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>97% resolved &lt;60 min</div>
-      <div class="compare-cell amex"><span class="compare-mark warn">⚠️</span>Business-hours only in practice</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>97% resolved &lt;60 min</div>
+      <div class="compare-cell amex"><span class="compare-mark warn">&#9888;&#65039;</span>24/7 availability not guaranteed in practice</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Trip planning included</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>$25/country</div>
-      <div class="compare-cell amex"><span class="compare-mark no">✗</span>Not included (upsell to travel portal)</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>$25/country</div>
+      <div class="compare-cell amex"><span class="compare-mark no">&#10007;</span>Not included (upsell to travel portal)</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">Regional specialist</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>Every advisor is a destination expert</div>
-      <div class="compare-cell amex"><span class="compare-mark no">✗</span>Generalist call center</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>Every advisor is a destination expert</div>
+      <div class="compare-cell amex"><span class="compare-mark no">&#10007;</span>Generalist call center</div>
     </div>
     <div class="compare-row">
       <div class="compare-cell feat">First contact</div>
-      <div class="compare-cell bb"><span class="compare-mark ok">✓</span>100% human</div>
-      <div class="compare-cell amex"><span class="compare-mark warn">⚠️</span>IVR / chatbot triage</div>
+      <div class="compare-cell bb"><span class="compare-mark ok">&#10003;</span>100% human</div>
+      <div class="compare-cell amex"><span class="compare-mark warn">&#9888;&#65039;</span>IVR / chatbot triage</div>
     </div>
   </div>
 </section>
@@ -482,8 +483,8 @@ a { text-decoration: none; color: inherit; }
 <!-- ═══ P.S. BLOCK (audit #8) ═══ -->
 <section class="ps-block">
   <div class="ps-inner" data-reveal>
-    <p><strong>P.S.</strong>. If you&rsquo;re already paying the annual fee, Butler Button is the thing you wish that concierge were. One client said it best: <em>&ldquo;I cancelled my Platinum after the first trip.&rdquo;</em></p>
-    <a class="ps-cta" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Try Butler Button. From $25 →</a>
+    <p><strong>P.S.</strong> If you&rsquo;re already paying the annual fee, Butler Button is the thing you wish that concierge were. One client said it best: <em>&ldquo;I cancelled my Platinum after the first trip.&rdquo;</em></p>
+    <a class="ps-cta" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Try Butler Button. From $25 &#8594;</a>
   </div>
 </section>
 

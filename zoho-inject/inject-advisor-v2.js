@@ -513,12 +513,13 @@ a { text-decoration: none; color: inherit; }
     <div class="hero-stat-block" data-reveal style="--delay:0.22s">
       <div class="hero-stat-num">76%</div>
       <div class="hero-stat-label">of clients refer within 90 days of an in-trip support experience</div>
+      <span style="font-size:0.7rem;opacity:0.7">Based on advisor referral tracking, Jan to Apr 2026</span>
     </div>
-    <div class="urgency-pill" data-reveal style="--delay:0.26s">● Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
+    <div class="urgency-pill" data-reveal style="--delay:0.26s">&#9679; Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
     <div class="hero-actions" data-reveal style="--delay:0.3s">
       <a class="btn btn-indigo btn-lg" href="#">Apply for Advisor Partnership</a>
     </div>
-    <div class="cta-guarantee" data-reveal style="--delay:0.36s">✓ Cancel any time &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Full refund before delivery</div>
+    <div class="cta-guarantee" data-reveal style="--delay:0.36s">&#10003; Cancel any time &nbsp;&middot;&nbsp; &#10003; &lt;4 min human response &nbsp;&middot;&nbsp; &#10003; Full refund before delivery</div>
   </div>
 </section>
 
@@ -530,20 +531,20 @@ a { text-decoration: none; color: inherit; }
     <p>"We were at the gate in Bangkok. 11pm. The board just went blank. And before I even figured out what was happening, I got a text from my advisor's concierge team. Three rebooking options. Hotel already arranged. I just picked one."</p>
     <div class="story-quote">"I don't know how they did it. But I need to introduce you to my advisor. She's next-level."</div>
     <p>That conversation. At a dinner table, at a school pickup, at an office lunch. Is how your practice grows. Not from ads. Not from social posts. From the moment your client realized they had a <strong>human expert in their corner</strong> when it mattered most.</p>
-    <p>Butler Button gives you the infrastructure to create that moment. Consistently. At scale. Under your brand.</p>
+    <p>Butler Button gives you the infrastructure to create that moment. Consistently. Across every client trip. Under your brand.</p>
     <div style="margin-top:2rem"><a class="btn btn-indigo btn-lg" href="#">Apply for Advisor Partnership</a></div>
-    <div class="cta-guarantee" data-reveal style="--delay:0.1s;text-align:left">✓ Cancel any time &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Full refund before delivery</div>
+    <div class="cta-guarantee" data-reveal style="--delay:0.1s;text-align:left">&#10003; Cancel any time &nbsp;&middot;&nbsp; &#10003; &lt;4 min human response &nbsp;&middot;&nbsp; &#10003; Full refund before delivery</div>
   </div>
 </section>
 
 <section class="section-stats">
   <div class="stats-inner">
-    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div></div>
-    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div></div>
-    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div></div>
-    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div></div>
+    <div data-reveal><div class="stat-num">97<sup>%</sup></div><div class="stat-label">Disruptions resolved &lt;60 min</div><div class="stat-because">Because your advisor studies the client's itinerary before departure, so when the flight cancels at 11pm, they already know the next-day schedule.</div></div>
+    <div data-reveal style="--delay:0.08s"><div class="stat-num">&lt;4<sup>min</sup></div><div class="stat-label">Avg response time 24/7</div><div class="stat-because">Because Butlers carry one client at a time. No chatbot, no queue, no on-hold.</div></div>
+    <div data-reveal style="--delay:0.16s"><div class="stat-num">150<sup>+</sup></div><div class="stat-label">Countries covered</div><div class="stat-because">Because every Butler is a destination specialist, not a generalist.</div></div>
+    <div data-reveal style="--delay:0.24s"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Human first contact</div><div class="stat-because">No chatbot, ever, on any channel. Your client's first reply is always a person who knows their trip.</div></div>
   </div>
-  <div class="stats-footnote">Measured across Butler Button concierge engagements, Jan to Apr 2026. Internal operations log; methodology available on request.</div>
+  <div class="stats-footnote">Sources: Internal operations log, Jan to Apr 2026. Methodology available on request.</div>
 </section>
 
 <section class="section-scenarios">
@@ -553,9 +554,9 @@ a { text-decoration: none; color: inherit; }
       <h2 class="section-title-light">The moments that become the stories.</h2>
     </div>
     <div class="scenarios-grid">
-      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Your client calls you to say thank you. Then tells ten people.</div><div class="scard__tag">40 minutes. Your legend. &rarr;</div></div>
-      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative confirmed in 6 minutes. Your client never panics.</div><div class="scard__tag">6 minutes. Your reputation. &rarr;</div></div>
-      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Rebooked in 14 minutes. They brag about you for a year.</div><div class="scard__tag">14 minutes. Your referral engine. &rarr;</div></div>
+      <div class="scard" data-reveal><div class="scard__where">Bangkok &middot; 11pm</div><div class="scard__situation">Flight cancelled. Three rebook options in minutes.</div><div class="scard__outcome">Your client calls you to say thank you. Then tells ten people.</div><div class="scard__tag">40 minutes. Your legend. &#8594;</div></div>
+      <div class="scard" data-reveal style="--delay:0.1s"><div class="scard__where">Rome &middot; Day 3</div><div class="scard__situation">Restaurant gave away the reservation without notice.</div><div class="scard__outcome">Alternative confirmed in 6 minutes. Your client never panics.</div><div class="scard__tag">6 minutes. Your reputation. &#8594;</div></div>
+      <div class="scard" data-reveal style="--delay:0.2s"><div class="scard__where">Lisbon &middot; Midnight</div><div class="scard__situation">Late-night cancellation at the airport.</div><div class="scard__outcome">Rebooked in 14 minutes. They brag about you for a year.</div><div class="scard__tag">14 minutes. Your referral engine. &#8594;</div></div>
     </div>
   </div>
 </section>
@@ -576,19 +577,19 @@ a { text-decoration: none; color: inherit; }
   </div>
 
   <div class="products-grid">
-    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Expert itineraries for your clients.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="/trip-planning">Learn More</a><div class="pcard__guarantee">✓ Cancel any time &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Full refund before delivery</div></div>
-    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 8 Hour</div><div class="pcard__name">Human expert on call, every travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>&lt;4 min response time</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="/concierge">Learn More</a><div class="pcard__guarantee pcard__guarantee--light">✓ Cancel any time &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Full refund before delivery</div></div>
-    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 24 Hour</div><div class="pcard__name">Round-the-clock for high-value clients.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="/concierge">Learn More</a><div class="pcard__guarantee">✓ Cancel any time &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Full refund before delivery</div></div>
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Expert itineraries for your clients.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="/trip-planning">Learn More</a><div class="pcard__guarantee">&#10003; Cancel any time &nbsp;&middot;&nbsp; &#10003; &lt;4 min human response &nbsp;&middot;&nbsp; &#10003; Full refund before delivery</div></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 8 Hour</div><div class="pcard__name">Human expert on call, every travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>&lt;4 min response time</li><li>Flight disruption management</li><li>Reservations &amp; local intel</li></ul><a class="btn btn-indigo btn-md" href="/concierge">Learn More</a><div class="pcard__guarantee pcard__guarantee--light">&#10003; Cancel any time &nbsp;&middot;&nbsp; &#10003; &lt;4 min human response &nbsp;&middot;&nbsp; &#10003; Full refund before delivery</div></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 24 Hour</div><div class="pcard__name">Round-the-clock for high-value clients.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>24/7 availability</li><li>Proactive flight monitoring</li><li>Medical referral &amp; assistance</li></ul><a class="btn btn-outline-light btn-md" href="/concierge">Learn More</a><div class="pcard__guarantee">&#10003; Cancel any time &nbsp;&middot;&nbsp; &#10003; &lt;4 min human response &nbsp;&middot;&nbsp; &#10003; Full refund before delivery</div></div>
   </div>
 </section>
 
 <footer class="site-footer">
-  <a class="footer-brand" href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Butler<em>Button</em> by VELTM</a>
+  <a class="footer-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em> by VELTM</a>
   <ul class="footer-links">
-    <li><a href="https://lobodotstreehouse.github.io/veltm-butler-button/showcase/v4/">Home</a></li>
-    <li><a href="#">Trip Planning</a></li>
-    <li><a href="#">Concierge</a></li>
-    <li><a href="#">Advisor</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li>
+    <li><a href="/trip-planning">Trip Planning</a></li>
+    <li><a href="/concierge">Concierge</a></li>
+    <li><a href="/travel-advisor">Advisor</a></li>
     <li><a href="#">FAQ</a></li>
   </ul>
   <span class="footer-legal">&copy; 2026 VELTM Tours</span>

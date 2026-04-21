@@ -1083,7 +1083,7 @@ a { text-decoration: none; color: inherit; }
 <!-- ═══ P.S. BLOCK (audit #8) ═══ -->
 <section class="ps-block">
   <div class="ps-inner" data-reveal>
-    <p><strong>P.S.</strong>. The most common thing clients say after their first rescue: "I didn't know I needed this until I needed it." If you've already got the plan, the $25/day Concierge add-on pays for itself the first time a flight moves. <a class="ps-cta" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get the Butler. From $25/day →</a></p>
+    <p><strong>P.S.</strong> The most common thing clients say after their first rescue: "I didn't know I needed this until I needed it." If you've already got the plan, the $25/day Concierge add-on pays for itself the first time a flight moves. <a class="ps-cta" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get the Butler. From $25/day →</a></p>
   </div>
 </section>
 
