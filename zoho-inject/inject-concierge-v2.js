@@ -518,6 +518,57 @@ a { text-decoration: none; color: inherit; }
   style.id = 'bb-styles';
   document.head.appendChild(style);
 
+  // 2b. SEO / AIO metadata
+  (function(){
+    document.title = 'On-Demand Human Travel Concierge \u2014 Not a Chatbot | Butler Button';
+    function setMeta(n, v, isProp) {
+      var sel = isProp ? 'meta[property="'+n+'"]' : 'meta[name="'+n+'"]';
+      var el = document.querySelector(sel);
+      if (!el) { el = document.createElement('meta'); document.head.appendChild(el); }
+      el.setAttribute(isProp ? 'property' : 'name', n);
+      el.setAttribute('content', v);
+    }
+    setMeta('description', 'A real human travel concierge who pre-reads your itinerary before you depart. 24/7 coverage. 97% of disruptions resolved in under 60 minutes. Not a chatbot. Starting $25/day.');
+    setMeta('og:title',       'Human Travel Concierge \u2014 Not a Chatbot | Butler Button', true);
+    setMeta('og:description', 'Real human concierge. Pre-reads your itinerary. 24/7 coverage. 97% of disruptions resolved under 60 min. Starting $25/day.', true);
+    setMeta('og:url',         'https://go.veltmtours.com/concierge', true);
+    setMeta('og:type',        'website', true);
+    if (document.querySelector('script#bb-schema')) return;
+    var ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'bb-schema';
+    ld.textContent = JSON.stringify([
+      {
+        "@context":"https://schema.org","@type":"Service",
+        "@id":"https://go.veltmtours.com/concierge#service",
+        "name":"Round-the-Clock Concierge",
+        "serviceType":"Travel Concierge",
+        "provider":{"@type":"Organization","name":"VELTM Tours","alternateName":"Butler Button","url":"https://go.veltmtours.com"},
+        "description":"A real human travel concierge assigned to you before departure. They pre-read your full itinerary so when your 11pm flight cancels, they already know your next-day schedule. Available 24/7 via WhatsApp, SMS, phone, or email. 97% of disruptions resolved in under 60 minutes. Not AI, not a chatbot.",
+        "areaServed":"Worldwide",
+        "offers":{"@type":"Offer","price":"25","priceCurrency":"USD","description":"per day, starting","availability":"https://schema.org/InStock"}
+      },
+      {
+        "@context":"https://schema.org","@type":"WebPage",
+        "url":"https://go.veltmtours.com/concierge",
+        "name":"On-Demand Human Travel Concierge \u2014 Not a Chatbot | Butler Button",
+        "description":"A real human travel concierge who pre-reads your itinerary before you depart. 24/7 coverage. 97% of disruptions resolved in under 60 minutes. Starting $25/day.",
+        "publisher":{"@id":"https://go.veltmtours.com/#org"}
+      },
+      {
+        "@context":"https://schema.org","@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"Is Butler Button concierge a real person or AI?","acceptedAnswer":{"@type":"Answer","text":"Your Butler is a real human, not AI or a chatbot. When you reach out, you speak directly with your assigned human advisor who has already read your itinerary. 100% human first contact, every time."}},
+          {"@type":"Question","name":"What does the concierge do?","acceptedAnswer":{"@type":"Answer","text":"Your Butler pre-reads your itinerary before departure. They handle flight disruptions and rebooking, restaurant and hotel reservations, on-the-ground emergencies, local expertise, and anything else that comes up during your trip."}},
+          {"@type":"Question","name":"How quickly does the concierge respond to disruptions?","acceptedAnswer":{"@type":"Answer","text":"97% of disruptions are resolved in under 60 minutes, based on Butler Button concierge engagements from January to April 2026."}},
+          {"@type":"Question","name":"How much does concierge coverage cost?","acceptedAnswer":{"@type":"Answer","text":"Butler Button concierge coverage starts at $25/day. No membership required. Coverage can be added for just the days you need it."}},
+          {"@type":"Question","name":"How do I contact my Butler?","acceptedAnswer":{"@type":"Answer","text":"Your Butler is available via WhatsApp, SMS, phone call, or email — whichever channel you prefer. Available 24/7 during your coverage period."}}
+        ]
+      }
+    ]);
+    document.head.appendChild(ld);
+  })();
+
   // 3. MutationObserver: block Zoho from re-injecting styles after clean-slate
   (function(){
     var obs = new MutationObserver(function(mutations){

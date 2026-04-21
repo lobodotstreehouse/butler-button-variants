@@ -1425,6 +1425,63 @@
   style.id = 'bb-styles';
   document.head.appendChild(style);
 
+  // 1c. SEO / AIO metadata — title, meta description, OG tags, JSON-LD schema
+  (function(){
+    document.title = 'Butler Button | Personal Travel Expert \u2014 100% Human, 150+ Countries';
+    function setMeta(n, v, isProp) {
+      var sel = isProp ? 'meta[property="'+n+'"]' : 'meta[name="'+n+'"]';
+      var el = document.querySelector(sel);
+      if (!el) { el = document.createElement('meta'); document.head.appendChild(el); }
+      el.setAttribute(isProp ? 'property' : 'name', n);
+      el.setAttribute('content', v);
+    }
+    setMeta('description', '100% human travel experts. 150+ countries. AI plans it, a human handles it, you enjoy it. On-demand concierge from $25. No membership required.');
+    setMeta('og:title',       'Butler Button | Personal Travel Expert', true);
+    setMeta('og:description', '100% human travel experts. 150+ countries. On-demand concierge from $25. No membership required.', true);
+    setMeta('og:url',         'https://go.veltmtours.com/', true);
+    setMeta('og:type',        'website', true);
+    if (document.querySelector('script#bb-schema')) return;
+    var ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'bb-schema';
+    ld.textContent = JSON.stringify([
+      {
+        "@context":"https://schema.org","@type":"Organization",
+        "@id":"https://go.veltmtours.com/#org",
+        "name":"VELTM Tours","alternateName":"Butler Button",
+        "url":"https://go.veltmtours.com",
+        "description":"Butler Button by VELTM Tours is a personal travel expert service providing 100% human advisors on demand for trip planning, concierge, and travel advisory in 150+ countries. No membership required.",
+        "areaServed":"Worldwide",
+        "knowsAbout":["Travel planning","Luxury travel","Concierge services","Itinerary building","Private aviation","Hotel bookings","Restaurant reservations"],
+        "hasOfferCatalog":{
+          "@type":"OfferCatalog","name":"Butler Button Services",
+          "itemListElement":[
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Expert Itinerary","description":"AI-assisted trip planning reviewed and delivered by a human travel expert. 24-hour delivery, up to 5 revisions within 180 days.","offers":{"@type":"Offer","price":"25","priceCurrency":"USD","description":"per country"}}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Round-the-Clock Concierge","description":"24/7 human travel concierge who pre-reads your itinerary before departure. Handles flight disruptions, reservations, and emergencies. 97% of disruptions resolved in under 60 minutes.","offers":{"@type":"Offer","price":"25","priceCurrency":"USD","description":"per day, starting"}}}
+          ]
+        }
+      },
+      {
+        "@context":"https://schema.org","@type":"WebPage",
+        "url":"https://go.veltmtours.com/",
+        "name":"Butler Button | Personal Travel Expert \u2014 100% Human, 150+ Countries",
+        "description":"100% human travel experts. 150+ countries. AI plans it, a human handles it, you enjoy it. On-demand concierge from $25. No membership required.",
+        "publisher":{"@id":"https://go.veltmtours.com/#org"}
+      },
+      {
+        "@context":"https://schema.org","@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"What is Butler Button?","acceptedAnswer":{"@type":"Answer","text":"Butler Button is a personal travel expert service by VELTM Tours. You get 100% human travel advisors on demand for trip planning, concierge, and advisory in 150+ countries. No membership required. Starting at $25."}},
+          {"@type":"Question","name":"How much does Butler Button cost?","acceptedAnswer":{"@type":"Answer","text":"Trip plans start at $25 per country. Concierge coverage starts at $25/day. No membership fee. Pay only for what you need."}},
+          {"@type":"Question","name":"Is Butler Button AI or human?","acceptedAnswer":{"@type":"Answer","text":"Butler Button uses AI to screen 200,000+ options and draft your itinerary, but every plan is reviewed and delivered by a real human travel expert. When you contact your Butler, you reach a real person, not a chatbot. 100% human first contact, every time."}},
+          {"@type":"Question","name":"What countries does Butler Button cover?","acceptedAnswer":{"@type":"Answer","text":"Butler Button is available in 195+ countries with advisors fluent in 150+ languages. Your Butler is matched to your specific destination."}},
+          {"@type":"Question","name":"Do I need a membership to use Butler Button?","acceptedAnswer":{"@type":"Answer","text":"No membership required. Pay per trip plan ($25/country), per day of concierge ($25+/day), or per advisor engagement. No annual fee, no minimum commitment."}}
+        ]
+      }
+    ]);
+    document.head.appendChild(ld);
+  })();
+
   // 1b. MutationObserver: block Zoho from re-injecting styles after our clean-slate
   (function(){
     var obs = new MutationObserver(function(mutations){

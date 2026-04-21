@@ -763,6 +763,57 @@ a { text-decoration: none; color: inherit; }
   style.id = 'bb-styles';
   document.head.appendChild(style);
 
+  // 2b. SEO / AIO metadata
+  (function(){
+    document.title = 'AI Trip Planning with Human Expert Review | Butler Button';
+    function setMeta(n, v, isProp) {
+      var sel = isProp ? 'meta[property="'+n+'"]' : 'meta[name="'+n+'"]';
+      var el = document.querySelector(sel);
+      if (!el) { el = document.createElement('meta'); document.head.appendChild(el); }
+      el.setAttribute(isProp ? 'property' : 'name', n);
+      el.setAttribute('content', v);
+    }
+    setMeta('description', 'Butler Button uses AI to screen 200,000+ options and draft your itinerary. A human travel expert reviews it. Delivered in 24 hours. $25/country. 150+ countries. No membership.');
+    setMeta('og:title',       'AI Trip Planning with Human Expert Review | Butler Button', true);
+    setMeta('og:description', '$25/country. AI drafts it. A human expert reviews it. Delivered in 24 hours. 150+ countries.', true);
+    setMeta('og:url',         'https://go.veltmtours.com/trip-planning', true);
+    setMeta('og:type',        'website', true);
+    if (document.querySelector('script#bb-schema')) return;
+    var ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'bb-schema';
+    ld.textContent = JSON.stringify([
+      {
+        "@context":"https://schema.org","@type":"Service",
+        "@id":"https://go.veltmtours.com/trip-planning#service",
+        "name":"Expert Itinerary \u2014 Trip Planning",
+        "serviceType":"Travel Planning",
+        "provider":{"@type":"Organization","name":"VELTM Tours","alternateName":"Butler Button","url":"https://go.veltmtours.com"},
+        "description":"AI-assisted trip planning reviewed by a certified human travel expert. Submit your preferences, receive a fully researched day-by-day itinerary in 24 hours. Up to 5 revisions within 180 days. Reserve now, pay suppliers on arrival using your own credit card.",
+        "areaServed":"Worldwide",
+        "offers":{"@type":"Offer","price":"25","priceCurrency":"USD","description":"per country, starting","availability":"https://schema.org/InStock"}
+      },
+      {
+        "@context":"https://schema.org","@type":"WebPage",
+        "url":"https://go.veltmtours.com/trip-planning",
+        "name":"AI Trip Planning with Human Expert Review | Butler Button",
+        "description":"Butler Button uses AI to screen 200,000+ options and draft your itinerary. A human travel expert reviews it. Delivered in 24 hours. $25/country.",
+        "publisher":{"@id":"https://go.veltmtours.com/#org"}
+      },
+      {
+        "@context":"https://schema.org","@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"How does Butler Button trip planning work?","acceptedAnswer":{"@type":"Answer","text":"You submit a preference survey. AI screens 200,000+ options across flights, hotels, restaurants, and experiences. A human travel expert reviews everything, then delivers a fully researched day-by-day itinerary within 24 hours."}},
+          {"@type":"Question","name":"How much does a trip plan cost?","acceptedAnswer":{"@type":"Answer","text":"$25 per country in your itinerary. No membership fee. Full refund if cancelled before delivery. Up to 5 revisions within 180 days included."}},
+          {"@type":"Question","name":"How fast is delivery?","acceptedAnswer":{"@type":"Answer","text":"Expert review and delivery within 24 hours of submitting your preferences."}},
+          {"@type":"Question","name":"Can I earn credit card points?","acceptedAnswer":{"@type":"Answer","text":"Yes. Butler Button reserves on your behalf, but you pay suppliers directly on arrival using your own card. You keep all points and miles."}},
+          {"@type":"Question","name":"What is included in a Butler Button itinerary?","acceptedAnswer":{"@type":"Answer","text":"A fully researched day-by-day itinerary including flights, hotels, restaurants, local experiences, and contingency options. Your butler studies your itinerary before you depart so they already know your schedule if something goes wrong."}}
+        ]
+      }
+    ]);
+    document.head.appendChild(ld);
+  })();
+
   // 3. MutationObserver: block Zoho from re-injecting styles; re-apply if body replaced
   (function(){
     var obs = new MutationObserver(function(mutations){

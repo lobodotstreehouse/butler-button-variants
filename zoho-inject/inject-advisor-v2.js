@@ -482,6 +482,56 @@ a { text-decoration: none; color: inherit; }
   style.id = 'bb-styles';
   document.head.appendChild(style);
 
+  // 2b. SEO / AIO metadata
+  (function(){
+    document.title = 'Private Travel Advisor Under Your Brand | Butler Button by VELTM';
+    function setMeta(n, v, isProp) {
+      var sel = isProp ? 'meta[property="'+n+'"]' : 'meta[name="'+n+'"]';
+      var el = document.querySelector(sel);
+      if (!el) { el = document.createElement('meta'); document.head.appendChild(el); }
+      el.setAttribute(isProp ? 'property' : 'name', n);
+      el.setAttribute('content', v);
+    }
+    setMeta('description', 'White-label travel advisor service for professionals. Butler Button delivers 5-star concierge under your brand. Your clients get a personal travel expert. You get the credit.');
+    setMeta('og:title',       'Private Travel Advisor Under Your Brand | Butler Button', true);
+    setMeta('og:description', 'White-label travel advisor. Butler Button delivers 5-star concierge under your brand. Your clients brag about you.', true);
+    setMeta('og:url',         'https://go.veltmtours.com/travel-advisor', true);
+    setMeta('og:type',        'website', true);
+    if (document.querySelector('script#bb-schema')) return;
+    var ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'bb-schema';
+    ld.textContent = JSON.stringify([
+      {
+        "@context":"https://schema.org","@type":"Service",
+        "@id":"https://go.veltmtours.com/travel-advisor#service",
+        "name":"Butler Button Travel Advisor Program",
+        "serviceType":"White-Label Travel Advisory",
+        "provider":{"@type":"Organization","name":"VELTM Tours","alternateName":"Butler Button","url":"https://go.veltmtours.com"},
+        "description":"Butler Button's Travel Advisor Program lets professionals offer a 5-star personal travel concierge to their clients under their own brand. Your clients get a dedicated human travel expert who plans and manages their entire trip. You earn the credit and loyalty. Powered by VELTM Tours, delivered white-label.",
+        "areaServed":"Worldwide",
+        "audience":{"@type":"Audience","audienceType":"Travel professionals, financial advisors, luxury service providers, corporate travel managers"}
+      },
+      {
+        "@context":"https://schema.org","@type":"WebPage",
+        "url":"https://go.veltmtours.com/travel-advisor",
+        "name":"Private Travel Advisor Under Your Brand | Butler Button by VELTM",
+        "description":"White-label travel advisor service for professionals. Butler Button delivers 5-star concierge under your brand. Your clients get a personal travel expert. You get the credit.",
+        "publisher":{"@id":"https://go.veltmtours.com/#org"}
+      },
+      {
+        "@context":"https://schema.org","@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"What is the Butler Button Travel Advisor Program?","acceptedAnswer":{"@type":"Answer","text":"It is a white-label program that lets professionals (travel agents, financial advisors, corporate travel managers, luxury service providers) offer a personal travel concierge to their clients under their own brand. VELTM Tours handles the expert service; you present it to your clients as your own."}},
+          {"@type":"Question","name":"Who is the Travel Advisor program for?","acceptedAnswer":{"@type":"Answer","text":"The program is designed for travel professionals, financial advisors, real estate agents, luxury service providers, and anyone with high-value clients who travel. If your clients travel and you want to add a white-glove travel service to your offering, Butler Button can power it."}},
+          {"@type":"Question","name":"How does the white-label delivery work?","acceptedAnswer":{"@type":"Answer","text":"Your clients interact with a dedicated human travel expert delivered under your brand. All itineraries, communications, and service touchpoints carry your name and logo. Butler Button operates in the background."}},
+          {"@type":"Question","name":"What countries are covered?","acceptedAnswer":{"@type":"Answer","text":"195+ countries and 150+ languages. Your clients can travel anywhere; Butler Button has experts matched to every major destination."}}
+        ]
+      }
+    ]);
+    document.head.appendChild(ld);
+  })();
+
   // 3. MutationObserver: block Zoho from re-injecting styles after clean-slate
   (function(){
     var obs = new MutationObserver(function(mutations){
