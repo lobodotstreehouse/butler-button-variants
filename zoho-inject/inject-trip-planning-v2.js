@@ -422,6 +422,13 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 720px) {
   .site-footer { justify-content: center; text-align: center; flex-direction: column; }
 }
+.bg-photo-label {
+  position: absolute; bottom: 1.2rem; right: 1.4rem;
+  font-size: 0.54rem; letter-spacing: 0.09em; text-transform: uppercase;
+  color: rgba(255,255,255,0.40); text-shadow: 0 1px 10px rgba(0,0,0,1);
+  text-align: right; line-height: 1.6; z-index: 3; pointer-events: none;
+}
+.bg-photo-label strong { display: block; color: rgba(255,255,255,0.60); font-weight: 600; }
 
 /* ─── WINNER BADGE ────────────────────────────────────────────────────── */
 .winner-tab {
@@ -1168,13 +1175,13 @@ a { text-decoration: none; color: inherit; }
 <script>
 (function() {
   var photos = [
-    { place: 'Grand Lobby',   id: '1542314831-068cd1dbfeeb'    },
-    { place: 'Infinity Pool', id: '1520250497591-112f2f40a3f4'  },
-    { place: 'Luxury Suite',  id: '1571003123894-1f0594d2b5d9'  },
-    { place: 'Hotel Suite',   id: '1578683010236-d716f9a3f461'  },
-    { place: 'Modern Lobby',  id: '1611892440504-42a792e24d32'  },
-    { place: 'Suite Vista',   id: '1590490360182-c33d57733427'  },
-    { place: 'Hotel Pool',    id: '1532274402911-5a369e4c4bb5'  },
+    { place: 'Hôtel Royal',     id: '1542314831-068cd1dbfeeb',   loc: 'Évian-les-Bains, France'        },
+    { place: 'Infinity Pool',   id: '1520250497591-112f2f40a3f4', loc: 'Kauai, Hawaii'                  },
+    { place: 'Private Suite',   id: '1571003123894-1f0594d2b5d9', loc: 'Scandinavia'                    },
+    { place: 'Private Dining',  id: '1578683010236-d716f9a3f461', loc: ''                               },
+    { place: 'Altbau Suite',    id: '1611892440504-42a792e24d32', loc: 'Berlin, Germany'                },
+    { place: 'Overwater Villa', id: '1590490360182-c33d57733427', loc: 'North Malé Atoll, Maldives'     },
+    { place: 'Mountain Lodge',  id: '1532274402911-5a369e4c4bb5', loc: 'Norway'                         },
   ];
   var pool = photos.slice();
   for (var i = pool.length - 1; i > 0; i--) {
@@ -1184,8 +1191,14 @@ a { text-decoration: none; color: inherit; }
   function setBg(sel, pick) {
     var el = document.querySelector(sel);
     if (el && pick) {
-      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=1800&q=80)';
+      el.style.backgroundImage = 'url(https://images.unsplash.com/photo-' + pick.id + '?auto=format&fit=crop&w=2400&q=95&cs=srgb)';
       el.setAttribute('data-destination', pick.place);
+      var old = el.querySelector('.bg-photo-label');
+      if (old) old.remove();
+      var label = document.createElement('div');
+      label.className = 'bg-photo-label';
+      label.innerHTML = '<strong>' + pick.place + '</strong>' + (pick.loc ? pick.loc : '');
+      el.appendChild(label);
     }
   }
   setBg('.section-products', pool[0]);

@@ -530,8 +530,6 @@
       content: '';
       position: absolute; inset: 0;
       background: rgba(255,255,255,0.58);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
       z-index: 0;
     }
     .section-statement > * { position: relative; z-index: 1; }
@@ -695,9 +693,7 @@
     .section-products::before {
       content: '';
       position: absolute; inset: 0;
-      background: rgba(10,8,30,0.58);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      background: rgba(10,8,30,0.52);
       z-index: 0;
     }
     .section-products .section-head,
@@ -996,6 +992,20 @@
       .gallery-item:nth-child(3) { display: none; }
       .gallery-item:nth-child(2) { margin-bottom: 0; }
     }
+    .gallery-hotel-label {
+      position: absolute; bottom: 1rem; right: 1.1rem;
+      font-size: 0.54rem; letter-spacing: 0.09em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); text-shadow: 0 1px 10px rgba(0,0,0,1);
+      text-align: right; line-height: 1.6; pointer-events: none; z-index: 3;
+    }
+    .gallery-hotel-label strong { display: block; color: rgba(255,255,255,0.65); font-weight: 600; }
+    .bg-photo-label {
+      position: absolute; bottom: 1.2rem; right: 1.4rem;
+      font-size: 0.54rem; letter-spacing: 0.09em; text-transform: uppercase;
+      color: rgba(255,255,255,0.40); text-shadow: 0 1px 10px rgba(0,0,0,1);
+      text-align: right; line-height: 1.6; z-index: 3; pointer-events: none;
+    }
+    .bg-photo-label strong { display: block; color: rgba(255,255,255,0.60); font-weight: 600; }
 
     /* ═══════════════════════════════════════════════════════════════
        SECTION 8. FINAL CTA
@@ -2092,9 +2102,10 @@
     <p class="section-sub-light" data-reveal style="--delay:.2s">One flat fee per country. From weekend escapes to month-long grand tours.</p>
   </div>
   <div class="gallery-grid">
-    <!-- Bali -->
+    <!-- Gallery 1 -->
     <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
-      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?auto=format&fit=crop&w=1200&q=95&cs=srgb)"></div>
+      <div class="gallery-hotel-label"><strong>Grand Entrance</strong>Private Estate</div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
         <div class="gallery-item-bottom">
@@ -2104,9 +2115,10 @@
         </div>
       </div>
     </a>
-    <!-- Japan -->
+    <!-- Gallery 2 -->
     <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
-      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=95&cs=srgb)"></div>
+      <div class="gallery-hotel-label"><strong>Modern Estate</strong>Melbourne, Australia</div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
         <div class="gallery-item-bottom">
@@ -2116,9 +2128,10 @@
         </div>
       </div>
     </a>
-    <!-- Santorini -->
+    <!-- Gallery 3 -->
     <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
-      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=95&cs=srgb)"></div>
+      <div class="gallery-hotel-label"><strong>Architectural Residence</strong>Melbourne, Australia</div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
         <div class="gallery-item-bottom">
@@ -2335,16 +2348,16 @@
 /* ── RANDOM DESTINATION BACKGROUNDS ── */
 (function () {
   var destinations = [
-    { place: 'Grand Lobby',   id: '1542314831-068cd1dbfeeb'    },
-    { place: 'Infinity Pool', id: '1520250497591-112f2f40a3f4'  },
-    { place: 'Luxury Suite',  id: '1571003123894-1f0594d2b5d9'  },
-    { place: 'Hotel Suite',   id: '1578683010236-d716f9a3f461'  },
-    { place: 'Modern Lobby',  id: '1611892440504-42a792e24d32'  },
-    { place: 'Suite Vista',   id: '1590490360182-c33d57733427'  },
-    { place: 'Interior',      id: '1521783593447-5702b9bfd267'  },
-    { place: 'Hotel Pool',    id: '1532274402911-5a369e4c4bb5'  },
-    { place: 'Hotel Room',    id: '1551434678-e076c223a692'     },
-    { place: 'Grand Suite',   id: '1582719508461-905c673771fd'  },
+    { place: 'Hôtel Royal',      id: '1542314831-068cd1dbfeeb',   loc: 'Évian-les-Bains, France'        },
+    { place: 'Infinity Pool',    id: '1520250497591-112f2f40a3f4', loc: 'Kauai, Hawaii'                  },
+    { place: 'Private Suite',    id: '1571003123894-1f0594d2b5d9', loc: 'Scandinavia'                    },
+    { place: 'Private Dining',   id: '1578683010236-d716f9a3f461', loc: ''                               },
+    { place: 'Altbau Suite',     id: '1611892440504-42a792e24d32', loc: 'Berlin, Germany'                },
+    { place: 'Overwater Villa',  id: '1590490360182-c33d57733427', loc: 'North Malé Atoll, Maldives'     },
+    { place: 'Grand Suite',      id: '1521783593447-5702b9bfd267', loc: ''                               },
+    { place: 'Mountain Lodge',   id: '1532274402911-5a369e4c4bb5', loc: 'Norway'                         },
+    { place: 'Design Suite',     id: '1551434678-e076c223a692',    loc: 'Austin, Texas'                  },
+    { place: 'Villa Suite',      id: '1582719508461-905c673771fd', loc: 'Tuscany, Italy'                 },
   ];
 
   // Fisher-Yates shuffle, pick first 3. Guarantees no repeats across sections
@@ -2359,8 +2372,14 @@
     if (el && pick) {
       el.style.backgroundImage =
         'url(https://images.unsplash.com/photo-' + pick.id +
-        '?auto=format&fit=crop&w=1800&q=80)';
+        '?auto=format&fit=crop&w=2400&q=95&cs=srgb)';
       el.setAttribute('data-destination', pick.place);
+      var old = el.querySelector('.bg-photo-label');
+      if (old) old.remove();
+      var label = document.createElement('div');
+      label.className = 'bg-photo-label';
+      label.innerHTML = '<strong>' + pick.place + '</strong>' + (pick.loc ? pick.loc : '');
+      el.appendChild(label);
     }
   }
 
