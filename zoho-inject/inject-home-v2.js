@@ -1450,7 +1450,7 @@
     <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
   </ul>
-  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Book Now. From $25</a>
+  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Started</a>
 </nav>
 
 
@@ -1467,9 +1467,9 @@
   <div class="hero-content">
 
     <h1 class="hero-h1">
-      AI plans it. A human<br><span>handles it.</span> You enjoy it.
+      Your personal<br><span>travel expert.</span>
     </h1>
-    <p class="hero-sub">From $25 a day. 150+ countries. No membership. Cancel any time.</p>
+    <p class="hero-sub">100% human experts. 150+ countries. No membership required.</p>
 
     <!-- VISUAL PANELS -->
     <div class="hero-visual-wrap" style="display:none;">
