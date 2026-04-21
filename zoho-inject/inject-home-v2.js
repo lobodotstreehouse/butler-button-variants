@@ -2244,6 +2244,7 @@
     <li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
     <li><a href="/supplier-code">Supplier Code of Conduct</a></li>
+    <li><a href="https://help.veltmtours.com">Help Hub</a></li>
   </ul>
   <span class="footer-legal">&copy; 2026 VELTM Tours</span>
 </footer>
