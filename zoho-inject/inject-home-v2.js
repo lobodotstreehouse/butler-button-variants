@@ -675,11 +675,11 @@
       font-size: 0.78rem; font-weight: 600; letter-spacing: .005em;
     }
     .cta-guarantee { margin-top: 1rem; font-size: 0.78rem; color: rgba(245,245,247,0.66); letter-spacing: .005em; }
-    .pcard__guarantee { margin-top: .85rem; font-size: 0.72rem; line-height: 1.5; color: var(--text-mid); letter-spacing: .005em; }
+    .pcard__guarantee { margin-top: .85rem; font-size: 0.72rem; line-height: 1.5; color: rgba(245,245,247,0.50); letter-spacing: .005em; }
     .pcard__guarantee--light { color: rgba(245,245,247,0.66); }
     .products-urgency {
       max-width: 1080px; margin: 2.2rem auto 0; position: relative; z-index: 1;
-      text-align: center; font-size: 0.8rem; color: var(--text-mid); letter-spacing: .005em;
+      text-align: center; font-size: 0.8rem; color: rgba(245,245,247,0.55); letter-spacing: .005em;
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -695,15 +695,15 @@
     .section-products::before {
       content: '';
       position: absolute; inset: 0;
-      background: rgba(255,255,255,0.58);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      background: rgba(10,8,30,0.58);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 0;
     }
     .section-products .section-head,
     .section-products .products-grid { position: relative; z-index: 1; }
-    .section-products .section-title-dark { color: #000; }
-    .section-products .section-sub-dark  { color: #111; }
+    .section-products .section-title-dark { color: #f5f5f7; }
+    .section-products .section-sub-dark  { color: rgba(245,245,247,0.70); }
     .section-title-dark {
       font-size: clamp(2.2rem, 5vw, 4rem);
       font-weight: 700; letter-spacing: -0.035em; line-height: 1.1;
@@ -719,14 +719,23 @@
       gap: 1.25rem;
     }
     .pcard {
-      background: #fff; border-radius: 22px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+      border-radius: 22px;
       padding: 2.5rem 2rem 2rem;
       position: relative; overflow: hidden;
       transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
       cursor: pointer;
     }
-    .pcard:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,0.09); }
-    .pcard--featured { background: linear-gradient(155deg, #1e1b4b 0%, #2e2878 100%); }
+    .pcard:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
+    .pcard--featured {
+      background: rgba(79,46,229,0.28);
+      border-color: rgba(129,140,248,0.45);
+      box-shadow: 0 4px 40px rgba(79,70,229,0.40), inset 0 1px 0 rgba(129,140,248,0.25);
+    }
     .pcard__badge {
       position: absolute; top: 1.5rem; right: 1.5rem;
       font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
@@ -741,38 +750,38 @@
       font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
       text-transform: uppercase; margin-bottom: 0.4rem;
     }
-    .pcard--trip     .pcard__tier { color: var(--text-mid); }
+    .pcard--trip     .pcard__tier { color: rgba(245,245,247,0.52); }
     .pcard--featured .pcard__tier { color: var(--indigo-lt); }
-    .pcard--elite    .pcard__tier { color: var(--text-mid); }
+    .pcard--elite    .pcard__tier { color: rgba(245,245,247,0.52); }
     .pcard__name {
       font-size: 1.45rem; font-weight: 700;
       letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 1.5rem;
     }
-    .pcard--trip     .pcard__name { color: var(--text-dark); }
+    .pcard--trip     .pcard__name { color: #f5f5f7; }
     .pcard--featured .pcard__name { color: #f5f5f7; }
-    .pcard--elite    .pcard__name { color: var(--text-dark); }
+    .pcard--elite    .pcard__name { color: #f5f5f7; }
     .pcard__price-row { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 0.2rem; }
     .pcard__price { font-size: clamp(2.4rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -0.045em; }
-    .pcard--trip     .pcard__price { color: var(--indigo); }
+    .pcard--trip     .pcard__price { color: var(--indigo-lt); }
     .pcard--featured .pcard__price { color: var(--indigo-lt); }
     .pcard--elite    .pcard__price { color: #7c3aed; }
     .pcard__unit { font-size: 0.8rem; letter-spacing: -0.01em; }
-    .pcard--trip     .pcard__unit { color: var(--text-mid); }
-    .pcard--featured .pcard__unit { color: rgba(199,210,254,0.8); }
-    .pcard--elite    .pcard__unit { color: var(--text-mid); }
-    .pcard__divider { border: none; border-top: 1px solid rgba(0,0,0,0.07); margin: 1.5rem 0; }
-    .pcard--featured .pcard__divider { border-color: rgba(255,255,255,0.08); }
+    .pcard--trip     .pcard__unit { color: rgba(245,245,247,0.55); }
+    .pcard--featured .pcard__unit { color: rgba(199,210,254,0.80); }
+    .pcard--elite    .pcard__unit { color: rgba(245,245,247,0.55); }
+    .pcard__divider { border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 1.5rem 0; }
+    .pcard--featured .pcard__divider { border-color: rgba(129,140,248,0.20); }
     .pcard__features { list-style: none; margin-bottom: 2rem; }
     .pcard__features li {
       font-size: 0.88rem; padding: 0.45rem 0;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
       display: flex; gap: 0.5rem; letter-spacing: -0.01em;
     }
-    .pcard--featured .pcard__features li { color: rgba(199,210,254,0.85); border-bottom-color: rgba(255,255,255,0.06); }
+    .pcard--featured .pcard__features li { color: rgba(199,210,254,0.85); border-bottom-color: rgba(255,255,255,0.08); }
     .pcard--trip .pcard__features li,
-    .pcard--elite .pcard__features li { color: var(--text-mid); }
+    .pcard--elite .pcard__features li { color: rgba(245,245,247,0.78); }
     .pcard__features li::before { content: '\\2713'; font-weight: 700; flex-shrink: 0; }
-    .pcard--trip     .pcard__features li::before { color: var(--indigo); }
+    .pcard--trip     .pcard__features li::before { color: var(--indigo-lt); }
     .pcard--featured .pcard__features li::before { color: var(--indigo-lt); }
     .pcard--elite    .pcard__features li::before { color: #7c3aed; }
     .pcard .btn { width: 100%; text-align: center; }
