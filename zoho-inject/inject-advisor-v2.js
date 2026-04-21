@@ -492,10 +492,10 @@ a { text-decoration: none; color: inherit; }
   document.body.innerHTML = `
 <div class="scroll-progress"></div>
 <nav class="nav">
-  <a class="nav-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em></a>
+  <a class="nav-brand" href="/">Butler<em>Button</em></a>
   <ul class="nav-links">
-    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
-    <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
+    <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
+    <li><a href="/travel-advisor">Travel Advisor</a></li>
   </ul>
   <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Book Now. From $25</a>
 </nav>
@@ -584,9 +584,9 @@ a { text-decoration: none; color: inherit; }
 </section>
 
 <footer class="site-footer">
-  <a class="footer-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em> by VELTM</a>
+  <a class="footer-brand" href="/">Butler<em>Button</em> by VELTM</a>
   <ul class="footer-links">
-    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li>
+    <li><a href="/">Home</a></li>
     <li><a href="/trip-planning">Trip Planning</a></li>
     <li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Advisor</a></li>
