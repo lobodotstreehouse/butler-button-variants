@@ -143,14 +143,14 @@
 <div class="doc-wrap">
   <span class="doc-eyebrow">Legal &amp; Compliance</span>
   <h1 class="doc-title">Supplier Code of&nbsp;Conduct</h1>
-  <p class="doc-meta">Effective date: April 2026 &nbsp;·&nbsp; VELTM Tours LLC, operating as Butler Button &nbsp;·&nbsp; go.veltmtours.com</p>
+  <p class="doc-meta">Effective date: April 2026 &nbsp;·&nbsp; VELTM, Inc., operating as Butler Button &nbsp;·&nbsp; go.veltmtours.com</p>
 
   <p class="doc-intro">Butler Button welcomes quality travel service providers — hotels, ground transportation companies, aviation operators, experience vendors, and local specialists — into our supplier network to enhance the journey of our clients. To work with Butler Button's clients and advisors, please review and abide by the following Supplier Code of Conduct.</p>
 
   <div class="doc-section">
     <span class="doc-section-num">01</span>
     <h2 class="doc-section-title">Liability Indemnification</h2>
-    <p>It is expressly agreed that VELTM Tours LLC (d/b/a Butler Button) shall have no liability whatsoever in respect of the provision of goods or services by any supplier. You agree to indemnify VELTM Tours against any claims made by any person or entity in respect of any loss or damage caused directly or indirectly by the provision of your goods or services.</p>
+    <p>It is expressly agreed that VELTM, Inc. (d/b/a Butler Button) shall have no liability whatsoever in respect of the provision of goods or services by any supplier. You agree to indemnify VELTM, Inc. against any claims made by any person or entity in respect of any loss or damage caused directly or indirectly by the provision of your goods or services.</p>
   </div>
 
   <div class="doc-section">
@@ -183,7 +183,7 @@
   <div class="doc-section">
     <span class="doc-section-num">06</span>
     <h2 class="doc-section-title">Non-Disparagement</h2>
-    <p>You, your employees, and your affiliates agree to strict non-disparagement of VELTM Tours, Butler Button, our clients, our advisors, and our partner brands, whether written or oral, across any public or private channel, including social media, review platforms, and press.</p>
+    <p>You, your employees, and your affiliates agree to strict non-disparagement of VELTM, Inc. and Butler Button, our clients, our advisors, and our partner brands, whether written or oral, across any public or private channel, including social media, review platforms, and press.</p>
   </div>
 
   <div class="doc-section">
@@ -223,7 +223,7 @@
     <li><a href="/travel-advisor">Travel Advisor</a></li>
     <li><a href="/supplier-code">Supplier Code of Conduct</a></li>
   </ul>
-  <span class="footer-legal">&copy; 2026 VELTM Tours LLC</span>
+  <span class="footer-legal">&copy; 2026 VELTM, Inc.</span>
 </footer>
   `;
 
