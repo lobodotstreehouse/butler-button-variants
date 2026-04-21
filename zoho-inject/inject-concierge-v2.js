@@ -685,8 +685,8 @@ a { text-decoration: none; color: inherit; }
     <li><a href="/">Home</a></li>
     <li><a href="/trip-planning">Trip Planning</a></li>
     <li><a href="/concierge">Concierge</a></li>
-    <li><a href="#">Advisor</a></li>
-    <li><a href="#">FAQ</a></li>
+    <li><a href="/travel-advisor">Travel Advisor</a></li>
+    <li><a href="/supplier-code">Supplier Code of Conduct</a></li>
   </ul>
   <span class="footer-legal">&copy; 2026 VELTM Tours</span>
 </footer>
