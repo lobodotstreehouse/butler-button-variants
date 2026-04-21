@@ -235,4 +235,7 @@
     else { newScript.textContent = oldScript.textContent; }
     oldScript.parentNode.replaceChild(newScript, oldScript);
   });
+
+  document.documentElement.style.visibility = '';
+  document.documentElement.style.background = '';
 })();
