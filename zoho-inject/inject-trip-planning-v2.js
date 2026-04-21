@@ -1256,4 +1256,5 @@ a { text-decoration: none; color: inherit; }
     }
   }, 100);
 
+  document.documentElement.style.visibility = '';
 })();

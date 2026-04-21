@@ -2437,4 +2437,5 @@
     }
   }, 100);
 
+  document.documentElement.style.visibility = '';
 })();

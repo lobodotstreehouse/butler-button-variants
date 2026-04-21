@@ -647,4 +647,5 @@ a { text-decoration: none; color: inherit; }
     oldScript.parentNode.replaceChild(newScript, oldScript);
   });
 
+  document.documentElement.style.visibility = '';
 })();
