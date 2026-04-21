@@ -1,0 +1,2412 @@
+(function(){
+  'use strict';
+
+  // 1. Remove ALL existing <style> and <link rel="stylesheet"> from <head>
+  document.querySelectorAll('style, link[rel="stylesheet"]').forEach(function(el){ el.remove(); });
+
+  // 2. Inject reference CSS clean into <head>
+  var style = document.createElement('style');
+  style.textContent = `
+    /* ─── RESET & BASE ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #000;
+      color: #f5f5f7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── SCROLL PROGRESS BAR ──────────────────────────────────── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 2px;
+      background: #4f46e5; z-index: 2000;
+      transform-origin: left; transform: scaleX(0);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        .scroll-progress {
+          animation: grow-bar linear both;
+          animation-duration: auto;
+          animation-timeline: scroll(root block);
+        }
+      }
+    }
+    @keyframes grow-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    /* ─── REVEAL SYSTEM ────────────────────────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      [data-reveal] {
+        opacity: 0; transform: translateY(36px);
+        transition:
+          opacity   0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s),
+          transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s);
+      }
+      [data-reveal].visible { opacity: 1; transform: none; }
+      [data-reveal-left] {
+        opacity: 0; transform: translateX(-48px);
+        transition:
+          opacity   0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s),
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s);
+      }
+      [data-reveal-left].visible { opacity: 1; transform: none; }
+      [data-reveal-right] {
+        opacity: 0; transform: translateX(48px);
+        transition:
+          opacity   0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s),
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s);
+      }
+      [data-reveal-right].visible { opacity: 1; transform: none; }
+    }
+
+    /* ─── TOKENS ────────────────────────────────────────────────── */
+    :root {
+      --indigo:    #4f46e5;
+      --indigo-lt: #818cf8;
+      --dark:      #000;
+      --dark-2:    #0a0a12;
+      --dark-3:    #111;
+      --gray-bg:   #f5f5f7;
+      --white:     #fff;
+      --text-dark: #1d1d1f;
+      --text-mid:  #6e6e73;
+      --text-mute: #86868b;
+      --text-dim:  #3a3a3c;
+      /* ── phone mockup component tokens ── */
+      --near-black: #09090B;
+      --body-gray:  #4B5563;
+      --border-gray:#E5E7EB;
+      --gray-400:   #9CA3AF;
+      --gray-500:   #6B7280;
+      --gray-600:   #4B5563;
+      --indigo-tint:#EEF2FF;
+      --gradient:   linear-gradient(135deg,#4F46E5,#7C3AED);
+      --gradient-subtle: linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF2F8 100%);
+      --font-display: Georgia,'Times New Roman',serif;
+      --shadow-sm:  0 1px 3px rgba(0,0,0,0.06);
+      --shadow-xl:  0 20px 60px rgba(0,0,0,0.12);
+      --s4:1rem; --s6:1.5rem; --s8:2rem; --s16:4rem; --s20:5rem;
+    }
+
+    /* ─── NAV ───────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 1.1rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .nav.bg {
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-brand { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
+    .nav-brand em { color: var(--indigo-lt); font-style: normal; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; color: rgba(255,255,255,0.55);
+      letter-spacing: -0.01em; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #f5f5f7; }
+    .nav-book {
+      padding: 8px 22px; background: var(--indigo); color: #fff;
+      border-radius: 980px; font-size: 0.82rem; font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-book:hover { background: #4338ca; transform: scale(1.02); }
+    @media (max-width: 700px) { .nav-links { display: none; } }
+
+    /* ─── BUTTONS ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-block; cursor: pointer; border: none;
+      border-radius: 980px; font-weight: 500; letter-spacing: -0.01em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.97) !important; }
+    .btn-lg { padding: 16px 40px; font-size: 1.05rem; }
+    .btn-md { padding: 12px 28px; font-size: 0.9rem; }
+    .btn-sm { padding: 9px 20px; font-size: 0.82rem; }
+    .btn-indigo { background: var(--indigo); color: #fff; }
+    .btn-indigo:hover { background: #4338ca; box-shadow: 0 8px 32px rgba(79,70,229,0.45); transform: scale(1.02); }
+    .btn-white { background: #fff; color: var(--text-dark); }
+    .btn-white:hover { background: #f0f0f5; transform: scale(1.02); }
+    .btn-ghost-light { background: transparent; color: #f5f5f7; border: 1px solid rgba(255,255,255,0.22); }
+    .btn-ghost-light:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+    .btn-ghost-dark { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); }
+    .btn-ghost-dark:hover { background: var(--indigo); color: #fff; }
+    .btn-outline-light { background: rgba(255,255,255,0.07); color: var(--indigo-lt); border: 1px solid rgba(129,140,248,0.3); }
+    .btn-outline-light:hover { background: rgba(255,255,255,0.12); }
+
+    /* ─── EYEBROW ───────────────────────────────────────────────── */
+    .eyebrow {
+      display: block; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .eyebrow-indigo { color: var(--indigo); }
+    .eyebrow-soft   { color: var(--indigo-lt); }
+    .eyebrow-mute   { color: var(--text-mute); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 1. HERO (NO scroll-jack. Tab-based panels)
+    ═══════════════════════════════════════════════════════════════ */
+    .hero {
+      min-height: unset;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      position: relative; overflow: clip;
+      padding: 7rem 5vw 5rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 90% 70% at 50% 65%, #1a0a3e 0%, #000 68%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 60%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 60%, black 30%, transparent 80%);
+    }
+    .hero-orb {
+      position: absolute; width: 640px; height: 640px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,70,229,0.18) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%, -48%);
+      animation: orb-pulse 5s ease-in-out infinite;
+    }
+    @keyframes orb-pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%,-48%) scale(1); }
+      50%       { opacity: 1;   transform: translate(-50%,-48%) scale(1.12); }
+    }
+    .hero-ring {
+      position: absolute; width: 420px; height: 420px; border-radius: 50%;
+      border: 1px solid rgba(99,102,241,0.12);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      animation: ring-spin 20s linear infinite;
+    }
+    .hero-ring-2 { width: 620px; height: 620px; border-color: rgba(99,102,241,0.06); animation-duration: 30s; animation-direction: reverse; }
+    @keyframes ring-spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 860px; width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 6px 14px 6px 8px;
+      background: rgba(79,70,229,0.15); border: 1px solid rgba(129,140,248,0.25);
+      border-radius: 980px; font-size: 0.75rem; color: var(--indigo-lt);
+      letter-spacing: 0.04em; margin-bottom: 2rem;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--indigo-lt); animation: dot-blink 2s ease-in-out infinite;
+    }
+    @keyframes dot-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-h1 {
+      font-size: clamp(3.2rem, 8.5vw, 7.5rem);
+      font-weight: 700; letter-spacing: -0.04em; line-height: 0.97;
+      color: #f5f5f7; margin-bottom: 1.5rem;
+    }
+    .hero-h1 span { color: var(--indigo-lt); }
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 2.5rem;
+      line-height: 1.6; letter-spacing: -0.01em;
+    }
+
+    /* ── Hero Tabs ───────────────────────────────── */
+    .hero-tabs {
+      display: flex; gap: 4px; justify-content: center;
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px; padding: 4px;
+      width: fit-content; margin-left: auto; margin-right: auto;
+    }
+    .hero-tab {
+      padding: 10px 20px; border-radius: 10px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer; border: none; background: none;
+      transition: all 0.25s ease; position: relative;
+      white-space: nowrap;
+    }
+    .hero-tab:hover { color: rgba(255,255,255,0.7); }
+    .hero-tab.active {
+      background: rgba(79,70,229,0.2);
+      color: var(--indigo-lt);
+    }
+    /* auto-advance timer bar under active tab */
+    .hero-tab.active::after {
+      content: '';
+      position: absolute; bottom: 3px; left: 16px; right: 16px;
+      height: 2px; border-radius: 1px;
+      background: var(--indigo-lt);
+      transform-origin: left;
+      animation: tab-timer 6s linear forwards;
+    }
+    .hero-tab.paused::after { animation-play-state: paused; }
+    @keyframes tab-timer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    @media (max-width: 560px) {
+      .hero-tabs { flex-wrap: wrap; width: 90vw; }
+      .hero-tab { flex: 1; min-width: 0; padding: 8px 12px; font-size: 0.72rem; }
+    }
+
+    /* ── Hero Visual Panels (tab-controlled) ──────────── */
+    .hero-visual-wrap {
+      position: relative;
+      width: min(560px, 92vw);
+      height: min(320px, 40vh);
+      margin: 0 auto 2.5rem;
+    }
+    .hero-v-panel {
+      position: absolute; inset: 0;
+      border-radius: 20px; overflow: clip;
+      opacity: 0; transform: scale(0.97) translateY(14px);
+      transition: opacity 0.45s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.45s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+      cursor: pointer;
+    }
+    .hero-v-panel.active { opacity: 1; transform: none; pointer-events: auto; }
+    .hero-v-panel:hover { box-shadow: 0 0 0 2px rgba(129,140,248,0.3); }
+    .vp-card {
+      width: 100%; height: 100%;
+      background: #0c0c18; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; display: flex; flex-direction: column; overflow: clip;
+    }
+    .vp-item { transform: translateY(10px); }
+    .hero-v-panel.active .vp-item {
+      transform: none;
+      transition: transform 0.55s cubic-bezier(0.22,1,0.36,1) var(--d, 0s);
+    }
+
+    /* ── PANEL 0: Itinerary Builder ──────────────────── */
+    .itin-hdr {
+      padding: 1rem 1.3rem 0.8rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .itin-hdr-label {
+      font-size: 0.67rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--indigo-lt);
+    }
+    .itin-hdr-status { display: flex; align-items: center; gap: 5px; }
+    .itin-live-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: #34d399;
+      animation: vp-blink 2s ease-in-out infinite;
+    }
+    @keyframes vp-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .itin-body { flex: 1; overflow: clip; padding: 0.5rem 0; }
+    .itin-group { padding: 0.4rem 1.3rem 0; }
+    .itin-day-name {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.2); margin-bottom: 0.35rem;
+    }
+    .itin-row {
+      display: grid; grid-template-columns: 2.4rem 1fr auto;
+      gap: 0.5rem; align-items: center;
+      padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .itin-time { font-size: 0.67rem; color: rgba(255,255,255,0.25); font-variant-numeric: tabular-nums; }
+    .itin-detail { font-size: 0.8rem; color: #e8e8f0; letter-spacing: -0.015em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .itin-detail-muted { color: rgba(255,255,255,0.28); font-style: italic; }
+    .itin-pill {
+      font-size: 0.58rem; font-weight: 700; padding: 2px 7px;
+      border-radius: 20px; letter-spacing: 0.02em; white-space: nowrap;
+    }
+    .itin-pill--green { background: rgba(52,211,153,0.1); color: #34d399; }
+    .itin-pill--blue  { background: rgba(129,140,248,0.1); color: var(--indigo-lt); }
+    .itin-pill--dim   { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); }
+    .itin-scanning { letter-spacing: 0.15em; color: var(--indigo-lt); animation: vp-blink 1.1s ease-in-out infinite; }
+    .itin-ftr {
+      padding: 0.65rem 1.3rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .itin-bar-track { height: 2px; border-radius: 1px; background: rgba(255,255,255,0.06); }
+    .itin-bar-fill {
+      height: 100%; width: 0%; border-radius: 1px;
+      background: linear-gradient(90deg, var(--indigo), var(--indigo-lt));
+      transition: width 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s;
+    }
+    .hero-v-panel.active .itin-bar-fill { width: 73%; }
+    .itin-ftr-meta {
+      display: flex; gap: 1.25rem;
+      font-size: 0.58rem; color: rgba(255,255,255,0.22); margin-top: 6px;
+    }
+    .itin-ftr-meta b { color: rgba(255,255,255,0.45); font-weight: 600; }
+
+    /* ── PANEL 1: Chat. Emergency Resolved ──────────── */
+    .chat-ctx {
+      padding: 0.72rem 1.3rem;
+      background: rgba(220,60,60,0.06);
+      border-bottom: 1px solid rgba(220,80,80,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .chat-ctx-place { font-size: 0.7rem; letter-spacing: -0.01em; color: rgba(255,255,255,0.45); }
+    .chat-ctx-place strong { color: rgba(255,255,255,0.8); font-weight: 600; }
+    .chat-ctx-status { display: flex; align-items: center; gap: 4px; }
+    .chat-ctx-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: #34d399;
+      animation: vp-blink 2s ease-in-out infinite;
+    }
+    .chat-thread {
+      flex: 1; padding: 0.9rem 1.2rem;
+      display: flex; flex-direction: column; gap: 0.65rem; overflow: clip;
+    }
+    .chat-m { display: flex; gap: 0.45rem; align-items: flex-start; }
+    .chat-m--user { flex-direction: row-reverse; align-self: flex-end; }
+    .chat-b {
+      padding: 0.6rem 0.9rem; border-radius: 15px;
+      font-size: 0.82rem; line-height: 1.48; letter-spacing: -0.01em;
+      max-width: 82%;
+    }
+    .chat-b--user { background: var(--indigo); color: #fff; border-top-right-radius: 4px; }
+    .chat-b--butler { background: rgba(255,255,255,0.07); color: #e8e8f0; border-top-left-radius: 4px; }
+    .chat-m--butler { display: flex; gap: 0.45rem; align-items: flex-start; }
+    .chat-m--typing { display: flex; gap: 0.45rem; align-items: center; }
+    .chat-ts { font-size: 0.56rem; color: rgba(255,255,255,0.2); margin-top: 3px; padding: 0 2px; }
+    .chat-avatar-sm {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--indigo), #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.56rem; font-weight: 800; color: #fff;
+    }
+    .chat-typing-dots {
+      display: flex; gap: 4px; align-items: center;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255,255,255,0.06);
+      border-radius: 15px; border-top-left-radius: 4px; width: fit-content;
+    }
+    .chat-typing-dots span {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(255,255,255,0.3); display: block;
+    }
+    .hero-v-panel.active .chat-typing-dots span:nth-child(1) { animation: boing 1s 0.05s ease-in-out infinite; }
+    .hero-v-panel.active .chat-typing-dots span:nth-child(2) { animation: boing 1s 0.20s ease-in-out infinite; }
+    .hero-v-panel.active .chat-typing-dots span:nth-child(3) { animation: boing 1s 0.35s ease-in-out infinite; }
+    @keyframes boing { 0%,100%{transform:translateY(0);opacity:.3} 50%{transform:translateY(-5px);opacity:1} }
+    .chat-resolved {
+      margin: 0 1.2rem 0.85rem; padding: 0.65rem 0.9rem;
+      background: rgba(52,211,153,0.09); border: 1px solid rgba(52,211,153,0.18);
+      border-radius: 12px;
+      display: flex; align-items: center; gap: 0.65rem;
+      flex-shrink: 0;
+      font-size: 0.72rem; font-weight: 600; color: #34d399; letter-spacing: -0.01em;
+    }
+
+    /* ── PANEL 2: Trip Report Card ────────────────────── */
+    .vp-report { padding: 1.6rem 1.8rem; }
+    .report-ey {
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--indigo-lt); margin-bottom: 1.1rem;
+    }
+    .report-title {
+      font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+      font-weight: 800; letter-spacing: -0.045em; line-height: 1.1;
+      color: #f5f5f7; margin-bottom: 0.15rem;
+    }
+    .report-zero {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 900; letter-spacing: -0.06em; line-height: 1;
+      color: #34d399; margin-bottom: 1.4rem;
+    }
+    .report-stats {
+      display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center; margin-bottom: 1.3rem;
+    }
+    .report-stat { text-align: center; }
+    .report-stat-num {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+      color: #f5f5f7; margin-bottom: 0.2rem;
+    }
+    .report-stat-lbl {
+      font-size: 0.58rem; color: rgba(255,255,255,0.25);
+      letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4;
+    }
+    .report-stat-div {
+      width: 1px; background: rgba(255,255,255,0.07);
+      align-self: stretch; margin: 0 0.5rem;
+    }
+    .report-quote {
+      font-size: 0.88rem; color: rgba(255,255,255,0.65);
+      line-height: 1.55; letter-spacing: -0.01em;
+      margin-bottom: 0.75rem; font-style: italic;
+    }
+    .report-quote::before { content: '\\201C'; color: var(--indigo-lt); font-style: normal; }
+    .report-quote::after  { content: '\\201D'; color: var(--indigo-lt); font-style: normal; }
+    .report-attr { display: flex; align-items: center; justify-content: space-between; }
+    .report-attr > span:first-child { font-size: 0.67rem; color: rgba(255,255,255,0.3); }
+    .report-stars { color: #fbbf24; font-size: 0.78rem; letter-spacing: 1px; }
+    .report-tag {
+      font-size: 0.58rem; color: rgba(255,255,255,0.2);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.9rem;
+    }
+
+    /* ── PANEL 3: The Receipt ─────────────────────────── */
+    .vp-receipt { padding: 1.2rem 1.4rem; display: flex; flex-direction: column; }
+    .rcpt-hdr {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+    .rcpt-title {
+      font-size: 0.67rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--indigo-lt);
+    }
+    .rcpt-trip { font-size: 0.63rem; color: rgba(255,255,255,0.25); }
+    .rcpt-list { flex: 1; display: flex; flex-direction: column; }
+    .rcpt-row {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.42rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .rcpt-icon { font-size: 0.85rem; flex-shrink: 0; width: 1.2rem; text-align: center; }
+    .rcpt-desc { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .rcpt-desc-main { font-size: 0.79rem; color: rgba(255,255,255,0.7); letter-spacing: -0.01em; }
+    .rcpt-desc-sub { font-size: 0.62rem; color: rgba(255,255,255,0.28); }
+    .rcpt-price--free { font-size: 0.72rem; font-weight: 700; color: #34d399; flex-shrink: 0; }
+    .rcpt-total {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-top: 0.75rem; padding-top: 0.65rem;
+      border-top: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 2. STATS (compact strip)
+    ═══════════════════════════════════════════════════════════════ */
+    .section-stats {
+      background: #000;
+      padding: clamp(4rem, 8vw, 7rem) 5vw;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .stats-inner {
+      max-width: 1040px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; text-align: center;
+    }
+    .stat-num {
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 700; letter-spacing: -0.045em; line-height: 1;
+      color: #f5f5f7; margin-bottom: 0.5rem;
+    }
+    .stat-num sup { font-size: 0.5em; vertical-align: super; color: var(--indigo-lt); }
+    .stat-label { font-size: 0.82rem; color: var(--text-mute); letter-spacing: -0.01em; }
+    .stat-because { margin-top: .6rem; font-size: 0.72rem; line-height: 1.45; color: rgba(245,245,247,0.55); max-width: 220px; margin-left: auto; margin-right: auto; }
+    .stats-footnote { margin-top: 2.2rem; font-size: 0.68rem; color: rgba(245,245,247,0.38); text-align: center; letter-spacing: .005em; max-width: 720px; margin-left:auto; margin-right:auto;}
+    @media (max-width: 700px) { .stats-inner { grid-template-columns: 1fr 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION. STATEMENT (light bg, mask-reveal headline)
+    ═══════════════════════════════════════════════════════════════ */
+    .section-statement {
+      position: relative;
+      padding: clamp(6rem, 12vw, 12rem) 5vw;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+    }
+    .section-statement::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 0;
+    }
+    .section-statement > * { position: relative; z-index: 1; }
+    .section-statement .mask-headline { color: #000; }
+    .section-statement .statement-sub { color: #111; }
+    .mask-headline {
+      font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+      font-weight: 700; letter-spacing: -0.035em; line-height: 1.07;
+      color: var(--text-dark); max-width: 880px; margin: 0 auto 1.5rem;
+    }
+    .mask-word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .mask-inner {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mask-headline.visible .mask-inner { transform: none; }
+    .statement-sub {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: var(--text-mid); max-width: 520px;
+      margin: 0 auto; letter-spacing: -0.01em; line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 3. HOW IT WORKS (sticky parallax + clickable steps)
+    ═══════════════════════════════════════════════════════════════ */
+    .how-track {
+      position: relative;
+      height: 500vh;
+      background: var(--dark-2);
+    }
+    .how-pin {
+      position: sticky; top: 0; height: 100vh;
+      overflow: clip;
+      display: flex; align-items: center;
+    }
+    .section-head { text-align: center; margin-bottom: 4.5rem; }
+    .section-title-light {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700; letter-spacing: -0.035em; line-height: 1.1;
+      color: #f5f5f7; margin-bottom: 0.75rem;
+    }
+    .section-sub-light {
+      font-size: 1.05rem; color: var(--text-mute);
+      max-width: 460px; margin: 0 auto; letter-spacing: -0.01em;
+    }
+    .how-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 5vw;
+      width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .how-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--indigo-lt);
+      margin-bottom: 2.5rem;
+    }
+    .how-step {
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      opacity: 0.2; transform: translateX(-8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      cursor: pointer;
+    }
+    .how-step.active { opacity: 1; transform: none; }
+    .how-step-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--indigo);
+      margin-bottom: 0.6rem;
+    }
+    .how-step-title {
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-weight: 700;
+      letter-spacing: -0.025em; color: #f5f5f7;
+      margin-bottom: 0.6rem; line-height: 1.25;
+    }
+    .how-step-body {
+      font-size: 0.92rem; color: var(--text-mute);
+      line-height: 1.65; letter-spacing: -0.01em;
+    }
+    .how-pips {
+      display: flex; gap: 6px; margin-top: 2rem;
+    }
+    .how-pip {
+      height: 3px; border-radius: 2px;
+      background: rgba(255,255,255,0.12);
+      flex: 1; transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    .how-pip.active { background: var(--indigo); }
+    .how-visual {
+      position: relative; height: 460px;
+      border-radius: 24px; overflow: clip;
+    }
+    .how-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      border-radius: 24px; overflow: clip;
+    }
+    .how-slide.active { opacity: 1; }
+    .how-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.04);
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .how-slide.active img { transform: scale(1); }
+    .how-slide-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+    }
+    .how-slide-caption {
+      position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+      font-size: 0.85rem; color: rgba(255,255,255,0.6); letter-spacing: -0.01em;
+    }
+    @media (max-width: 800px) {
+      .how-track { height: auto; }
+      .how-pin { position: relative; height: auto; padding: clamp(4rem, 8vw, 7rem) 0; }
+      .how-inner { grid-template-columns: 1fr; }
+      .how-visual { display: none; }
+    }
+
+    /* ── Mid-page CTA strip ──────────────────────── */
+    .cta-strip {
+      background: var(--indigo);
+      padding: 3rem 5vw;
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; flex-wrap: wrap; text-align: center;
+    }
+    .cta-strip__text {
+      font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 700;
+      letter-spacing: -0.02em; color: #fff;
+    }
+    .cta-strip__guarantee { color: rgba(255,255,255,0.82); font-size: 0.78rem; letter-spacing: .005em; flex-basis: 100%; }
+    .cta-strip .btn-white:hover { transform: scale(1.04); }
+    .urgency-pill {
+      display: inline-block; margin: 0 auto 1rem;
+      background: rgba(129,140,248,0.14); color: var(--indigo-lt);
+      border: 1px solid rgba(129,140,248,0.32);
+      border-radius: 999px; padding: 6px 14px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: .005em;
+    }
+    .cta-guarantee { margin-top: 1rem; font-size: 0.78rem; color: rgba(245,245,247,0.66); letter-spacing: .005em; }
+    .pcard__guarantee { margin-top: .85rem; font-size: 0.72rem; line-height: 1.5; color: var(--text-mid); letter-spacing: .005em; }
+    .pcard__guarantee--light { color: rgba(245,245,247,0.66); }
+    .products-urgency {
+      max-width: 1080px; margin: 2.2rem auto 0; position: relative; z-index: 1;
+      text-align: center; font-size: 0.8rem; color: var(--text-mid); letter-spacing: .005em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 4. PRODUCTS (light gray)
+    ═══════════════════════════════════════════════════════════════ */
+    .section-products {
+      position: relative;
+      padding: clamp(6rem, 12vw, 10rem) 5vw;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    .section-products::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 0;
+    }
+    .section-products .section-head,
+    .section-products .products-grid { position: relative; z-index: 1; }
+    .section-products .section-title-dark { color: #000; }
+    .section-products .section-sub-dark  { color: #111; }
+    .section-title-dark {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700; letter-spacing: -0.035em; line-height: 1.1;
+      color: var(--text-dark); margin-bottom: 0.75rem;
+    }
+    .section-sub-dark {
+      font-size: 1.05rem; color: var(--text-mid);
+      max-width: 460px; margin: 0 auto; letter-spacing: -0.01em;
+    }
+    .products-grid {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .pcard {
+      background: #fff; border-radius: 22px;
+      padding: 2.5rem 2rem 2rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .pcard:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,0.09); }
+    .pcard--featured { background: linear-gradient(155deg, #1e1b4b 0%, #2e2878 100%); }
+    .pcard__badge {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #fff;
+      background: var(--indigo-lt); padding: 4px 10px; border-radius: 20px;
+    }
+    .pcard__bar { width: 36px; height: 3px; border-radius: 2px; margin-bottom: 2rem; }
+    .pcard--trip     .pcard__bar { background: var(--indigo); }
+    .pcard--featured .pcard__bar { background: var(--indigo-lt); }
+    .pcard--elite    .pcard__bar { background: #7c3aed; }
+    .pcard__tier {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 0.4rem;
+    }
+    .pcard--trip     .pcard__tier { color: var(--text-mid); }
+    .pcard--featured .pcard__tier { color: var(--indigo-lt); }
+    .pcard--elite    .pcard__tier { color: var(--text-mid); }
+    .pcard__name {
+      font-size: 1.45rem; font-weight: 700;
+      letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .pcard--trip     .pcard__name { color: var(--text-dark); }
+    .pcard--featured .pcard__name { color: #f5f5f7; }
+    .pcard--elite    .pcard__name { color: var(--text-dark); }
+    .pcard__price-row { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 0.2rem; }
+    .pcard__price { font-size: clamp(2.4rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -0.045em; }
+    .pcard--trip     .pcard__price { color: var(--indigo); }
+    .pcard--featured .pcard__price { color: var(--indigo-lt); }
+    .pcard--elite    .pcard__price { color: #7c3aed; }
+    .pcard__unit { font-size: 0.8rem; letter-spacing: -0.01em; }
+    .pcard--trip     .pcard__unit { color: var(--text-mid); }
+    .pcard--featured .pcard__unit { color: rgba(199,210,254,0.8); }
+    .pcard--elite    .pcard__unit { color: var(--text-mid); }
+    .pcard__divider { border: none; border-top: 1px solid rgba(0,0,0,0.07); margin: 1.5rem 0; }
+    .pcard--featured .pcard__divider { border-color: rgba(255,255,255,0.08); }
+    .pcard__features { list-style: none; margin-bottom: 2rem; }
+    .pcard__features li {
+      font-size: 0.88rem; padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex; gap: 0.5rem; letter-spacing: -0.01em;
+    }
+    .pcard--featured .pcard__features li { color: rgba(199,210,254,0.85); border-bottom-color: rgba(255,255,255,0.06); }
+    .pcard--trip .pcard__features li,
+    .pcard--elite .pcard__features li { color: var(--text-mid); }
+    .pcard__features li::before { content: '\\2713'; font-weight: 700; flex-shrink: 0; }
+    .pcard--trip     .pcard__features li::before { color: var(--indigo); }
+    .pcard--featured .pcard__features li::before { color: var(--indigo-lt); }
+    .pcard--elite    .pcard__features li::before { color: #7c3aed; }
+    .pcard .btn { width: 100%; text-align: center; }
+    @media (max-width: 820px) { .products-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 5. SCENARIOS (dark)
+    ═══════════════════════════════════════════════════════════════ */
+    .section-scenarios {
+      background: #000;
+      padding: clamp(6rem, 12vw, 10rem) 5vw;
+    }
+    .scenarios-grid {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .scard {
+      background: var(--dark-3); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px; padding: 2rem;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer; display: block; text-decoration: none; color: inherit;
+    }
+    .scard:hover {
+      border-color: rgba(99,102,241,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(79,70,229,0.12);
+    }
+    .scard__where {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--indigo); margin-bottom: 1.1rem;
+    }
+    .scard__situation {
+      font-size: 1.05rem; font-weight: 600; color: #f5f5f7;
+      letter-spacing: -0.02em; line-height: 1.45; margin-bottom: 1rem;
+    }
+    .scard__outcome {
+      font-size: 0.88rem; color: var(--text-mute);
+      line-height: 1.65; letter-spacing: -0.01em;
+    }
+    .scard__tag {
+      display: inline-flex; align-items: center; gap: 4px; margin-top: 1.5rem;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--indigo-lt); letter-spacing: -0.01em;
+    }
+    @media (max-width: 820px) { .scenarios-grid { grid-template-columns: 1fr; max-width: 500px; } }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 6. HUMAN FIRST (image + copy)
+    ═══════════════════════════════════════════════════════════════ */
+    .section-human {
+      position: relative;
+      padding: clamp(6rem, 12vw, 10rem) 5vw;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    .section-human::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 0;
+    }
+    .section-human .human-inner { position: relative; z-index: 1; }
+    .human-inner {
+      max-width: 1120px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .human-img-wrap {
+      border-radius: 28px; overflow: clip;
+      background: #0d0d14;
+      aspect-ratio: 4/5; position: relative; cursor: pointer;
+      display: flex; align-items: stretch;
+      text-decoration: none;
+      transition: box-shadow 0.3s ease;
+    }
+    .human-img-wrap:hover { box-shadow: 0 24px 64px rgba(79,70,229,0.18); }
+    /* Comparison card */
+    .cmp-card {
+      width: 100%; padding: 2.5rem 2.2rem;
+      display: flex; flex-direction: column; gap: 0;
+      font-family: inherit;
+    }
+    .cmp-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .cmp-label--without { color: rgba(255,255,255,0.3); }
+    .cmp-label--with    { color: var(--indigo-lt); }
+    .cmp-list {
+      list-style: none; padding: 0; margin: 0 0 1.6rem;
+      display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .cmp-list li {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: clamp(0.9rem, 1.4vw, 1.05rem); font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .cmp-list--without li { color: rgba(255,255,255,0.38); }
+    .cmp-list--without li::before {
+      content: ''; width: 12px; height: 12px; flex-shrink: 0;
+      border-radius: 3px; border: 1.5px solid rgba(255,255,255,0.2);
+    }
+    .cmp-list--with li { color: rgba(255,255,255,0.92); font-weight: 600; }
+    .cmp-list--with li::before {
+      content: '✓'; width: 18px; height: 18px; flex-shrink: 0;
+      background: var(--indigo); border-radius: 50%;
+      font-size: 0.6rem; color: #fff; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cmp-divider {
+      border: none; border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 0.4rem 0 1.6rem;
+    }
+    .cmp-footer {
+      margin-top: auto;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .cmp-tagline {
+      font-size: 0.82rem; color: rgba(255,255,255,0.35);
+      letter-spacing: -0.01em; line-height: 1.4;
+    }
+    .cmp-wordmark {
+      font-size: 0.85rem; font-weight: 800; letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.9);
+    }
+    .cmp-wordmark em { color: var(--indigo-lt); font-style: normal; }
+    .human-h2 {
+      font-size: clamp(2rem, 4.2vw, 3.4rem); font-weight: 700;
+      letter-spacing: -0.035em; line-height: 1.1;
+      color: var(--text-dark); margin-bottom: 1.25rem;
+    }
+    .human-body {
+      font-size: 1.05rem; color: var(--text-mid);
+      line-height: 1.72; letter-spacing: -0.01em; margin-bottom: 2.5rem;
+    }
+    .human-stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.25rem; margin-bottom: 2.5rem;
+    }
+    .hstat { border-left: 2px solid var(--indigo); padding-left: 1rem; }
+    .hstat__num {
+      font-size: 1.8rem; font-weight: 700;
+      letter-spacing: -0.04em; color: var(--text-dark);
+    }
+    .hstat__label { font-size: 0.78rem; color: var(--text-mid); letter-spacing: -0.01em; }
+    @media (max-width: 820px) {
+      .human-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .human-img-wrap { aspect-ratio: 3/2; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 7. GALLERY (dark, clickable images)
+    ═══════════════════════════════════════════════════════════════ */
+    .section-gallery {
+      background: var(--dark-2);
+      padding: clamp(6rem, 12vw, 10rem) 5vw;
+    }
+    .gallery-grid {
+      max-width: 1200px; margin: 3.5rem auto 0;
+      display: grid; grid-template-columns: 1fr 1.3fr 1fr;
+      gap: 1rem; align-items: end;
+    }
+    .gallery-item {
+      border-radius: 18px; overflow: clip;
+      position: relative; cursor: pointer;
+      display: block; text-decoration: none;
+      aspect-ratio: 3/4;
+    }
+    .gallery-item:nth-child(2) { margin-bottom: -3rem; aspect-ratio: 2/3; }
+    .gallery-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .gallery-item:hover .gallery-bg { transform: scale(1.04); }
+    .gallery-item-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.05) 40%),
+        linear-gradient(to top,    rgba(0,0,0,0.82) 0%, rgba(0,0,0,0) 55%);
+      display: flex; flex-direction: column;
+      justify-content: space-between; padding: 1.2rem 1.3rem;
+    }
+    .gallery-trending-badge {
+      display: inline-block; align-self: flex-start;
+      background: var(--indigo); color: #fff;
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+    }
+    .gallery-item-bottom { display: flex; flex-direction: column; gap: 0.6rem; }
+    .gallery-item-headline {
+      font-size: clamp(0.92rem, 1.5vw, 1.05rem); font-weight: 700;
+      color: #fff; line-height: 1.35; letter-spacing: -0.02em;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    }
+    .gallery-item-brand {
+      font-size: 0.78rem; font-weight: 800; letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.85);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+    .gallery-item-brand em { color: #a5b4fc; font-style: normal; }
+    .gallery-item-cta {
+      font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.7);
+      letter-spacing: 0.02em;
+    }
+    @media (max-width: 700px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(3) { display: none; }
+      .gallery-item:nth-child(2) { margin-bottom: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTION 8. FINAL CTA
+    ═══════════════════════════════════════════════════════════════ */
+    .section-cta {
+      background: #000;
+      padding: clamp(8rem, 16vw, 14rem) 5vw;
+      text-align: center; position: relative; overflow: clip;
+    }
+    .cta-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(79,70,229,0.28) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-h2 {
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      font-weight: 700; letter-spacing: -0.045em; line-height: 0.97;
+      color: #f5f5f7; max-width: 820px; margin: 0 auto 1.25rem;
+    }
+    .cta-h2 span { color: var(--indigo-lt); }
+    .cta-sub {
+      font-size: clamp(1rem, 1.8vw, 1.2rem); color: var(--text-mute);
+      margin-bottom: 3rem; letter-spacing: -0.01em;
+    }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .cta-fine {
+      font-size: 0.72rem; color: var(--text-dim);
+      margin-top: 1.5rem; letter-spacing: -0.01em;
+    }
+
+    /* ─── MOBILE STICKY CTA ──────────────────────────────────────── */
+    .sticky-cta {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+      padding: 12px 5vw;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .sticky-cta.visible { transform: none; }
+    .sticky-cta__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; max-width: 600px; margin: 0 auto;
+    }
+    .sticky-cta__text {
+      font-size: 0.82rem; font-weight: 600; color: #f5f5f7;
+      letter-spacing: -0.01em; white-space: nowrap;
+    }
+    .sticky-cta__text span { color: var(--indigo-lt); }
+    .sticky-cta .btn { flex-shrink: 0; }
+    @media (max-width: 820px) {
+      .sticky-cta { display: block; }
+    }
+
+    /* ─── TRUST SIGNALS SECTION ────────────────────────────────── */
+    .section-trust {
+      background: #000;
+      padding: clamp(3rem, 6vw, 5rem) 5vw;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .trust-inner {
+      max-width: 1080px; margin: 0 auto;
+      text-align: center;
+    }
+    .trust-headline {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); margin-bottom: 2.5rem;
+    }
+    .trust-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: clamp(2rem, 5vw, 4.5rem); flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .trust-logo {
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    }
+    .trust-logo__icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .trust-logo__label {
+      font-size: 0.68rem; color: rgba(255,255,255,0.35);
+      letter-spacing: -0.01em; max-width: 100px; line-height: 1.4;
+    }
+    .trust-logo__label strong {
+      color: rgba(255,255,255,0.6); font-weight: 600;
+      display: block;
+    }
+    .trust-divider {
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,0.06);
+    }
+    @media (max-width: 700px) {
+      .trust-divider { display: none; }
+      .trust-logos { gap: 1.5rem; }
+    }
+    .trust-badges {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; color: rgba(255,255,255,0.3);
+      letter-spacing: -0.01em;
+    }
+    .trust-badge svg { flex-shrink: 0; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .footer {
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { font-size: 0.85rem; font-weight: 700; color: #86868b; }
+    .footer-brand em { color: var(--indigo-lt); font-style: normal; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.75rem; color: var(--text-dim); transition: color 0.2s; }
+    .footer-links a:hover { color: #86868b; }
+    .footer-legal { font-size: 0.72rem; color: var(--text-dim); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PHONE DEMO SECTION. Replaces How It Works (v4)
+       Dark wrapper styled to match v2; phone component from hero-v3
+    ═══════════════════════════════════════════════════════════════ */
+    .phone-demo-section {
+      background: var(--dark-2);
+      padding: clamp(5rem,9vw,9rem) 5vw clamp(6rem,10vw,10rem);
+      position: relative;
+      overflow: clip;
+    }
+    .phone-demo-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 360px;
+      gap: 5rem; align-items: center;
+    }
+    /* Left copy. Inverted for dark bg */
+    .phone-demo-copy .how-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--indigo-lt);
+      margin-bottom: 2.5rem; display: block;
+    }
+    .phone-demo-copy h2 {
+      font-size: clamp(2rem,4vw,3.2rem);
+      font-weight: 700; letter-spacing: -0.035em; line-height: 1.1;
+      color: #f5f5f7; margin-bottom: 1rem;
+    }
+    .phone-demo-copy h2 span { color: var(--indigo-lt); }
+    .phone-demo-copy .phone-demo-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.5);
+      line-height: 1.65; letter-spacing: -0.01em;
+      max-width: 420px; margin-bottom: 2.5rem;
+    }
+    /* Step list. All steps legible, arrow indicator slides between them */
+    .phone-step-list-wrap {
+      position: relative;
+      padding-left: 1.6rem;
+      margin-bottom: 2.5rem;
+    }
+    #stepArrow {
+      position: absolute;
+      left: 0;
+      top: 1.25rem; /* starts aligned with first step's padding-top */
+      color: var(--indigo-lt);
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      transition: top 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.18s ease;
+    }
+    #stepArrow.pulse {
+      transform: scale(1.4);
+    }
+    .phone-step-list {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .phone-step-list li {
+      padding: 1.25rem 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      cursor: default;
+      transition: border-color 0.4s ease;
+    }
+    .phone-step-list li[data-active="true"] {
+      border-color: rgba(129,140,248,0.3);
+    }
+    .phone-step-tag {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.28);
+      margin-bottom: 0.45rem;
+      transition: color 0.4s ease;
+    }
+    .phone-step-list li[data-active="true"] .phone-step-tag {
+      color: var(--indigo-lt);
+    }
+    .phone-step-title {
+      font-size: clamp(0.95rem, 1.6vw, 1.15rem); font-weight: 700;
+      letter-spacing: -0.025em; color: rgba(255,255,255,0.45);
+      margin-bottom: 0.4rem; line-height: 1.25;
+      transition: color 0.4s ease;
+    }
+    .phone-step-list li[data-active="true"] .phone-step-title {
+      color: #f5f5f7;
+    }
+    .phone-step-body {
+      font-size: 0.84rem; color: rgba(255,255,255,0.25);
+      line-height: 1.6; letter-spacing: -0.01em;
+      transition: color 0.4s ease;
+    }
+    .phone-step-list li[data-active="true"] .phone-step-body {
+      color: var(--text-mute);
+    }
+    /* Phone frame ─────────────────────────────────────────────── */
+    .phone {
+      width: 340px;
+      background: var(--near-black);
+      border-radius: 44px;
+      padding: 10px;
+      box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255,255,255,0.1);
+      position: relative;
+    }
+    .phone__notch {
+      width: 120px; height: 28px;
+      background: var(--near-black);
+      border-radius: 0 0 16px 16px;
+      position: absolute;
+      top: 10px; left: 50%; transform: translateX(-50%);
+      z-index: 10;
+    }
+    .phone__screen {
+      background: #EEF2FF;
+      border-radius: 34px;
+      overflow: hidden;
+      height: 640px;
+      position: relative;
+    }
+    /* Screen layering */
+    .screen {
+      position: absolute; inset: 0;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.45s ease;
+      display: flex; flex-direction: column;
+      pointer-events: none; overflow: hidden;
+    }
+    .screen[data-active="true"] { opacity: 1; visibility: visible; }
+    /* Screen 1 */
+    .s1-nav { background:white; border-bottom:1px solid #E5E7EB; padding:36px 14px 8px; display:flex; align-items:center; justify-content:space-between; }
+    .s1-logo { font-family:var(--font-display); font-size:0.9rem; font-weight:700; color:var(--near-black); display:flex; align-items:center; gap:5px; }
+    .s1-logo-icon { width:20px; height:20px; background:var(--gradient); border-radius:4px; display:inline-block; }
+    .s1-nav-pills { display:flex; gap:4px; }
+    .s1-nav-pill { font-size:0.6rem; font-weight:600; padding:3px 8px; border-radius:999px; color:var(--body-gray); }
+    .s1-nav-pill.active { background:var(--indigo); color:white; }
+    .s1-hero { background:linear-gradient(160deg,#EEF2FF 0%,#F5F3FF 60%,#FDF2F8 100%); padding:18px 16px 14px; flex:1; display:flex; flex-direction:column; }
+    .s1-eyebrow { font-size:0.55rem; font-weight:700; letter-spacing:0.14em; color:#22C55E; text-transform:uppercase; display:flex; align-items:center; gap:4px; margin-bottom:8px; }
+    .s1-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:#22C55E; }
+    .s1-h1 { font-family:var(--font-display); font-size:1.35rem; line-height:1.15; color:var(--near-black); margin-bottom:6px; }
+    .s1-h1 span { color:var(--indigo); }
+    .s1-sub { font-size:0.65rem; color:var(--body-gray); line-height:1.5; margin-bottom:12px; }
+    .s1-badges { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
+    .s1-badge { display:flex; align-items:center; gap:5px; font-size:0.6rem; color:var(--body-gray); }
+    .s1-badge-icon { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; flex-shrink:0; }
+    .s1-badge-icon--globe{background:#EEF2FF;} .s1-badge-icon--clock{background:#FEF3C7;} .s1-badge-icon--shield{background:#DCFCE7;} .s1-badge-icon--map{background:#F3E8FF;}
+    .s1-trustline { display:flex; gap:10px; font-size:0.58rem; color:var(--body-gray); margin-bottom:10px; }
+    .s1-widget-preview { background:white; border-radius:12px; padding:10px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); margin-top:auto; position:relative; }
+    .s1-widget-header { display:flex; align-items:center; gap:7px; margin-bottom:8px; }
+    .s1-widget-icon { width:24px; height:24px; border-radius:6px; background:var(--indigo); display:flex; align-items:center; justify-content:center; }
+    .s1-widget-title { font-size:0.75rem; font-weight:700; color:var(--near-black); }
+    .s1-widget-sub { font-size:0.58rem; color:var(--gray-400); }
+    .s1-service-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:8px; }
+    .s1-card { border:1.5px solid #E5E7EB; border-radius:8px; padding:6px 4px; text-align:center; font-size:0.55rem; color:var(--gray-500); }
+    .s1-card.selected { border-color:var(--indigo); background:#EEF2FF; color:var(--indigo); }
+    .s1-card-name { font-weight:700; font-size:0.6rem; display:block; margin-bottom:1px; }
+    .s1-card-price { font-size:0.55rem; }
+    .s1-cta-btn { width:100%; background:var(--gradient); color:white; border:none; border-radius:8px; padding:8px; font-size:0.7rem; font-weight:700; display:flex; align-items:center; justify-content:center; gap:4px; animation:cta-pulse 2s ease-in-out infinite; position:relative; cursor:pointer; }
+    @keyframes cta-pulse { 0%,100%{box-shadow:0 3px 12px rgba(79,70,229,0.3)} 50%{box-shadow:0 3px 20px rgba(79,70,229,0.55)} }
+    .tap-ring { position:absolute; top:50%; left:50%; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.4); transform:translate(-50%,-50%) scale(0); pointer-events:none; }
+    .screen[data-active="true"] .tap-ring { animation:tap-ring 1.1s ease-out 1.4s; }
+    @keyframes tap-ring { 0%{transform:translate(-50%,-50%) scale(0);opacity:0.7} 100%{transform:translate(-50%,-50%) scale(3.5);opacity:0} }
+    /* Shared widget chrome */
+    .widget-chrome { background:white; display:flex; flex-direction:column; height:100%; padding-top:36px; }
+    .widget-topbar { padding:6px 12px 0; border-bottom:1px solid #F3F4F6; }
+    .widget-brand-row { display:flex; align-items:center; gap:6px; padding-bottom:6px; }
+    .widget-brand-icon { width:22px; height:22px; border-radius:6px; background:var(--indigo); display:flex; align-items:center; justify-content:center; color:white; font-size:0.65rem; }
+    .widget-brand-text strong { font-size:0.72rem; display:block; color:var(--near-black); line-height:1.1; }
+    .widget-brand-text small { font-size:0.55rem; color:var(--gray-400); }
+    .widget-steps { display:flex; align-items:center; padding:7px 0 8px; overflow:hidden; }
+    .wstep { display:flex; flex-direction:column; align-items:center; flex:1; font-size:0.48rem; color:#9CA3AF; gap:2px; }
+    .wstep-circle { width:18px; height:18px; border-radius:50%; background:#E5E7EB; display:flex; align-items:center; justify-content:center; font-size:0.55rem; font-weight:700; color:#9CA3AF; }
+    .wstep.done .wstep-circle { background:var(--indigo); color:white; }
+    .wstep.done .wstep-circle::after { content:'✓'; }
+    .wstep.active .wstep-circle { background:var(--indigo); color:white; }
+    .wstep.active { color:var(--indigo); font-weight:700; }
+    .wstep-line { flex:0.6; height:1.5px; background:#E5E7EB; margin-bottom:12px; }
+    .wstep-line.done { background:var(--indigo); }
+    .widget-body { flex:1; padding:10px 12px; overflow:hidden; display:flex; flex-direction:column; gap:8px; }
+    .widget-section-label { font-size:0.68rem; font-weight:700; color:var(--near-black); margin-bottom:4px; }
+    /* Screen 2 */
+    .svc-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; }
+    .svc-card { border:1.5px solid #E5E7EB; border-radius:8px; padding:7px 4px; text-align:center; cursor:pointer; transition:all 0.2s; }
+    .svc-card.selected { border-color:var(--indigo); background:#EEF2FF; }
+    .svc-card-icon { font-size:0.9rem; margin-bottom:2px; }
+    .svc-card-name { font-size:0.58rem; font-weight:700; color:var(--near-black); display:block; }
+    .svc-card.selected .svc-card-name,.svc-card.selected .svc-card-price { color:var(--indigo); }
+    .svc-card-price { font-size:0.55rem; color:#6B7280; display:block; margin-top:1px; }
+    .svc-card-sub { font-size:0.48rem; color:#9CA3AF; margin-top:1px; display:block; }
+    .dest-field { border:1.5px solid #E5E7EB; border-radius:8px; padding:7px 9px; display:flex; align-items:center; gap:5px; font-size:0.62rem; color:#9CA3AF; background:white; }
+    .dest-tag { display:inline-flex; align-items:center; gap:3px; background:#F3F4F6; border-radius:4px; padding:2px 6px; font-size:0.6rem; font-weight:600; color:var(--near-black); margin-right:4px; }
+    .dest-tag .x { color:#9CA3AF; font-size:0.55rem; }
+    .widget-cta { background:#D1D5DB; color:#6B7280; border:none; border-radius:8px; padding:9px; font-size:0.68rem; font-weight:600; text-align:center; width:100%; }
+    .widget-cta.active { background:var(--gradient); color:white; }
+    .hint-text { font-size:0.52rem; color:#9CA3AF; text-align:center; display:flex; align-items:center; justify-content:center; gap:3px; }
+    /* Screen 3 */
+    .travelers-row { display:flex; align-items:center; gap:6px; }
+    .qty-btn { width:22px; height:22px; border-radius:50%; border:1.5px solid #E5E7EB; display:flex; align-items:center; justify-content:center; font-size:0.75rem; color:var(--near-black); font-weight:600; }
+    .qty-val { font-size:0.75rem; font-weight:700; color:var(--near-black); min-width:14px; text-align:center; }
+    .solo-pill { background:#F3F4F6; border-radius:999px; padding:3px 8px; font-size:0.55rem; font-weight:600; color:var(--gray-600); display:flex; align-items:center; gap:3px; }
+    .solo-hint { font-size:0.55rem; color:#9CA3AF; margin-top:2px; }
+    .date-toggle { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:6px; }
+    .date-pill { border:1.5px solid #E5E7EB; border-radius:8px; padding:6px; text-align:center; }
+    .date-pill.selected { border-color:var(--indigo); background:#EEF2FF; }
+    .date-pill-label { font-size:0.6rem; font-weight:700; display:block; }
+    .date-pill.selected .date-pill-label { color:var(--indigo); }
+    .date-pill-sub { font-size:0.5rem; color:#9CA3AF; }
+    .date-row { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+    .date-input { border:1.5px solid #E5E7EB; border-radius:8px; padding:6px 7px; font-size:0.6rem; color:var(--near-black); display:flex; align-items:center; gap:4px; }
+    .mix-toggle-row { background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:6px 8px; display:flex; align-items:center; justify-content:space-between; }
+    .mix-toggle-text strong { font-size:0.6rem; color:#92400E; display:block; }
+    .mix-toggle-text small { font-size:0.52rem; color:#B45309; }
+    .toggle-switch { width:26px; height:14px; border-radius:999px; background:#D1D5DB; position:relative; }
+    .toggle-switch::after { content:''; width:10px; height:10px; border-radius:50%; background:white; position:absolute; top:2px; left:2px; box-shadow:0 1px 2px rgba(0,0,0,0.2); }
+    /* Screen 4 */
+    .form-input-row { border:1.5px solid #E5E7EB; border-radius:8px; padding:6px 8px; font-size:0.62rem; color:var(--near-black); background:white; display:flex; align-items:center; gap:5px; }
+    .form-input-row.filled { border-color:#C7D2FE; background:#F5F3FF; }
+    .phone-code { font-size:0.6rem; color:#6B7280; border-right:1px solid #E5E7EB; padding-right:5px; margin-right:2px; }
+    .wa-check-row { display:flex; align-items:center; gap:5px; }
+    .wa-check-circle { width:16px; height:16px; border-radius:50%; border:2px solid #E5E7EB; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+    .wa-check-circle.checked { background:#25D366; border-color:#25D366; color:white; font-size:0.55rem; }
+    .wa-check-label { font-size:0.6rem; color:var(--near-black); }
+    .promo-row { display:flex; align-items:center; gap:5px; }
+    .promo-input { flex:1; border:1.5px solid #E5E7EB; border-radius:8px; padding:6px 8px; font-size:0.62rem; color:var(--near-black); background:white; font-family:ui-monospace,monospace; letter-spacing:0.06em; display:flex; align-items:center; gap:4px; }
+    .promo-input.applied { border-color:#22C55E; background:#F0FDF4; color:#166534; }
+    .promo-icon { font-size:0.7rem; opacity:0.5; }
+    .promo-apply-btn { background:var(--indigo); color:white; border:none; border-radius:8px; padding:6px 9px; font-size:0.6rem; font-weight:700; flex-shrink:0; }
+    .promo-apply-btn.success { background:#22C55E; }
+    .promo-success-msg { font-size:0.57rem; color:#166534; font-weight:600; display:flex; align-items:center; gap:3px; margin-top:3px; }
+    .order-summary { background:#F9FAFB; border-radius:8px; padding:8px 10px; }
+    .order-summary-label { font-size:0.55rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#9CA3AF; margin-bottom:5px; }
+    .order-row { display:flex; justify-content:space-between; font-size:0.62rem; color:#6B7280; margin-bottom:2px; }
+    .order-row.total { color:var(--near-black); font-weight:700; font-size:0.72rem; border-top:1px solid #E5E7EB; padding-top:5px; margin-top:4px; }
+    .strike { text-decoration:line-through; color:#D1D5DB; margin-right:3px; }
+    .discount-badge { color:#22C55E; font-weight:700; }
+    /* Screen 5 */
+    .processing-screen { background:white; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px 20px; }
+    .spinner { width:52px; height:52px; border-radius:50%; border:3px solid #E5E7EB; border-top-color:var(--indigo); animation:spin 0.85s linear infinite; margin:0 auto 14px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .proc-title { font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--near-black); margin-bottom:4px; }
+    .proc-sub { font-size:0.72rem; color:#6B7280; line-height:1.5; }
+    .proc-dots { display:flex; gap:5px; justify-content:center; margin-top:16px; }
+    .proc-dot { width:6px; height:6px; border-radius:50%; background:var(--indigo); animation:dot-bounce 1.2s ease-in-out infinite; }
+    .proc-dot:nth-child(2){animation-delay:0.2s} .proc-dot:nth-child(3){animation-delay:0.4s}
+    @keyframes dot-bounce { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+    /* Screen 6 */
+    .confirm-screen { background:linear-gradient(180deg,#F0FDF4 0%,white 50%); padding:36px 20px 20px; align-items:center; justify-content:center; text-align:center; }
+    .confirm-check { width:60px; height:60px; border-radius:50%; background:#22C55E; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:white; font-size:1.6rem; animation:pop-in 0.55s cubic-bezier(0.4,0,0.2,1); }
+    @keyframes pop-in { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15);opacity:1} 100%{transform:scale(1)} }
+    .confirm-title { font-family:var(--font-display); font-size:1.2rem; font-weight:700; color:var(--near-black); margin-bottom:6px; }
+    .confirm-sub { font-size:0.72rem; color:var(--body-gray); line-height:1.55; margin-bottom:14px; padding:0 6px; }
+    .confirm-detail-box { background:white; border:1px solid #E5E7EB; border-radius:10px; padding:10px 14px; text-align:left; font-size:0.62rem; color:#6B7280; width:100%; margin-bottom:14px; }
+    .confirm-detail-row { display:flex; justify-content:space-between; margin-bottom:4px; }
+    .confirm-detail-row:last-child{margin-bottom:0}
+    .confirm-detail-row strong { color:var(--near-black); }
+    .confirm-ref { font-family:ui-monospace,monospace; font-size:0.6rem; color:#9CA3AF; margin-bottom:14px; }
+    .wa-cta-btn { background:#25D366; color:white; border:none; border-radius:999px; padding:10px 20px; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; }
+    .wa-logo { width:14px; height:14px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    /* Screen 7 */
+    .wa-screen { background:#E5DDD5; display:flex; flex-direction:column; }
+    .wa-header { background:#075E54; color:white; padding:38px 12px 8px; display:flex; align-items:center; gap:8px; }
+    .wa-back{font-size:0.75rem;opacity:0.9}
+    .wa-avatar { width:32px; height:32px; border-radius:50%; background:var(--indigo); display:flex; align-items:center; justify-content:center; color:white; font-size:0.75rem; font-weight:700; font-family:var(--font-display); }
+    .wa-name{font-size:0.75rem;font-weight:600;line-height:1.2} .wa-status{font-size:0.55rem;opacity:0.8}
+    .wa-icons { margin-left:auto; display:flex; gap:10px; font-size:0.85rem; opacity:0.85; }
+    .wa-body { flex:1; padding:8px 8px 4px; display:flex; flex-direction:column; gap:5px; overflow:hidden; }
+    .wa-date-chip { align-self:center; background:rgba(225,245,254,0.92); padding:2px 8px; border-radius:6px; font-size:0.52rem; color:#4A5568; margin-bottom:2px; }
+    .wa-msg { max-width:86%; padding:6px 8px 5px; border-radius:8px; font-size:0.65rem; line-height:1.45; box-shadow:0 1px 1px rgba(0,0,0,0.1); opacity:0; animation:wa-pop 0.35s ease forwards; }
+    .wa-msg--butler { background:white; align-self:flex-start; border-top-left-radius:2px; }
+    .wa-msg--user { background:#D9FDD3; align-self:flex-end; border-top-right-radius:2px; }
+    .wa-time { font-size:0.5rem; color:rgba(0,0,0,0.4); float:right; margin-left:6px; margin-top:2px; }
+    .screen[data-active="true"] .wa-msg:nth-child(2){animation-delay:0.3s}
+    .screen[data-active="true"] .wa-msg:nth-child(3){animation-delay:1.4s}
+    .screen[data-active="true"] .wa-msg:nth-child(4){animation-delay:2.3s}
+    .screen[data-active="true"] .wa-msg:nth-child(5){animation-delay:3.2s}
+    @keyframes wa-pop { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .wa-input-bar { background:#F0F2F5; padding:5px 8px; display:flex; align-items:center; gap:5px; }
+    .wa-input-box { flex:1; background:white; border-radius:20px; padding:5px 10px; font-size:0.6rem; color:#9CA3AF; }
+    .wa-send-btn { width:28px; height:28px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; color:white; font-size:0.8rem; }
+    /* Replay */
+    .replay-btn { position:absolute; bottom:-44px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.95); border:1px solid var(--border-gray); border-radius:999px; padding:0.3rem 0.9rem; font-size:0.7rem; color:var(--indigo); font-weight:600; display:inline-flex; align-items:center; gap:0.3rem; box-shadow:var(--shadow-sm); cursor:pointer; }
+    .replay-btn:hover { background:var(--indigo-tint); }
+    @media(max-width:860px){
+      .phone-demo-inner { grid-template-columns:1fr; justify-items:center; }
+      .phone-demo-copy { text-align:center; }
+      .phone-demo-copy .phone-demo-sub { margin-left:auto; margin-right:auto; }
+      .phone-step-list-wrap { display:none; }
+    }
+  `;
+  style.id = 'bb-styles';
+  document.head.appendChild(style);
+
+  // 1b. MutationObserver: block Zoho from re-injecting styles after our clean-slate
+  (function(){
+    var obs = new MutationObserver(function(mutations){
+      mutations.forEach(function(m){
+        m.addedNodes.forEach(function(node){
+          if(node.nodeType !== 1) return;
+          var tag = node.tagName && node.tagName.toLowerCase();
+          if(tag === 'body') { applyBody(); return; }
+          if(tag === 'style' && node.id !== 'bb-styles') { node.remove(); return; }
+          if(tag === 'link' && node.rel === 'stylesheet') { node.remove(); return; }
+        });
+      });
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+  })();
+
+  // 3. Body HTML (applied via applyBody so it survives Zoho SPA re-renders)
+  var bodyHTML = `<!-- scroll progress -->
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- ─── NAV ──────────────────────────────────────────────────── -->
+<nav class="nav" id="main-nav">
+  <a class="nav-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em></a>
+  <ul class="nav-links">
+    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li><li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li><li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
+  </ul>
+  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Book Now. From $25</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 1. HERO (tab-based, no scroll-jack)
+═══════════════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring hero-ring-2"></div>
+
+  <div class="hero-content">
+
+    <h1 class="hero-h1">
+      AI plans it. A human<br><span>handles it.</span> You enjoy it.
+    </h1>
+    <p class="hero-sub">From $25 a day. 150+ countries. No membership. Cancel any time.</p>
+
+    <!-- VISUAL PANELS -->
+    <div class="hero-visual-wrap" style="display:none;">
+
+      <!-- Tab 0: placeholder (hidden) -->
+      <a class="hero-v-panel active" data-phase="0" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>
+        <div class="vp-card">
+          <div class="itin-hdr">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="5" stroke="#818cf8" stroke-width="1.2"/><path d="M6 3.5V6.5L7.5 8" stroke="#818cf8" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <span class="itin-hdr-label">AI Planning Engine</a>
+            </div>
+            <div class="itin-hdr-status">
+              <span class="itin-live-dot"></span>
+              <span style="font-size:0.62rem;color:rgba(255,255,255,0.35);">Building now</span>
+            </div>
+          </div>
+          <div class="itin-body">
+            <div class="itin-group">
+              <div class="itin-day-name">Day 1. Tokyo Arrival</div>
+              <div class="itin-row vp-item" style="--d:0.05s">
+                <span class="itin-time">10:45</span>
+                <span class="itin-detail">ANA 012 <span style="color:rgba(255,255,255,0.22);font-size:0.72rem;">JFK → NRT</span></span>
+                <span class="itin-pill itin-pill--green">Booked</span>
+              </div>
+              <div class="itin-row vp-item" style="--d:0.12s">
+                <span class="itin-time">14:30</span>
+                <span class="itin-detail">Park Hyatt Tokyo <span style="color:rgba(255,255,255,0.22);font-size:0.72rem;">Shinjuku</span></span>
+                <span class="itin-pill itin-pill--blue">Confirmed</span>
+              </div>
+              <div class="itin-row vp-item" style="--d:0.19s">
+                <span class="itin-time">17:00</span>
+                <span class="itin-detail">Tsukiji Outer Market <span style="color:rgba(255,255,255,0.22);font-size:0.72rem;">with guide</span></span>
+                <span class="itin-pill itin-pill--blue">Confirmed</span>
+              </div>
+            </div>
+            <div class="itin-group" style="margin-top:0.5rem;">
+              <div class="itin-day-name">Day 2. Kyoto</div>
+              <div class="itin-row vp-item" style="--d:0.26s">
+                <span class="itin-time">07:00</span>
+                <span class="itin-detail">Shinkansen N700S <span style="color:rgba(255,255,255,0.22);font-size:0.72rem;">Shin-Osaka</span></span>
+                <span class="itin-pill itin-pill--green">Reserved</span>
+              </div>
+              <div class="itin-row vp-item" style="--d:0.33s">
+                <span class="itin-time">09:15</span>
+                <span class="itin-detail">Fushimi Inari. Private open <span class="itin-detail-muted">before crowds</span></span>
+                <span class="itin-pill itin-pill--blue">Set</span>
+              </div>
+              <div class="itin-row vp-item" style="--d:0.40s">
+                <span class="itin-time">20:00</span>
+                <span class="itin-detail itin-scanning">Scanning 12,400+ dining options…</span>
+                <span class="itin-pill itin-pill--dim">, </span>
+              </div>
+            </div>
+          </div>
+          <div class="itin-ftr">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+              <span style="font-size:0.6rem;color:rgba(255,255,255,0.28);letter-spacing:0.06em;">SCANNING 200,000+ OPTIONS</span>
+              <span style="font-size:0.6rem;color:var(--indigo-lt);font-weight:700;">73%</span>
+            </div>
+            <div class="itin-bar-track"><div class="itin-bar-fill"></div></div>
+            <div class="itin-ftr-meta" style="margin-top:8px;">
+              <span><b>14</b> days</span>
+              <span><b>4</b> countries</span>
+              <span><b>47</b> experiences</span>
+              <span>avg <b>12 hrs</b> saved</span>
+            </div>
+          </div>
+        </div>
+      </span>
+
+      <!-- Tab 1: Human handles it. Bangkok emergency -->
+      <a class="hero-v-panel" data-phase="1" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>
+        <div class="vp-card">
+          <div class="chat-ctx">
+            <div>
+              <div class="chat-ctx-place">
+                <strong>Bangkok</strong>
+                <span style="color:rgba(255,255,255,0.2);margin:0 4px;">·</a>
+                <span style="color:rgba(255,255,255,0.35);">Suvarnabhumi Airport</span>
+              </div>
+              <div style="font-size:0.58rem;color:rgba(255,255,255,0.22);margin-top:2px;">Tuesday, 23:47 local time</div>
+            </div>
+            <div class="chat-ctx-status">
+              <span class="chat-ctx-dot"></span>
+              <span style="font-size:0.6rem;color:#34d399;">Active</span>
+            </div>
+          </div>
+          <div class="chat-thread">
+            <div class="chat-m chat-m--user vp-item" style="--d:0.04s">
+              <div class="chat-b chat-b--user">My flight was just cancelled. I have a morning tour at 8am that I cannot miss.</div>
+              <div class="chat-ts">23:47</div>
+            </div>
+            <div class="chat-m chat-m--typing vp-item" style="--d:0.1s">
+              <div class="chat-avatar-sm">BB</div>
+              <div class="chat-typing-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="chat-m chat-m--butler vp-item" style="--d:0.18s">
+              <div class="chat-avatar-sm">BB</div>
+              <div>
+                <div class="chat-b chat-b--butler">Got you. Bangkok Airways 0714 departs 06:10, arrives 07:45. You'll make it. Booking now. Hotel sorted for tonight. Tour guide notified.</div>
+                <div class="chat-ts">23:51</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-resolved vp-item" style="--d:0.26s">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><circle cx="6.5" cy="6.5" r="6" fill="#34d399" fill-opacity="0.15" stroke="#34d399" stroke-width="1"/><path d="M4 6.5L5.8 8.5L9 5" stroke="#34d399" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Resolved in <strong>4 min 2 sec</strong> · Tour saved · Hotel rebooked
+          </div>
+        </div>
+      </span>
+
+      <!-- Tab 2: You enjoy it. Trip Report Card -->
+      <a class="hero-v-panel" data-phase="2" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>
+        <div class="vp-card vp-report">
+          <div class="report-ey vp-item" style="--d:0.04s">Trip Summary · Client #4,821</div>
+          <div class="report-title vp-item" style="--d:0.1s">14 Days. 4 Countries.</div>
+          <div class="report-zero vp-item" style="--d:0.16s">0 Problems.</div>
+          <div class="report-stats vp-item" style="--d:0.22s">
+            <div class="report-stat">
+              <div class="report-stat-num">97%</div>
+              <div class="report-stat-lbl">disruptions<br>resolved &lt;60 min</div>
+            </div>
+            <div class="report-stat-div"></div>
+            <div class="report-stat">
+              <div class="report-stat-num">3</div>
+              <div class="report-stat-lbl">proactive<br>interventions</div>
+            </div>
+            <div class="report-stat-div"></div>
+            <div class="report-stat">
+              <div class="report-stat-num">$0</div>
+              <div class="report-stat-lbl">surprise fees<br>or upsells</div>
+            </div>
+          </div>
+          <div class="report-quote vp-item" style="--d:0.3s">I didn't think about logistics once. Not once.</div>
+          <div class="report-attr vp-item" style="--d:0.36s">
+            <span>,  Marcus T., Kyoto + Tokyo</a>
+            <span class="report-stars">★★★★★</span>
+          </div>
+          <div class="report-tag vp-item" style="--d:0.42s">Powered by Butler Button · $25/day</div>
+        </div>
+      </span>
+
+      <!-- Tab 3: From $25/day. The Receipt -->
+      <a class="hero-v-panel" data-phase="3" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>
+        <div class="vp-card vp-receipt">
+          <div class="rcpt-hdr vp-item" style="--d:0.04s">
+            <div>
+              <div class="rcpt-title">What $250 actually bought</div>
+              <div class="rcpt-trip">10-day trip · Tokyo → Kyoto → Osaka</div>
+            </div>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><path d="M6 11h10M6 7.5h10M6 14.5h6" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="rcpt-list">
+            <div class="rcpt-row vp-item" style="--d:0.1s">
+              <div class="rcpt-icon">✈</div>
+              <div class="rcpt-desc">
+                <span class="rcpt-desc-main">Same-day flight rebook, Osaka storm</a>
+                <span class="rcpt-desc-sub">Identified 2.3 hrs before departure</span>
+              </div>
+              <div class="rcpt-price--free">$0 extra</div>
+            </div>
+            <div class="rcpt-row vp-item" style="--d:0.17s">
+              <div class="rcpt-icon">🍽</div>
+              <div class="rcpt-desc">
+                <span class="rcpt-desc-main">Last-minute table, Kikunoi Honten</span>
+                <span class="rcpt-desc-sub">Omakase, Michelin 3-star, 2-week wait</span>
+              </div>
+              <div class="rcpt-price--free">$0 extra</div>
+            </div>
+            <div class="rcpt-row vp-item" style="--d:0.24s">
+              <div class="rcpt-icon">🏨</div>
+              <div class="rcpt-desc">
+                <span class="rcpt-desc-main">Early check-in + room upgrade</span>
+                <span class="rcpt-desc-sub">Aman Kyoto · negotiated directly</span>
+              </div>
+              <div class="rcpt-price--free">$0 extra</div>
+            </div>
+            <div class="rcpt-row vp-item" style="--d:0.31s">
+              <div class="rcpt-icon">🗣</div>
+              <div class="rcpt-desc">
+                <span class="rcpt-desc-main">Live translation, medical clinic</span>
+                <span class="rcpt-desc-sub">Prescription sorted in 35 minutes</span>
+              </div>
+              <div class="rcpt-price--free">$0 extra</div>
+            </div>
+          </div>
+          <div class="rcpt-total vp-item" style="--d:0.38s">
+            <div>
+              <div style="font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;">Total cost of concierge</div>
+              <div style="font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:-0.03em;">$250 <span style="font-size:0.75rem;font-weight:400;color:rgba(255,255,255,0.3);">for 10 days</span></div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:0.58rem;color:rgba(255,255,255,0.22);text-decoration:line-through;margin-bottom:2px;">$2,500+ retainer</div>
+              <div style="font-size:0.72rem;font-weight:700;color:#34d399;">$25 / day</div>
+            </div>
+          </div>
+        </div>
+      </span>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 2. STATS
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-stats">
+  <div class="stats-inner">
+    <div data-reveal>
+      <div class="stat-num">195<sup>+</sup></div>
+      <div class="stat-label">Countries covered</div>
+      <div class="stat-because">Every Butler is a destination specialist. One advisor per country, never a generalist.</div>
+    </div>
+    <div data-reveal style="--delay:.08s">
+      <div class="stat-num">150<sup>+</sup></div>
+      <div class="stat-label">Languages supported</div>
+      <div class="stat-because">Regional advisor fluency + live translation, so nothing is lost at check-in or at the hospital.</div>
+    </div>
+    <div data-reveal style="--delay:.16s">
+      <div class="stat-num">&lt;4</div>
+      <div class="stat-label">Minutes to human response</div>
+      <div class="stat-because">Because your advisor carries one client at a time. No chatbot, no queue, no on-hold.</div>
+    </div>
+    <div data-reveal style="--delay:.24s">
+      <div class="stat-num">$25</div>
+      <div class="stat-label">Starting price / day</div>
+      <div class="stat-because">Same price as a decent dinner. Pay only for days used. Cancel any time.</div>
+    </div>
+  </div>
+  <div class="stats-footnote">Measured across Butler Button concierge engagements, Jan to Apr 2026. Internal operations log; methodology available on request.</div>
+</section>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STATEMENT
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-statement">
+  <span class="eyebrow eyebrow-indigo" data-reveal>Real Trips, Real Help</span>
+  <h2 class="mask-headline" id="mask-headline">
+    The trip you imagined.
+    Finally possible.
+  </h2>
+  <p class="statement-sub" data-reveal style="--delay:.3s">
+    Five-star planning and real-time concierge support 
+    without the five-star price tag.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HOW IT WORKS. Phone Demo (v4: replaces sticky-scroll parallax)
+═══════════════════════════════════════════════════════════════ -->
+<section class="phone-demo-section" id="how">
+  <div class="phone-demo-inner">
+
+    <!-- Left: copy + live step tracker -->
+    <div class="phone-demo-copy">
+      <span class="how-label">How It Works</span>
+      <h2>Tap once.<br><span>Travel smarter.</span></h2>
+      <p class="phone-demo-sub">One widget. Five steps. Then your Butler is pinging you on WhatsApp. Watch the real signup flow &rarr;</p>
+      <div class="phone-step-list-wrap">
+        <div id="stepArrow" aria-hidden="true">&#8594;</div>
+        <ul class="phone-step-list" id="stepList">
+          <li data-step="2">
+            <div class="phone-step-tag">01. Choose</div>
+            <div class="phone-step-title">Pick your service level.</div>
+            <div class="phone-step-body">8-Hour Butler for day assistance, 24-Hour for round-the-clock coverage, or Trip Planning for a full itinerary.</div>
+          </li>
+          <li data-step="3">
+            <div class="phone-step-tag">02. Destination</div>
+            <div class="phone-step-title">Set where and when.</div>
+            <div class="phone-step-body">Drop in your destination, travel dates, and number of travelers. Italy, solo, May 1-8. Done in seconds.</div>
+          </li>
+          <li data-step="4">
+            <div class="phone-step-tag">03. Details</div>
+            <div class="phone-step-title">Your info + partner code.</div>
+            <div class="phone-step-body">Name, email, and phone. Then add your promo code and watch 20% come off the total automatically.</div>
+          </li>
+          <li data-step="5">
+            <div class="phone-step-tag">04. Confirm</div>
+            <div class="phone-step-title">Secure your Butler.</div>
+            <div class="phone-step-body">Checkout takes under a minute. Payment confirmed, advisor matched. All before the spinner stops.</div>
+          </li>
+          <li data-step="6">
+            <div class="phone-step-tag">05. Booked</div>
+            <div class="phone-step-title">You're confirmed.</div>
+            <div class="phone-step-body">Booking reference issued. Your Butler is assigned and will ping you on WhatsApp within 4 minutes.</div>
+          </li>
+          <li data-step="7">
+            <div class="phone-step-tag">06. Connected</div>
+            <div class="phone-step-title">Your Butler checks in.</div>
+            <div class="phone-step-body">Itinerary, restaurant recs, real-time support. It all starts the moment that first WhatsApp message lands.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right: Phone mockup -->
+    <div style="position:relative;">
+      <div class="phone">
+        <div class="phone__notch"></div>
+        <div class="phone__screen" id="phoneScreen">
+
+          <!-- Screen 2: Widget. Service selection -->
+          <div class="screen" data-screen="2">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><path d="M9 15s1.5 2 3 2 3-2 3-2"/></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep active"><div class="wstep-circle">1</div>Service</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">2</div>Destination</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">3</div>Details</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-section-label">Choose your service</div>
+                <div class="svc-cards">
+                  <div class="svc-card"><div class="svc-card-icon">⊙</div><span class="svc-card-name">Trip Planning</span><span class="svc-card-price">$25/country</span><span class="svc-card-sub">5 Revisions</span></div>
+                  <div class="svc-card selected"><div class="svc-card-icon" style="color:var(--indigo);">🕐</div><span class="svc-card-name">8-Hour</span><span class="svc-card-price">$25/day</span><span class="svc-card-sub">Remote Support</span></div>
+                  <div class="svc-card"><div class="svc-card-icon">🕐</div><span class="svc-card-name">24-Hour</span><span class="svc-card-price">$100/day</span><span class="svc-card-sub">Full Day</span></div>
+                </div>
+                <div class="widget-section-label" style="margin-top:4px;">Where are you headed?</div>
+                <div class="dest-field"><span class="search-icon">🔍</span><span>Type a country name...</span></div>
+                <div class="widget-cta" style="margin-top:auto;">Select a Destination to continue</div>
+                <div class="hint-text">ⓘ Complete: destination, purpose, dates, name, email, phone</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 3: Destination + travelers + dates -->
+          <div class="screen" data-screen="3">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><path d="M9 15s1.5 2 3 2 3-2 3-2"/></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep done"><div class="wstep-circle"></div>Service</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Destination</div><div class="wstep-line"></div><div class="wstep active"><div class="wstep-circle">3</div>Details</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div style="display:flex;gap:4px;flex-wrap:wrap;"><div class="dest-tag" style="background:#EEF2FF;color:var(--indigo);">🕐 8-Hour · $25/day</div><div class="dest-tag">🇮🇹 Italy <span class="x">×</span></div></div>
+                <div class="widget-section-label">How many travelers?</div>
+                <div class="travelers-row"><div class="qty-btn">−</div><div class="qty-val">1</div><div class="qty-btn">+</div><div class="solo-pill">👤 Solo</div></div>
+                <div class="solo-hint">Solo travel. Personalized just for you</div>
+                <div class="widget-section-label">When are you traveling?</div>
+                <div class="date-toggle"><div class="date-pill selected"><span class="date-pill-label">📅 Fixed Dates</span><span class="date-pill-sub">I know my exact dates</span></div><div class="date-pill"><span class="date-pill-label" style="color:#6B7280;">🕐 Tentative</span><span class="date-pill-sub">I'm flexible</span></div></div>
+                <div class="date-row"><div class="date-input"><span>📅</span> May 01, 2026</div><div class="date-input"><span>📅</span> May 08, 2026</div></div>
+                <div class="mix-toggle-row"><div class="mix-toggle-text"><strong>Mix service levels per day?</strong><small>Customize 8-hour vs 24-hour per day</small></div><div class="toggle-switch"></div></div>
+                <div class="widget-cta active" style="margin-top:auto;">Continue →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 4: Contact form + promo -->
+          <div class="screen" data-screen="4">
+            <div class="widget-chrome">
+              <div class="widget-topbar">
+                <div class="widget-brand-row"><div class="widget-brand-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><path d="M9 15s1.5 2 3 2 3-2 3-2"/></svg></div><div class="widget-brand-text"><strong>Book Your Butler</strong><small>Your personal trip assistant</small></div></div>
+                <div class="widget-steps"><div class="wstep done"><div class="wstep-circle"></div>Service</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Destination</div><div class="wstep-line done"></div><div class="wstep done"><div class="wstep-circle"></div>Details</div><div class="wstep-line"></div><div class="wstep active"><div class="wstep-circle">4</div>Contact</div><div class="wstep-line"></div><div class="wstep"><div class="wstep-circle">5</div>Review</div></div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-section-label">Your details</div>
+                <div class="form-input-row filled"><span style="font-size:0.7rem;">👤</span>Alex Pires</div>
+                <div class="form-input-row filled"><span style="font-size:0.7rem;">✉️</span>apires@gmail.com</div>
+                <div class="form-input-row filled"><span class="phone-flag">🇺🇸</span><span class="phone-code">+1</span>555 123 4567</div>
+                <div class="wa-check-row"><div class="wa-check-circle checked">✓</div><span class="wa-check-label">Add WhatsApp for trip updates</span></div>
+                <div class="widget-section-label" style="margin-top:4px;">🎁 Promo Code (Optional)</div>
+                <div class="promo-row"><div class="promo-input applied"><span class="promo-icon">🏷️</span>SEVENSPRINGS</div><button class="promo-apply-btn success">✓</button></div>
+                <div class="promo-success-msg">✓ Partner discount applied. 20% off</div>
+                <div class="order-summary" style="margin-top:4px;">
+                  <div class="order-summary-label">Order Summary</div>
+                  <div class="order-row"><span>8 days × 1 country</span><span>$200.00</span></div>
+                  <div class="order-row"><span>Discount (SEVENSPRINGS)</span><span class="discount-badge">−$40.00</span></div>
+                  <div class="order-row total"><span>Total</span><span><span class="strike">$200</span> $160.00</span></div>
+                </div>
+                <div class="widget-cta active" style="margin-top:auto;">Continue to checkout. $160.00 →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 5: Processing -->
+          <div class="screen" data-screen="5">
+            <div class="processing-screen">
+              <div class="spinner"></div>
+              <div class="proc-title">Securing your Butler&hellip;</div>
+              <div class="proc-sub">Confirming payment<br>Matching your advisor</div>
+              <div class="proc-dots"><div class="proc-dot"></div><div class="proc-dot"></div><div class="proc-dot"></div></div>
+            </div>
+          </div>
+
+          <!-- Screen 6: Confirmation -->
+          <div class="screen confirm-screen" data-screen="6">
+            <div class="confirm-check">✓</div>
+            <div class="confirm-title">You're booked!</div>
+            <div class="confirm-sub">Your Butler has been assigned. Expect a WhatsApp message within 4 minutes.</div>
+            <div class="confirm-detail-box">
+              <div class="confirm-detail-row"><span>Service</span><strong>8-Hour Butler</strong></div>
+              <div class="confirm-detail-row"><span>Destination</span><strong>Italy</strong></div>
+              <div class="confirm-detail-row"><span>Dates</span><strong>May 1-8, 2026</strong></div>
+              <div class="confirm-detail-row"><span>Total paid</span><strong>$160.00</strong></div>
+            </div>
+            <div class="confirm-ref">Ref: BB-2026-IT-A42X</div>
+            <button class="wa-cta-btn"><div class="wa-logo"><svg width="9" height="9" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>Open WhatsApp →</button>
+          </div>
+
+          <!-- Screen 7: WhatsApp handoff -->
+          <div class="screen wa-screen" data-screen="7">
+            <div class="wa-header">
+              <div class="wa-back">←</div>
+              <div class="wa-avatar">B</div>
+              <div><div class="wa-name">Butler · VELTM</div><div class="wa-status">online</div></div>
+              <div class="wa-icons">📞 ⋮</div>
+            </div>
+            <div class="wa-body">
+              <div class="wa-date-chip">Today, May 1</div>
+              <div class="wa-msg wa-msg--butler">Hi Alex! 👋 I'm your VELTM Butler for Italy, May 1-8. Booking confirmed. Ref BB-2026-IT-A42X.<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--butler">Nice save with the SEVENSPRINGS code 😄 Are you heading to a specific city, or want me to plan a multi-city route?<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--user">Rome + Amalfi coast please!<span class="wa-time">Just now ✓✓</span></div>
+              <div class="wa-msg wa-msg--butler">Perfect combo. I'll have your full day-by-day itinerary ready in ~4 hours. Any dietary needs or must-do experiences?<span class="wa-time">Just now ✓✓</span></div>
+            </div>
+            <div class="wa-input-bar"><div class="wa-input-box">Type a message...</div><div class="wa-send-btn">↑</div></div>
+          </div>
+
+        </div><!-- /phone__screen -->
+      </div><!-- /phone -->
+      <button class="replay-btn" id="replayBtn">↺ Replay demo</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ── Mid-page CTA ─────────────────────────────────────────── -->
+<div class="cta-strip">
+  <span class="cta-strip__text">Ready to plan your next trip?</span>
+  <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-outline-light btn-md" data-butler-button>Start from $25</a>
+  <span class="cta-strip__guarantee">✓ Full refund before delivery · ✓ Expert review in 24 hours</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PRODUCTS
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-products" id="products">
+  <div class="section-head">
+    <span class="eyebrow eyebrow-indigo" data-reveal>Simple Pricing</span>
+    <h2 class="section-title-dark" data-reveal style="--delay:.1s">One flat fee.<br>No surprises.</h2>
+    <p class="section-sub-dark" data-reveal style="--delay:.2s">Pay only for what you use. Cancel anytime. No fees.</p>
+  </div>
+
+  <div class="products-grid">
+    <div class="pcard pcard--trip" data-reveal onclick="this.querySelector('.btn').click()">
+      <div class="pcard__bar"></div>
+      <div class="pcard__tier">Trip Planning</div>
+      <h3 class="pcard__name">Expert Itinerary</h3>
+      <div class="pcard__price-row">
+        <span class="pcard__price">$25</span>
+        <span class="pcard__unit">/ country</span>
+      </div>
+      <hr class="pcard__divider">
+      <ul class="pcard__features">
+        <li>Preference-first research</li>
+        <li>Flights, stays &amp; experiences</li>
+        <li>Transfers &amp; logistics</li>
+        <li>Unlimited revisions</li>
+        <li>24-hour delivery</li>
+        <li>Advisor-reviewed &amp; signed off</li>
+      </ul>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-ghost-dark btn-md" data-butler-button>Start Planning. $25/Trip Plan</a>
+      <div class="pcard__guarantee">✓ Full refund if cancelled before delivery &nbsp;·&nbsp; ✓ Expert review in 24 hours</div>
+    </div>
+
+    <div class="pcard pcard--featured" data-reveal style="--delay:.1s" onclick="this.querySelector('.btn').click()">
+      <div class="pcard__badge">Most Popular</div>
+      <div class="pcard__bar"></div>
+      <div class="pcard__tier">8-Hour Concierge</div>
+      <h3 class="pcard__name" style="color:#f5f5f7">Real-Time Expert</h3>
+      <div class="pcard__price-row">
+        <span class="pcard__price">$25</span>
+        <span class="pcard__unit">/ day</span>
+      </div>
+      <hr class="pcard__divider">
+      <ul class="pcard__features">
+        <li>Dedicated advisor, knows your trip</li>
+        <li>4-minute average response time</li>
+        <li>Restaurant &amp; transport bookings</li>
+        <li>Local intelligence &amp; insider access</li>
+        <li>In-person errands &amp; deliveries</li>
+        <li>150+ countries, 40+ languages</li>
+      </ul>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-outline-light btn-md" data-butler-button>Get Concierge. From $25/Day</a>
+      <div class="pcard__guarantee pcard__guarantee--light">✓ Cancel any time. Pay only for days used &nbsp;·&nbsp; ✓ &lt;4 min human response</div>
+    </div>
+
+    <div class="pcard pcard--elite" data-reveal style="--delay:.2s" onclick="this.querySelector('.btn').click()">
+      <div class="pcard__bar"></div>
+      <div class="pcard__tier">24-Hour Concierge</div>
+      <h3 class="pcard__name">Round-the-Clock</h3>
+      <div class="pcard__price-row">
+        <span class="pcard__price" style="color:#7c3aed">$100</span>
+        <span class="pcard__unit">/ day</span>
+      </div>
+      <hr class="pcard__divider">
+      <ul class="pcard__features">
+        <li>Everything in 8-Hour</li>
+        <li>Overnight &amp; emergency coverage</li>
+        <li>Real-time itinerary monitoring</li>
+        <li>Proactive disruption prevention</li>
+        <li>Same advisor start to finish</li>
+        <li>97% of disruptions resolved &lt;60 min</li>
+      </ul>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-ghost-dark btn-md" style="border-color:#7c3aed; color:#7c3aed" data-butler-button>Get 24-Hour. $100/Day</a>
+      <div class="pcard__guarantee">On a 7-day trip: $700 total. Less than one night in a five-star hotel. ✓ Cancel any time.</div>
+    </div>
+  </div>
+  <p class="products-urgency" data-reveal>● Launch pricing. Locked in through June 30 for all three tiers.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     REAL SCENARIOS (clickable cards)
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-scenarios" id="scenarios">
+  <div class="section-head">
+    <span class="eyebrow eyebrow-soft" data-reveal>Real Stories</span>
+    <h2 class="section-title-light" data-reveal style="--delay:.1s">The moments that<br>define a trip.</h2>
+    <p class="section-sub-light" data-reveal style="--delay:.2s">Things go wrong. That's not a risk. It's a guarantee. The question is who's in your corner.</p>
+  </div>
+
+  <div class="scenarios-grid">
+    <a href="/concierge#scenarios" class="scard" data-reveal>
+      <div class="scard__where">11 pm · Bangkok</div>
+      <p class="scard__situation">"My flight just got cancelled. I have meetings first thing tomorrow."</p>
+      <p class="scard__outcome">Your advisor already has your next-day schedule loaded. You're rebooked, transported, and checked into a hotel within 40 minutes. Without making a single call yourself.</p>
+      <span class="scard__tag">⚡ Resolved in 40 min · See how it works →</span>
+    </a>
+
+    <a href="/concierge#scenarios" class="scard" data-reveal style="--delay:.1s">
+      <div class="scard__where">Day 3 · Rome</div>
+      <p class="scard__situation">"The restaurant closed. Our confirmed reservation. Gone."</p>
+      <p class="scard__outcome">Six minutes later you have a table at a place locals actually eat. One that never appears on any review site's first page. Better than the original.</p>
+      <span class="scard__tag">⚡ Resolved in 6 min · See how it works →</span>
+    </a>
+
+    <a href="/concierge#scenarios" class="scard" data-reveal style="--delay:.2s">
+      <div class="scard__where">Morning · Kyoto</div>
+      <p class="scard__situation">"What's worth doing today that isn't in any guide?"</p>
+      <p class="scard__outcome">Your advisor grew up in the region. You get the answer no algorithm can generate. A place, a moment, a memory that doesn't exist on any platform.</p>
+      <span class="scard__tag">✦ The experience you'll remember · See how it works →</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HUMAN FIRST
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-human">
+  <div class="human-inner">
+
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="human-img-wrap" data-butler-button data-reveal-left>
+      <div class="cmp-card">
+        <div class="cmp-label cmp-label--without">Without Butler Button</div>
+        <ul class="cmp-list cmp-list--without">
+          <li>47 browser tabs</li>
+          <li>6 booking sites</li>
+          <li>14 hours of research</li>
+          <li>3 spreadsheets</li>
+        </ul>
+        <hr class="cmp-divider">
+        <div class="cmp-label cmp-label--with">With Butler Button</div>
+        <ul class="cmp-list cmp-list--with">
+          <li>1 text to your Butler</li>
+          <li>1 expert travel advisor</li>
+          <li>1 complete itinerary</li>
+          <li>From $25 / day</li>
+        </ul>
+        <div class="cmp-footer">
+          <p class="cmp-tagline">Your travel expert,<br>one text away.</p>
+          <div class="cmp-wordmark">Butler<em>Button</em></div>
+        </div>
+      </div>
+    </a>
+
+    <div class="human-copy">
+      <span class="eyebrow eyebrow-indigo" data-reveal>The Butler Button Standard</span>
+      <h2 class="human-h2" data-reveal style="--delay:.1s">
+        Not a chatbot.<br>A real person who<br>already knows your trip.
+      </h2>
+      <p class="human-body" data-reveal style="--delay:.2s">
+        Every Butler Button advisor studies your full itinerary before you depart. When you reach out. Whether it's a quick question or a full emergency. You're not starting from zero. You're talking to someone who already knows your destination, your schedule, and what matters to you. 100% human first contact, every time. No chatbot on any channel.
+      </p>
+
+      <div class="human-stats-grid" data-reveal style="--delay:.3s">
+        <div class="hstat">
+          <div class="hstat__num">100%</div>
+          <div class="hstat__label">Human first contact, every time</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__num">97%</div>
+          <div class="hstat__label">Disruptions resolved in under 60 min</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__num">9 yr</div>
+          <div class="hstat__label">Avg advisor destination expertise</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__num">4 min</div>
+          <div class="hstat__label">Average response time</div>
+        </div>
+      </div>
+
+      <div class="urgency-pill" data-reveal style="--delay:.35s">● Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-indigo btn-lg" data-butler-button data-reveal style="--delay:.4s">
+        Book Your Butler. From $25
+      </a>
+      <div class="cta-guarantee" data-reveal style="--delay:.5s">✓ Full refund if cancelled before delivery &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Cancel any time</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     GALLERY (clickable images)
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-gallery">
+  <div style="max-width:1160px; margin:0 auto; text-align:center;">
+    <span class="eyebrow eyebrow-soft" data-reveal>Built for Every Trip</span>
+    <h2 class="section-title-light" data-reveal style="--delay:.1s">195+ countries.<br>Every travel style.</h2>
+    <p class="section-sub-light" data-reveal style="--delay:.2s">One flat fee per country. From weekend escapes to month-long grand tours.</p>
+  </div>
+  <div class="gallery-grid">
+    <!-- Bali -->
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-item-overlay">
+        <div class="gallery-trending-badge">Travel Trending</div>
+        <div class="gallery-item-bottom">
+          <p class="gallery-item-headline">3 out of 4 travelers overpay for flights. Butler Button clients don't.</p>
+          <div class="gallery-item-brand">Butler<em>Button</em></div>
+          <div class="gallery-item-cta">Plan this trip →</div>
+        </div>
+      </div>
+    </a>
+    <!-- Japan -->
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-item-overlay">
+        <div class="gallery-trending-badge">Travel Trending</div>
+        <div class="gallery-item-bottom">
+          <p class="gallery-item-headline">Japan bookings are up 340%. Your Butler is already ahead of it.</p>
+          <div class="gallery-item-brand">Butler<em>Button</em></div>
+          <div class="gallery-item-cta">Plan this trip →</div>
+        </div>
+      </div>
+    </a>
+    <!-- Santorini -->
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-item-overlay">
+        <div class="gallery-trending-badge">Travel Trending</div>
+        <div class="gallery-item-bottom">
+          <p class="gallery-item-headline">The average honeymoon takes 47 hours to plan. Butler Button does it in 3 texts.</p>
+          <div class="gallery-item-brand">Butler<em>Button</em></div>
+          <div class="gallery-item-cta">Plan this trip →</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FINAL CTA
+═══════════════════════════════════════════════════════════════ -->
+<section class="section-cta">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <span class="eyebrow eyebrow-soft" data-reveal>Ready to travel differently?</span>
+    <h2 class="cta-h2" data-reveal style="--delay:.1s">
+      Start your trip<br><span>from $25.</span>
+    </h2>
+    <p class="cta-sub" data-reveal style="--delay:.2s">
+      No membership. No annual fee. Cancel before delivery for a full refund.
+    </p>
+    <div class="cta-actions" data-reveal style="--delay:.3s">
+      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
+    </div>
+    <p class="cta-fine" data-reveal style="--delay:.4s">
+      Available in 195+ countries &nbsp;·&nbsp; 150+ languages &nbsp;·&nbsp; Starting at $25/day
+    </p>
+  </div>
+</section>
+
+
+<!-- ─── MOBILE STICKY CTA ──────────────────────────────────── -->
+<div class="sticky-cta" id="sticky-cta">
+  <div class="sticky-cta__inner">
+    <div class="sticky-cta__text">From <span>$25/day</span></div>
+    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-indigo btn-sm" data-butler-button>Start Your Trip</a>
+  </div>
+</div>
+
+<!-- ─── FOOTER ──────────────────────────────────────────────── -->
+<footer class="footer">
+  <a class="footer-brand" href="https://veltm-butler.zohosites.in/">Butler<em>Button</em> by VELTM</a>
+  <ul class="footer-links">
+    <li><a href="https://veltm-butler.zohosites.in/">Home</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/trip-planning">Trip Planning</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/concierge">Concierge</a></li>
+    <li><a href="https://veltm-butler.zohosites.in/travel-advisor">Travel Advisor</a></li>
+  </ul>
+  <span class="footer-legal">&copy; 2026 VELTM Tours</span>
+</footer>
+
+
+<script>
+(function () {
+  'use strict';
+
+  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── NAV bg on scroll ──────────────────────────── */
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('bg', window.scrollY > 60);
+  }, { passive: true });
+
+  /* hero tabs removed */
+
+  /* ── PHONE DEMO. Animated signup flow ── */
+  (function(){
+    var screens   = document.querySelectorAll('.screen');
+    var stepItems = document.querySelectorAll('#stepList li');
+    var replayBtn = document.getElementById('replayBtn');
+    var stepArrow = document.getElementById('stepArrow');
+    var stepList  = document.getElementById('stepList');
+    var timeline = [
+      { screen: 2, duration: 3200 },
+      { screen: 3, duration: 3800 },
+      { screen: 4, duration: 4500 },
+      { screen: 5, duration: 2400 },
+      { screen: 6, duration: 4000 },
+      { screen: 7, duration: 6000 }
+    ];
+    var currentIndex = 0;
+    var timer = null;
+    function show(idx) {
+      screens.forEach(function(s) { s.removeAttribute('data-active'); });
+      stepItems.forEach(function(li) { li.removeAttribute('data-active'); });
+      var step = timeline[idx];
+      var scr  = document.querySelector('[data-screen="' + step.screen + '"]');
+      if (scr) scr.setAttribute('data-active', 'true');
+      var li   = document.querySelector('#stepList li[data-step="' + step.screen + '"]');
+      if (li) {
+        li.setAttribute('data-active', 'true');
+        // Move arrow to align with this step's tag line
+        if (stepArrow && stepList) {
+          var arrowTop = li.offsetTop + 20; // 20px ≈ padding-top + half tag height
+          stepArrow.style.top = arrowTop + 'px';
+          // Brief pulse on transition
+          stepArrow.classList.remove('pulse');
+          void stepArrow.offsetWidth; // reflow to restart animation
+          stepArrow.classList.add('pulse');
+          setTimeout(function(){ stepArrow.classList.remove('pulse'); }, 200);
+        }
+      }
+    }
+    function advance() {
+      show(currentIndex);
+      var dur = timeline[currentIndex].duration;
+      timer = setTimeout(function() {
+        currentIndex = (currentIndex + 1) % timeline.length;
+        advance();
+      }, dur);
+    }
+    if (replayBtn) {
+      replayBtn.addEventListener('click', function() {
+        clearTimeout(timer);
+        currentIndex = 0;
+        advance();
+      });
+    }
+    var phoneScreen = document.getElementById('phoneScreen');
+    if (phoneScreen) {
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (e.isIntersecting && !timer) { advance(); obs.unobserve(e.target); }
+          });
+        }, { threshold: 0.3 });
+        obs.observe(phoneScreen);
+      } else {
+        advance();
+      }
+    }
+  })();
+
+  /* ── MOBILE STICKY CTA. Show after hero CTA scrolls out ── */
+  const stickyCta = document.getElementById('sticky-cta');
+  const heroActions = document.querySelector('.hero-actions');
+  if (stickyCta && heroActions) {
+    const stickyObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        stickyCta.classList.toggle('visible', !e.isIntersecting);
+      });
+    }, { threshold: 0 });
+    stickyObs.observe(heroActions);
+  }
+
+  /* ── REVEAL + COUNTERS + MASK HEADLINE ─────────── */
+  if (!noMotion) {
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -7% 0px', threshold: 0.08 });
+
+    document.querySelectorAll(
+      '[data-reveal], [data-reveal-left], [data-reveal-right]'
+    ).forEach(el => revealObs.observe(el));
+
+    /* ── MASK HEADLINE ───────────────────────────── */
+    const maskEl = document.getElementById('mask-headline');
+    if (maskEl) {
+      const words = maskEl.textContent.trim().split(/\\s+/);
+      maskEl.innerHTML = words.map((w, i) =>
+        \`<span class="mask-word"><span class="mask-inner" style="transition-delay:\${0.06 * i + 0.05}s">\${w}</span></span>\`
+      ).join(' ');
+
+      const maskObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            maskObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      maskObs.observe(maskEl);
+    }
+
+    /* ── NUMBER COUNTERS ──────────────────────────── */
+    const ease = t => 1 - Math.pow(1 - t, 4);
+
+    function runCounter(el) {
+      const target   = +el.dataset.target;
+      const duration = 1800;
+      const start    = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        el.textContent = Math.round(ease(p) * target).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      })(start);
+    }
+
+    const ctrObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          runCounter(e.target);
+          ctrObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-counter]').forEach(el => ctrObs.observe(el));
+  }
+
+})();
+
+/* ── RANDOM DESTINATION BACKGROUNDS ── */
+(function () {
+  var destinations = [
+    { place: 'Paris',        id: '1499856871958-5b9627545d1a' },
+    { place: 'Santorini',    id: '1570077188670-e3a8d69ac5ff' },
+    { place: 'Tokyo',        id: '1540959733332-eab4deabeeaf' },
+    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
+    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
+    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
+    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
+    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
+    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
+    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+  ];
+
+  // Fisher-Yates shuffle, pick first 3. Guarantees no repeats across sections
+  var pool = destinations.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+  }
+
+  function setBg(selector, pick) {
+    var el = document.querySelector(selector);
+    if (el && pick) {
+      el.style.backgroundImage =
+        'url(https://images.unsplash.com/photo-' + pick.id +
+        '?auto=format&fit=crop&w=1800&q=80)';
+      el.setAttribute('data-destination', pick.place);
+    }
+  }
+
+  setBg('.section-statement', pool[0]);
+  setBg('.section-products',  pool[1]);
+  setBg('.section-human',     pool[2]);
+})();
+</script>
+<script>
+(function(){
+  if (window._bbModal) return;
+  window._bbModal = true;
+  var BB = 'https://veltmtours.com/embed/butler-booking?popup=true';
+  function openModal() {
+    var w = 660, h = 740;
+    var left = Math.max(0, (screen.width  - w) / 2);
+    var top  = Math.max(0, (screen.height - h) / 2);
+    window.open(BB, 'butler_booking',
+      'width=' + w + ',height=' + h +
+      ',left=' + left + ',top=' + top +
+      ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no');
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-butler-button]');
+    if (t) { e.preventDefault(); openModal(); }
+  });
+})();
+</script>
+`;
+
+  function applyBody() {
+    document.body.innerHTML = bodyHTML;
+    document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
+    Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
+      var newScript = document.createElement('script');
+      if(oldScript.src) { newScript.src = oldScript.src; newScript.async = false; }
+      else { newScript.textContent = oldScript.textContent; }
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  }
+  applyBody();
+  document.documentElement.style.visibility = '';
+
+  var _bbN = 0;
+  var _bbT = setInterval(function(){
+    _bbN++;
+    if (_bbN > 50) { clearInterval(_bbT); return; }
+    if (!document.getElementById('bb-styles')) {
+      document.querySelectorAll('style, link[rel="stylesheet"]').forEach(function(el){ el.remove(); });
+      var s2 = document.createElement('style');
+      s2.id = 'bb-styles';
+      s2.textContent = style.textContent;
+      document.head.appendChild(s2);
+      applyBody();
+    }
+  }, 100);
+
+})();
