@@ -2415,9 +2415,9 @@
     { place: 'Private Dining',   id: '1578683010236-d716f9a3f461', loc: ''                               },
     { place: 'Altbau Suite',     id: '1611892440504-42a792e24d32', loc: 'Berlin, Germany'                },
     { place: 'Overwater Villa',  id: '1590490360182-c33d57733427', loc: 'North Malé Atoll, Maldives'     },
-    { place: 'Grand Suite',      id: '1521783593447-5702b9bfd267', loc: ''                               },
+    { place: 'Sunset Yacht',     id: '1681331325415-a497fd712ee6', loc: 'Mediterranean'                  },
     { place: 'Mountain Lodge',   id: '1532274402911-5a369e4c4bb5', loc: 'Norway'                         },
-    { place: 'Design Suite',     id: '1551434678-e076c223a692',    loc: 'Austin, Texas'                  },
+    { place: 'Alpine Chalet',    id: '1577457943926-11193adc0563', loc: 'Swiss Alps'                     },
     { place: 'Villa Suite',      id: '1582719508461-905c673771fd', loc: 'Tuscany, Italy'                 },
   ];
 
