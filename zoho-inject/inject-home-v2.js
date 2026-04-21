@@ -1419,6 +1419,8 @@
       .phone-demo-copy .phone-demo-sub { margin-left:auto; margin-right:auto; }
       .phone-step-list-wrap { display:none; }
     }
+  /* ─── ZOHO CHROME SUPPRESSION ─────────────────────────────────────────── */
+  #zcb-banner { display: none !important; }
   `;
   style.id = 'bb-styles';
   document.head.appendChild(style);

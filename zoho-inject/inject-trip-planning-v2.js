@@ -757,6 +757,8 @@ a { text-decoration: none; color: inherit; }
     z-index: 0;
   }
   .access-section > * { position: relative; z-index: 1; }
+  /* ─── ZOHO CHROME SUPPRESSION ─────────────────────────────────────────── */
+  #zcb-banner { display: none !important; }
 `;
   style.id = 'bb-styles';
   document.head.appendChild(style);

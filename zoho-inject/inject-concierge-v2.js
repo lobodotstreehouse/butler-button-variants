@@ -512,6 +512,8 @@ a { text-decoration: none; color: inherit; }
   .lm-form button:hover { background:#fff; }
   .lm-privacy { grid-column:1/-1; font-size:.68rem; color:rgba(199,210,254,.55); margin-top:.35rem; }
   @media (max-width:680px){ .lm-inner { grid-template-columns:1fr; } .lm-form { flex-direction:column; } .lm-form input { min-width:0; width:100%; } }
+  /* ─── ZOHO CHROME SUPPRESSION ─────────────────────────────────────────── */
+  #zcb-banner { display: none !important; }
 `;
   style.id = 'bb-styles';
   document.head.appendChild(style);
