@@ -2085,7 +2085,7 @@
   <div class="gallery-grid">
     <!-- Bali -->
     <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
-      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
         <div class="gallery-item-bottom">
@@ -2097,7 +2097,7 @@
     </a>
     <!-- Japan -->
     <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
-      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
         <div class="gallery-item-bottom">
@@ -2109,7 +2109,7 @@
     </a>
     <!-- Santorini -->
     <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
-      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80)"></div>
+      <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="gallery-item-overlay">
         <div class="gallery-trending-badge">Travel Trending</div>
         <div class="gallery-item-bottom">
@@ -2326,16 +2326,16 @@
 /* ── RANDOM DESTINATION BACKGROUNDS ── */
 (function () {
   var destinations = [
-    { place: 'Paris',        id: '1499856871958-5b9627545d1a' },
-    { place: 'Santorini',    id: '1570077188670-e3a8d69ac5ff' },
-    { place: 'Tokyo',        id: '1540959733332-eab4deabeeaf' },
-    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
-    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
-    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
-    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
-    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
-    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
-    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+    { place: 'Grand Lobby',   id: '1542314831-068cd1dbfeeb'    },
+    { place: 'Infinity Pool', id: '1520250497591-112f2f40a3f4'  },
+    { place: 'Luxury Suite',  id: '1571003123894-1f0594d2b5d9'  },
+    { place: 'Hotel Suite',   id: '1578683010236-d716f9a3f461'  },
+    { place: 'Modern Lobby',  id: '1611892440504-42a792e24d32'  },
+    { place: 'Suite Vista',   id: '1590490360182-c33d57733427'  },
+    { place: 'Interior',      id: '1521783593447-5702b9bfd267'  },
+    { place: 'Hotel Pool',    id: '1532274402911-5a369e4c4bb5'  },
+    { place: 'Hotel Room',    id: '1551434678-e076c223a692'     },
+    { place: 'Grand Suite',   id: '1582719508461-905c673771fd'  },
   ];
 
   // Fisher-Yates shuffle, pick first 3. Guarantees no repeats across sections

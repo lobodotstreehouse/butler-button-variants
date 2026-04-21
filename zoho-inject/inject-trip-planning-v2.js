@@ -1168,13 +1168,13 @@ a { text-decoration: none; color: inherit; }
 <script>
 (function() {
   var photos = [
-    { place: 'Bali',         id: '1537996194471-e657df975ab4' },
-    { place: 'Rome',         id: '1552832230-c0197dd311b5'    },
-    { place: 'Maldives',     id: '1514282401047-d79a71a590e8' },
-    { place: 'Machu Picchu', id: '1587595431973-160d0d94add1' },
-    { place: 'Barcelona',    id: '1539037116277-4db20889f2d4' },
-    { place: 'Dubai',        id: '1512453979798-5ea266f8880c' },
-    { place: 'New York',     id: '1496442226666-8d4d0e62e6e9' },
+    { place: 'Grand Lobby',   id: '1542314831-068cd1dbfeeb'    },
+    { place: 'Infinity Pool', id: '1520250497591-112f2f40a3f4'  },
+    { place: 'Luxury Suite',  id: '1571003123894-1f0594d2b5d9'  },
+    { place: 'Hotel Suite',   id: '1578683010236-d716f9a3f461'  },
+    { place: 'Modern Lobby',  id: '1611892440504-42a792e24d32'  },
+    { place: 'Suite Vista',   id: '1590490360182-c33d57733427'  },
+    { place: 'Hotel Pool',    id: '1532274402911-5a369e4c4bb5'  },
   ];
   var pool = photos.slice();
   for (var i = pool.length - 1; i > 0; i--) {
