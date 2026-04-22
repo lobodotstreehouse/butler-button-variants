@@ -656,6 +656,29 @@ a { text-decoration: none; color: inherit; }
 </footer>
 <script src="https://lobodotstreehouse.github.io/butler-button-variants/js/veltm.js"></script>
 <script>
+(function(){
+  if(window._bbModal)return; window._bbModal=true;
+  var BB='https://veltmtours.com/embed/butler-booking?popup=true';
+  function openModal(){
+    var ov=document.getElementById('bb-modal');
+    if(ov){ov.style.display='flex';return;}
+    ov=document.createElement('div'); ov.id='bb-modal';
+    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+    var wrap=document.createElement('div'); wrap.style.cssText='position:relative;width:min(660px,96vw);';
+    var fr=document.createElement('iframe'); fr.src=BB;
+    fr.style.cssText='width:100%;height:min(740px,92vh);border:none;border-radius:16px;background:#fff;display:block;';
+    var xbtn=document.createElement('button'); xbtn.textContent='\u00d7'; xbtn.setAttribute('aria-label','Close');
+    xbtn.style.cssText='position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;padding:.25rem .5rem;';
+    function close(){ov.style.display='none';}
+    xbtn.addEventListener('click',close);
+    ov.addEventListener('click',function(e){if(e.target===ov)close();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+    wrap.appendChild(fr); wrap.appendChild(xbtn); ov.appendChild(wrap); document.body.appendChild(ov);
+  }
+  document.addEventListener('click',function(e){var t=e.target.closest('[data-butler-button]');if(t){e.preventDefault();openModal();}});
+})();
+</script>
+<script>
 (function() {
   var photos = [
     { place: 'Hôtel Royal',     id: '1542314831-068cd1dbfeeb',   loc: 'Évian-les-Bains, France'        },

@@ -2337,13 +2337,26 @@
   window._bbModal = true;
   var BB = 'https://veltmtours.com/embed/butler-booking?popup=true';
   function openModal() {
-    var w = 660, h = 740;
-    var left = Math.max(0, (screen.width  - w) / 2);
-    var top  = Math.max(0, (screen.height - h) / 2);
-    window.open(BB, 'butler_booking',
-      'width=' + w + ',height=' + h +
-      ',left=' + left + ',top=' + top +
-      ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no');
+    var ov = document.getElementById('bb-modal');
+    if (ov) { ov.style.display = 'flex'; return; }
+    ov = document.createElement('div');
+    ov.id = 'bb-modal';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative;width:min(660px,96vw);';
+    var fr = document.createElement('iframe');
+    fr.src = BB;
+    fr.style.cssText = 'width:100%;height:min(740px,92vh);border:none;border-radius:16px;background:#fff;display:block;';
+    var xbtn = document.createElement('button');
+    xbtn.textContent = '\u00d7';
+    xbtn.setAttribute('aria-label','Close');
+    xbtn.style.cssText = 'position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;padding:.25rem .5rem;';
+    function close() { ov.style.display = 'none'; }
+    xbtn.addEventListener('click', close);
+    ov.addEventListener('click', function(e){ if(e.target===ov) close(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+    wrap.appendChild(fr); wrap.appendChild(xbtn); ov.appendChild(wrap);
+    document.body.appendChild(ov);
   }
   document.addEventListener('click', function(e){
     var t = e.target.closest('[data-butler-button]');
