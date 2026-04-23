@@ -1313,7 +1313,7 @@
 <div class="cta-strip">
   <span class="cta-strip__text">Ready to plan your next trip?</span>
   <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-outline-light btn-md" data-butler-button>Start from $25</a>
-  <span class="cta-strip__guarantee">✓ Full refund before delivery · ✓ Expert review in 24 hours</span>
+  <span class="cta-strip__guarantee">✓ Full refund before your service begins · ✓ Expert review in 24 hours</span>
 </div>
 
 
@@ -1346,7 +1346,7 @@
         <li>Advisor-reviewed &amp; signed off</li>
       </ul>
       <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-ghost-dark btn-md" data-butler-button>Start Planning. $25/Trip Plan</a>
-      <div class="pcard__guarantee">✓ Full refund if cancelled before delivery &nbsp;·&nbsp; ✓ Expert review in 24 hours</div>
+      <div class="pcard__guarantee">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ Expert review in 24 hours</div>
     </div>
 
     <div class="pcard pcard--featured" data-reveal style="--delay:.1s" onclick="this.querySelector('.btn').click()">
@@ -1493,7 +1493,7 @@
       <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-indigo btn-lg" data-butler-button data-reveal style="--delay:.4s">
         Book Your Butler. From $25
       </a>
-      <div class="cta-guarantee" data-reveal style="--delay:.5s">✓ Full refund if cancelled before delivery &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Cancel any time</div>
+      <div class="cta-guarantee" data-reveal style="--delay:.5s">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Cancel any time</div>
     </div>
 
   </div>
@@ -1564,7 +1564,7 @@
       Start your trip<br><span>from $25.</span>
     </h2>
     <p class="cta-sub" data-reveal style="--delay:.2s">
-      No membership. No annual fee. Cancel before delivery for a full refund.
+      No membership. No annual fee. Cancel before your service begins for a full refund.
     </p>
     <div class="cta-actions" data-reveal style="--delay:.3s">
       <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
