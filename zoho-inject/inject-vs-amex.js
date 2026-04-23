@@ -629,7 +629,7 @@ a { text-decoration: none; color: inherit; }
       <a class="btn btn-indigo btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Start Planning. $25/Trip</a>
       <a class="btn btn-ghost btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Concierge. From $25/Day</a>
     </div>
-    <div class="cta-guarantee" data-reveal style="--delay:0.28s">&#10003; Full refund before delivery &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min &nbsp;&middot;&nbsp; &#10003; Cancel any time</div>
+    <div class="cta-guarantee" data-reveal style="--delay:0.28s">&#10003; Full refund before your service begins &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min &nbsp;&middot;&nbsp; &#10003; Cancel any time</div>
   </div>
 </section>
 
@@ -962,7 +962,7 @@ a { text-decoration: none; color: inherit; }
     <div data-reveal style="--delay:0.18s">
       <a class="btn btn-indigo btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Start Planning. From $25 &#8594;</a>
     </div>
-    <div class="cta-guarantee" data-reveal style="--delay:0.26s">Full refund before delivery &nbsp;&middot;&nbsp; Cancel any time &nbsp;&middot;&nbsp; 195 countries covered</div>
+    <div class="cta-guarantee" data-reveal style="--delay:0.26s">Full refund before your service begins &nbsp;&middot;&nbsp; Cancel any time &nbsp;&middot;&nbsp; 195 countries covered</div>
   </div>
 </section>
 
