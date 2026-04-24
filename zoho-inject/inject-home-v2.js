@@ -214,6 +214,170 @@
       display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
     }
 
+    /* ─── HERO WhatsApp split variant ───────────────────────────── */
+    .hero--wa { text-align: left; }
+    .hero--wa .hero-content { max-width: 1180px; }
+    .hero-wa-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(2rem, 5vw, 5rem); align-items: center;
+    }
+    .hero--wa .hero-h1 { text-align: left; }
+    .hero--wa .hero-sub { margin: 0 0 2rem; max-width: 520px; }
+    .hero--wa .hero-actions { justify-content: flex-start; }
+    .hero-wa-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      background: rgba(37,211,102,0.12);
+      border: 1px solid rgba(37,211,102,0.35);
+      border-radius: 999px;
+      font: 600 0.78rem/1 -apple-system, sans-serif;
+      color: #34d399; letter-spacing: 0.01em;
+      margin-bottom: 1.4rem;
+    }
+    .hero-wa-pill__dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #25D366;
+      box-shadow: 0 0 0 3px rgba(37,211,102,0.25);
+      animation: dot-blink 2s ease-in-out infinite;
+    }
+    @keyframes dot-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .hero-wa-stage {
+      display: flex; align-items: center; justify-content: center; padding: 2rem 0;
+    }
+    /* iPhone shell */
+    .iph {
+      --iph-w: 300px; --iph-h: 620px;
+      width: var(--iph-w); height: var(--iph-h);
+      border-radius: 44px; background: #1a1a1e; padding: 10px;
+      box-shadow: 0 0 0 2px #2a2a2e, 0 30px 80px rgba(0,0,0,0.55),
+                  0 0 0 1px rgba(255,255,255,0.05) inset;
+      position: relative; margin: 0 auto;
+    }
+    .iph__screen {
+      width: 100%; height: 100%; border-radius: 36px;
+      background: #ECE5DD; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+    }
+    .iph__notch {
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      width: 104px; height: 30px; border-radius: 18px; background: #000; z-index: 20;
+    }
+    .iph__status {
+      height: 48px; padding: 18px 22px 0;
+      display: flex; align-items: center; justify-content: space-between;
+      background: #075E54; color: #fff;
+      font: 600 12px/1 -apple-system, sans-serif;
+      flex-shrink: 0; position: relative; z-index: 10;
+    }
+    .iph__status-icons { display: flex; align-items: center; gap: 5px; font-size: 11px; }
+    .wa-bar {
+      background: #075E54; color: #fff; padding: 6px 10px 10px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .wa-bar__back { font-size: 20px; line-height: 1; opacity: 0.9; margin-right: -4px; }
+    .wa-bar__av {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font: 800 12px/1 Georgia, serif; flex-shrink: 0;
+    }
+    .wa-bar__meta { flex: 1; min-width: 0; line-height: 1.15; }
+    .wa-bar__name { font: 600 13px/1.2 -apple-system, sans-serif; }
+    .wa-bar__name em { color: #a5b4fc; font-style: normal; }
+    .wa-bar__pres { font-size: 10px; opacity: 0.85; margin-top: 2px; }
+    .wa-bar__icons { display: flex; gap: 14px; font-size: 16px; opacity: 0.85; }
+    .wa-chat {
+      flex: 1; padding: 10px 10px 8px;
+      display: flex; flex-direction: column; gap: 6px; overflow: hidden;
+      background-color: #ECE5DD;
+    }
+    .wa-datechip {
+      align-self: center; background: #E1F3FB; color: #4A5568;
+      font: 600 10px/1 -apple-system, sans-serif;
+      padding: 3px 10px; border-radius: 8px; margin: 2px 0 4px;
+    }
+    .wa-hero-msg {
+      max-width: 82%; padding: 6px 9px;
+      border-radius: 8px; font: 500 12px/1.42 -apple-system, sans-serif;
+      color: #111; box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+      word-break: break-word;
+    }
+    .wa-hero-msg--butler { background: #fff; align-self: flex-start; border-top-left-radius: 2px; }
+    .wa-hero-msg--user   { background: #DCF8C6; align-self: flex-end; border-top-right-radius: 2px; }
+    .wa-hero-msg__time {
+      display: inline-block; font-size: 9px; color: rgba(0,0,0,0.42);
+      float: right; margin: 6px -2px -2px 6px; font-weight: 500;
+    }
+    .wa-hero-msg__eyebrow {
+      font: 700 9px/1.1 -apple-system, sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #4f46e5; margin-bottom: 3px;
+    }
+    .wa-itin {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff; border-radius: 10px; padding: 9px 10px;
+      margin: 2px 0 4px; font-size: 11px;
+    }
+    .wa-itin__hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .wa-itin__label { font: 800 8px/1 -apple-system, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.9; }
+    .wa-itin__live { display: flex; align-items: center; gap: 4px; font-size: 8px; opacity: 0.9; }
+    .wa-itin__live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #34d399; }
+    .wa-itin__row {
+      display: grid; grid-template-columns: 34px 1fr auto;
+      gap: 5px; align-items: center; padding: 3px 0; font-size: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .wa-itin__row:last-child { border-bottom: none; }
+    .wa-itin__time { font-weight: 700; opacity: 0.85; font-variant-numeric: tabular-nums; }
+    .wa-itin__what { color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .wa-itin__pill {
+      background: rgba(255,255,255,0.22);
+      font: 800 7px/1 -apple-system, sans-serif;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 2px 5px; border-radius: 4px;
+    }
+    .wa-typing {
+      background: #fff; align-self: flex-start;
+      padding: 7px 10px; border-radius: 8px; border-top-left-radius: 2px;
+      display: inline-flex; gap: 3px; align-items: center;
+      box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    }
+    .wa-typing span {
+      width: 5px; height: 5px; border-radius: 50%; background: #9CA3AF;
+      animation: wa-type 1.2s ease-in-out infinite;
+    }
+    .wa-typing span:nth-child(2){ animation-delay:.15s }
+    .wa-typing span:nth-child(3){ animation-delay:.30s }
+    @keyframes wa-type { 0%,80%,100%{transform:translateY(0);opacity:0.4} 40%{transform:translateY(-3px);opacity:1} }
+    .wa-input-hero {
+      background: #F6F6F6; padding: 6px 8px 8px;
+      display: flex; align-items: center; gap: 6px;
+      border-top: 1px solid #D1D5DB; flex-shrink: 0;
+    }
+    .wa-input-hero__box {
+      flex: 1; background: #fff; border-radius: 18px;
+      padding: 6px 10px; font: 500 11px/1.2 -apple-system, sans-serif;
+      color: #9CA3AF; display: flex; align-items: center; gap: 6px;
+    }
+    .wa-input-hero__send {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #25D366; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .iph__home {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      width: 110px; height: 4px; border-radius: 3px;
+      background: rgba(0,0,0,0.22); z-index: 20;
+    }
+    @media (max-width: 900px) {
+      .hero-wa-grid { grid-template-columns: 1fr; }
+      .hero--wa { text-align: center; }
+      .hero--wa .hero-h1, .hero--wa .hero-sub { text-align: center; margin-left: auto; margin-right: auto; }
+      .hero--wa .hero-actions { justify-content: center; }
+      .hero-wa-stage { padding: 0; }
+    }
+
     /* ═══════════════════════════════════════════════════════════════
        SECTION 2. STATS (compact strip)
     ═══════════════════════════════════════════════════════════════ */
@@ -1068,7 +1232,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SECTION 1. HERO (tab-based, no scroll-jack)
 ═══════════════════════════════════════════════════════════════ -->
-<section class="hero" id="hero">
+<section class="hero hero--wa" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-orb"></div>
@@ -1076,12 +1240,112 @@
   <div class="hero-ring hero-ring-2"></div>
 
   <div class="hero-content">
+    <div class="hero-wa-grid">
 
-    <h1 class="hero-h1">
-      Your personal<br><span>travel expert.</span>
-    </h1>
-    <p class="hero-sub">100% human experts. 150+ countries. No membership required.</p>
+      <!-- LEFT: copy -->
+      <div>
+        <span class="hero-wa-pill">
+          <span class="hero-wa-pill__dot"></span>
+          Live on WhatsApp &middot; reply in &lt; 4 min
+        </span>
+        <h1 class="hero-h1">Your personal<br><span>travel expert.</span><br>On WhatsApp.</h1>
+        <p class="hero-sub">Text one Butler. Real humans, 150+ countries, 24/7. No app, no membership, no chatbots.</p>
+        <div class="hero-actions">
+          <a class="btn btn-lg btn-indigo" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:7px" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.3-1.3C8.6 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            Message a Butler
+          </a>
+          <a class="btn btn-lg btn-ghost-light" href="#how">See how it works</a>
+        </div>
+        <p style="margin-top:1.1rem;font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:-0.01em;">
+          Starts at $25 &nbsp;&middot;&nbsp; 24-hr plan turnaround &nbsp;&middot;&nbsp; Refundable if unmatched
+        </p>
+      </div>
 
+      <!-- RIGHT: iPhone showing WhatsApp conversation -->
+      <div class="hero-wa-stage">
+        <div class="iph" role="img" aria-label="iPhone showing a WhatsApp conversation with a Butler travel expert">
+          <div class="iph__notch"></div>
+          <div class="iph__screen">
+            <div class="iph__status">
+              <span>9:41</span>
+              <span class="iph__status-icons">
+                <svg width="16" height="10" viewBox="0 0 18 12" fill="currentColor" aria-hidden="true"><rect x="0" y="6" width="3" height="6" rx="1"/><rect x="4.5" y="4" width="3" height="8" rx="1"/><rect x="9" y="2" width="3" height="10" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+                <span>5G</span>
+                <svg width="20" height="10" viewBox="0 0 24 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="20" height="9" rx="2.5" stroke="currentColor" opacity="0.55"/><rect x="2" y="2" width="14" height="6" rx="1" fill="currentColor"/><rect x="21" y="3" width="1.5" height="4" rx="0.5" fill="currentColor" opacity="0.55"/></svg>
+              </span>
+            </div>
+            <div class="wa-bar">
+              <span class="wa-bar__back">&#8249;</span>
+              <div class="wa-bar__av">BB</div>
+              <div class="wa-bar__meta">
+                <div class="wa-bar__name">Butler<em>Button</em></div>
+                <div class="wa-bar__pres">online &middot; typing&hellip;</div>
+              </div>
+              <div class="wa-bar__icons">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.01.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.27-.27.35-.66.24-1.01C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
+              </div>
+            </div>
+            <div class="wa-chat">
+              <div class="wa-datechip">Today</div>
+              <div class="wa-hero-msg wa-hero-msg--user">
+                My flight into Bangkok just got cancelled. I have a morning tour at 8am I can&rsquo;t miss &#128549;
+                <span class="wa-hero-msg__time">23:47</span>
+              </div>
+              <div class="wa-typing" aria-hidden="true"><span></span><span></span><span></span></div>
+              <div class="wa-hero-msg wa-hero-msg--butler">
+                <div class="wa-hero-msg__eyebrow">Mei &middot; on duty in Bangkok</div>
+                On it. Rebooking you now &mdash; you&rsquo;ll make the 8am.
+                <span class="wa-hero-msg__time">23:48</span>
+              </div>
+              <div class="wa-hero-msg wa-hero-msg--butler" style="max-width:90%">
+                <div class="wa-itin">
+                  <div class="wa-itin__hdr">
+                    <span class="wa-itin__label">New arrival plan</span>
+                    <span class="wa-itin__live">Confirming</span>
+                  </div>
+                  <div class="wa-itin__row">
+                    <span class="wa-itin__time">06:10</span>
+                    <span class="wa-itin__what">Bangkok Airways 0714 &middot; BKK</span>
+                    <span class="wa-itin__pill">Booked</span>
+                  </div>
+                  <div class="wa-itin__row">
+                    <span class="wa-itin__time">07:45</span>
+                    <span class="wa-itin__what">Driver waiting, hotel held</span>
+                    <span class="wa-itin__pill">Set</span>
+                  </div>
+                  <div class="wa-itin__row">
+                    <span class="wa-itin__time">08:00</span>
+                    <span class="wa-itin__what">Tour guide notified &mdash; no-charge delay</span>
+                    <span class="wa-itin__pill">Done</span>
+                  </div>
+                </div>
+                Tap if you want me to move the 10am lunch too.
+                <span class="wa-hero-msg__time">23:51</span>
+              </div>
+              <div class="wa-hero-msg wa-hero-msg--user">
+                You&rsquo;re a lifesaver. Yes please &#128591;
+                <span class="wa-hero-msg__time">23:52</span>
+              </div>
+            </div>
+            <div class="wa-input-hero">
+              <span style="font-size:16px;color:#6B7280">+</span>
+              <div class="wa-input-hero__box">
+                <span style="flex:1;color:#9CA3AF">Message</span>
+                <span style="font-size:14px">&#128578;</span>
+                <span style="font-size:14px">&#128247;</span>
+              </div>
+              <div class="wa-input-hero__send">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="iph__home"></div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -1141,41 +1405,26 @@
 
     <!-- Left: copy + live step tracker -->
     <div class="phone-demo-copy">
-      <span class="how-label">How It Works</span>
-      <h2>Tap once.<br><span>Travel smarter.</span></h2>
-      <p class="phone-demo-sub">One widget. Five steps. Then your Butler is pinging you on WhatsApp. Watch the real signup flow &rarr;</p>
+      <span class="how-label">HOW IT WORKS</span>
+      <h2>From first tap to <span>final itinerary</span>.</h2>
+      <p class="phone-demo-sub">Book in under 90 seconds. Your Butler texts you on WhatsApp within 4 minutes. Watch the real flow &rarr;</p>
       <div class="phone-step-list-wrap">
         <div id="stepArrow" aria-hidden="true">&#8594;</div>
         <ul class="phone-step-list" id="stepList">
-          <li data-step="2">
-            <div class="phone-step-tag">01. Choose</div>
-            <div class="phone-step-title">Pick your service level.</div>
-            <div class="phone-step-body">8-Hour Butler for day assistance, 24-Hour for round-the-clock coverage, or Trip Planning for a full itinerary.</div>
-          </li>
-          <li data-step="3">
-            <div class="phone-step-tag">02. Destination</div>
-            <div class="phone-step-title">Set where and when.</div>
-            <div class="phone-step-body">Drop in your destination, travel dates, and number of travelers. Italy, solo, May 1-8. Done in seconds.</div>
+          <li data-step="2" data-active="true">
+            <div class="phone-step-tag">01</div>
+            <div class="phone-step-title">Choose your service</div>
+            <div class="phone-step-body">Trip Plan, $25. 8-Hour Butler, $25 a day. 24-Hour Butler, $100 a day.</div>
           </li>
           <li data-step="4">
-            <div class="phone-step-tag">03. Details</div>
-            <div class="phone-step-title">Your info + partner code.</div>
-            <div class="phone-step-body">Name, email, and phone. Then add your promo code and watch 20% come off the total automatically.</div>
-          </li>
-          <li data-step="5">
-            <div class="phone-step-tag">04. Confirm</div>
-            <div class="phone-step-title">Secure your Butler.</div>
-            <div class="phone-step-body">Checkout takes under a minute. Payment confirmed, advisor matched. All before the spinner stops.</div>
-          </li>
-          <li data-step="6">
-            <div class="phone-step-tag">05. Booked</div>
-            <div class="phone-step-title">You're confirmed.</div>
-            <div class="phone-step-body">Booking reference issued. Your Butler is assigned and will ping you on WhatsApp within 4 minutes.</div>
+            <div class="phone-step-tag">02</div>
+            <div class="phone-step-title">Book in 30 seconds</div>
+            <div class="phone-step-body">Share your destination, dates, and contact info. Full refund if you cancel before your service begins.</div>
           </li>
           <li data-step="7">
-            <div class="phone-step-tag">06. Connected</div>
-            <div class="phone-step-title">Your Butler checks in.</div>
-            <div class="phone-step-body">Itinerary, restaurant recs, real-time support. It all starts the moment that first WhatsApp message lands.</div>
+            <div class="phone-step-tag">03</div>
+            <div class="phone-step-title">Ask anything. It&rsquo;s handled.</div>
+            <div class="phone-step-body">You text. Your Butler replies in under 4 minutes. Restaurant booked. Flight rebooking sorted. 195 countries. Any hour.</div>
           </li>
         </ul>
       </div>
@@ -1313,7 +1562,7 @@
 <div class="cta-strip">
   <span class="cta-strip__text">Ready to plan your next trip?</span>
   <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-outline-light btn-md" data-butler-button>Start from $25</a>
-  <span class="cta-strip__guarantee">✓ Full refund before your service begins · ✓ Expert review in 24 hours</span>
+  <span class="cta-strip__guarantee">100% human handling &nbsp;&middot;&nbsp; Up to 5 revisions within 180 days</span>
 </div>
 
 
