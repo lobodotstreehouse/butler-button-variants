@@ -592,7 +592,7 @@ a { text-decoration: none; color: inherit; }
     <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
   </ul>
-  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Book Now. From $25</a>
+  <a class="nav-book" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Book Now. From $25</a>
 </nav>
 
 <section class="hero">
@@ -606,7 +606,7 @@ a { text-decoration: none; color: inherit; }
     <p class="hero-sub" data-reveal style="--delay:0.1s">ChatGPT doesn't know your return flight is at 6am. Siri can't rebook you when it's cancelled at 11pm. Your Butler already has your itinerary. That's the difference.</p>
     <div class="urgency-pill" data-reveal style="--delay:0.15s">&#9679; Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
     <div class="hero-actions" data-reveal style="--delay:0.2s">
-      <a class="btn btn-indigo btn-lg" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Your Butler. From $25/Day</a>
+      <a class="btn btn-indigo btn-lg" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Your Butler. From $25/Day</a>
     </div>
     <div class="cta-guarantee" data-reveal style="--delay:0.3s">&#10003; Cancel any time. Pay only for days used &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min</div>
   </div>
@@ -618,9 +618,9 @@ a { text-decoration: none; color: inherit; }
     <h2 class="section-title-light">Transparent. No membership.</h2>
   </div>
   <div class="products-grid">
-    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Plan My Trip</a><div class="pcard__guarantee">&#10003; Full refund if cancelled before your service begins &nbsp;&middot;&nbsp; &#10003; Expert review in 24 hours</div></div>
-    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Flight cancelled at 11pm. Rebooked, transported, hotel sorted in 40 min.</li><li>The restaurant gave away our table. New reservation, better spot, 6 min.</li><li>The ryokan that only takes Japanese-speaking guests. We wrote the intro.</li><li>Real-time flight monitoring: we see the delay before the airline tells you.</li></ul><a class="btn btn-indigo btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Concierge</a><div class="pcard__guarantee pcard__guarantee--light">&#10003; Cancel any time. Pay only for days used &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min</div></div>
-    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Overnight rebooking while you sleep. Wake up to a new itinerary, not a problem.</li><li>The "full" hotel we got you into because our advisor knows the GM personally.</li><li>3am medical referral in a city you've never been. Doctor dispatched, interpreter on the line.</li><li>Real-time flight monitoring: we see the delay before the airline tells you.</li></ul><a class="btn btn-outline-light btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Go 24-Hour</a><div class="pcard__guarantee">&#10003; Cancel any time. Pay only for days used &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min</div></div>
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>One preference survey</li><li>200,000+ options scanned</li><li>Expert review in 24 hours</li></ul><a class="btn btn-outline-light btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Plan My Trip</a><div class="pcard__guarantee">&#10003; Full refund if cancelled before your service begins &nbsp;&middot;&nbsp; &#10003; Expert review in 24 hours</div></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 8 Hour</div><div class="pcard__name">A real person who already knows your trip.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Flight cancelled at 11pm. Rebooked, transported, hotel sorted in 40 min.</li><li>The restaurant gave away our table. New reservation, better spot, 6 min.</li><li>The ryokan that only takes Japanese-speaking guests. We wrote the intro.</li><li>Real-time flight monitoring: we see the delay before the airline tells you.</li></ul><a class="btn btn-indigo btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Concierge</a><div class="pcard__guarantee pcard__guarantee--light">&#10003; Cancel any time. Pay only for days used &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min</div></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Overnight rebooking while you sleep. Wake up to a new itinerary, not a problem.</li><li>The "full" hotel we got you into because our advisor knows the GM personally.</li><li>3am medical referral in a city you've never been. Doctor dispatched, interpreter on the line.</li><li>Real-time flight monitoring: we see the delay before the airline tells you.</li></ul><a class="btn btn-outline-light btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Go 24-Hour</a><div class="pcard__guarantee">&#10003; Cancel any time. Pay only for days used &nbsp;&middot;&nbsp; &#10003; Human response in &lt;4 min</div></div>
   </div>
 </section>
 
@@ -728,7 +728,7 @@ a { text-decoration: none; color: inherit; }
 
 <section class="ps-block">
   <div class="ps-inner" data-reveal>
-    <p><strong>P.S.</strong> The most common thing clients say after their first rescue: "I didn't know I needed this until I needed it." Concierge from $25/day. Cancel any time. <a class="ps-cta" data-butler-button href="https://veltmtours.com/embed/butler-booking?popup=true">Get Your Butler &#8594;</a></p>
+    <p><strong>P.S.</strong> The most common thing clients say after their first rescue: "I didn't know I needed this until I needed it." Concierge from $25/day. Cancel any time. <a class="ps-cta" data-butler-button href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order.">Get Your Butler &#8594;</a></p>
   </div>
 </section>
 
@@ -781,34 +781,16 @@ a { text-decoration: none; color: inherit; }
 </script>
 <script>
 (function(){
-  if (window._bbModal) return;
-  window._bbModal = true;
-  var BB = 'https://veltmtours.com/embed/butler-booking?popup=true';
-  function openModal() {
-    var ov = document.getElementById('bb-modal');
-    if (ov) { ov.style.display = 'flex'; return; }
-    ov = document.createElement('div');
-    ov.id = 'bb-modal';
-    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative;width:min(660px,96vw);';
-    var fr = document.createElement('iframe');
-    fr.src = BB;
-    fr.style.cssText = 'width:100%;height:min(740px,92vh);border:none;border-radius:16px;background:#fff;display:block;';
-    var xbtn = document.createElement('button');
-    xbtn.textContent = '\u00d7';
-    xbtn.setAttribute('aria-label','Close');
-    xbtn.style.cssText = 'position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;padding:.25rem .5rem;';
-    function close() { ov.style.display = 'none'; }
-    xbtn.addEventListener('click', close);
-    ov.addEventListener('click', function(e){ if(e.target===ov) close(); });
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
-    wrap.appendChild(fr); wrap.appendChild(xbtn); ov.appendChild(wrap);
-    document.body.appendChild(ov);
-  }
+  if (window._bbWA) return;
+  window._bbWA = true;
+  var NUM = '18555031555';
   document.addEventListener('click', function(e){
     var t = e.target.closest('[data-butler-button]');
-    if (t) { e.preventDefault(); openModal(); }
+    if (!t) return;
+    e.preventDefault();
+    var msg = t.getAttribute('data-butler-msg')
+      || ("Hi Butler Button, I'd like to order. (" + location.pathname + ")");
+    window.open('https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 })();
 </script>

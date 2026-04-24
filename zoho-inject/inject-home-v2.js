@@ -1238,7 +1238,7 @@
     <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
   </ul>
-  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Started</a>
+  <a class="nav-book" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Started</a>
 </nav>
 
 
@@ -1264,7 +1264,7 @@
         <h1 class="hero-h1">Your personal<br><span>travel expert.</span><br>On WhatsApp.</h1>
         <p class="hero-sub">Text one Butler. Real humans, 150+ countries, 24/7. No app, no membership, no chatbots.</p>
         <div class="hero-actions">
-          <a class="btn btn-lg btn-indigo" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>
+          <a class="btn btn-lg btn-indigo" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:7px" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.3-1.3C8.6 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
             Message a Butler
           </a>
@@ -1574,7 +1574,7 @@
 <!-- ── Mid-page CTA ─────────────────────────────────────────── -->
 <div class="cta-strip">
   <span class="cta-strip__text">Ready to plan your next trip?</span>
-  <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-outline-light btn-md" data-butler-button>Start from $25</a>
+  <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-outline-light btn-md" data-butler-button>Start from $25</a>
   <span class="cta-strip__guarantee">100% human handling &nbsp;&middot;&nbsp; Up to 5 revisions within 180 days</span>
 </div>
 
@@ -1607,7 +1607,7 @@
         <li>24-hour delivery</li>
         <li>Advisor-reviewed &amp; signed off</li>
       </ul>
-      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-ghost-dark btn-md" data-butler-button>Start Planning. $25/Trip Plan</a>
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-ghost-dark btn-md" data-butler-button>Start Planning. $25/Trip Plan</a>
       <div class="pcard__guarantee">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ Expert review in 24 hours</div>
     </div>
 
@@ -1629,7 +1629,7 @@
         <li>In-person errands &amp; deliveries</li>
         <li>150+ countries, 40+ languages</li>
       </ul>
-      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-outline-light btn-md" data-butler-button>Get Concierge. From $25/Day</a>
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-outline-light btn-md" data-butler-button>Get Concierge. From $25/Day</a>
       <div class="pcard__guarantee pcard__guarantee--light">✓ Cancel any time. Pay only for days used &nbsp;·&nbsp; ✓ &lt;4 min human response</div>
     </div>
 
@@ -1650,7 +1650,7 @@
         <li>Same advisor start to finish</li>
         <li>97% of disruptions resolved &lt;60 min</li>
       </ul>
-      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-ghost-dark btn-md" style="border-color:#7c3aed; color:#7c3aed" data-butler-button>Get 24-Hour. $100/Day</a>
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-ghost-dark btn-md" style="border-color:#7c3aed; color:#7c3aed" data-butler-button>Get 24-Hour. $100/Day</a>
       <div class="pcard__guarantee">On a 7-day trip: $700 total. Less than one night in a five-star hotel. ✓ Cancel any time.</div>
     </div>
   </div>
@@ -1699,7 +1699,7 @@
 <section class="section-human">
   <div class="human-inner">
 
-    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="human-img-wrap" data-butler-button data-reveal-left>
+    <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="human-img-wrap" data-butler-button data-reveal-left>
       <div class="cmp-card">
         <div class="cmp-label cmp-label--without">Without Butler Button</div>
         <ul class="cmp-list cmp-list--without">
@@ -1752,7 +1752,7 @@
       </div>
 
       <div class="urgency-pill" data-reveal style="--delay:.35s">● Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
-      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-indigo btn-lg" data-butler-button data-reveal style="--delay:.4s">
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-indigo btn-lg" data-butler-button data-reveal style="--delay:.4s">
         Book Your Butler. From $25
       </a>
       <div class="cta-guarantee" data-reveal style="--delay:.5s">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ &lt;4 min human response &nbsp;·&nbsp; ✓ Cancel any time</div>
@@ -1773,7 +1773,7 @@
   </div>
   <div class="gallery-grid">
     <!-- Gallery 1 -->
-    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
+    <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="gallery-item" data-butler-button>
       <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?auto=format&fit=crop&w=1200&q=95&cs=srgb)"></div>
       <div class="gallery-hotel-label"><strong>Grand Entrance</strong>Private Estate</div>
       <div class="gallery-item-overlay">
@@ -1786,7 +1786,7 @@
       </div>
     </a>
     <!-- Gallery 2 -->
-    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
+    <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="gallery-item" data-butler-button>
       <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=95&cs=srgb)"></div>
       <div class="gallery-hotel-label"><strong>Modern Estate</strong>Melbourne, Australia</div>
       <div class="gallery-item-overlay">
@@ -1799,7 +1799,7 @@
       </div>
     </a>
     <!-- Gallery 3 -->
-    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="gallery-item" data-butler-button>
+    <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="gallery-item" data-butler-button>
       <div class="gallery-bg" style="background-image:url(https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=95&cs=srgb)"></div>
       <div class="gallery-hotel-label"><strong>Architectural Residence</strong>Melbourne, Australia</div>
       <div class="gallery-item-overlay">
@@ -1829,7 +1829,7 @@
       No membership. No annual fee. Cancel before your service begins for a full refund.
     </p>
     <div class="cta-actions" data-reveal style="--delay:.3s">
-      <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-white btn-lg" data-butler-button>Book Your Butler</a>
     </div>
     <p class="cta-fine" data-reveal style="--delay:.4s">
       Available in 195+ countries &nbsp;·&nbsp; 150+ languages &nbsp;·&nbsp; Starting at $25/day
@@ -1842,7 +1842,7 @@
 <div class="sticky-cta" id="sticky-cta">
   <div class="sticky-cta__inner">
     <div class="sticky-cta__text">From <span>$25/day</span></div>
-    <a href="https://veltmtours.com/embed/butler-booking?popup=true" class="btn btn-indigo btn-sm" data-butler-button>Start Your Trip</a>
+    <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-indigo btn-sm" data-butler-button>Start Your Trip</a>
   </div>
 </div>
 
@@ -2062,34 +2062,16 @@
 </script>
 <script>
 (function(){
-  if (window._bbModal) return;
-  window._bbModal = true;
-  var BB = 'https://veltmtours.com/embed/butler-booking?popup=true';
-  function openModal() {
-    var ov = document.getElementById('bb-modal');
-    if (ov) { ov.style.display = 'flex'; return; }
-    ov = document.createElement('div');
-    ov.id = 'bb-modal';
-    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative;width:min(660px,96vw);';
-    var fr = document.createElement('iframe');
-    fr.src = BB;
-    fr.style.cssText = 'width:100%;height:min(740px,92vh);border:none;border-radius:16px;background:#fff;display:block;';
-    var xbtn = document.createElement('button');
-    xbtn.textContent = '\u00d7';
-    xbtn.setAttribute('aria-label','Close');
-    xbtn.style.cssText = 'position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;padding:.25rem .5rem;';
-    function close() { ov.style.display = 'none'; }
-    xbtn.addEventListener('click', close);
-    ov.addEventListener('click', function(e){ if(e.target===ov) close(); });
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
-    wrap.appendChild(fr); wrap.appendChild(xbtn); ov.appendChild(wrap);
-    document.body.appendChild(ov);
-  }
+  if (window._bbWA) return;
+  window._bbWA = true;
+  var NUM = '18555031555';
   document.addEventListener('click', function(e){
     var t = e.target.closest('[data-butler-button]');
-    if (t) { e.preventDefault(); openModal(); }
+    if (!t) return;
+    e.preventDefault();
+    var msg = t.getAttribute('data-butler-msg')
+      || ("Hi Butler Button, I'd like to order. (" + location.pathname + ")");
+    window.open('https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 })();
 </script>

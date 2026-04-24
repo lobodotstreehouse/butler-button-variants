@@ -556,7 +556,7 @@ a { text-decoration: none; color: inherit; }
     <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
   </ul>
-  <a class="nav-book" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Book Now. From $25</a>
+  <a class="nav-book" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Book Now. From $25</a>
 </nav>
 
 <section class="hero">
@@ -630,8 +630,8 @@ a { text-decoration: none; color: inherit; }
     <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo-lt);margin-bottom:0.75rem">Or buy directly</div>
     <p style="font-size:1.02rem;color:rgba(245,245,247,0.82);line-height:1.55;letter-spacing:-0.01em;margin-bottom:1.5rem">Not a travel advisor? Try Butler Button directly. Trip Planning from $25/country, Concierge from $25/day.</p>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <a class="btn btn-indigo btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Start Planning. $25/Trip Plan</a>
-      <a class="btn btn-outline-light btn-md" href="https://veltmtours.com/embed/butler-booking?popup=true" data-butler-button>Get Concierge. From $25/Day</a>
+      <a class="btn btn-indigo btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Start Planning. $25/Trip Plan</a>
+      <a class="btn btn-outline-light btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Concierge. From $25/Day</a>
     </div>
   </div>
 
@@ -657,25 +657,17 @@ a { text-decoration: none; color: inherit; }
 <script src="https://lobodotstreehouse.github.io/butler-button-variants/js/veltm.js"></script>
 <script>
 (function(){
-  if(window._bbModal)return; window._bbModal=true;
-  var BB='https://veltmtours.com/embed/butler-booking?popup=true';
-  function openModal(){
-    var ov=document.getElementById('bb-modal');
-    if(ov){ov.style.display='flex';return;}
-    ov=document.createElement('div'); ov.id='bb-modal';
-    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
-    var wrap=document.createElement('div'); wrap.style.cssText='position:relative;width:min(660px,96vw);';
-    var fr=document.createElement('iframe'); fr.src=BB;
-    fr.style.cssText='width:100%;height:min(740px,92vh);border:none;border-radius:16px;background:#fff;display:block;';
-    var xbtn=document.createElement('button'); xbtn.textContent='\u00d7'; xbtn.setAttribute('aria-label','Close');
-    xbtn.style.cssText='position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;padding:.25rem .5rem;';
-    function close(){ov.style.display='none';}
-    xbtn.addEventListener('click',close);
-    ov.addEventListener('click',function(e){if(e.target===ov)close();});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
-    wrap.appendChild(fr); wrap.appendChild(xbtn); ov.appendChild(wrap); document.body.appendChild(ov);
-  }
-  document.addEventListener('click',function(e){var t=e.target.closest('[data-butler-button]');if(t){e.preventDefault();openModal();}});
+  if (window._bbWA) return;
+  window._bbWA = true;
+  var NUM = '18555031555';
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-butler-button]');
+    if (!t) return;
+    e.preventDefault();
+    var msg = t.getAttribute('data-butler-msg')
+      || ("Hi Butler Button, I'd like to order. (" + location.pathname + ")");
+    window.open('https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+  });
 })();
 </script>
 <script>
