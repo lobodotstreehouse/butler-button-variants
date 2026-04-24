@@ -113,6 +113,105 @@
   `;
   document.head.appendChild(style);
 
+  /* ─── SEO / AIO metadata ─── */
+  (function(){
+    document.title = 'Supplier Code of Conduct | Butler Button Partner Standards';
+    function setMeta(n, v, isProp) {
+      var sel = isProp ? 'meta[property="'+n+'"]' : 'meta[name="'+n+'"]';
+      var el = document.querySelector(sel);
+      if (!el) { el = document.createElement('meta'); document.head.appendChild(el); }
+      el.setAttribute(isProp ? 'property' : 'name', n);
+      el.setAttribute('content', v);
+    }
+    setMeta('description', 'Butler Button supplier standards: $1M–$5M insurance minimums, 30-minute booking confirmation SLA, CCPA/GDPR compliance, PCI DSS payment security, and strict non-solicitation terms for all travel service providers in the network.');
+    setMeta('og:title', 'Supplier Code of Conduct | Butler Button Partner Standards', true);
+    setMeta('og:description', 'Full supplier requirements for hotels, transportation, aviation, and experience vendors working with Butler Button by VELTM. Covers insurance, liability, data protection, and response standards.', true);
+    setMeta('og:type', 'website', true);
+    setMeta('og:url', 'https://www.butlerbutton.co/supplier-code', true);
+    if (document.querySelector('script#bb-schema')) return;
+    var ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'bb-schema';
+    ld.textContent = JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Butler Button by VELTM Tours",
+        "url": "https://www.butlerbutton.co",
+        "description": "On-demand personal travel concierge. 100% human experts. 150+ countries. No membership required."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Supplier Code of Conduct | Butler Button Partner Standards",
+        "url": "https://www.butlerbutton.co/supplier-code",
+        "description": "Butler Button's Supplier Code of Conduct sets the standards for all travel service providers in the network, covering insurance requirements, liability indemnification, non-solicitation, data protection, PCI compliance, and booking confirmation SLAs.",
+        "isPartOf": { "@type": "WebSite", "name": "Butler Button", "url": "https://www.butlerbutton.co" },
+        "datePublished": "2026-04-01",
+        "dateModified": "2026-04-22",
+        "about": {
+          "@type": "Thing",
+          "name": "Travel Supplier Standards and Code of Conduct"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What insurance coverage do Butler Button suppliers need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "All Butler Button suppliers must carry General Liability insurance of at least $1,000,000 USD. For higher-risk activities — including ground transportation, yacht or boat charters, helicopter and private aviation charters, equestrian activities, water sports, or activities involving firearms — coverage of no less than $5,000,000 USD is required. Proof of coverage must be provided upon request."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly must Butler Button suppliers confirm a booking?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Butler Button suppliers must confirm standard bookings within two hours and urgent or same-day bookings within thirty minutes of receiving the request. Failure to confirm within these windows may result in Butler Button securing an alternative supplier at no penalty to the client."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a Butler Button supplier contact clients directly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Suppliers in the Butler Button network may not solicit, contact, or accept direct business from any client introduced through Butler Button without prior written consent. All communication with clients must go through the designated Butler Button advisor channel. Violation is grounds for immediate removal from the supplier network and may be subject to legal remedy."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What data protection laws do Butler Button suppliers need to comply with?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Butler Button suppliers must comply with all applicable data protection and privacy laws, including the California Consumer Privacy Act (CCPA, 2018) and the General Data Protection Regulation (GDPR, 2018). Suppliers must obtain necessary consents for processing client personal data, may not retain or sell client data beyond what is needed to fulfill an active booking, and must process and secure all personal data to a high standard of care."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if a Butler Button supplier cannot fulfill a request?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If a supplier cannot fulfill a request in the timeframe or manner required, they must notify Butler Button no later than two business days after the request is placed. For time-sensitive or same-day requests, notification must occur within one hour of receiving the request. Failure to notify may result in Butler Button sourcing an alternative supplier."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of travel suppliers work with Butler Button?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Butler Button works with hotels, ground transportation companies, private aviation operators, yacht and boat charter companies, experience vendors, local specialists, equestrian operators, and other travel service providers across 150+ countries."
+            }
+          }
+        ]
+      }
+    ]);
+    document.head.appendChild(ld);
+  })();
+
   /* ─── MutationObserver — block Zoho re-injection ─── */
   (function(){
     var obs = new MutationObserver(function(mutations){
@@ -143,7 +242,7 @@
 <div class="doc-wrap">
   <span class="doc-eyebrow">Legal &amp; Compliance</span>
   <h1 class="doc-title">Supplier Code of&nbsp;Conduct</h1>
-  <p class="doc-meta">Effective date: April 2026 &nbsp;·&nbsp; VELTM, Inc., operating as Butler Button &nbsp;·&nbsp; go.veltmtours.com</p>
+  <p class="doc-meta">Effective date: April 2026 &nbsp;·&nbsp; VELTM, Inc., operating as Butler Button &nbsp;·&nbsp; butlerbutton.co</p>
 
   <p class="doc-intro">Butler Button welcomes quality travel service providers — hotels, ground transportation companies, aviation operators, experience vendors, and local specialists — into our supplier network to enhance the journey of our clients. To work with Butler Button's clients and advisors, please review and abide by the following Supplier Code of Conduct.</p>
 
