@@ -1198,16 +1198,29 @@
     document.head.appendChild(ld);
   })();
 
-  // 1b. MutationObserver: block Zoho from re-injecting styles after our clean-slate
+  // 1b. MutationObserver: block Zoho from re-injecting styles + detect Zoho body takeover
   (function(){
+    var _applying = false;
+    function safeApply() {
+      if (_applying) return;
+      _applying = true;
+      setTimeout(function(){ applyBody(); _applying = false; }, 0);
+    }
     var obs = new MutationObserver(function(mutations){
       mutations.forEach(function(m){
         m.addedNodes.forEach(function(node){
           if(node.nodeType !== 1) return;
           var tag = node.tagName && node.tagName.toLowerCase();
-          if(tag === 'body') { applyBody(); return; }
+          if(tag === 'body') { safeApply(); return; }
           if(tag === 'style' && node.id !== 'bb-styles') { node.remove(); return; }
           if(tag === 'link' && node.rel === 'stylesheet') { node.remove(); return; }
+          // Detect Zoho SPA re-injecting body content (cookie banner, header, sections)
+          if(node.classList && (
+            node.classList.contains('zcb-bar') ||
+            node.classList.contains('zpheader') ||
+            node.classList.contains('zp-section') ||
+            node.classList.contains('zplight-section')
+          )) { safeApply(); return; }
         });
       });
     });
@@ -2098,8 +2111,9 @@
   var _bbN = 0;
   var _bbT = setInterval(function(){
     _bbN++;
-    if (_bbN > 50) { clearInterval(_bbT); return; }
-    if (!document.getElementById('bb-styles')) {
+    if (_bbN > 100) { clearInterval(_bbT); return; }
+    var zohoTookOver = !!document.querySelector('.zcb-bar, .zpheader, .zp-section, .zplight-section');
+    if (!document.getElementById('bb-styles') || zohoTookOver) {
       document.querySelectorAll('style, link[rel="stylesheet"]').forEach(function(el){ el.remove(); });
       var s2 = document.createElement('style');
       s2.id = 'bb-styles';
@@ -2107,7 +2121,7 @@
       document.head.appendChild(s2);
       applyBody();
     }
-  }, 100);
+  }, 80);
 
   document.documentElement.style.visibility = '';
 })();
