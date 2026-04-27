@@ -2017,7 +2017,7 @@
 
 })();
 
-/* ── RANDOM DESTINATION BACKGROUNDS ── */
+/* ── ROTATING DESTINATION BACKGROUNDS ── */
 (function () {
   var destinations = [
     { place: 'Hôtel Royal',      id: '1542314831-068cd1dbfeeb',   loc: 'Évian-les-Bains, France'        },
@@ -2032,32 +2032,50 @@
     { place: 'Villa Suite',      id: '1582719508461-905c673771fd', loc: 'Tuscany, Italy'                 },
   ];
 
-  // Fisher-Yates shuffle, pick first 3. Guarantees no repeats across sections
+  // Fisher-Yates shuffle
   var pool = destinations.slice();
   for (var i = pool.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
   }
 
-  function setBg(selector, pick) {
-    var el = document.querySelector(selector);
-    if (el && pick) {
-      el.style.backgroundImage =
-        'url(https://images.unsplash.com/photo-' + pick.id +
-        '?auto=format&fit=crop&w=2400&q=95&cs=srgb)';
-      el.setAttribute('data-destination', pick.place);
-      var old = el.querySelector('.bg-photo-label');
-      if (old) old.remove();
-      var label = document.createElement('div');
-      label.className = 'bg-photo-label';
-      label.innerHTML = '<strong>' + pick.place + '</strong>' + (pick.loc ? pick.loc : '');
-      el.appendChild(label);
-    }
+  function setBg(el, pick) {
+    if (!el || !pick) return;
+    el.style.transition = 'background-image 0s';
+    el.style.backgroundImage =
+      'url(https://images.unsplash.com/photo-' + pick.id +
+      '?auto=format&fit=crop&w=2400&q=95&cs=srgb)';
+    el.setAttribute('data-destination', pick.place);
+    var old = el.querySelector('.bg-photo-label');
+    if (old) old.remove();
+    var label = document.createElement('div');
+    label.className = 'bg-photo-label';
+    label.innerHTML = '<strong>' + pick.place + '</strong>' + (pick.loc ? pick.loc : '');
+    el.appendChild(label);
   }
 
-  setBg('.section-statement', pool[0]);
-  setBg('.section-products',  pool[1]);
-  setBg('.section-human',     pool[2]);
+  // section-products gets a fixed random pick (no carousel needed)
+  var productsEl = document.querySelector('.section-products');
+  setBg(productsEl, pool[pool.length - 1]);
+
+  // Carousel for section-statement and section-human
+  // Each section gets its own cursor into the pool, offset by half so they never show the same image
+  var INTERVAL = 6000;
+  var half = Math.floor(pool.length / 2);
+
+  function startCarousel(selector, startIdx) {
+    var el = document.querySelector(selector);
+    if (!el) return;
+    var idx = startIdx % pool.length;
+    setBg(el, pool[idx]);
+    setInterval(function () {
+      idx = (idx + 1) % pool.length;
+      setBg(el, pool[idx]);
+    }, INTERVAL);
+  }
+
+  startCarousel('.section-statement', 0);
+  startCarousel('.section-human',     half);
 })();
 </script>
 <script>
