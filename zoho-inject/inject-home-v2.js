@@ -643,8 +643,8 @@
     .section-human::before {
       content: '';
       position: absolute; inset: 0;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(12px);
       z-index: 0;
     }
