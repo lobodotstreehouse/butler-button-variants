@@ -98,13 +98,13 @@ a { text-decoration: none; color: inherit; }
 .nav-brand em { color: var(--indigo-lt); font-style: normal; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a {
-  font-size: 0.82rem; color: rgba(255,255,255,0.55);
+  font-size: 1.09rem; color: #FFFFFF;
   letter-spacing: -0.01em; transition: color 0.2s;
 }
 .nav-links a:hover { color: #f5f5f7; }
 .nav-book {
-  padding: 8px 22px; background: var(--indigo); color: #fff;
-  border-radius: 980px; font-size: 0.82rem; font-weight: 500;
+  padding: 8px 22px; background: var(--indigo); color: #FFFFFF;
+  border-radius: 980px; font-size: 1.09rem; font-weight: 500;
   transition: background 0.2s, transform 0.15s;
 }
 .nav-book:hover { background: #4338ca; transform: scale(1.02); }
@@ -387,7 +387,7 @@ a { text-decoration: none; color: inherit; }
 .footer-brand { font-size: 0.85rem; font-weight: 700; color: #86868b; }
 .footer-brand em { color: var(--indigo-lt); font-style: normal; }
 .footer-links { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; padding: 0; margin: 0; }
-.footer-links a { font-size: 0.75rem; color: var(--text-dim); transition: color 0.2s; }
+.footer-links a { font-size: 1.00rem; color: #FFFFFF; transition: color 0.2s; }
 .footer-links a:hover { color: #86868b; }
 .footer-legal { font-size: 0.72rem; color: var(--text-dim); }
 @media (max-width: 720px) {
