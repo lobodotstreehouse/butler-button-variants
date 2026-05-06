@@ -4,8 +4,8 @@
    Channels: WhatsApp, Video Call, Email.
    Placeholders:
      __WA__    = https://wa.me/18555031555
-     __VID__   = https://calendly.com/butlerbutton/video   (TODO: confirm Calendly URL)
-     __MAIL__  = mailto:concierge@butlerbutton.co          (TODO: confirm address)
+     __VID__   = https://veltmtoursofficial.zohobookings.in/#/veltmtourspvtltd   (Zoho Bookings, "Trip Planning Session" w/ Joana, 30 min, Zoho Meeting auto-link)
+     __MAIL__  = mailto:contact@butlerbutton.co          (existing brand contact, used in landing_page.html footer)
    ───────────────────────────────────────────────────────────────── */
 
 window.BB_CHANNELS_CSS = `
@@ -46,7 +46,7 @@ window.BB_CHANNELS_HTML = `
         <span class="bb-ch__cta">Open WhatsApp</span>
       </a>
 
-      <a class="bb-ch__card" href="https://calendly.com/butlerbutton/video" target="_blank" rel="noopener">
+      <a class="bb-ch__card" href="https://veltmtoursofficial.zohobookings.in/#/veltmtourspvtltd" target="_blank" rel="noopener">
         <div class="bb-ch__icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
         </div>
@@ -55,7 +55,7 @@ window.BB_CHANNELS_HTML = `
         <span class="bb-ch__cta">Schedule a call</span>
       </a>
 
-      <a class="bb-ch__card" href="mailto:concierge@butlerbutton.co">
+      <a class="bb-ch__card" href="mailto:contact@butlerbutton.co">
         <div class="bb-ch__icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4l-8 5-8-5V6l8 5 8-5z"/></svg>
         </div>
