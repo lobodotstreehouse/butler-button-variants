@@ -62,6 +62,18 @@ function extract(file){
   return { css: shim.styles.join('\n'), body: shim.getBodyHTML() };
 }
 
+// Rewrite navbar links so preview pages link to peer .html files instead
+// of the absolute Zoho production paths. Production inject scripts stay
+// untouched (they need / and /trip-planning to resolve under butlerbutton.co).
+function rewriteNavForPreview(body){
+  return body
+    .replace(/href="\/"/g, 'href="home.html"')
+    .replace(/href="\/trip-planning"/g, 'href="trip-planning.html"')
+    .replace(/href="\/concierge"/g, 'href="concierge.html"')
+    .replace(/href="\/travel-advisor"/g, 'href="travel-advisor.html"')
+    .replace(/href="\/supplier-code"/g, 'href="supplier-code.html"');
+}
+
 function buildPreview(css, body, title){
   return `<!DOCTYPE html>
 <html lang="en">
@@ -84,5 +96,6 @@ ${body}
 const [,, infile, outfile, title] = process.argv;
 if (!infile || !outfile) { console.error('usage: node _extract.js <in.js> <out.html> [title]'); process.exit(1); }
 const { css, body } = extract(path.resolve(infile));
-fs.writeFileSync(outfile, buildPreview(css, body, title || 'Butler Button preview'));
+const previewBody = rewriteNavForPreview(body);
+fs.writeFileSync(outfile, buildPreview(css, previewBody, title || 'Butler Button preview'));
 console.log('wrote', outfile, 'css:', css.length, 'body:', body.length);

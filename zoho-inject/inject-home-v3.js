@@ -1343,7 +1343,6 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:7px" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.3-1.3C8.6 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
             Message a Butler
           </a>
-          <a class="btn btn-lg btn-ghost-light" href="#reach">Other ways to reach us</a>
           <a class="btn btn-lg btn-ghost-light" href="#how">See how it works</a>
         </div>
         <p style="margin-top:1.1rem;font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:-0.01em;">
@@ -1496,24 +1495,24 @@
     <div class="phone-demo-copy">
       <span class="how-label">HOW IT WORKS</span>
       <h2>From first tap to <span>final itinerary</span>.</h2>
-      <p class="phone-demo-sub">Book in under 90 seconds. Your Butler texts you on WhatsApp within 4 minutes. Watch the real flow &rarr;</p>
+      <p class="phone-demo-sub">Tap any button on this page. Tell us your trip basics, pick a tier, pay in seconds. Your Butler reaches out within 4 minutes &rarr;</p>
       <div class="phone-step-list-wrap">
         <div id="stepArrow" aria-hidden="true">&#8594;</div>
         <ul class="phone-step-list" id="stepList">
           <li data-step="2" data-active="true">
             <div class="phone-step-tag">01</div>
-            <div class="phone-step-title">Choose your service</div>
-            <div class="phone-step-body">Trip Plan, $25. 8-Hour Butler, $25 a day. 24-Hour Butler, $100 a day.</div>
+            <div class="phone-step-title">Tap, share your trip basics</div>
+            <div class="phone-step-body">A modal opens in this same tab. Name and email, plus optional destination, dates, and brief. Not sure yet? Tick the box, your Butler will help you figure it out.</div>
           </li>
           <li data-step="4">
             <div class="phone-step-tag">02</div>
-            <div class="phone-step-title">Book in 30 seconds</div>
-            <div class="phone-step-body">Share your destination, dates, and contact info. Full refund if you cancel before your service begins.</div>
+            <div class="phone-step-title">Pick a tier, pay via Stripe</div>
+            <div class="phone-step-body">Trip Plan $25, 8-Hour Butler $25/day, 24-Hour Butler $100/day. Stripe Checkout opens with email prefilled. Apple Pay and Google Pay supported.</div>
           </li>
           <li data-step="7">
             <div class="phone-step-tag">03</div>
-            <div class="phone-step-title">Ask anything. It&rsquo;s handled.</div>
-            <div class="phone-step-body">You text. Your Butler replies in under 4 minutes. Restaurant booked. Flight rebooking sorted. 195 countries. Any hour.</div>
+            <div class="phone-step-title">Your Butler reaches out</div>
+            <div class="phone-step-body">Within 4 minutes by WhatsApp, video call, or email, whichever you prefer. Restaurant booked. Flight rebooking sorted. 195 countries. Any hour.</div>
           </li>
         </ul>
       </div>
