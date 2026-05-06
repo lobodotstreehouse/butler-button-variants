@@ -555,8 +555,8 @@ a { text-decoration: none; color: inherit; }
   <ul class="nav-links">
     <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
-  </ul>
-  <a class="nav-book" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Book Now. From $25</a>
+  <li><a href="https://help.veltmtours.com/portal/en/kb/" target="_blank" rel="noopener">Questions</a></li></ul>
+  <a class="nav-book" href="https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00" data-tier="trip" target="_blank" rel="noopener" data-butler-button>Book Now. From $25</a>
 </nav>
 
 <section class="hero">
@@ -630,8 +630,8 @@ a { text-decoration: none; color: inherit; }
     <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo-lt);margin-bottom:0.75rem">Or buy directly</div>
     <p style="font-size:1.02rem;color:rgba(245,245,247,0.82);line-height:1.55;letter-spacing:-0.01em;margin-bottom:1.5rem">Not a travel advisor? Try Butler Button directly. Trip Planning from $25/country, Concierge from $25/day.</p>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <a class="btn btn-indigo btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Start Planning. $25/Trip Plan</a>
-      <a class="btn btn-outline-light btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Concierge. From $25/Day</a>
+      <a class="btn btn-indigo btn-md" href="https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00" data-tier="trip" target="_blank" rel="noopener" data-butler-button>Start Planning. $25/Trip Plan</a>
+      <a class="btn btn-outline-light btn-md" href="https://buy.stripe.com/4gM6oI1bd04z6Efg9d4Ni01" data-tier="8h" target="_blank" rel="noopener" data-butler-button>Get Concierge. From $25/Day</a>
     </div>
   </div>
 
@@ -657,17 +657,16 @@ a { text-decoration: none; color: inherit; }
 <script src="https://lobodotstreehouse.github.io/butler-button-variants/js/veltm.js"></script>
 <script>
 (function(){
-  if (window._bbWA) return;
-  window._bbWA = true;
-  var NUM = '18555031555';
+  if (window._bbStripe) return;
+  window._bbStripe = true;
   document.addEventListener('click', function(e){
     var t = e.target.closest('[data-butler-button]');
     if (!t) return;
+    var url = t.getAttribute('href');
+    if (!url || url === '#') return;
     e.preventDefault();
-    var msg = t.getAttribute('data-butler-msg')
-      || ("Hi Butler Button, I'd like to order. (" + location.pathname + ")");
-    window.open('https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-  });
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }, true);
 })();
 </script>
 <script>

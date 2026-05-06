@@ -838,8 +838,8 @@ a { text-decoration: none; color: inherit; }
   <ul class="nav-links">
     <li><a href="/">Home</a></li><li><a href="/trip-planning">Trip Planning</a></li><li><a href="/concierge">Concierge</a></li>
     <li><a href="/travel-advisor">Travel Advisor</a></li>
-  </ul>
-  <a class="nav-book" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Book Now. From $25</a>
+  <li><a href="https://help.veltmtours.com/portal/en/kb/" target="_blank" rel="noopener">Questions</a></li></ul>
+  <a class="nav-book" href="https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00" data-tier="trip" target="_blank" rel="noopener" data-butler-button>Book Now. From $25</a>
 </nav>
 
 <section class="hero">
@@ -853,7 +853,7 @@ a { text-decoration: none; color: inherit; }
     <p class="hero-sub" data-reveal style="--delay:0.1s">Expert itinerary review in 24 hours. From $25/country. No membership. No gatekeeping.</p>
     <div class="urgency-pill" data-reveal style="--delay:.15s">● Available for May &amp; June trips. Launch pricing guaranteed through June 30</div>
     <div class="hero-actions" data-reveal style="--delay:0.2s">
-      <a class="btn btn-indigo btn-lg" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Start Planning. $25/Trip Plan</a>
+      <a class="btn btn-indigo btn-lg" href="https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00" data-tier="trip" target="_blank" rel="noopener" data-butler-button>Start Planning. $25/Trip Plan</a>
       <a class="btn btn-ghost-light btn-lg" href="#how">See how it works</a>
     </div>
     <div class="cta-guarantee" data-reveal style="--delay:.3s">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ Expert review in 24 hours &nbsp;·&nbsp; ✓ Up to 5 revisions within 180 days</div>
@@ -866,9 +866,9 @@ a { text-decoration: none; color: inherit; }
     <h2 class="section-title-light">Transparent. No membership.</h2>
   </div>
   <div class="products-grid">
-    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>The restaurant we booked in 6 minutes after theirs gave away the reservation.</li><li>The flight we rebooked at 11pm so they woke up in their original hotel.</li><li>The ryokan that only takes Japanese-speaking guests. We wrote the intro letter.</li><li>The &quot;full&quot; hotel we got into because our advisor knows the GM personally.</li><li>Expert review in 24 hours. Up to 5 revisions within 180 days.</li><li>Reserve now, pay at supplier on arrival. Use your own card to earn points.</li></ul><a class="btn btn-outline-light btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Start Planning. $25/Trip Plan</a><div class="pcard__guarantee">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ Expert review in 24 hours</div></div>
-    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Flight cancelled at 11pm. Rebooked, transported, hotel sorted in 40 min.</li><li>&lt;4 min human response, because your advisor carries one client at a time.</li><li>150+ countries covered by regional specialists who know the streets, not Google.</li></ul><a class="btn btn-indigo btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Concierge. From $25/Day</a><div class="pcard__guarantee pcard__guarantee--light">✓ Cancel any time. Pay only for days used</div></div>
-    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Overnight rebooking while you sleep. Wake up to a new itinerary, not a problem.</li><li>Real-time flight monitoring: we see the delay before the airline tells you.</li><li>Same advisor, start to finish. On a 7-day trip: $700. Less than one five-star night.</li></ul><a class="btn btn-outline-light btn-md" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Go 24-Hour. $100/Day</a><div class="pcard__guarantee pcard__guarantee--light">✓ 97% of disruptions resolved &lt;60 min</div></div>
+    <div class="pcard pcard--trip" data-reveal><div class="pcard__bar"></div><div class="pcard__tier">Trip Planning</div><div class="pcard__name">Your itinerary, built around you.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ country</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>The restaurant we booked in 6 minutes after theirs gave away the reservation.</li><li>The flight we rebooked at 11pm so they woke up in their original hotel.</li><li>The ryokan that only takes Japanese-speaking guests. We wrote the intro letter.</li><li>The &quot;full&quot; hotel we got into because our advisor knows the GM personally.</li><li>Expert review in 24 hours. Up to 5 revisions within 180 days.</li><li>Reserve now, pay at supplier on arrival. Use your own card to earn points.</li></ul><a class="btn btn-outline-light btn-md" href="https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00" data-tier="trip" target="_blank" rel="noopener" data-butler-button>Start Planning. $25/Trip Plan</a><div class="pcard__guarantee">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ Expert review in 24 hours</div></div>
+    <div class="pcard pcard--featured" data-reveal style="--delay:0.1s"><div class="pcard__badge">Most Popular</div><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 8 Hour</div><div class="pcard__name">Expert on call during your travel day.</div><div class="pcard__price-row"><span class="pcard__price">$25</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Flight cancelled at 11pm. Rebooked, transported, hotel sorted in 40 min.</li><li>&lt;4 min human response, because your advisor carries one client at a time.</li><li>150+ countries covered by regional specialists who know the streets, not Google.</li></ul><a class="btn btn-indigo btn-md" href="https://buy.stripe.com/4gM6oI1bd04z6Efg9d4Ni01" data-tier="8h" target="_blank" rel="noopener" data-butler-button>Get Concierge. From $25/Day</a><div class="pcard__guarantee pcard__guarantee--light">✓ Cancel any time. Pay only for days used</div></div>
+    <div class="pcard pcard--elite" data-reveal style="--delay:0.2s"><div class="pcard__bar"></div><div class="pcard__tier">Concierge. 24 Hour</div><div class="pcard__name">Round-the-clock. Any hour.</div><div class="pcard__price-row"><span class="pcard__price">$100</span><span class="pcard__unit">/ day</span></div><hr class="pcard__divider"><ul class="pcard__features"><li>Overnight rebooking while you sleep. Wake up to a new itinerary, not a problem.</li><li>Real-time flight monitoring: we see the delay before the airline tells you.</li><li>Same advisor, start to finish. On a 7-day trip: $700. Less than one five-star night.</li></ul><a class="btn btn-outline-light btn-md" href="https://buy.stripe.com/14AaEY6vx2cH4w7e154Ni02" data-tier="24h" target="_blank" rel="noopener" data-butler-button>Go 24-Hour. $100/Day</a><div class="pcard__guarantee pcard__guarantee--light">✓ 97% of disruptions resolved &lt;60 min</div></div>
   </div>
 </section>
 
@@ -1044,7 +1044,7 @@ a { text-decoration: none; color: inherit; }
       <p>Butler Button changes the math. <strong>One preference survey.</strong> AI scanning 200,000+ options. A human expert who knows your destination reviewing everything. A ready-to-book itinerary in 24 hours. $25 per trip plan. No limit on how many countries.</p>
       <p>The concierge your parents couldn't afford is now less than a dinner out.</p>
       <div style="margin-top:2rem">
-        <a class="btn btn-indigo btn-lg" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Start Planning. $25/Trip Plan</a>
+        <a class="btn btn-indigo btn-lg" href="https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00" data-tier="trip" target="_blank" rel="noopener" data-butler-button>Start Planning. $25/Trip Plan</a>
       </div>
     </div>
     <div class="access-table-col">
@@ -1143,7 +1143,7 @@ a { text-decoration: none; color: inherit; }
 <!-- ═══ P.S. BLOCK (audit #8) ═══ -->
 <section class="ps-block">
   <div class="ps-inner" data-reveal>
-    <p><strong>P.S.</strong> The most common thing clients say after their first rescue: "I didn't know I needed this until I needed it." If you've already got the plan, the $25/day Concierge add-on pays for itself the first time a flight moves. <a class="ps-cta" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get the Butler. From $25/day →</a></p>
+    <p><strong>P.S.</strong> The most common thing clients say after their first rescue: "I didn't know I needed this until I needed it." If you've already got the plan, the $25/day Concierge add-on pays for itself the first time a flight moves. <a class="ps-cta" href="https://buy.stripe.com/4gM6oI1bd04z6Efg9d4Ni01" data-tier="8h" target="_blank" rel="noopener" data-butler-button>Get the Butler. From $25/day →</a></p>
   </div>
 </section>
 
@@ -1261,17 +1261,16 @@ a { text-decoration: none; color: inherit; }
 </script>
 <script>
 (function(){
-  if (window._bbWA) return;
-  window._bbWA = true;
-  var NUM = '18555031555';
+  if (window._bbStripe) return;
+  window._bbStripe = true;
   document.addEventListener('click', function(e){
     var t = e.target.closest('[data-butler-button]');
     if (!t) return;
+    var url = t.getAttribute('href');
+    if (!url || url === '#') return;
     e.preventDefault();
-    var msg = t.getAttribute('data-butler-msg')
-      || ("Hi Butler Button, I'd like to order. (" + location.pathname + ")");
-    window.open('https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-  });
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }, true);
 })();
 </script>
 `;
