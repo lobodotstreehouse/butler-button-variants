@@ -383,6 +383,14 @@ window.BB_MODAL_HANDLER = `
   }
 
   document.addEventListener('click', function(e){
+    // Refresh dlg/form/summary references — applyBody can re-mount the dialog
+    // (Zoho takeover recovery), which would orphan the closure-captured nodes.
+    var freshDlg = document.getElementById('bbModal');
+    if (freshDlg && freshDlg !== dlg) {
+      dlg = freshDlg;
+      form = document.getElementById('bbModal__form');
+      summary = document.getElementById('bbModal__summary');
+    }
     var trig = e.target.closest('[data-butler-button]');
     if (trig) {
       e.preventDefault();
