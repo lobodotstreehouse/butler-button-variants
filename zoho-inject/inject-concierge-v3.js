@@ -990,6 +990,12 @@ a { text-decoration: none; color: inherit; }
 <script>
 (function(){
   if (window._bbModal) return;
+
+  var dlg = document.getElementById('bbModal');
+  if (!dlg) return;
+  // Set flag only after dlg is confirmed in DOM. If the IIFE runs once with
+  // dlg=null (e.g. body re-apply race on home), this lets the next applyBody
+  // run attach the listener properly instead of returning early forever.
   window._bbModal = true;
 
   var TIERS = {
@@ -998,9 +1004,6 @@ a { text-decoration: none; color: inherit; }
     '24h':  { name: '24-Hour Butler', price: 100, unit: 'per day', stripe: 'https://buy.stripe.com/14AaEY6vx2cH4w7e154Ni02' }
   };
   var FORMS_URL = 'https://forms.zohopublic.in/VELTM/form/ButlerButtonTripIntake/formperma/__FORMPERMA__/htmlRecords/submit';
-
-  var dlg = document.getElementById('bbModal');
-  if (!dlg) return;
   var form = document.getElementById('bbModal__form');
   var summary = document.getElementById('bbModal__summary');
   var state = { step: 1, tier: null, days: 1, intake: {}, refId: null };
