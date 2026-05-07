@@ -268,17 +268,23 @@ window.BB_MODAL_HANDLER = `
     return !!(c && c.getAttribute('data-has-days') === 'true');
   }
 
+  // Always look up the live dialog in DOM. The closure-captured dlg can
+  // be a detached node when applyBody re-mounts the modal during Zoho
+  // takeover recovery; mutating detached nodes leaves the visible UI stuck.
+  function liveDlg() { return document.getElementById('bbModal') || dlg; }
+
   function showStep(n) {
     state.step = n;
-    dlg.querySelectorAll('.bb-modal__step').forEach(function(s){
+    var d = liveDlg();
+    d.querySelectorAll('.bb-modal__step').forEach(function(s){
       s.hidden = (parseInt(s.getAttribute('data-step'),10) !== n);
     });
-    dlg.querySelectorAll('.bb-modal__pip').forEach(function(p){
+    d.querySelectorAll('.bb-modal__pip').forEach(function(p){
       var i = parseInt(p.getAttribute('data-pip'),10);
       p.classList.toggle('is-active', i === n);
       p.classList.toggle('is-done', i < n);
     });
-    var pr = dlg.querySelector('.bb-modal__progress');
+    var pr = d.querySelector('.bb-modal__progress');
     if (pr) pr.setAttribute('aria-valuenow', String(n));
   }
 
@@ -453,8 +459,13 @@ window.BB_MODAL_HANDLER = `
     if (!e.target || e.target.id !== 'bbModal__form') return;
     e.preventDefault();
     var liveForm = e.target;
-    // Refresh closure-captured form so downstream code sees the live node.
+    // Refresh closure-captured nodes so showStep/selectTier/etc. operate
+    // on the LIVE DOM, not detached nodes left over from a prior applyBody.
+    var freshDlg = document.getElementById('bbModal');
+    if (freshDlg) dlg = freshDlg;
     form = liveForm;
+    var freshSummary = document.getElementById('bbModal__summary');
+    if (freshSummary) summary = freshSummary;
     var name = liveForm.querySelector('#bbm-name');
     var email = liveForm.querySelector('#bbm-email');
     var ok = true;

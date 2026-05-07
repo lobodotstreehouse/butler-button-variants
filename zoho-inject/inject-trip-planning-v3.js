@@ -1519,17 +1519,23 @@ a { text-decoration: none; color: inherit; }
     if (inc) inc.disabled = (n >= DAYS_MAX);
   }
 
+  // Always look up the live dialog. Closure-captured dlg can be detached
+  // when applyBody re-mounts the modal during Zoho takeover recovery;
+  // mutating detached nodes leaves the visible UI stuck.
+  function liveDlg() { return document.getElementById('bbModal') || dlg; }
+
   function showStep(n) {
     state.step = n;
-    dlg.querySelectorAll('.bb-modal__step').forEach(function(s){
+    var d = liveDlg();
+    d.querySelectorAll('.bb-modal__step').forEach(function(s){
       s.hidden = (parseInt(s.getAttribute('data-step'),10) !== n);
     });
-    dlg.querySelectorAll('.bb-modal__pip').forEach(function(p){
+    d.querySelectorAll('.bb-modal__pip').forEach(function(p){
       var i = parseInt(p.getAttribute('data-pip'),10);
       p.classList.toggle('is-active', i === n);
       p.classList.toggle('is-done', i < n);
     });
-    var pr = dlg.querySelector('.bb-modal__progress');
+    var pr = d.querySelector('.bb-modal__progress');
     if (pr) pr.setAttribute('aria-valuenow', String(n));
   }
 
@@ -1685,7 +1691,11 @@ a { text-decoration: none; color: inherit; }
     if (!e.target || e.target.id !== 'bbModal__form') return;
     e.preventDefault();
     var liveForm = e.target;
+    var freshDlg = document.getElementById('bbModal');
+    if (freshDlg) dlg = freshDlg;
     form = liveForm;
+    var freshSummary = document.getElementById('bbModal__summary');
+    if (freshSummary) summary = freshSummary;
     var name = liveForm.querySelector('#bbm-name');
     var email = liveForm.querySelector('#bbm-email');
     var ok = true;
@@ -1744,6 +1754,12 @@ a { text-decoration: none; color: inherit; }
 `;
   // 5. applyBody: replace DOM content + re-exec scripts (hoisted, called below + by observer/interval)
   function applyBody() {
+    // Don't wipe the body while the purchase modal is open mid-flow.
+    // body.innerHTML = bodyHTML re-creates the modal fresh, throwing the
+    // user back to step 1 and clearing form state. Zoho takeover recovery
+    // can wait until the modal closes.
+    var bbm = document.getElementById('bbModal');
+    if (bbm && bbm.matches && bbm.matches(':modal')) return;
     document.body.innerHTML = bodyHTML;
     document.body.style.cssText = 'background:#000;margin:0;padding:0;overflow-x:hidden';
     Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript){
