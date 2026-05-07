@@ -1,0 +1,30 @@
+[
+  {
+    "page": "Home",
+    "method": "PUT",
+    "url": "https://sitebuilder-60059075182.zohositescontent.in/zs-site/api/v1/pages/413198000000004653",
+    "body": "{\"seo\":{\"robots\":{},\"title\":\"Butler Button | Personal Travel Expert - 100% Human, 150+ Countries\",\"description\":\"100% human travel experts. 150+ countries. AI plans it, a human handles it, you enjoy it. On-demand concierge from $25. No membership required.\"}}",
+    "csrf": "csrfp=93f8ce9d58ed7e40eab759cda131410d4553f3f4955d73c59a2bc3678897b0cec2e617ab39dca08c5e7dbbad54ff41d930fdc69e6825f6889bd31089ed0e03e8"
+  },
+  {
+    "page": "Trip Planning",
+    "method": "PUT",
+    "url": "https://sitebuilder-60059075182.zohositescontent.in/zs-site/api/v1/pages/413198000000047002",
+    "body": "{\"seo\":{\"robots\":{},\"title\":\"AI Trip Planning with Human Expert Review | Butler Button\",\"description\":\"AI screens 200,000+ options. A human travel expert reviews it. Delivered in 24 hours. $25/country. 150+ countries. No membership required.\"}}",
+    "csrf": "csrfp=93f8ce9d58ed7e40eab759cda131410d4553f3f4955d73c59a2bc3678897b0cec2e617ab39dca08c5e7dbbad54ff41d930fdc69e6825f6889bd31089ed0e03e8"
+  },
+  {
+    "page": "Concierge",
+    "method": "PUT",
+    "url": "https://sitebuilder-60059075182.zohositescontent.in/zs-site/api/v1/pages/413198000000002013",
+    "body": "{\"seo\":{\"robots\":{},\"title\":\"On-Demand Human Travel Concierge - Not a Chatbot | Butler Button\",\"description\":\"A real human concierge who pre-reads your itinerary before you depart. 24/7 coverage. 97% of disruptions resolved under 60 min. Starting $25/day.\"}}",
+    "csrf": "csrfp=93f8ce9d58ed7e40eab759cda131410d4553f3f4955d73c59a2bc3678897b0cec2e617ab39dca08c5e7dbbad54ff41d930fdc69e6825f6889bd31089ed0e03e8"
+  },
+  {
+    "page": "Travel Advisor",
+    "method": "PUT",
+    "url": "https://sitebuilder-60059075182.zohositescontent.in/zs-site/api/v1/pages/413198000000047014",
+    "body": "{\"seo\":{\"robots\":{},\"title\":\"Private Travel Advisor Under Your Brand | Butler Button by VELTM\",\"description\":\"White-label travel advisor service for professionals. Butler Button delivers 5-star concierge under your brand. Your clients get a personal travel expert.\"}}",
+    "csrf": "csrfp=93f8ce9d58ed7e40eab759cda131410d4553f3f4955d73c59a2bc3678897b0cec2e617ab39dca08c5e7dbbad54ff41d930fdc69e6825f6889bd31089ed0e03e8"
+  }
+]
