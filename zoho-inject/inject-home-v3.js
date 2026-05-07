@@ -1573,9 +1573,9 @@
     <!-- Right: device toggle + stage -->
     <div class="device-demo-stage">
       <div class="device-toggle" role="tablist" aria-label="Preview device">
-        <button type="button" data-device="iphone" class="is-active" aria-pressed="true">iPhone</button>
-        <button type="button" data-device="macbook" aria-pressed="false">MacBook Air</button>
-        <button type="button" data-device="ipad" aria-pressed="false">iPad Air</button>
+        <button type="button" data-device="iphone" class="is-active" aria-pressed="true">Mobile</button>
+        <button type="button" data-device="macbook" aria-pressed="false">Desktop</button>
+        <button type="button" data-device="ipad" aria-pressed="false">Tablet</button>
       </div>
       <div class="device-stage">
 
