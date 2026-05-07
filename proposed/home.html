@@ -206,9 +206,10 @@
     }
     .hero-h1 span { color: var(--indigo-lt); }
     .hero-sub {
-      font-size: clamp(1rem, 1.8vw, 1.2rem);
-      color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 2.5rem;
-      line-height: 1.6; letter-spacing: -0.01em;
+      font-size: clamp(1.2rem, 2.1vw, 1.5rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 2.5rem;
+      line-height: 1.55; letter-spacing: -0.01em;
     }
 
     .hero-actions {
@@ -398,8 +399,8 @@
       color: #f5f5f7; margin-bottom: 0.5rem;
     }
     .stat-num sup { font-size: 0.5em; vertical-align: super; color: var(--indigo-lt); }
-    .stat-label { font-size: 0.82rem; color: var(--text-mute); letter-spacing: -0.01em; }
-    .stat-because { margin-top: .6rem; font-size: 0.72rem; line-height: 1.45; color: rgba(245,245,247,0.55); max-width: 220px; margin-left: auto; margin-right: auto; }
+    .stat-label { font-size: clamp(1.05rem, 1.6vw, 1.3rem); font-weight: 600; color: rgba(245,245,247,0.95); letter-spacing: -0.012em; line-height: 1.25; }
+    .stat-because { margin-top: .85rem; font-size: clamp(0.95rem, 1.35vw, 1.08rem); line-height: 1.5; color: rgba(245,245,247,0.78); max-width: 260px; margin-left: auto; margin-right: auto; letter-spacing: -0.005em; }
     .stats-footnote { margin-top: 2.2rem; font-size: 0.68rem; color: rgba(245,245,247,0.38); text-align: center; letter-spacing: .005em; max-width: 720px; margin-left:auto; margin-right:auto;}
     @media (max-width: 700px) { .stats-inner { grid-template-columns: 1fr 1fr; } }
 
@@ -418,12 +419,18 @@
     .section-statement::before {
       content: '';
       position: absolute; inset: 0;
-      background: rgba(255,255,255,0.58);
+      background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.78) 50%, rgba(255,255,255,0.88) 100%);
       z-index: 0;
     }
     .section-statement > * { position: relative; z-index: 1; }
-    .section-statement .mask-headline { color: #000; }
-    .section-statement .statement-sub { color: #111; }
+    .section-statement .mask-headline { color: #000; text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+    .section-statement .statement-sub { color: #1d1d1f; font-weight: 500; }
+    .section-statement .eyebrow {
+      font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+      font-weight: 700; letter-spacing: 0.14em;
+      color: var(--indigo);
+      margin-bottom: 1.6rem;
+    }
     .mask-headline {
       font-size: clamp(2.8rem, 6.5vw, 5.8rem);
       font-weight: 700; letter-spacing: -0.035em; line-height: 1.07;
@@ -437,9 +444,10 @@
     }
     .mask-headline.visible .mask-inner { transform: none; }
     .statement-sub {
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
-      color: var(--text-mid); max-width: 520px;
-      margin: 0 auto; letter-spacing: -0.01em; line-height: 1.6;
+      font-size: clamp(1.15rem, 2vw, 1.5rem);
+      font-weight: 500;
+      color: var(--text-dark); max-width: 620px;
+      margin: 0 auto; letter-spacing: -0.012em; line-height: 1.5;
     }
 
     .section-head { text-align: center; margin-bottom: 4.5rem; }
@@ -1266,7 +1274,7 @@
           </a>
           <a class="btn btn-lg btn-ghost-light" href="#how">See how it works</a>
         </div>
-        <p style="margin-top:1.1rem;font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:-0.01em;">
+        <p style="margin-top:1.2rem;font-size:1rem;font-weight:500;color:rgba(255,255,255,0.78);letter-spacing:-0.01em;">
           Starts at $25 &nbsp;&middot;&nbsp; 24-hr plan turnaround &nbsp;&middot;&nbsp; Refundable if unmatched
         </p>
       </div>
@@ -1302,7 +1310,6 @@
                 My flight into Bangkok just got cancelled. I have a morning tour at 8am I can&rsquo;t miss &#128549;
                 <span class="wa-hero-msg__time">23:47</span>
               </div>
-              <div class="wa-typing" aria-hidden="true"><span></span><span></span><span></span></div>
               <div class="wa-hero-msg wa-hero-msg--butler">
                 <div class="wa-hero-msg__eyebrow">Mei &middot; on duty in Bangkok</div>
                 On it. Rebooking you now &mdash; you&rsquo;ll make the 8am.
@@ -1337,6 +1344,7 @@
                 You&rsquo;re a lifesaver. Yes please &#128591;
                 <span class="wa-hero-msg__time">23:52</span>
               </div>
+              <div class="wa-typing" aria-hidden="true"><span></span><span></span><span></span></div>
             </div>
             <div class="wa-input-hero">
               <span style="font-size:16px;color:#6B7280">+</span>
