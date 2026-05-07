@@ -1665,7 +1665,11 @@ a { text-decoration: none; color: inherit; }
     }
   });
 
-  dlg.addEventListener('change', function(e){
+  // Delegate change to document so the listener survives applyBody re-mount.
+  document.addEventListener('change', function(e){
+    if (!e.target || !e.target.closest) return;
+    var inDlg = e.target.closest('#bbModal');
+    if (!inDlg) return;
     var skip = e.target.closest('.bb-modal__skip input[data-skip]');
     if (!skip) return;
     var input = document.getElementById(skip.getAttribute('data-skip'));
@@ -1674,30 +1678,34 @@ a { text-decoration: none; color: inherit; }
     else { input.disabled = false; input.focus(); }
   });
 
-  if (form) {
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var name = form.querySelector('#bbm-name');
-      var email = form.querySelector('#bbm-email');
-      var ok = true;
-      [name, email].forEach(function(inp){
-        var row = inp.closest('.bb-modal__row');
-        var valid = inp.value.trim().length > 0 && (inp.type !== 'email' || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inp.value.trim()));
-        row.classList.toggle('has-error', !valid);
-        if (!valid) ok = false;
-      });
-      if (!ok) { var firstBad = form.querySelector('.has-error .bb-modal__input'); if (firstBad) firstBad.focus(); return; }
-      state.intake = {
-        Name: name.value.trim(),
-        Email: email.value.trim(),
-        Destination: form.querySelector('#bbm-dest').value.trim(),
-        Dates: form.querySelector('#bbm-dates').value.trim(),
-        PartySize: form.querySelector('#bbm-party').value.trim(),
-        Brief: form.querySelector('#bbm-brief').value.trim()
-      };
-      showStep(2);
+  // Delegate submit to document. Binding to the form node leaves the
+  // listener orphaned when applyBody re-mounts the form, letting native
+  // form submit fire and navigate the page (modal disappear bug).
+  document.addEventListener('submit', function(e){
+    if (!e.target || e.target.id !== 'bbModal__form') return;
+    e.preventDefault();
+    var liveForm = e.target;
+    form = liveForm;
+    var name = liveForm.querySelector('#bbm-name');
+    var email = liveForm.querySelector('#bbm-email');
+    var ok = true;
+    [name, email].forEach(function(inp){
+      var row = inp.closest('.bb-modal__row');
+      var valid = inp.value.trim().length > 0 && (inp.type !== 'email' || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inp.value.trim()));
+      row.classList.toggle('has-error', !valid);
+      if (!valid) ok = false;
     });
-  }
+    if (!ok) { var firstBad = liveForm.querySelector('.has-error .bb-modal__input'); if (firstBad) firstBad.focus(); return; }
+    state.intake = {
+      Name: name.value.trim(),
+      Email: email.value.trim(),
+      Destination: liveForm.querySelector('#bbm-dest').value.trim(),
+      Dates: liveForm.querySelector('#bbm-dates').value.trim(),
+      PartySize: liveForm.querySelector('#bbm-party').value.trim(),
+      Brief: liveForm.querySelector('#bbm-brief').value.trim()
+    };
+    showStep(2);
+  });
 
   function doCheckout() {
     if (!state.tier || !TIERS[state.tier]) return;
