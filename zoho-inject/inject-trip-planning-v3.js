@@ -811,6 +811,14 @@ a { text-decoration: none; color: inherit; }
 .bb-modal__tier-price{font-size:1.02rem;font-weight:600;color:#a5b4fc;text-align:right;white-space:nowrap}
 .bb-modal__tier-unit{font-size:0.78rem;color:rgba(255,255,255,0.5);font-weight:400;display:block}
 .bb-modal__tier-desc{font-size:0.9rem;color:rgba(255,255,255,0.62);line-height:1.5;letter-spacing:-0.005em;grid-column:1 / -1;margin-top:0.15rem}
+.bb-modal__days{display:none;flex-wrap:wrap;align-items:center;gap:0.55rem;margin-top:0.85rem;grid-column:1 / -1;padding-top:0.85rem;border-top:1px dashed rgba(255,255,255,0.08)}
+.bb-modal__tier.is-selected[data-has-days="true"] .bb-modal__days{display:flex}
+.bb-modal__days-label{font-size:0.82rem;color:rgba(255,255,255,0.62);letter-spacing:-0.005em;margin-right:auto}
+.bb-modal__step-btn{appearance:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#fff;width:30px;height:30px;border-radius:8px;font-size:1.05rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;transition:background .15s ease,border-color .15s ease}
+.bb-modal__step-btn:hover{background:rgba(255,255,255,0.08);border-color:rgba(165,180,252,0.4)}
+.bb-modal__step-btn:disabled{opacity:0.35;cursor:not-allowed}
+.bb-modal__days-val{min-width:2.5ch;text-align:center;font-weight:600;color:#fff;font-size:1rem}
+.bb-modal__days-total{font-size:0.86rem;color:#a5b4fc;font-weight:500;letter-spacing:-0.005em;margin-left:0.4rem}
 .bb-modal__summary{padding:1.05rem 1.15rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;margin-bottom:0.9rem}
 .bb-modal__summary-row{display:flex;justify-content:space-between;align-items:baseline;font-size:0.94rem;letter-spacing:-0.005em;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.06)}
 .bb-modal__summary-row:last-child{border-bottom:none;padding-top:0.6rem;font-weight:600;font-size:1.05rem}
@@ -1394,15 +1402,29 @@ a { text-decoration: none; color: inherit; }
           <div class="bb-modal__tier-price">$25<span class="bb-modal__tier-unit">one-time</span></div>
           <div class="bb-modal__tier-desc">A real itinerary, written by a Butler who has been there. 24-hour turnaround.</div>
         </div>
-        <div class="bb-modal__tier" role="radio" tabindex="0" data-tier-card="8h" aria-checked="false">
+        <div class="bb-modal__tier" role="radio" tabindex="0" data-tier-card="8h" data-has-days="true" aria-checked="false">
           <div class="bb-modal__tier-name">8-Hour Butler</div>
           <div class="bb-modal__tier-price">$25<span class="bb-modal__tier-unit">per day</span></div>
           <div class="bb-modal__tier-desc">A live Butler on WhatsApp during your day. Bookings, swaps, recommendations on demand.</div>
+          <div class="bb-modal__days">
+            <span class="bb-modal__days-label">How many days?</span>
+            <button type="button" class="bb-modal__step-btn" data-days-step="-1" aria-label="Decrease days">&minus;</button>
+            <span class="bb-modal__days-val" data-days-val>1</span>
+            <button type="button" class="bb-modal__step-btn" data-days-step="1" aria-label="Increase days">+</button>
+            <span class="bb-modal__days-total" data-days-total>$25</span>
+          </div>
         </div>
-        <div class="bb-modal__tier" role="radio" tabindex="0" data-tier-card="24h" aria-checked="false">
+        <div class="bb-modal__tier" role="radio" tabindex="0" data-tier-card="24h" data-has-days="true" aria-checked="false">
           <div class="bb-modal__tier-name">24-Hour Butler</div>
           <div class="bb-modal__tier-price">$100<span class="bb-modal__tier-unit">per day</span></div>
           <div class="bb-modal__tier-desc">Always-on Butler. 3am gate change? Sorted before you wake up.</div>
+          <div class="bb-modal__days">
+            <span class="bb-modal__days-label">How many days?</span>
+            <button type="button" class="bb-modal__step-btn" data-days-step="-1" aria-label="Decrease days">&minus;</button>
+            <span class="bb-modal__days-val" data-days-val>1</span>
+            <button type="button" class="bb-modal__step-btn" data-days-step="1" aria-label="Increase days">+</button>
+            <span class="bb-modal__days-total" data-days-total>$100</span>
+          </div>
         </div>
       </div>
       <div class="bb-modal__actions">
@@ -1458,10 +1480,34 @@ a { text-decoration: none; color: inherit; }
   if (!dlg) return;
   var form = document.getElementById('bbModal__form');
   var summary = document.getElementById('bbModal__summary');
-  var state = { step: 1, tier: null, intake: {}, refId: null };
+  var state = { step: 1, tier: null, days: 1, intake: {}, refId: null };
 
   function genRef() {
     return 'bb_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10);
+  }
+
+  var DAYS_MIN = 1, DAYS_MAX = 30;
+
+  function tierHasDays(t) {
+    if (!t) return false;
+    var c = dlg.querySelector('[data-tier-card="' + t + '"]');
+    return !!(c && c.getAttribute('data-has-days') === 'true');
+  }
+
+  function setDays(n, tier) {
+    if (!tier || !TIERS[tier]) return;
+    n = Math.max(DAYS_MIN, Math.min(DAYS_MAX, parseInt(n, 10) || 1));
+    state.days = n;
+    var card = dlg.querySelector('[data-tier-card="' + tier + '"]');
+    if (!card) return;
+    var v = card.querySelector('[data-days-val]');
+    var t = card.querySelector('[data-days-total]');
+    if (v) v.textContent = String(n);
+    if (t) t.textContent = '$' + (TIERS[tier].price * n);
+    var dec = card.querySelector('[data-days-step="-1"]');
+    var inc = card.querySelector('[data-days-step="1"]');
+    if (dec) dec.disabled = (n <= DAYS_MIN);
+    if (inc) inc.disabled = (n >= DAYS_MAX);
   }
 
   function showStep(n) {
@@ -1485,6 +1531,12 @@ a { text-decoration: none; color: inherit; }
       c.classList.toggle('is-selected', matches);
       c.setAttribute('aria-checked', matches ? 'true' : 'false');
     });
+    if (t && tierHasDays(t)) {
+      if (!state.days || state.days < 1) state.days = 1;
+      setDays(state.days, t);
+    } else {
+      state.days = 1;
+    }
     var nextBtn = dlg.querySelector('[data-step="2"] [data-action="next"]');
     if (nextBtn) nextBtn.disabled = !t;
   }
@@ -1492,13 +1544,18 @@ a { text-decoration: none; color: inherit; }
   function renderSummary() {
     var tier = TIERS[state.tier] || { name: '(none)', price: 0, unit: '' };
     var i = state.intake;
+    var hasDays = state.tier && tierHasDays(state.tier);
+    var qty = hasDays ? state.days : 1;
+    var total = tier.price * qty;
+    var tierLabel = tier.name + (hasDays ? ' x ' + qty + ' day' + (qty > 1 ? 's' : '') : '');
+    var totalLabel = '$' + total + (hasDays ? ' (' + qty + ' x $' + tier.price + ')' : (tier.unit ? ' ' + tier.unit : ''));
     var rows = [
       ['Name', i.Name || '(provided)'],
       ['Email', i.Email || '(provided)'],
       ['Destination', i.Destination || 'To be confirmed with Butler'],
       ['Dates', i.Dates || 'To be confirmed with Butler'],
-      ['Tier', tier.name],
-      ['Total', '$' + tier.price + (tier.unit ? ' ' + tier.unit : '')]
+      ['Tier', tierLabel],
+      ['Total', totalLabel]
     ];
     summary.innerHTML = rows.map(function(r){
       return '<div class="bb-modal__summary-row"><span class="bb-modal__summary-key">' + r[0] + '</span><span class="bb-modal__summary-val">' + String(r[1]).replace(/[<>&"']/g, function(m){return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'})[m];}) + '</span></div>';
@@ -1507,6 +1564,7 @@ a { text-decoration: none; color: inherit; }
 
   function openModal(tier) {
     state.tier = null;
+    state.days = 1;
     state.intake = {};
     state.refId = genRef();
     if (form) form.reset();
@@ -1515,6 +1573,19 @@ a { text-decoration: none; color: inherit; }
     dlg.querySelectorAll('[data-skip]').forEach(function(c){
       var input = document.getElementById(c.getAttribute('data-skip'));
       if (input) { input.disabled = false; input.value = ''; }
+    });
+    dlg.querySelectorAll('[data-tier-card][data-has-days="true"]').forEach(function(card){
+      var tk = card.getAttribute('data-tier-card');
+      if (TIERS[tk]) {
+        var v = card.querySelector('[data-days-val]');
+        var tot = card.querySelector('[data-days-total]');
+        if (v) v.textContent = '1';
+        if (tot) tot.textContent = '$' + TIERS[tk].price;
+        var dec = card.querySelector('[data-days-step="-1"]');
+        if (dec) dec.disabled = true;
+        var inc = card.querySelector('[data-days-step="1"]');
+        if (inc) inc.disabled = false;
+      }
     });
     selectTier(tier && TIERS[tier] ? tier : null);
     showStep(1);
@@ -1551,6 +1622,18 @@ a { text-decoration: none; color: inherit; }
     if (back) { e.preventDefault(); showStep(Math.max(1, state.step - 1)); return; }
     var next = e.target.closest('[data-action="next"]');
     if (next) { e.preventDefault(); if (state.tier) { renderSummary(); showStep(3); } return; }
+    var stepBtn = e.target.closest('[data-days-step]');
+    if (stepBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      var stepCard = stepBtn.closest('[data-tier-card]');
+      if (!stepCard) return;
+      var stepTier = stepCard.getAttribute('data-tier-card');
+      if (state.tier !== stepTier) selectTier(stepTier);
+      var delta = parseInt(stepBtn.getAttribute('data-days-step'), 10) || 0;
+      setDays((state.days || 1) + delta, stepTier);
+      return;
+    }
     var card = e.target.closest('[data-tier-card]');
     if (card) { e.preventDefault(); selectTier(card.getAttribute('data-tier-card')); return; }
     if (e.target.closest('[data-action="checkout"]')) { e.preventDefault(); doCheckout(); return; }
@@ -1602,9 +1685,13 @@ a { text-decoration: none; color: inherit; }
   function doCheckout() {
     if (!state.tier || !TIERS[state.tier]) return;
     dlg.setAttribute('data-loading','true');
+    var hasDays = tierHasDays(state.tier);
+    var qty = hasDays ? (state.days || 1) : 1;
+    var refWithDays = state.refId + '_d' + qty;
     var payload = Object.assign({}, state.intake, {
       Tier: state.tier,
-      ClientReferenceId: state.refId,
+      Days: qty,
+      ClientReferenceId: refWithDays,
       OriginPage: location.pathname
     });
     var fd = new FormData();
@@ -1613,7 +1700,7 @@ a { text-decoration: none; color: inherit; }
     var redirect = function() {
       var stripeURL = TIERS[state.tier].stripe
         + '?prefilled_email=' + encodeURIComponent(state.intake.Email || '')
-        + '&client_reference_id=' + encodeURIComponent(state.refId);
+        + '&client_reference_id=' + encodeURIComponent(refWithDays);
       window.location.assign(stripeURL);
     };
     var done = function() { doneCount += 1; if (doneCount === 1) redirect(); };
