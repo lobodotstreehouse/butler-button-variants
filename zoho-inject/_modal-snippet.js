@@ -503,26 +503,56 @@ window.BB_MODAL_HANDLER = `
     showStep(2);
   });
 
+  // Best-effort split of free-text destination into country tokens.
+  // The Edge Function looks each name up in virtual_executive_countries
+  // (exact match, is_active=true). If the user types cities ("Tokyo, Kyoto")
+  // the lookup will fail and the server returns a clear 400 we surface below.
+  function parseCountries(s) {
+    if (!s) return [];
+    return s.split(/\s*(?:,|\/|&|\bthen\b|\band\b|\bor\b)\s*/i)
+      .map(function(t){ return t.trim().replace(/^the\s+/i, ''); })
+      .filter(function(t){ return t.length > 1 && t.length < 60; });
+  }
+
   function doCheckout() {
     if (!state.tier || !TIERS[state.tier]) return;
     var tierCfg = TIERS[state.tier];
-    dlg.setAttribute('data-loading','true');
     var hasDays = tierHasDays(state.tier);
     var qty = hasDays ? (state.days || 1) : 1;
     var refWithDays = state.refId + '_d' + qty;
     var i = state.intake;
 
+    var countryNames = parseCountries(i.Destination || '');
+    if (!countryNames.length) {
+      alert('Please add the country (or countries) for your trip in the destination field \u2014 e.g. "Japan" or "Italy, France".');
+      showStep(1);
+      var dest = document.getElementById('bbm-dest');
+      if (dest) {
+        dest.focus();
+        var row = dest.closest('.bb-modal__row');
+        if (row) row.classList.add('has-error');
+      }
+      return;
+    }
+
+    dlg.setAttribute('data-loading','true');
+    var partyNum = parseInt(i.PartySize, 10);
+
     var body = {
-      tier: tierCfg.api,
-      days: qty,
-      name: i.Name || '',
-      email: i.Email || '',
-      destination: i.Destination || '',
-      dates: i.Dates || '',
-      party_size: i.PartySize || '',
-      brief: i.Brief || '',
-      client_reference_id: refWithDays,
-      origin_page: location.pathname
+      service_type: tierCfg.api,
+      customer_name: i.Name || '',
+      customer_email: i.Email || '',
+      country_names: countryNames,
+      number_of_pax: (partyNum > 0 ? partyNum : 1),
+      trip_purpose: i.Brief || '',
+      special_requirements:
+        (i.Dates ? 'Dates/notes: ' + i.Dates + '\n' : '') +
+        (i.Brief ? i.Brief + '\n' : '') +
+        '[ref ' + refWithDays + ' from butlerbutton.co' +
+        (location.pathname ? ' ' + location.pathname : '') + ']',
+      date_flexibility: 'tentative',
+      tentative_days: qty,
+      source: 'butlerbutton.co'
     };
 
     var clearLoading = function(){ dlg.removeAttribute('data-loading'); };
