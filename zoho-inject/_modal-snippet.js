@@ -269,13 +269,6 @@ window.BB_MODAL_HANDLER = `
     url:  'https://glhbwpfkykycexyygwjj.supabase.co/functions/v1/butler-booking-api',
     anon: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsaGJ3cGZreWt5Y2V4eXlnd2pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NDYzMTcsImV4cCI6MjA1OTUyMjMxN30.k1acAq6Khe47kwZThROWypCfj-S4-zTVIBFOxy86DFU'
   };
-<<<<<<< HEAD
-  var FORMS_URL = 'https://forms.zohopublic.in/VELTM/form/ButlerButtonTripIntake/formperma/__FORMPERMA__/htmlRecords/submit';
-=======
-
-  var dlg = document.getElementById('bbModal');
-  if (!dlg) return;
->>>>>>> 368f0c2 (Update zoho-inject scripts and add v3 version bump tooling)
   var form = document.getElementById('bbModal__form');
   var summary = document.getElementById('bbModal__summary');
   var DAYS_MIN = 1, DAYS_MAX = 30;
