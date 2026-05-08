@@ -2272,11 +2272,25 @@
   window._bbModal = true;
 
   var TIERS = {
-    'trip': { name: 'Trip Plan', price: 25, unit: 'one-time', stripe: 'https://buy.stripe.com/fZu6oI8DF2cH7Ij9KP4Ni00' },
-    '8h':   { name: '8-Hour Butler', price: 25, unit: 'per day', stripe: 'https://buy.stripe.com/4gM6oI1bd04z6Efg9d4Ni01' },
-    '24h':  { name: '24-Hour Butler', price: 100, unit: 'per day', stripe: 'https://buy.stripe.com/14AaEY6vx2cH4w7e154Ni02' }
+    'trip': { name: 'Trip Plan',     price: 25,  unit: 'one-time', api: 'trip_planning' },
+    '8h':   { name: '8-Hour Butler', price: 25,  unit: 'per day',  api: '8hrs' },
+    '24h':  { name: '24-Hour Butler', price: 100, unit: 'per day', api: '24hrs' }
   };
+
+  // Veltm Supabase project. Anon key is public by design (RLS + CORS
+  // allow-list protect the function). Override per-environment by
+  // setting window.BB_API before this script runs.
+  var API_CFG = window.BB_API || {
+    url:  'https://glhbwpfkykycexyygwjj.supabase.co/functions/v1/butler-booking-api',
+    anon: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsaGJ3cGZreWt5Y2V4eXlnd2pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NDYzMTcsImV4cCI6MjA1OTUyMjMxN30.k1acAq6Khe47kwZThROWypCfj-S4-zTVIBFOxy86DFU'
+  };
+<<<<<<< HEAD
   var FORMS_URL = 'https://forms.zohopublic.in/VELTM/form/ButlerButtonTripIntake/formperma/__FORMPERMA__/htmlRecords/submit';
+=======
+
+  var dlg = document.getElementById('bbModal');
+  if (!dlg) return;
+>>>>>>> 368f0c2 (Update zoho-inject scripts and add v3 version bump tooling)
   var form = document.getElementById('bbModal__form');
   var summary = document.getElementById('bbModal__summary');
   var state = { step: 1, tier: null, days: 1, intake: {}, refId: null };
@@ -2509,35 +2523,52 @@
 
   function doCheckout() {
     if (!state.tier || !TIERS[state.tier]) return;
+    var tierCfg = TIERS[state.tier];
     dlg.setAttribute('data-loading','true');
     var hasDays = tierHasDays(state.tier);
     var qty = hasDays ? (state.days || 1) : 1;
     var refWithDays = state.refId + '_d' + qty;
-    var payload = Object.assign({}, state.intake, {
-      Tier: state.tier,
-      Days: qty,
-      ClientReferenceId: refWithDays,
-      OriginPage: location.pathname
-    });
-    var fd = new FormData();
-    Object.keys(payload).forEach(function(k){ fd.append(k, payload[k] || ''); });
-    var doneCount = 0;
-    var redirect = function() {
-      var stripeURL = TIERS[state.tier].stripe
-        + '?prefilled_email=' + encodeURIComponent(state.intake.Email || '')
-        + '&client_reference_id=' + encodeURIComponent(refWithDays);
-      window.location.assign(stripeURL);
+    var i = state.intake;
+
+    var body = {
+      tier: tierCfg.api,
+      days: qty,
+      name: i.Name || '',
+      email: i.Email || '',
+      destination: i.Destination || '',
+      dates: i.Dates || '',
+      party_size: i.PartySize || '',
+      brief: i.Brief || '',
+      client_reference_id: refWithDays,
+      origin_page: location.pathname
     };
-    var done = function() { doneCount += 1; if (doneCount === 1) redirect(); };
-    var timeout = setTimeout(done, 1800);
-    if (FORMS_URL.indexOf('__FORMPERMA__') === -1) {
-      fetch(FORMS_URL, { method: 'POST', body: fd, mode: 'no-cors' })
-        .then(function(){ clearTimeout(timeout); done(); })
-        .catch(function(){ clearTimeout(timeout); done(); });
-    } else {
-      clearTimeout(timeout);
-      done();
-    }
+
+    var clearLoading = function(){ dlg.removeAttribute('data-loading'); };
+
+    fetch(API_CFG.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': API_CFG.anon,
+        'Authorization': 'Bearer ' + API_CFG.anon
+      },
+      body: JSON.stringify(body)
+    })
+      .then(function(res){
+        return res.json().then(function(data){ return { ok: res.ok, data: data }; });
+      })
+      .then(function(r){
+        if (!r.ok || !r.data || !r.data.success || !r.data.checkout_url) {
+          throw new Error((r.data && (r.data.error || r.data.message)) || 'Booking failed');
+        }
+        window.location.assign(r.data.checkout_url);
+      })
+      .catch(function(err){
+        clearLoading();
+        try { console.error('[bb-modal] checkout error', err); } catch(e){}
+        var msg = (err && err.message) ? err.message : 'Something went wrong.';
+        alert('Sorry \u2014 we could not start checkout: ' + msg + '\n\nPlease WhatsApp us so we can sort it: +1 855 503 1555');
+      });
   }
 })();
 </script>

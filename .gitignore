@@ -1,0 +1,26 @@
+# Local env (real values; never commit)
+.env
+.env.local
+.env.*.local
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (in case any tooling lands here later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (playwright/ scripts)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Playwright auth/state
+playwright/.auth/
+playwright/storage-state.json
