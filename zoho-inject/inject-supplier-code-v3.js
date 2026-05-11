@@ -792,8 +792,8 @@
   // the lookup will fail and the server returns a clear 400 we surface below.
   function parseCountries(s) {
     if (!s) return [];
-    return s.split(/\s*(?:,|\/|&|\bthen\b|\band\b|\bor\b)\s*/i)
-      .map(function(t){ return t.trim().replace(/^the\s+/i, ''); })
+    return s.split(/\\s*(?:,|\\/|&|\\bthen\\b|\\band\\b|\\bor\\b)\\s*/i)
+      .map(function(t){ return t.trim().replace(/^the\\s+/i, ''); })
       .filter(function(t){ return t.length > 1 && t.length < 60; });
   }
 
