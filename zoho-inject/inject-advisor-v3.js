@@ -1138,7 +1138,7 @@ a { text-decoration: none; color: inherit; }
 
     var countryNames = parseCountries(i.Destination || '');
     if (!countryNames.length) {
-      alert('Please add the country (or countries) for your trip in the destination field \u2014 e.g. "Japan" or "Italy, France".');
+      alert('Please add the country (or countries) for your trip in the destination field - e.g. "Japan" or "Italy, France".');
       showStep(1);
       var dest = document.getElementById('bbm-dest');
       if (dest) {
@@ -1160,8 +1160,8 @@ a { text-decoration: none; color: inherit; }
       number_of_pax: (partyNum > 0 ? partyNum : 1),
       trip_purpose: i.Brief || '',
       special_requirements:
-        (i.Dates ? 'Dates/notes: ' + i.Dates + '\n' : '') +
-        (i.Brief ? i.Brief + '\n' : '') +
+        (i.Dates ? 'Dates/notes: ' + i.Dates + '\\n' : '') +
+        (i.Brief ? i.Brief + '\\n' : '') +
         '[ref ' + refWithDays + ' from butlerbutton.co' +
         (location.pathname ? ' ' + location.pathname : '') + ']',
       date_flexibility: 'tentative',
@@ -1193,7 +1193,7 @@ a { text-decoration: none; color: inherit; }
         clearLoading();
         try { console.error('[bb-modal] checkout error', err); } catch(e){}
         var msg = (err && err.message) ? err.message : 'Something went wrong.';
-        alert('Sorry \u2014 we could not start checkout: ' + msg + '\n\nPlease WhatsApp us so we can sort it: +1 855 503 1555');
+        alert('Sorry - we could not start checkout: ' + msg + '\\n\\nPlease WhatsApp us so we can sort it: +1 855 503 1555');
       });
   }
 })();
