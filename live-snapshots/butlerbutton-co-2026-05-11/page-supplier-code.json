@@ -1,0 +1,63 @@
+{
+  "status_code": "0",
+  "status_message": "success",
+  "api_kind": "getPageDetails",
+  "page_info": {
+    "is_portal_page": false,
+    "page_details": {
+      "resource_id": "413198000000054082",
+      "head_resource_id": "413198000000002008",
+      "base_type": 1,
+      "resource_type": 1,
+      "content_format": 0,
+      "resource_url": "supplier-code",
+      "resource_name": "Supplier Code of Conduct",
+      "created_time": "2026-04-21T18:12:12Z",
+      "created_by": "60044861497",
+      "last_modified_time": "2026-04-24T00:36:31Z",
+      "last_modified_by": "60044861497",
+      "modifier_name": "Carl",
+      "parent_id": "413198000000002010",
+      "skip_publish": false,
+      "system_protected": false,
+      "trash": 0,
+      "purge": false,
+      "home_resource_id": "0",
+      "is_home_page": false,
+      "resource_visibility": 0,
+      "custom_sidebar": false,
+      "custom_banner": false,
+      "custom_footer": false,
+      "sidebar_flag": 2,
+      "banner_flag": 0,
+      "menu_flag": 2,
+      "seo": {
+        "title": "Supplier Code of Conduct | Butler Button Partner Standards",
+        "description": "Butler Button supplier standards: $1M-$5M insurance minimums, 30-minute confirmation SLA, CCPA/GDPR compliance, PCI DSS payment security, and non-solicitation terms for travel service providers.",
+        "robots": {}
+      },
+      "sitemap": {
+        "priority": "0.5",
+        "include_page": true
+      },
+      "last_published_time": "2026-04-23T21:45:38Z",
+      "stand_alone": false,
+      "sub_site_id": "413198000000002010",
+      "site_level": -1,
+      "header_flag": 2,
+      "footer_flag": 2,
+      "content_state": 1,
+      "last_published_by": "60044861497",
+      "live_search_indexed_time": "2026-04-23T22:00:40Z",
+      "public_entry_time": "2026-04-21T22:28:01Z",
+      "root_resource_id": "0",
+      "header_footer_code": {
+        "headercode": "",
+        "footercode": ""
+      },
+      "portal_page_type": 0
+    },
+    "is_home_page_enabled": true,
+    "reviewers_list": null
+  }
+}

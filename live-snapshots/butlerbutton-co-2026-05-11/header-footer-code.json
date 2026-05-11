@@ -1,0 +1,9 @@
+{
+  "status_code": "0",
+  "status_message": "success",
+  "api_kind": "get_header_footer",
+  "snippet": {
+    "footercode": "",
+    "headercode": "<script>(function(){var x=location.pathname.replace(/\\/+$/,\"\");var s=document.createElement(\"script\");var b=\"https://lobodotstreehouse.github.io/butler-button-variants/zoho-inject/\";if(x===\"\"||x===\"/index\"){s.src=b+\"inject-home-v3.js?v=6\";}else if(x===\"/trip-planning\"){s.src=b+\"inject-trip-planning-v3.js?v=6\";}else if(x===\"/concierge\"){s.src=b+\"inject-concierge-v3.js?v=6\";}else if(x===\"/travel-advisor\"){s.src=b+\"inject-advisor-v3.js?v=6\";}else if(x===\"/supplier-code\"){s.src=b+\"inject-supplier-code-v3.js?v=6\";}else{return;}document.head.appendChild(s);})();</script>"
+  }
+}

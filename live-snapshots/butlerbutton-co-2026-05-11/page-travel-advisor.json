@@ -1,0 +1,63 @@
+{
+  "status_code": "0",
+  "status_message": "success",
+  "api_kind": "getPageDetails",
+  "page_info": {
+    "is_portal_page": false,
+    "page_details": {
+      "resource_id": "413198000000047014",
+      "head_resource_id": "413198000000002008",
+      "base_type": 1,
+      "resource_type": 1,
+      "content_format": 0,
+      "resource_url": "travel-advisor",
+      "resource_name": "Travel Advisor",
+      "created_time": "2026-04-21T00:54:01Z",
+      "created_by": "60044861497",
+      "last_modified_time": "2026-04-22T04:02:16Z",
+      "last_modified_by": "60044861497",
+      "modifier_name": "Carl",
+      "parent_id": "413198000000002010",
+      "skip_publish": false,
+      "system_protected": false,
+      "trash": 0,
+      "purge": false,
+      "home_resource_id": "0",
+      "is_home_page": false,
+      "resource_visibility": 0,
+      "custom_sidebar": false,
+      "custom_banner": false,
+      "custom_footer": false,
+      "sidebar_flag": 2,
+      "banner_flag": 0,
+      "menu_flag": 2,
+      "seo": {
+        "title": "Private Travel Advisor Under Your Brand | Butler Button by VELTM",
+        "description": "White-label travel advisor service for professionals. Butler Button delivers 5-star concierge under your brand. Your clients get a personal travel expert.",
+        "robots": {}
+      },
+      "sitemap": {
+        "priority": "0.5",
+        "include_page": true
+      },
+      "last_published_time": "2026-05-07T23:12:19Z",
+      "stand_alone": false,
+      "sub_site_id": "413198000000002010",
+      "site_level": -1,
+      "header_flag": 2,
+      "footer_flag": 2,
+      "content_state": 3,
+      "last_published_by": "60044861497",
+      "live_search_indexed_time": "2026-05-07T23:27:21Z",
+      "public_entry_time": "2026-04-22T04:02:39Z",
+      "root_resource_id": "0",
+      "header_footer_code": {
+        "headercode": "",
+        "footercode": ""
+      },
+      "portal_page_type": 0
+    },
+    "is_home_page_enabled": true,
+    "reviewers_list": null
+  }
+}
