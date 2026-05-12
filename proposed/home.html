@@ -4,6 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Butler Button — Home</title>
+  <script>
+    // Local dev: route booking API through same-origin proxy to bypass CORS.
+    // No-op on production hosts (only triggers on localhost / *.app.github.dev).
+    (function () {
+      var h = location.hostname;
+      if (h === 'localhost' || h === '127.0.0.1' || /\.app\.github\.dev$/.test(h)) {
+        window.BB_API = {
+          url:  location.origin + '/api/butler-booking-api',
+          anon: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsaGJ3cGZreWt5Y2V4eXlnd2pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NDYzMTcsImV4cCI6MjA1OTUyMjMxN30.k1acAq6Khe47kwZThROWypCfj-S4-zTVIBFOxy86DFU'
+        };
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -2413,17 +2426,6 @@
     var i = state.intake;
 
     var countryNames = parseCountries(i.Destination || '');
-    if (!countryNames.length) {
-      alert('Please add the country (or countries) for your trip in the destination field \u2014 e.g. "Japan" or "Italy, France".');
-      showStep(1);
-      var dest = document.getElementById('bbm-dest');
-      if (dest) {
-        dest.focus();
-        var row = dest.closest('.bb-modal__row');
-        if (row) row.classList.add('has-error');
-      }
-      return;
-    }
 
     dlg.setAttribute('data-loading','true');
     var partyNum = parseInt(i.PartySize, 10);
