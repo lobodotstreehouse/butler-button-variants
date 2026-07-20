@@ -1,0 +1,2 @@
+# No third-party dependencies — tools/serve.py uses only the Python standard library.
+# This file exists so Heroku's buildpack auto-detection selects the Python buildpack.
