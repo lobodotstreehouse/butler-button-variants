@@ -348,7 +348,7 @@ window.BB_MODAL_HANDLER = `
     var rows = [
       ['Name', i.Name || '(provided)'],
       ['Email', i.Email || '(provided)'],
-      ['Destination', i.Destination || 'To be confirmed with Butler'],
+      ['Destination', i.Destination || 'No idea where should I go'],
       ['Dates', i.Dates || 'To be confirmed with Butler'],
       ['Tier', tierLabel],
       ['Total', totalLabel]
@@ -523,17 +523,6 @@ window.BB_MODAL_HANDLER = `
     var i = state.intake;
 
     var countryNames = parseCountries(i.Destination || '');
-    if (!countryNames.length) {
-      alert('Please add the country (or countries) for your trip in the destination field - e.g. "Japan" or "Italy, France".');
-      showStep(1);
-      var dest = document.getElementById('bbm-dest');
-      if (dest) {
-        dest.focus();
-        var row = dest.closest('.bb-modal__row');
-        if (row) row.classList.add('has-error');
-      }
-      return;
-    }
 
     dlg.setAttribute('data-loading','true');
     var partyNum = parseInt(i.PartySize, 10);
