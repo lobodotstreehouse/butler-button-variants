@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Butler Button — Home</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <script>
     // Local dev: route booking API through same-origin proxy to bypass CORS.
     // No-op on production hosts (only triggers on localhost / *.app.github.dev).
@@ -119,7 +120,8 @@
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
-    .nav-brand { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
+    .nav-brand { display: inline-flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
+    .nav-logo { width: 30px; height: 30px; border-radius: 9px; display: block; }
     .nav-brand em { color: var(--indigo-lt); font-style: normal; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
@@ -154,8 +156,8 @@
     .btn-ghost-light:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
     .btn-ghost-dark { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); }
     .btn-ghost-dark:hover { background: var(--indigo); color: #fff; }
-    .btn-outline-light { background: rgba(255,255,255,0.07); color: var(--indigo-lt); border: 1px solid rgba(129,140,248,0.3); }
-    .btn-outline-light:hover { background: rgba(255,255,255,0.12); }
+    .btn-outline-light { background: rgba(255,255,255,0.07); color: #a5b4fc; border: 1px solid rgba(165,180,252,0.4); }
+    .btn-outline-light:hover { background: rgba(255,255,255,0.12); border-color: rgba(165,180,252,0.65); color: #c7d2fe; }
 
     /* ─── EYEBROW ───────────────────────────────────────────────── */
     .eyebrow {
@@ -494,12 +496,12 @@
     .cta-strip .btn-white:hover { transform: scale(1.04); }
     .urgency-pill {
       display: inline-block; margin: 0 auto 1rem;
-      background: rgba(129,140,248,0.14); color: var(--indigo-lt);
-      border: 1px solid rgba(129,140,248,0.32);
+      background: rgba(79,70,229,0.10); color: #4338ca;
+      border: 1px solid rgba(79,70,229,0.30);
       border-radius: 999px; padding: 6px 14px;
       font-size: 0.78rem; font-weight: 600; letter-spacing: .005em;
     }
-    .cta-guarantee { margin-top: 1rem; font-size: 0.78rem; color: rgba(245,245,247,0.66); letter-spacing: .005em; }
+    .cta-guarantee { margin-top: 1rem; font-size: 0.78rem; color: rgba(29,29,31,0.62); letter-spacing: .005em; }
     .pcard__guarantee { margin-top: .85rem; font-size: 0.72rem; line-height: 1.5; color: rgba(245,245,247,0.50); letter-spacing: .005em; }
     .pcard__guarantee--light { color: rgba(245,245,247,0.66); }
     .products-urgency {
@@ -1281,7 +1283,7 @@
 
 <!-- ─── NAV ──────────────────────────────────────────────────── -->
 <nav class="nav" id="main-nav">
-  <a class="nav-brand" href="home.html">Butler<em>Button</em></a>
+  <a class="nav-brand" href="home.html"><img class="nav-logo" src="assets/logo.svg" alt="Butler Button logo" width="30" height="30">Butler<em>Button</em></a>
   <ul class="nav-links">
     <li><a href="home.html">Home</a></li><li><a href="trip-planning.html">Trip Planning</a></li><li><a href="concierge.html">Concierge</a></li>
     <li><a href="travel-advisor.html">Travel Advisor</a></li>
@@ -1610,7 +1612,7 @@
 <!-- ── Mid-page CTA ─────────────────────────────────────────── -->
 <div class="cta-strip">
   <span class="cta-strip__text">Ready to plan your next trip?</span>
-  <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-outline-light btn-md" data-butler-button>Start from $25</a>
+  <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-white btn-md" data-butler-button>Start from $25</a>
   <span class="cta-strip__guarantee">100% human handling &nbsp;&middot;&nbsp; Up to 5 revisions within 180 days</span>
 </div>
 
@@ -1643,7 +1645,7 @@
         <li>24-hour delivery</li>
         <li>Advisor-reviewed &amp; signed off</li>
       </ul>
-      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-ghost-dark btn-md" data-butler-button data-tier="trip">Start Planning. $25/Trip Plan</a>
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-outline-light btn-md" data-butler-button data-tier="trip">Start Planning. $25/Trip Plan</a>
       <div class="pcard__guarantee">✓ Full refund if cancelled before your service begins &nbsp;·&nbsp; ✓ Expert review in 24 hours</div>
     </div>
 
@@ -1686,7 +1688,7 @@
         <li>Same advisor start to finish</li>
         <li>97% of disruptions resolved &lt;60 min</li>
       </ul>
-      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-ghost-dark btn-md" style="border-color:#7c3aed; color:#7c3aed" data-butler-button data-tier="24h">Get 24-Hour. $100/Day</a>
+      <a href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." class="btn btn-outline-light btn-md" style="border-color:rgba(167,139,250,0.4); color:#a78bfa" data-butler-button data-tier="24h">Get 24-Hour. $100/Day</a>
       <div class="pcard__guarantee">On a 7-day trip: $700 total. Less than one night in a five-star hotel. ✓ Cancel any time.</div>
     </div>
   </div>

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Butler Button — Concierge</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -95,7 +96,8 @@ a { text-decoration: none; color: inherit; }
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
-.nav-brand { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
+.nav-brand { display: inline-flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
+.nav-logo { width: 30px; height: 30px; border-radius: 9px; display: block; }
 .nav-brand em { color: var(--indigo-lt); font-style: normal; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a {
@@ -150,8 +152,8 @@ a { text-decoration: none; color: inherit; }
 .btn-ghost-light:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
 .btn-ghost-dark { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); }
 .btn-ghost-dark:hover { background: var(--indigo); color: #fff; }
-.btn-outline-light { background: rgba(255,255,255,0.07); color: var(--indigo-lt); border: 1px solid rgba(129,140,248,0.3); }
-.btn-outline-light:hover { background: rgba(255,255,255,0.12); }
+.btn-outline-light { background: rgba(255,255,255,0.07); color: #a5b4fc; border: 1px solid rgba(165,180,252,0.4); }
+.btn-outline-light:hover { background: rgba(255,255,255,0.12); border-color: rgba(165,180,252,0.65); color: #c7d2fe; }
 
 /* ─── EYEBROW ─────────────────────────────────────────────────────────── */
 .eyebrow {
@@ -609,7 +611,7 @@ a { text-decoration: none; color: inherit; }
 <body style="background:#000;margin:0;padding:0;overflow-x:hidden">
 <div class="scroll-progress"></div>
 <nav class="nav">
-  <a class="nav-brand" href="home.html">Butler<em>Button</em></a>
+  <a class="nav-brand" href="home.html"><img class="nav-logo" src="assets/logo.svg" alt="Butler Button logo" width="30" height="30">Butler<em>Button</em></a>
   <ul class="nav-links">
     <li><a href="home.html">Home</a></li><li><a href="trip-planning.html">Trip Planning</a></li><li><a href="concierge.html">Concierge</a></li>
     <li><a href="travel-advisor.html">Travel Advisor</a></li>

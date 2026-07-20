@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- tile -->
+  <rect x="6" y="6" width="500" height="500" rx="122" fill="#c9c9d2"/>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="#2b1b52"/>
+
+  <!-- cloche knob -->
+  <circle cx="256" cy="146" r="15" fill="#fff"/>
+
+  <!-- cloche dome -->
+  <path d="M118 302 A138 138 0 0 1 394 302 Z" fill="#fff"/>
+
+  <!-- peacock silhouette (tile colour, sits on the dome) -->
+  <g fill="#2b1b52" stroke="none">
+    <!-- crest -->
+    <circle cx="243" cy="190" r="4.5"/>
+    <circle cx="256" cy="184" r="4.5"/>
+    <circle cx="269" cy="190" r="4.5"/>
+    <path d="M245 194 L253 210 M256 189 L256 208 M267 194 L259 210" stroke="#2b1b52" stroke-width="2.5" fill="none"/>
+    <!-- head + beak -->
+    <circle cx="256" cy="216" r="8"/>
+    <path d="M262 212 l11 4 l-11 5 z"/>
+    <!-- neck -->
+    <path d="M251 221 C249 238 249 252 252 266 L260 266 C263 252 263 238 261 221 Z"/>
+    <!-- body -->
+    <ellipse cx="256" cy="280" rx="14" ry="24"/>
+    <!-- feathers: stems -->
+    <g stroke="#2b1b52" stroke-width="5.5" stroke-linecap="round" fill="none">
+      <path d="M244 278 Q214 272 198 258"/>
+      <path d="M244 264 Q220 248 210 232"/>
+      <path d="M248 252 Q234 226 233 210"/>
+      <path d="M268 278 Q298 272 314 258"/>
+      <path d="M268 264 Q292 248 302 232"/>
+      <path d="M264 252 Q278 226 279 210"/>
+    </g>
+    <!-- feathers: eyes -->
+    <circle cx="192" cy="256" r="11"/>
+    <circle cx="206" cy="228" r="11"/>
+    <circle cx="231" cy="205" r="10"/>
+    <circle cx="320" cy="256" r="11"/>
+    <circle cx="306" cy="228" r="11"/>
+    <circle cx="281" cy="205" r="10"/>
+  </g>
+
+  <!-- tray -->
+  <rect x="100" y="302" width="312" height="26" rx="13" fill="#fff"/>
+
+  <!-- serving hand -->
+  <path d="M238 330
+           C226 352 236 374 260 386
+           C284 398 306 414 324 434
+           L368 394
+           C348 374 336 356 328 330 Z" fill="#fff"/>
+  <!-- cuff -->
+  <path d="M340 456 L404 400 L446 450 L382 504 Z" fill="#fff"/>
+</svg>
