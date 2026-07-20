@@ -12,6 +12,8 @@ Usage:
 """
 from __future__ import annotations
 
+import functools
+import os
 import sys
 import urllib.request
 import urllib.error
@@ -19,6 +21,13 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 SUPABASE_BASE = "https://glhbwpfkykycexyygwjj.supabase.co/functions/v1"
 API_PREFIX = "/api/"
+
+# Which directory to serve as the web root, and which file to serve for "/".
+# Defaults keep local dev unchanged (repo root + index.html). Production
+# (Heroku) sets WEB_ROOT=proposed and INDEX_FILE=home.html via the Procfile so
+# butlerbutton.co opens on the home hero page instead of the variant showcase.
+WEB_ROOT = os.environ.get("WEB_ROOT", ".")
+INDEX_FILE = os.environ.get("INDEX_FILE", "index.html")
 
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
@@ -56,6 +65,9 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path.startswith(API_PREFIX):
             self._proxy("GET")
             return
+        # Serve the configured landing page for the site root.
+        if self.path in ("", "/"):
+            self.path = "/" + INDEX_FILE
         super().do_GET()
 
     def _proxy(self, method: str) -> None:
@@ -104,8 +116,11 @@ class Handler(SimpleHTTPRequestHandler):
 
 def main() -> None:
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
-    httpd = ThreadingHTTPServer(("0.0.0.0", port), Handler)
-    print(f"Serving on http://0.0.0.0:{port}  (proxy: {API_PREFIX}* -> {SUPABASE_BASE}/*)")
+    web_root = os.path.abspath(WEB_ROOT)
+    handler = functools.partial(Handler, directory=web_root)
+    httpd = ThreadingHTTPServer(("0.0.0.0", port), handler)
+    print(f"Serving {web_root} on http://0.0.0.0:{port}  (root '/' -> {INDEX_FILE}; "
+          f"proxy: {API_PREFIX}* -> {SUPABASE_BASE}/*)")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
