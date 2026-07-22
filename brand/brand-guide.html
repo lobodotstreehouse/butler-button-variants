@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Butler Button — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#4f46e5; --indigo-lt:#818cf8; --indigo-hover:#4338ca;
+    --violet:#7c3aed; --violet-lt:#a78bfa;
+    --ink:#1d1d1f; --mid:#6e6e73; --mute:#86868b; --dim:#3a3a3c;
+    --line:#e5e7eb; --paper:#ffffff; --wash:#f5f5f7;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  body{font-family:var(--sans); color:var(--ink); background:var(--paper); line-height:1.5;}
+
+  @page{ size:A4; margin:14mm 15mm; }
+
+  .page{ page-break-after:always; padding-bottom:6mm; }
+  .page:last-child{ page-break-after:auto; }
+
+  .eyebrow{ font-size:10px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--indigo); margin-bottom:10px; }
+  h1{ font-family:var(--serif); font-weight:700; font-size:40px; letter-spacing:-0.02em; line-height:1.05; }
+  h2{ font-family:var(--serif); font-weight:700; font-size:22px; letter-spacing:-0.01em; margin-bottom:4px; }
+  h3{ font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--mute); margin:22px 0 12px; }
+  p{ font-size:12.5px; color:var(--mid); max-width:62ch; }
+  .lead{ font-size:14px; color:var(--dim); }
+  code{ font-family:var(--mono); font-size:11px; }
+
+  .section{ margin-bottom:22px; }
+  .divider{ height:1px; background:var(--line); margin:14px 0 20px; }
+
+  /* ---- cover ---- */
+  .cover{ display:flex; flex-direction:column; justify-content:center; min-height:250mm; }
+  .cover .logo{ width:96px; height:96px; border-radius:22px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.12); margin-bottom:34px; }
+  .cover h1{ font-size:56px; }
+  .cover .sub{ font-size:16px; color:var(--mid); margin-top:14px; }
+  .cover .meta{ margin-top:40px; font-size:11px; color:var(--mute); letter-spacing:0.02em; }
+  .cover .rule{ width:64px; height:4px; background:var(--indigo); border-radius:980px; margin:26px 0; }
+
+  /* ---- swatches ---- */
+  .swatch-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .swatch{ border:1px solid var(--line); border-radius:12px; overflow:hidden; break-inside:avoid; }
+  .swatch .chip{ height:78px; }
+  .swatch .meta{ padding:9px 11px; }
+  .swatch .name{ font-size:11.5px; font-weight:600; color:var(--ink); }
+  .swatch .role{ font-size:9.5px; color:var(--mute); margin-top:1px; line-height:1.35; }
+  .swatch .hex{ font-family:var(--mono); font-size:10.5px; color:var(--mid); margin-top:5px; text-transform:uppercase; }
+
+  .grad-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .grad{ border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .grad .band{ height:64px; }
+  .grad .meta{ padding:9px 11px; }
+  .grad .name{ font-size:11.5px; font-weight:600; }
+  .grad .code{ font-family:var(--mono); font-size:9.5px; color:var(--mid); margin-top:4px; display:block; word-break:break-all; }
+
+  /* ---- typography specimens ---- */
+  .type-row{ border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px; break-inside:avoid; }
+  .type-row .label{ font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--indigo); margin-bottom:8px; }
+  .type-row .stack{ font-family:var(--mono); font-size:10px; color:var(--mute); margin-top:8px; }
+  .spec-serif{ font-family:var(--serif); }
+  .spec-playfair{ font-family:'Playfair Display',Georgia,serif; }
+  .spec-sans{ font-family:var(--sans); }
+  .spec-poppins{ font-family:'Poppins',var(--sans); }
+  .weights span{ display:inline-block; margin-right:18px; font-size:19px; }
+
+  /* ---- token tables ---- */
+  table{ width:100%; border-collapse:collapse; font-size:11.5px; }
+  th{ text-align:left; font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mute); font-weight:700; padding:0 10px 8px; border-bottom:1px solid var(--line); }
+  td{ padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--mid); }
+  td.tok{ font-family:var(--mono); font-size:10.5px; color:var(--ink); white-space:nowrap; }
+  td.val{ font-family:var(--mono); font-size:10.5px; color:var(--indigo-hover); }
+
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+
+  .callout{ background:var(--wash); border-radius:12px; padding:14px 16px; font-size:11.5px; color:var(--mid); border-left:3px solid var(--indigo); }
+  .callout strong{ color:var(--ink); }
+
+  .radii-row{ display:flex; gap:20px; align-items:flex-end; margin-top:6px; }
+  .radii-row .r{ text-align:center; }
+  .radii-row .box{ width:64px; height:52px; background:var(--indigo); }
+  .radii-row .cap{ font-family:var(--mono); font-size:10px; color:var(--mid); margin-top:8px; }
+
+  .pill-demo{ display:inline-block; background:var(--indigo); color:#fff; font-size:12px; font-weight:500; padding:9px 22px; border-radius:980px; }
+  .foot{ margin-top:8px; font-size:10px; color:var(--mute); }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="page cover">
+  <div class="logo">
+    <svg viewBox="0 0 512 512" width="96" height="96" aria-label="Butler Button logo">
+      <rect x="6" y="6" width="500" height="500" rx="122" fill="#c9c9d2"/>
+      <rect x="16" y="16" width="480" height="480" rx="112" fill="#2b1b52"/>
+      <circle cx="256" cy="146" r="15" fill="#fff"/>
+      <path d="M118 302 A138 138 0 0 1 394 302 Z" fill="#fff"/>
+      <g fill="#2b1b52" stroke="none">
+        <circle cx="243" cy="190" r="4.5"/><circle cx="256" cy="184" r="4.5"/><circle cx="269" cy="190" r="4.5"/>
+        <path d="M245 194 L253 210 M256 189 L256 208 M267 194 L259 210" stroke="#2b1b52" stroke-width="2.5" fill="none"/>
+        <circle cx="256" cy="216" r="8"/>
+        <path d="M262 212 l11 4 l-11 5 z"/>
+        <path d="M251 221 C249 238 249 252 252 266 L260 266 C263 252 263 238 261 221 Z"/>
+        <ellipse cx="256" cy="280" rx="14" ry="24"/>
+        <g stroke="#2b1b52" stroke-width="5.5" stroke-linecap="round" fill="none">
+          <path d="M244 278 Q214 272 198 258"/><path d="M244 264 Q220 248 210 232"/><path d="M248 252 Q234 226 233 210"/>
+          <path d="M268 278 Q298 272 314 258"/><path d="M268 264 Q292 248 302 232"/><path d="M264 252 Q278 226 279 210"/>
+        </g>
+        <circle cx="192" cy="256" r="11"/><circle cx="206" cy="228" r="11"/><circle cx="231" cy="205" r="10"/>
+        <circle cx="320" cy="256" r="11"/><circle cx="306" cy="228" r="11"/><circle cx="281" cy="205" r="10"/>
+      </g>
+      <rect x="100" y="302" width="312" height="26" rx="13" fill="#fff"/>
+      <path d="M238 330 C226 352 236 374 260 386 C284 398 306 414 324 434 L368 394 C348 374 336 356 328 330 Z" fill="#fff"/>
+      <path d="M340 456 L404 400 L446 450 L382 504 Z" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="eyebrow">Brand Guide</div>
+  <h1>Butler<span style="color:var(--indigo)">Button</span></h1>
+  <div class="rule"></div>
+  <div class="sub">Brand colors, typography &amp; design tokens for butlerbutton.co — a reference for keeping every touchpoint on-brand.</div>
+  <div class="meta">Butler Button by VELTM Tours · Prepared for graphic design handoff · July 2026</div>
+</section>
+
+<!-- ============ IDENTITY + LOGO ============ -->
+<section class="page">
+  <div class="eyebrow">01 — Identity</div>
+  <h1 style="font-size:32px;">The mark &amp; wordmark</h1>
+  <div class="divider"></div>
+
+  <div class="two-col">
+    <div>
+      <h2>Logo</h2>
+      <p>The Butler Button mark is a silver-framed deep-violet tile carrying a white serving cloche, a peacock silhouette, and a white gloved hand — the butler serving experiences.</p>
+      <div style="display:flex; gap:16px; margin-top:16px; align-items:center;">
+        <div style="width:88px;height:88px;border-radius:20px;overflow:hidden;">
+          <svg viewBox="0 0 512 512" width="88" height="88">
+            <rect x="6" y="6" width="500" height="500" rx="122" fill="#c9c9d2"/>
+            <rect x="16" y="16" width="480" height="480" rx="112" fill="#2b1b52"/>
+            <circle cx="256" cy="146" r="15" fill="#fff"/>
+            <path d="M118 302 A138 138 0 0 1 394 302 Z" fill="#fff"/>
+            <g fill="#2b1b52"><circle cx="256" cy="216" r="8"/><ellipse cx="256" cy="280" rx="14" ry="24"/>
+              <path d="M251 221 C249 238 249 252 252 266 L260 266 C263 252 263 238 261 221 Z"/>
+              <g stroke="#2b1b52" stroke-width="5.5" stroke-linecap="round" fill="none">
+                <path d="M244 278 Q214 272 198 258"/><path d="M244 264 Q220 248 210 232"/><path d="M248 252 Q234 226 233 210"/>
+                <path d="M268 278 Q298 272 314 258"/><path d="M268 264 Q292 248 302 232"/><path d="M264 252 Q278 226 279 210"/></g>
+              <circle cx="192" cy="256" r="11"/><circle cx="206" cy="228" r="11"/><circle cx="231" cy="205" r="10"/>
+              <circle cx="320" cy="256" r="11"/><circle cx="306" cy="228" r="11"/><circle cx="281" cy="205" r="10"/></g>
+            <rect x="100" y="302" width="312" height="26" rx="13" fill="#fff"/>
+            <path d="M238 330 C226 352 236 374 260 386 C284 398 306 414 324 434 L368 394 C348 374 336 356 328 330 Z" fill="#fff"/>
+            <path d="M340 456 L404 400 L446 450 L382 504 Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div style="width:88px;height:88px;border-radius:20px;overflow:hidden;background:#2b1b52;display:flex;align-items:center;justify-content:center;">
+          <span style="color:#fff;font-weight:700;font-size:13px;letter-spacing:-0.02em;">Butler<span style="color:#818cf8">Button</span></span>
+        </div>
+      </div>
+      <p style="margin-top:14px;font-size:11px;">Source vector: <code>proposed/assets/logo.svg</code> · 512×512 · corner radius 122 on the tile. Displayed with a 9px radius at nav size.</p>
+
+      <h3>Logo colors</h3>
+      <table>
+        <tr><td class="tok">Tile / peacock</td><td class="val">#2B1B52</td><td>Deep indigo-violet</td></tr>
+        <tr><td class="tok">Frame</td><td class="val">#C9C9D2</td><td>Silver-gray border</td></tr>
+        <tr><td class="tok">Cloche / hand</td><td class="val">#FFFFFF</td><td>White</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h2>Wordmark</h2>
+      <p>Set as <strong>Butler<span style="color:var(--indigo)">Button</span></strong> — "Butler" in the foreground text color, "Button" in the indigo accent. Full attribution reads <em>Butler Button by VELTM</em>.</p>
+
+      <h3>Clear space &amp; usage</h3>
+      <p>Keep clear space around the mark equal to the height of the cloche knob. Do not recolor the tile, stretch the mark, or place the light wordmark on low-contrast backgrounds.</p>
+
+      <div class="callout" style="margin-top:16px;">
+        <strong>Legacy live-header mark.</strong> The current public site header still carries the earlier gradient logo — a purple-to-gold sweep with a magenta accent. Those colors are documented on the palette page under <em>Legacy accents</em> so the transition to the violet mark above is intentional, not a mismatch.
+      </div>
+
+      <h3>Attribution line</h3>
+      <p style="font-family:var(--mono);font-size:10.5px;">© 2026 VELTM Tours · Butler Button</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLOR — PRIMARY ============ -->
+<section class="page">
+  <div class="eyebrow">02 — Color</div>
+  <h1 style="font-size:32px;">Palette</h1>
+  <p class="lead" style="margin-top:8px;">Indigo is the signature accent across the whole experience; the neutral range is a dark, Apple-inspired scale that carries most surfaces and text.</p>
+  <div class="divider"></div>
+
+  <h3>Primary — indigo &amp; violet</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:#4f46e5"></div><div class="meta"><div class="name">Indigo</div><div class="role">Primary brand / accent — buttons, bars, badges</div><div class="hex">#4F46E5</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#818cf8"></div><div class="meta"><div class="name">Indigo Light</div><div class="role">Links, hover text, wordmark accent</div><div class="hex">#818CF8</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#4338ca"></div><div class="meta"><div class="name">Indigo Hover</div><div class="role">Pressed / hover state</div><div class="hex">#4338CA</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#7c3aed"></div><div class="meta"><div class="name">Violet</div><div class="role">Gradient end, "elite" tier</div><div class="hex">#7C3AED</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#a78bfa"></div><div class="meta"><div class="name">Violet Light</div><div class="role">Elite tier accents</div><div class="hex">#A78BFA</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#eef2ff"></div><div class="meta"><div class="name">Indigo Tint</div><div class="role">Light indigo wash background</div><div class="hex">#EEF2FF</div></div></div>
+  </div>
+
+  <h3>Neutrals — dark surfaces &amp; text</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:#000000"></div><div class="meta"><div class="name">Dark</div><div class="role">Primary background (black)</div><div class="hex">#000000</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#0a0a12"></div><div class="meta"><div class="name">Dark 2</div><div class="role">Section background</div><div class="hex">#0A0A12</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#111111"></div><div class="meta"><div class="name">Dark 3</div><div class="role">Card background</div><div class="hex">#111111</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#1d1d1f"></div><div class="meta"><div class="name">Text Dark</div><div class="role">Body text on light</div><div class="hex">#1D1D1F</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#3a3a3c"></div><div class="meta"><div class="name">Text Dim</div><div class="role">Footer / subdued</div><div class="hex">#3A3A3C</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#6e6e73"></div><div class="meta"><div class="name">Text Mid</div><div class="role">Secondary text</div><div class="hex">#6E6E73</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#86868b"></div><div class="meta"><div class="name">Text Mute</div><div class="role">Captions, labels</div><div class="hex">#86868B</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#09090b"></div><div class="meta"><div class="name">Near Black</div><div class="role">Text on light surfaces</div><div class="hex">#09090B</div></div></div>
+  </div>
+
+  <h3>Neutrals — light surfaces</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:#ffffff;box-shadow:inset 0 0 0 1px #e5e7eb"></div><div class="meta"><div class="name">White</div><div class="role">Light background / cards</div><div class="hex">#FFFFFF</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#f5f5f7"></div><div class="meta"><div class="name">Gray BG</div><div class="role">Light page background</div><div class="hex">#F5F5F7</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#e5e7eb"></div><div class="meta"><div class="name">Border Gray</div><div class="role">Hairlines, dividers</div><div class="hex">#E5E7EB</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#9ca3af"></div><div class="meta"><div class="name">Gray 400</div><div class="role">Disabled / muted</div><div class="hex">#9CA3AF</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#6b7280"></div><div class="meta"><div class="name">Gray 500</div><div class="role">Secondary body</div><div class="hex">#6B7280</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#4b5563"></div><div class="meta"><div class="name">Body Gray</div><div class="role">Body text on light</div><div class="hex">#4B5563</div></div></div>
+  </div>
+</section>
+
+<!-- ============ COLOR — GRADIENTS + UTILITY + LEGACY ============ -->
+<section class="page">
+  <div class="eyebrow">02 — Color</div>
+  <h1 style="font-size:32px;">Gradients, utility &amp; legacy</h1>
+  <div class="divider"></div>
+
+  <h3>Signature gradients</h3>
+  <div class="grad-grid">
+    <div class="grad"><div class="band" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)"></div><div class="meta"><div class="name">Primary gradient</div><code class="code">linear-gradient(135deg, #4F46E5, #7C3AED)</code></div></div>
+    <div class="grad"><div class="band" style="background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF2F8 100%)"></div><div class="meta"><div class="name">Subtle gradient</div><code class="code">linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 50%, #FDF2F8 100%)</code></div></div>
+  </div>
+
+  <h3>Utility colors</h3>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:#dc2626"></div><div class="meta"><div class="name">Error Red</div><div class="role">Required fields, errors</div><div class="hex">#DC2626</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#25d366"></div><div class="meta"><div class="name">Success / WhatsApp</div><div class="role">Confirmations, WhatsApp CTA</div><div class="hex">#25D366</div></div></div>
+  </div>
+
+  <h3>Legacy live-site accents</h3>
+  <p style="margin-bottom:12px;">Still present in the current public site header / logo gradient. Retained here for reference during the transition to the indigo system above.</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:#9a1df1"></div><div class="meta"><div class="name">Legacy Purple</div><div class="role">Header logo gradient start</div><div class="hex">#9A1DF1</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#ffd002"></div><div class="meta"><div class="name">Legacy Gold</div><div class="role">Header logo gradient end</div><div class="hex">#FFD002</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#ed1e64"></div><div class="meta"><div class="name">Legacy Magenta</div><div class="role">Header accent</div><div class="hex">#ED1E64</div></div></div>
+    <div class="swatch"><div class="chip" style="background:linear-gradient(135deg,#9A1DF1,#FFD002)"></div><div class="meta"><div class="name">Legacy sweep</div><div class="role">Old logo gradient</div><div class="hex">#9A1DF1 → #FFD002</div></div></div>
+  </div>
+
+  <div class="callout" style="margin-top:22px;">
+    <strong>Which palette leads?</strong> New and in-flight work uses the <strong>indigo system</strong> (page 3). The legacy purple/gold/magenta remains only in the un-migrated live header. When producing new assets, lead with indigo <code>#4F46E5</code>.
+  </div>
+</section>
+
+<!-- ============ TYPOGRAPHY ============ -->
+<section class="page">
+  <div class="eyebrow">03 — Typography</div>
+  <h1 style="font-size:32px;">Type system</h1>
+  <div class="divider"></div>
+
+  <div class="type-row">
+    <div class="label">Display / Headings — Serif</div>
+    <div class="spec-playfair" style="font-size:30px;font-weight:700;color:var(--ink);">Concierge travel, on your terms</div>
+    <div class="stack">Playfair Display (Google Fonts) · fallback: Georgia, 'Times New Roman', serif</div>
+  </div>
+
+  <div class="type-row">
+    <div class="label">Body / Interface — System Sans</div>
+    <div class="spec-sans" style="font-size:18px;color:var(--ink);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+    <div class="stack">-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif</div>
+  </div>
+
+  <div class="type-row">
+    <div class="label">Legacy live-site body — Poppins</div>
+    <div class="spec-poppins" style="font-size:18px;color:var(--ink);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+    <div class="stack">Poppins (Google Fonts) — used in the current live header/footer chrome</div>
+  </div>
+
+  <div class="type-row">
+    <div class="label">Monospace — codes &amp; inputs</div>
+    <div style="font-family:var(--mono);font-size:16px;color:var(--ink);">BB-REF-2026 · $4,800</div>
+    <div class="stack">ui-monospace, monospace</div>
+  </div>
+
+  <h3>Weights</h3>
+  <div class="type-row weights">
+    <span class="spec-sans" style="font-weight:400;">400 Regular</span>
+    <span class="spec-sans" style="font-weight:500;">500 Medium</span>
+    <span class="spec-sans" style="font-weight:600;">600 Semibold</span>
+    <span class="spec-sans" style="font-weight:700;">700 Bold</span>
+  </div>
+
+  <h3>Type scale (fluid)</h3>
+  <table>
+    <tr><th>Role</th><th>Size (clamp)</th><th>Weight</th><th>Tracking / leading</th></tr>
+    <tr><td>Hero H1</td><td class="val">clamp(3.2rem, 8.5vw, 7.5rem)</td><td>700</td><td>-0.04em · 0.97</td></tr>
+    <tr><td>Section title</td><td class="val">clamp(2rem, 4.5vw, 3.6rem)</td><td>700</td><td>-0.035em · 1.1</td></tr>
+    <tr><td>Stat number</td><td class="val">clamp(3rem, 6vw, 5rem)</td><td>700</td><td>-0.045em · 1</td></tr>
+    <tr><td>Card price</td><td class="val">clamp(2.4rem, 4vw, 3.2rem)</td><td>700</td><td>-0.045em</td></tr>
+    <tr><td>Body / sub</td><td class="val">clamp(1rem, 1.8vw, 1.2rem)</td><td>400</td><td>-0.01em · 1.6</td></tr>
+    <tr><td>Eyebrow / label</td><td class="val">0.72rem, uppercase</td><td>600</td><td>0.16em</td></tr>
+  </table>
+</section>
+
+<!-- ============ TOKENS ============ -->
+<section class="page">
+  <div class="eyebrow">04 — Design tokens</div>
+  <h1 style="font-size:32px;">Shape, depth &amp; motion</h1>
+  <div class="divider"></div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="margin-top:0;">Border radius</h3>
+      <div class="radii-row">
+        <div class="r"><div class="box" style="border-radius:14px;"></div><div class="cap">14px</div></div>
+        <div class="r"><div class="box" style="border-radius:20px;"></div><div class="cap">20px</div></div>
+        <div class="r"><div class="box" style="border-radius:22px;"></div><div class="cap">22px</div></div>
+        <div class="r"><div class="box" style="border-radius:980px;"></div><div class="cap">980px</div></div>
+      </div>
+      <p style="margin-top:12px;">The fully-rounded <strong>980px pill</strong> is the signature button/badge shape. Cards use 22px (product), 20px (scenario), 14px (hub).</p>
+      <div style="margin-top:14px;"><span class="pill-demo">Book a consultation</span></div>
+
+      <h3>Spacing scale</h3>
+      <table>
+        <tr><td class="tok">--s4</td><td class="val">1rem</td></tr>
+        <tr><td class="tok">--s6</td><td class="val">1.5rem</td></tr>
+        <tr><td class="tok">--s8</td><td class="val">2rem</td></tr>
+        <tr><td class="tok">--s16</td><td class="val">4rem</td></tr>
+        <tr><td class="tok">--s20</td><td class="val">5rem</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h3 style="margin-top:0;">Shadows &amp; glow</h3>
+      <table>
+        <tr><td class="tok">shadow-sm</td><td class="val">0 1px 3px rgba(0,0,0,.06)</td></tr>
+        <tr><td class="tok">shadow-xl</td><td class="val">0 20px 60px rgba(0,0,0,.12)</td></tr>
+        <tr><td class="tok">glow (btn)</td><td class="val">0 8px 32px rgba(79,70,229,.45)</td></tr>
+        <tr><td class="tok">glow (card)</td><td class="val">0 24px 60px rgba(79,70,229,.12)</td></tr>
+      </table>
+      <div style="margin-top:16px; display:flex; gap:14px;">
+        <div style="width:60px;height:60px;border-radius:16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #f0f0f0;"></div>
+        <div style="width:60px;height:60px;border-radius:16px;background:#fff;box-shadow:0 20px 40px rgba(0,0,0,.12);"></div>
+        <div style="width:60px;height:60px;border-radius:16px;background:#4f46e5;box-shadow:0 8px 24px rgba(79,70,229,.45);"></div>
+      </div>
+
+      <h3>Motion</h3>
+      <table>
+        <tr><td class="tok">easing</td><td class="val">cubic-bezier(.22, 1, .36, 1)</td></tr>
+        <tr><td class="tok">reveal</td><td class="val">0.8s – 0.9s</td></tr>
+      </table>
+      <p style="margin-top:10px;">The signature ease-out curve drives scroll reveals and hover transitions — content rises 36px and fades in. Honor <code>prefers-reduced-motion</code>.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <p class="foot">Source of truth: <code>css/veltm.css</code> (VELTM Design System) — mirrored into the live <code>zoho-inject/inject-*-v3.js</code> render scripts. Legacy values captured from the live butlerbutton.co header. Generated for graphic-design handoff, July 2026.</p>
+</section>
+
+</body>
+</html>
