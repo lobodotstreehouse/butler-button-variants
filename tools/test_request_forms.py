@@ -1,0 +1,407 @@
+#!/usr/bin/env python3
+"""
+End-to-end test for the demo / meeting request forms.
+
+Spins up a stub SMTP server and a real `tools/serve.py` process pointed at it,
+posts to `/forms/request`, and checks what actually landed in the mailbox.
+Standard library only (Python's `smtpd` was removed in 3.12, so the stub below
+speaks just enough SMTP itself).
+
+Usage:
+    python3 tools/test_request_forms.py [-v]
+"""
+from __future__ import annotations
+
+import email
+import email.policy
+import json
+import os
+import re
+import socket
+import socketserver
+import subprocess
+import sys
+import threading
+import time
+import unittest
+import urllib.error
+import urllib.request
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO, "tools"))
+import request_forms  # noqa: E402
+
+
+# ── Stub SMTP server ─────────────────────────────────────────────────────────
+
+
+class _SMTPHandler(socketserver.StreamRequestHandler):
+    def handle(self) -> None:
+        self.wfile.write(b"220 stub.local ESMTP ready\r\n")
+        sender = None
+        rcpts: list[str] = []
+        while True:
+            line = self.rfile.readline()
+            if not line:
+                return
+            command = line.decode("utf-8", "replace").strip()
+            upper = command.upper()
+
+            if upper.startswith(("EHLO", "HELO")):
+                self.wfile.write(b"250-stub.local\r\n250 8BITMIME\r\n")
+            elif upper.startswith("MAIL FROM"):
+                sender = command[10:].strip().strip("<>").split()[0].strip("<>")
+                self.wfile.write(b"250 OK\r\n")
+            elif upper.startswith("RCPT TO"):
+                rcpts.append(command[8:].strip().split()[0].strip("<>"))
+                self.wfile.write(b"250 OK\r\n")
+            elif upper == "DATA":
+                self.wfile.write(b"354 End data with <CR><LF>.<CR><LF>\r\n")
+                chunks: list[bytes] = []
+                while True:
+                    data_line = self.rfile.readline()
+                    if not data_line or data_line in (b".\r\n", b".\n"):
+                        break
+                    if data_line.startswith(b".."):
+                        data_line = data_line[1:]
+                    chunks.append(data_line)
+                self.server.inbox.append(  # type: ignore[attr-defined]
+                    {"from": sender, "to": list(rcpts), "raw": b"".join(chunks)}
+                )
+                sender, rcpts = None, []
+                self.wfile.write(b"250 OK queued\r\n")
+            elif upper == "RSET":
+                sender, rcpts = None, []
+                self.wfile.write(b"250 OK\r\n")
+            elif upper == "NOOP":
+                self.wfile.write(b"250 OK\r\n")
+            elif upper == "QUIT":
+                self.wfile.write(b"221 Bye\r\n")
+                return
+            else:
+                self.wfile.write(b"502 Not implemented\r\n")
+
+
+class StubSMTP(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+    def __init__(self, port: int) -> None:
+        super().__init__(("127.0.0.1", port), _SMTPHandler)
+        self.inbox: list[dict] = []
+
+
+def free_port() -> int:
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
+# ── Fixtures ─────────────────────────────────────────────────────────────────
+
+SMTP_PORT = free_port()
+HTTP_PORT = free_port()
+# The throttle is per-IP and every test here comes from 127.0.0.1, so it gets
+# its own server with a low limit rather than eating the other tests' budget.
+RATE_PORT = free_port()
+
+BASE = f"http://127.0.0.1:{HTTP_PORT}"
+FORMS_URL = f"{BASE}/forms/request"
+RATE_FORMS_URL = f"http://127.0.0.1:{RATE_PORT}/forms/request"
+RATE_MAX = 3
+
+smtp_server: StubSMTP | None = None
+servers: list[subprocess.Popen] = []
+
+
+def _start_server(port: int, rate_max: int) -> subprocess.Popen:
+    env = dict(os.environ)
+    env.update(
+        {
+            "WEB_ROOT": "proposed",
+            "INDEX_FILE": "home.html",
+            "SMTP_HOST": "127.0.0.1",
+            "SMTP_PORT": str(SMTP_PORT),
+            "SMTP_SECURITY": "none",
+            "SMTP_USER": "",
+            "SMTP_FROM": "partners@butlerbutton.co",
+            "BB_TEAM_EMAIL": "partners@butlerbutton.co",
+            "BB_FORMS_RATE_MAX": str(rate_max),
+            "BB_FORMS_RATE_WINDOW": "600",
+        }
+    )
+    proc = subprocess.Popen(
+        [sys.executable, os.path.join("tools", "serve.py"), str(port)],
+        cwd=REPO,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    deadline = time.time() + 15
+    while time.time() < deadline:
+        try:
+            with socket.create_connection(("127.0.0.1", port), timeout=0.5):
+                return proc
+        except OSError:
+            if proc.poll() is not None:
+                raise RuntimeError(f"serve.py exited: {proc.communicate()[1].decode()}")
+            time.sleep(0.15)
+    raise RuntimeError("serve.py did not start in time")
+
+
+def setUpModule() -> None:  # noqa: N802
+    global smtp_server
+    smtp_server = StubSMTP(SMTP_PORT)
+    threading.Thread(target=smtp_server.serve_forever, daemon=True).start()
+    servers.append(_start_server(HTTP_PORT, rate_max=500))
+    servers.append(_start_server(RATE_PORT, rate_max=RATE_MAX))
+
+
+def tearDownModule() -> None:  # noqa: N802
+    for proc in servers:
+        proc.terminate()
+        try:
+            proc.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+    if smtp_server is not None:
+        smtp_server.shutdown()
+        smtp_server.server_close()
+
+
+def post(payload: dict, url: str = FORMS_URL) -> tuple[int, dict]:
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as res:
+            return res.status, json.loads(res.read() or b"{}")
+    except urllib.error.HTTPError as e:
+        return e.code, json.loads(e.read() or b"{}")
+
+
+def inbox() -> list[dict]:
+    assert smtp_server is not None
+    return smtp_server.inbox
+
+
+def parsed(entry: dict) -> email.message.EmailMessage:
+    return email.message_from_bytes(entry["raw"], policy=email.policy.default)
+
+
+def plain_body(msg: email.message.EmailMessage) -> str:
+    part = msg.get_body(preferencelist=("plain",))
+    return part.get_content() if part else ""
+
+
+DEMO = {
+    "request_type": "demo",
+    "name": "José Ferreira",
+    "email": "jose@thebeachhouse.example",
+    "phone": "+351 912 345 678",
+    "company": "The Beach House",
+    "role": "General Manager",
+    "location": "Lisbon, Portugal",
+    "property_type": "Hotel",
+    "rooms": "48",
+    "message": "Most guest questions are about restaurants and airport transfers.",
+    "page": "/hotel-concierge-program.html",
+}
+
+MEETING = {
+    "request_type": "meeting",
+    "name": "Priya Nair",
+    "email": "priya@wavesresort.example",
+    "company": "Waves Resort",
+    "location": "Goa, India",
+    "preferred_date": "2026-08-04",
+    "preferred_time": "Morning (08:00 - 12:00)",
+    "timezone": "Asia/Kolkata",
+}
+
+
+class DemoRequest(unittest.TestCase):
+    def setUp(self) -> None:
+        inbox().clear()
+
+    def test_demo_request_mails_team_and_requester(self) -> None:
+        status, body = post(DEMO)
+        self.assertEqual(status, 200, body)
+        self.assertTrue(body["success"])
+
+        rid = body["request_id"]
+        self.assertRegex(rid, r"^BB-DEMO-\d{8}-[A-HJ-NP-Z2-9]{6}$")
+
+        self.assertEqual(len(inbox()), 2, "expected a team mail and an acknowledgement")
+        team, ack = parsed(inbox()[0]), parsed(inbox()[1])
+
+        # Team mail: request ID in the subject, requester on Reply-To.
+        self.assertIn(rid, team["Subject"])
+        self.assertIn("Demo request", team["Subject"])
+        self.assertIn("The Beach House", team["Subject"])
+        self.assertEqual(inbox()[0]["to"], ["partners@butlerbutton.co"])
+        self.assertIn(DEMO["email"], team["Reply-To"])
+
+        team_text = plain_body(team)
+        for value in ("The Beach House", "General Manager", "Lisbon, Portugal", "48", "Hotel"):
+            self.assertIn(value, team_text)
+
+        # Acknowledgement: same request ID, addressed to the requester.
+        self.assertIn(rid, ack["Subject"])
+        self.assertEqual(inbox()[1]["to"], [DEMO["email"]])
+        self.assertIn("partners@butlerbutton.co", ack["Reply-To"])
+        ack_text = plain_body(ack)
+        self.assertIn(rid, ack_text)
+        self.assertIn("demo", ack_text.lower())
+
+        # Both carry an HTML alternative.
+        for msg in (team, ack):
+            self.assertTrue(any(p.get_content_type() == "text/html" for p in msg.walk()))
+
+    def test_meeting_request_uses_its_own_id_and_fields(self) -> None:
+        status, body = post(MEETING)
+        self.assertEqual(status, 200, body)
+        rid = body["request_id"]
+        self.assertRegex(rid, r"^BB-MTG-\d{8}-[A-HJ-NP-Z2-9]{6}$")
+
+        team, ack = parsed(inbox()[0]), parsed(inbox()[1])
+        self.assertIn(rid, team["Subject"])
+        self.assertIn("15-minute meeting request", team["Subject"])
+        team_text = plain_body(team)
+        self.assertIn("2026-08-04", team_text)
+        self.assertIn("Asia/Kolkata", team_text)
+        # Demo-only labels must not leak into a meeting request.
+        self.assertNotIn("Rooms or keys", team_text)
+        self.assertIn(rid, plain_body(ack))
+
+    def test_ids_are_unique(self) -> None:
+        ids = {post(DEMO)[1]["request_id"] for _ in range(4)}
+        self.assertEqual(len(ids), 4)
+
+
+class Validation(unittest.TestCase):
+    def setUp(self) -> None:
+        inbox().clear()
+
+    def test_missing_required_field_is_rejected(self) -> None:
+        payload = dict(DEMO)
+        del payload["company"]
+        status, body = post(payload)
+        self.assertEqual(status, 400)
+        self.assertFalse(body["success"])
+        self.assertIn("required", body["message"].lower())
+        self.assertEqual(inbox(), [])
+
+    def test_bad_email_is_rejected(self) -> None:
+        status, body = post({**DEMO, "email": "not-an-email"})
+        self.assertEqual(status, 400)
+        self.assertEqual(inbox(), [])
+
+    def test_unknown_request_type_is_rejected(self) -> None:
+        status, _ = post({**DEMO, "request_type": "quote"})
+        self.assertEqual(status, 400)
+        self.assertEqual(inbox(), [])
+
+    def test_honeypot_sends_nothing(self) -> None:
+        status, body = post({**DEMO, "website": "http://spam.example"})
+        self.assertEqual(status, 200)
+        self.assertTrue(body["success"])
+        self.assertEqual(inbox(), [], "honeypot submissions must not be mailed")
+
+    def test_header_injection_is_neutralised(self) -> None:
+        """Injected CRLF must become inert text, never a header of its own."""
+        status, body = post(
+            {
+                **DEMO,
+                "company": "Acme\r\nBcc: attacker@evil.example",
+                "name": "A\nB",
+                "email": "jose@thebeachhouse.example",
+            }
+        )
+        self.assertEqual(status, 200, body)
+
+        raw = inbox()[0]["raw"].decode("utf-8", "replace")
+        headers = raw.partition("\r\n\r\n")[0]
+        # No injected header line, and the envelope still has one recipient.
+        self.assertNotRegex(headers, r"(?im)^Bcc:")
+        self.assertEqual(inbox()[0]["to"], ["partners@butlerbutton.co"])
+
+        team = parsed(inbox()[0])
+        self.assertIsNone(team["Bcc"])
+        self.assertNotIn("\n", team["Subject"])
+        self.assertEqual(team["Reply-To"].addresses[0].addr_spec, "jose@thebeachhouse.example")
+        # The acknowledgement still goes only to the requester.
+        self.assertEqual(inbox()[1]["to"], ["jose@thebeachhouse.example"])
+
+    def test_oversized_message_is_truncated_not_rejected(self) -> None:
+        status, body = post({**DEMO, "message": "x" * 5000})
+        self.assertEqual(status, 200, body)
+        runs = re.findall(r"x{3,}", plain_body(parsed(inbox()[0])))
+        self.assertEqual([len(r) for r in runs], [2000])
+
+    def test_message_keeps_its_line_breaks(self) -> None:
+        status, body = post({**DEMO, "message": "Line one.\nLine two."})
+        self.assertEqual(status, 200, body)
+        text = plain_body(parsed(inbox()[0]))
+        self.assertIn("Line one.", text)
+        self.assertIn("Line two.", text)
+
+    def test_get_is_not_allowed(self) -> None:
+        req = urllib.request.Request(FORMS_URL, method="GET")
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            urllib.request.urlopen(req, timeout=10)
+        self.assertEqual(ctx.exception.code, 405)
+
+    def test_malformed_json_is_rejected(self) -> None:
+        req = urllib.request.Request(
+            FORMS_URL, data=b"{nope", headers={"Content-Type": "application/json"}, method="POST"
+        )
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            urllib.request.urlopen(req, timeout=10)
+        self.assertEqual(ctx.exception.code, 400)
+
+    def test_foreign_origin_is_refused(self) -> None:
+        req = urllib.request.Request(
+            FORMS_URL,
+            data=json.dumps(DEMO).encode(),
+            headers={"Content-Type": "application/json", "Origin": "https://evil.example"},
+            method="POST",
+        )
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            urllib.request.urlopen(req, timeout=10)
+        self.assertEqual(ctx.exception.code, 403)
+        self.assertEqual(inbox(), [])
+
+
+class RateLimit(unittest.TestCase):
+    def test_rate_limit_kicks_in(self) -> None:
+        inbox().clear()
+        seen = [post(DEMO, url=RATE_FORMS_URL)[0] for _ in range(RATE_MAX + 2)]
+        self.assertEqual(seen[:RATE_MAX], [200] * RATE_MAX, seen)
+        self.assertEqual(seen[RATE_MAX:], [429, 429], seen)
+        self.assertEqual(len(inbox()), RATE_MAX * 2, "throttled posts must not be mailed")
+
+
+class PageWiring(unittest.TestCase):
+    def test_page_is_served_and_buttons_are_wired(self) -> None:
+        with urllib.request.urlopen(f"{BASE}/hotel-concierge-program.html", timeout=10) as res:
+            html = res.read().decode()
+        self.assertIn('data-request="demo"', html)
+        self.assertIn('data-request="meeting"', html)
+        self.assertIn("/forms/request", html)
+        self.assertIn('id="rqForm"', html)
+        # Every field the form posts must be one the server knows about.
+        posted = set(re.findall(r'<(?:input|select|textarea)[^>]*\sname="([^"]+)"', html))
+        known = set(request_forms.FIELDS) | {"website"}
+        self.assertTrue(posted <= known, f"unexpected form fields: {sorted(posted - known)}")
+        # ...and the page must offer every field the request type expects.
+        for request_type in ("demo", "meeting"):
+            missing = set(request_forms.fields_for(request_type)) - posted
+            self.assertEqual(missing, set(), f"{request_type} form is missing {missing}")
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

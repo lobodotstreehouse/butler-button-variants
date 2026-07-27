@@ -120,21 +120,47 @@
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
-    .nav-brand { display: inline-flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
+    .nav-brand { display: inline-flex; align-items: center; flex: none; white-space: nowrap; gap: 10px; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7; }
     .nav-logo { width: 30px; height: 30px; border-radius: 9px; display: block; }
     .nav-brand em { color: var(--indigo-lt); font-style: normal; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       font-size: 1.09rem; color: #FFFFFF;
-      letter-spacing: -0.01em; transition: color 0.2s;
+      letter-spacing: -0.01em; white-space: nowrap; transition: color 0.2s;
     }
     .nav-links a:hover { color: #f5f5f7; }
     .nav-book {
-      padding: 8px 22px; background: var(--indigo); color: #FFFFFF;
+      padding: 8px 22px; flex: none; white-space: nowrap; background: var(--indigo); color: #FFFFFF;
       border-radius: 980px; font-size: 1.09rem; font-weight: 500;
       transition: background 0.2s, transform 0.15s;
     }
     .nav-book:hover { background: #4338ca; transform: scale(1.02); }
+    /* The nav carries longer labels now ("Hospitality Concierge Service").
+       Keep each label on one line and tighten the row as space runs out,
+       rather than letting labels break mid-phrase. */
+    @media (max-width: 1400px) {
+      .nav { padding: 1.1rem 3.5vw; }
+      .nav-links { gap: 1.5rem; }
+      .nav-links a, .nav-book { font-size: 1rem; }
+    }
+    @media (max-width: 1180px) {
+      .nav { padding: 1.1rem 2.5vw; }
+      .nav-links { gap: 1.05rem; }
+      .nav-links a, .nav-book { font-size: 0.9rem; }
+      .nav-book { padding: 8px 16px; }
+    }
+    @media (max-width: 960px) {
+      /* No room for one row: brand + CTA stay together, links drop below. */
+      .nav { flex-wrap: wrap; row-gap: 0.55rem; padding: 0.85rem 4vw; }
+      .nav-brand { order: 1; }
+      .nav-book { order: 2; }
+      .nav-links {
+        order: 3; width: 100%; justify-content: center;
+        flex-wrap: wrap; gap: 0.5rem 1.1rem;
+      }
+      .nav-links a, .nav-book { font-size: 0.85rem; }
+      .nav-book { padding: 7px 15px; }
+    }
     @media (max-width: 700px) { .nav-links { display: none; } }
 
     /* ─── BUTTONS ───────────────────────────────────────────────── */
@@ -1285,7 +1311,7 @@
 <nav class="nav" id="main-nav">
   <a class="nav-brand" href="home.html"><img class="nav-logo" src="assets/logo.svg" alt="Butler Button logo" width="30" height="30">Butler<em>Button</em></a>
   <ul class="nav-links">
-    <li><a href="home.html">Home</a></li><li><a href="trip-planning.html">Trip Planning</a></li><li><a href="concierge.html">Concierge</a></li>
+    <li><a href="home.html">Home</a></li><li><a href="trip-planning.html">Trip Planning</a></li><li><a href="concierge.html">Personal Concierge</a></li><li><a href="hotel-concierge-program.html">Hospitality Concierge Service</a></li>
     <li><a href="travel-advisor.html">Travel Advisor</a></li>
   </ul>
   <a class="nav-book" href="https://wa.me/18555031555?text=Hi%20Butler%20Button%2C%20I%27d%20like%20to%20order." data-butler-button>Get Started</a>
@@ -1890,7 +1916,7 @@
   <ul class="footer-links">
     <li><a href="home.html">Home</a></li>
     <li><a href="trip-planning.html">Trip Planning</a></li>
-    <li><a href="concierge.html">Concierge</a></li>
+    <li><a href="concierge.html">Personal Concierge</a></li><li><a href="hotel-concierge-program.html">Hospitality Concierge Service</a></li>
     <li><a href="travel-advisor.html">Travel Advisor</a></li>
     <li><a href="supplier-code.html">Supplier Code of Conduct</a></li>
     <li><a href="https://help.veltmtours.com/portal/en/kb/">Help Center</a></li>
