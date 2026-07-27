@@ -211,10 +211,10 @@ def main() -> None:
     web_root = os.path.abspath(WEB_ROOT)
     handler = functools.partial(Handler, directory=web_root)
     httpd = ThreadingHTTPServer(("0.0.0.0", port), handler)
-    mail = f"SMTP {request_forms.SMTP_HOST}" if request_forms.SMTP_HOST else "SMTP not configured"
     print(f"Serving {web_root} on http://0.0.0.0:{port}  (root '/' -> {INDEX_FILE}; "
           f"proxy: {API_PREFIX}* -> {SUPABASE_BASE}/*; "
-          f"forms: {FORMS_PATH} -> {request_forms.TEAM_EMAIL} [{mail}])")
+          f"forms: {FORMS_PATH} -> {request_forms.TEAM_EMAIL} "
+          f"[{request_forms.transport_summary()}])")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

@@ -10,13 +10,22 @@ submission gets a unique request ID, then two mails go out:
   2. an acknowledgement to the requester, carrying the same request ID, so
      both sides can quote one reference.
 
-Standard library only, to keep requirements.txt empty. Configure SMTP via
-environment variables (see SMTP_* below); with no SMTP_HOST set, submissions
-are logged in full to stdout and the endpoint reports that mail is not
-configured, so the front end can fall back to a pre-filled mailto.
+Standard library only, to keep requirements.txt empty.
+
+Mail goes out through ZeptoMail. Either of its two transports works:
+
+  * its HTTPS API  — set ZEPTOMAIL_TOKEN (the "Send Mail" token), or
+  * its SMTP relay — set SMTP_HOST=smtp.zeptomail.com, SMTP_USER=emailapikey
+                     and SMTP_PASSWORD=<the mail agent's SMTP token>.
+
+The API is picked automatically when a token is present, since it needs only
+outbound 443. See .env.example for the full variable list. With neither
+configured, submissions are logged in full and the endpoint says mail is not
+set up, so the front end can fall back to a pre-filled mailto.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 import secrets
@@ -24,6 +33,8 @@ import smtplib
 import sys
 import threading
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import formataddr, formatdate, make_msgid
@@ -31,10 +42,17 @@ from email.utils import formataddr, formatdate, make_msgid
 # ── Configuration ────────────────────────────────────────────────────────────
 
 TEAM_EMAIL = os.environ.get("BB_TEAM_EMAIL", "partners@butlerbutton.co")
-FROM_EMAIL = os.environ.get("SMTP_FROM", TEAM_EMAIL)
-FROM_NAME = os.environ.get("SMTP_FROM_NAME", "Butler Button")
+FROM_EMAIL = os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM") or TEAM_EMAIL
+FROM_NAME = os.environ.get("MAIL_FROM_NAME") or os.environ.get("SMTP_FROM_NAME") or "Butler Button"
 SITE_URL = os.environ.get("BB_SITE_URL", "https://butlerbutton.co")
 
+# ZeptoMail HTTPS API. Regional hosts: .com (global), .eu, .in — override the
+# whole URL if the account does not live in the default region.
+ZEPTOMAIL_API_URL = os.environ.get("ZEPTOMAIL_API_URL", "https://api.zeptomail.com/v1.1/email")
+ZEPTOMAIL_TOKEN = os.environ.get("ZEPTOMAIL_TOKEN", "").strip()
+ZEPTOMAIL_TIMEOUT = int(os.environ.get("ZEPTOMAIL_TIMEOUT", "20"))
+
+# ZeptoMail SMTP relay (or any other SMTP server).
 SMTP_HOST = os.environ.get("SMTP_HOST", "")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER = os.environ.get("SMTP_USER", "")
@@ -42,6 +60,9 @@ SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
 # starttls (default) | ssl | none
 SMTP_SECURITY = os.environ.get("SMTP_SECURITY", "starttls").lower()
 SMTP_TIMEOUT = int(os.environ.get("SMTP_TIMEOUT", "20"))
+
+# auto (default) | zeptomail | smtp
+MAIL_TRANSPORT = os.environ.get("BB_MAIL_TRANSPORT", "auto").strip().lower()
 
 # Per-IP throttle: at most RATE_MAX submissions per RATE_WINDOW seconds.
 RATE_MAX = int(os.environ.get("BB_FORMS_RATE_MAX", "5"))
@@ -244,18 +265,38 @@ def _html_rows(rows: list[tuple[str, str]]) -> str:
     return "\n".join(out)
 
 
-def _base_message(subject: str, to_addr: str, reply_to: str) -> EmailMessage:
+def _mail(subject: str, to: tuple[str, str], reply_to: tuple[str, str],
+          text: str, html: str) -> dict:
+    """A transport-neutral message. `to`/`reply_to` are (name, address)."""
+    return {
+        "subject": _header_safe(subject),
+        "to_name": _header_safe(to[0]),
+        "to_email": to[1],
+        "reply_to_name": _header_safe(reply_to[0]),
+        "reply_to_email": reply_to[1],
+        "text": text,
+        "html": html,
+    }
+
+
+def to_email_message(mail: dict) -> EmailMessage:
+    """Render a neutral message as MIME, for the SMTP transport."""
     msg = EmailMessage()
-    msg["Subject"] = _header_safe(subject)
+    msg["Subject"] = mail["subject"]
     msg["From"] = formataddr((FROM_NAME, FROM_EMAIL))
-    msg["To"] = to_addr
-    msg["Reply-To"] = reply_to
+    msg["To"] = formataddr((mail["to_name"], mail["to_email"])) if mail["to_name"] else mail["to_email"]
+    msg["Reply-To"] = (
+        formataddr((mail["reply_to_name"], mail["reply_to_email"]))
+        if mail["reply_to_name"] else mail["reply_to_email"]
+    )
     msg["Date"] = formatdate(localtime=True)
     msg["Message-ID"] = make_msgid(domain="butlerbutton.co")
+    msg.set_content(mail["text"])
+    msg.add_alternative(mail["html"], subtype="html")
     return msg
 
 
-def build_team_email(cleaned: dict, request_id: str, meta: dict) -> EmailMessage:
+def build_team_email(cleaned: dict, request_id: str, meta: dict) -> dict:
     spec = REQUEST_TYPES[cleaned["request_type"]]
     who = cleaned["company"] or cleaned["name"]
     subject = f"[{request_id}] {spec['label']} - {_header_safe(who)}"
@@ -267,15 +308,14 @@ def build_team_email(cleaned: dict, request_id: str, meta: dict) -> EmailMessage
         ("Page", cleaned.get("page") or "-"),
     ]
 
-    msg = _base_message(subject, TEAM_EMAIL, formataddr((cleaned["name"], cleaned["email"])))
-    msg.set_content(
+    text = (
         f"{spec['label']}\n"
         f"Request ID: {request_id}\n\n"
         f"{_text_block(rows)}\n\n"
         f"--\n{_text_block(meta_rows)}\n"
         f"Reply to this email to reach {cleaned['name']} directly.\n"
     )
-    msg.add_alternative(
+    html = (
         f"""<!DOCTYPE html><html><body style="margin:0;padding:24px;background:#F5F5F7;
  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
 <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;
@@ -294,21 +334,18 @@ def build_team_email(cleaned: dict, request_id: str, meta: dict) -> EmailMessage
     <p style="margin:12px 0 0;">Reply to this email to reach
       {_esc(cleaned['name'])} directly.</p>
   </div>
-</div></body></html>""",
-        subtype="html",
+</div></body></html>"""
     )
-    return msg
+    return _mail(subject, (FROM_NAME, TEAM_EMAIL), (cleaned["name"], cleaned["email"]), text, html)
 
 
-def build_ack_email(cleaned: dict, request_id: str) -> EmailMessage:
+def build_ack_email(cleaned: dict, request_id: str) -> dict:
     spec = REQUEST_TYPES[cleaned["request_type"]]
     subject = f"{spec['ack_subject']} - {request_id}"
     rows = _summary_rows(cleaned)
-
-    msg = _base_message(subject, formataddr((cleaned["name"], cleaned["email"])), TEAM_EMAIL)
     first_name = cleaned["name"].split()[0] if cleaned["name"].split() else "there"
 
-    msg.set_content(
+    text = (
         f"Hi {first_name},\n\n"
         f"Thank you - we have received {spec['ack_what']}.\n\n"
         f"Your request ID is {request_id}. Please quote it in any follow-up.\n\n"
@@ -320,7 +357,7 @@ def build_ack_email(cleaned: dict, request_id: str) -> EmailMessage:
         f"{TEAM_EMAIL}\n"
         f"{SITE_URL}\n"
     )
-    msg.add_alternative(
+    html = (
         f"""<!DOCTYPE html><html><body style="margin:0;padding:24px;background:#F5F5F7;
  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
 <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;
@@ -353,13 +390,91 @@ def build_ack_email(cleaned: dict, request_id: str) -> EmailMessage:
     <a href="mailto:{_esc(TEAM_EMAIL)}" style="color:#4F46E5;">{_esc(TEAM_EMAIL)}</a> ·
     <a href="{_esc(SITE_URL)}" style="color:#4F46E5;">{_esc(SITE_URL)}</a>
   </div>
-</div></body></html>""",
-        subtype="html",
+</div></body></html>"""
     )
-    return msg
+    return _mail(subject, (cleaned["name"], cleaned["email"]), (FROM_NAME, TEAM_EMAIL), text, html)
 
 
 # ── Delivery ─────────────────────────────────────────────────────────────────
+
+
+def active_transport() -> str:
+    """Which transport will be used: 'zeptomail', 'smtp', or '' if unconfigured."""
+    if MAIL_TRANSPORT == "zeptomail":
+        return "zeptomail" if ZEPTOMAIL_TOKEN else ""
+    if MAIL_TRANSPORT == "smtp":
+        return "smtp" if SMTP_HOST else ""
+    # auto: prefer the API — it needs only outbound 443.
+    if ZEPTOMAIL_TOKEN:
+        return "zeptomail"
+    return "smtp" if SMTP_HOST else ""
+
+
+def transport_summary() -> str:
+    which = active_transport()
+    if which == "zeptomail":
+        return f"ZeptoMail API {ZEPTOMAIL_API_URL}"
+    if which == "smtp":
+        relay = "ZeptoMail SMTP" if "zeptomail" in SMTP_HOST.lower() else "SMTP"
+        return f"{relay} {SMTP_HOST}:{SMTP_PORT}"
+    return "mail not configured"
+
+
+# ── ZeptoMail HTTPS API ──────────────────────────────────────────────────────
+
+
+def _zepto_auth_header() -> str:
+    """ZeptoMail wants `Zoho-enczapikey <token>`; accept a token pasted either way."""
+    token = ZEPTOMAIL_TOKEN
+    return token if token.lower().startswith("zoho-enczapikey ") else f"Zoho-enczapikey {token}"
+
+
+def _zepto_payload(mail: dict) -> dict:
+    payload = {
+        "from": {"address": FROM_EMAIL, "name": FROM_NAME},
+        "to": [{"email_address": {"address": mail["to_email"], "name": mail["to_name"]}}],
+        "subject": mail["subject"],
+        "textbody": mail["text"],
+        "htmlbody": mail["html"],
+    }
+    if mail["reply_to_email"]:
+        payload["reply_to"] = [
+            {"address": mail["reply_to_email"], "name": mail["reply_to_name"]}
+        ]
+    return payload
+
+
+def _send_via_zeptomail(mail: dict) -> None:
+    """POST one message. Raises on any non-2xx response."""
+    req = urllib.request.Request(
+        ZEPTOMAIL_API_URL,
+        data=json.dumps(_zepto_payload(mail)).encode("utf-8"),
+        method="POST",
+        headers={
+            "Authorization": _zepto_auth_header(),
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=ZEPTOMAIL_TIMEOUT) as res:
+            if not 200 <= res.status < 300:
+                raise RuntimeError(f"ZeptoMail returned HTTP {res.status}")
+    except urllib.error.HTTPError as exc:
+        detail = ""
+        try:
+            body = json.loads(exc.read() or b"{}")
+            detail = body.get("message") or body.get("error", {}).get("message") or ""
+            # Surface the sub-code (e.g. an unverified from-address) when present.
+            sub = (body.get("error", {}).get("details") or [{}])[0].get("message")
+            if sub and sub not in detail:
+                detail = f"{detail} ({sub})".strip()
+        except Exception:  # noqa: BLE001
+            pass
+        raise RuntimeError(f"ZeptoMail HTTP {exc.code}{': ' + detail if detail else ''}") from exc
+
+
+# ── SMTP ─────────────────────────────────────────────────────────────────────
 
 
 def _connect() -> smtplib.SMTP:
@@ -376,18 +491,12 @@ def _connect() -> smtplib.SMTP:
     return server
 
 
-def deliver(team_msg: EmailMessage, ack_msg: EmailMessage) -> str | None:
-    """Send both mails on one connection.
-
-    Raises if the team mail cannot be sent — that one is the whole point of the
-    endpoint. Returns a description of the acknowledgement failure (or None),
-    since a bounced acknowledgement should not make the requester resubmit.
-    """
+def _deliver_smtp(team_mail: dict, ack_mail: dict) -> str | None:
     server = _connect()
     try:
-        server.send_message(team_msg)
+        server.send_message(to_email_message(team_mail))
         try:
-            server.send_message(ack_msg)
+            server.send_message(to_email_message(ack_mail))
         except Exception as exc:  # noqa: BLE001
             return f"{type(exc).__name__}: {exc}"
     finally:
@@ -396,6 +505,29 @@ def deliver(team_msg: EmailMessage, ack_msg: EmailMessage) -> str | None:
         except Exception:  # noqa: BLE001
             pass
     return None
+
+
+# ── Dispatch ─────────────────────────────────────────────────────────────────
+
+
+def deliver(team_mail: dict, ack_mail: dict) -> str | None:
+    """Send both mails via the configured transport.
+
+    Raises if the team mail cannot be sent — that one is the whole point of the
+    endpoint. Returns a description of the acknowledgement failure (or None),
+    since a bounced acknowledgement should not make the requester resubmit.
+    """
+    which = active_transport()
+    if which == "zeptomail":
+        _send_via_zeptomail(team_mail)
+        try:
+            _send_via_zeptomail(ack_mail)
+        except Exception as exc:  # noqa: BLE001
+            return f"{type(exc).__name__}: {exc}"
+        return None
+    if which == "smtp":
+        return _deliver_smtp(team_mail, ack_mail)
+    raise EmailNotConfigured("set ZEPTOMAIL_TOKEN, or SMTP_HOST for the SMTP relay")
 
 
 def _log(*parts: str) -> None:
@@ -422,16 +554,16 @@ def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
     received = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     meta = {"received": received, "ip": client_ip}
 
-    team_msg = build_team_email(cleaned, request_id, meta)
-    ack_msg = build_ack_email(cleaned, request_id)
+    team_mail = build_team_email(cleaned, request_id, meta)
+    ack_mail = build_ack_email(cleaned, request_id)
 
     try:
-        ack_error = deliver(team_msg, ack_msg)
-    except EmailNotConfigured:
+        ack_error = deliver(team_mail, ack_mail)
+    except EmailNotConfigured as exc:
         # Nothing is silently dropped: dump the submission where the operator
         # can find it (Heroku logs) and let the page offer its mailto fallback.
-        _log(request_id, "SMTP not configured - submission below")
-        print(team_msg.get_body(preferencelist=("plain",)).get_content(), file=sys.stderr, flush=True)
+        _log(request_id, f"mail not configured ({exc}) - submission below")
+        print(team_mail["text"], file=sys.stderr, flush=True)
         return 503, {
             "success": False,
             "error": "email_not_configured",
@@ -439,7 +571,8 @@ def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
             "request_id": request_id,
         }
     except Exception as exc:  # noqa: BLE001
-        _log(request_id, f"delivery failed: {type(exc).__name__}: {exc}")
+        _log(request_id, f"delivery failed via {active_transport()}: {type(exc).__name__}: {exc}")
+        print(team_mail["text"], file=sys.stderr, flush=True)
         return 502, {
             "success": False,
             "error": "delivery_failed",
@@ -450,6 +583,8 @@ def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
     if ack_error:
         _log(request_id, f"team mail sent, acknowledgement failed: {ack_error}")
     else:
-        _log(request_id, f"{cleaned['request_type']} from {cleaned['email']} - both mails sent")
+        _log(request_id,
+             f"{cleaned['request_type']} from {cleaned['email']} - both mails sent "
+             f"via {active_transport()}")
 
     return 200, {"success": True, "request_id": request_id}

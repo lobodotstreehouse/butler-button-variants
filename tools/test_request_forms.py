@@ -2,7 +2,8 @@
 """
 End-to-end test for the demo / meeting request forms.
 
-Spins up a stub SMTP server and a real `tools/serve.py` process pointed at it,
+Spins up stub mail servers — one speaking SMTP, one standing in for the
+ZeptoMail HTTPS API — plus real `tools/serve.py` processes pointed at them,
 posts to `/forms/request`, and checks what actually landed in the mailbox.
 Standard library only (Python's `smtpd` was removed in 3.12, so the stub below
 speaks just enough SMTP itself).
@@ -26,6 +27,7 @@ import time
 import unittest
 import urllib.error
 import urllib.request
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "tools"))
@@ -97,39 +99,111 @@ def free_port() -> int:
         return s.getsockname()[1]
 
 
+# ── Stub ZeptoMail API ───────────────────────────────────────────────────────
+
+
+class _ZeptoHandler(BaseHTTPRequestHandler):
+    def log_message(self, *args):  # keep test output clean
+        pass
+
+    def do_POST(self):  # noqa: N802
+        length = int(self.headers.get("Content-Length") or 0)
+        raw = self.rfile.read(length)
+        try:
+            payload = json.loads(raw or b"{}")
+        except ValueError:
+            payload = {"_unparseable": raw.decode("utf-8", "replace")}
+
+        self.server.received.append(  # type: ignore[attr-defined]
+            {
+                "path": self.path,
+                "auth": self.headers.get("Authorization", ""),
+                "content_type": self.headers.get("Content-Type", ""),
+                "payload": payload,
+            }
+        )
+
+        status, body = self.server.next_response()  # type: ignore[attr-defined]
+        data = json.dumps(body).encode()
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+
+class StubZepto(ThreadingHTTPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+    def __init__(self, port: int) -> None:
+        super().__init__(("127.0.0.1", port), _ZeptoHandler)
+        self.received: list[dict] = []
+        self.fail_next = 0  # how many upcoming calls should return an error
+
+    def next_response(self) -> tuple[int, dict]:
+        if self.fail_next > 0:
+            self.fail_next -= 1
+            return 400, {
+                "error": {
+                    "code": "TM_3201",
+                    "message": "Invalid sender",
+                    "details": [{"message": "from address is not verified"}],
+                }
+            }
+        return 201, {"data": [{"code": "EM_104", "message": "OK"}], "message": "OK"}
+
+
 # ── Fixtures ─────────────────────────────────────────────────────────────────
 
 SMTP_PORT = free_port()
+ZEPTO_PORT = free_port()
 HTTP_PORT = free_port()
 # The throttle is per-IP and every test here comes from 127.0.0.1, so it gets
 # its own server with a low limit rather than eating the other tests' budget.
 RATE_PORT = free_port()
+# A third server delivers through the stub ZeptoMail API instead of SMTP.
+ZEPTO_SITE_PORT = free_port()
 
 BASE = f"http://127.0.0.1:{HTTP_PORT}"
 FORMS_URL = f"{BASE}/forms/request"
 RATE_FORMS_URL = f"http://127.0.0.1:{RATE_PORT}/forms/request"
+ZEPTO_FORMS_URL = f"http://127.0.0.1:{ZEPTO_SITE_PORT}/forms/request"
 RATE_MAX = 3
+ZEPTO_TOKEN = "wSsVR61A.testtoken.example"
 
 smtp_server: StubSMTP | None = None
+zepto_server: StubZepto | None = None
 servers: list[subprocess.Popen] = []
 
 
-def _start_server(port: int, rate_max: int) -> subprocess.Popen:
+def _start_server(port: int, rate_max: int, transport: str = "smtp") -> subprocess.Popen:
     env = dict(os.environ)
     env.update(
         {
             "WEB_ROOT": "proposed",
             "INDEX_FILE": "home.html",
-            "SMTP_HOST": "127.0.0.1",
-            "SMTP_PORT": str(SMTP_PORT),
-            "SMTP_SECURITY": "none",
-            "SMTP_USER": "",
-            "SMTP_FROM": "partners@butlerbutton.co",
+            "MAIL_FROM": "partners@butlerbutton.co",
             "BB_TEAM_EMAIL": "partners@butlerbutton.co",
             "BB_FORMS_RATE_MAX": str(rate_max),
             "BB_FORMS_RATE_WINDOW": "600",
+            # Clear both transports, then enable exactly the one under test.
+            "ZEPTOMAIL_TOKEN": "",
+            "SMTP_HOST": "",
         }
     )
+    if transport == "zeptomail":
+        env["ZEPTOMAIL_TOKEN"] = ZEPTO_TOKEN
+        env["ZEPTOMAIL_API_URL"] = f"http://127.0.0.1:{ZEPTO_PORT}/v1.1/email"
+    else:
+        env.update(
+            {
+                "SMTP_HOST": "127.0.0.1",
+                "SMTP_PORT": str(SMTP_PORT),
+                "SMTP_SECURITY": "none",
+                "SMTP_USER": "",
+            }
+        )
     proc = subprocess.Popen(
         [sys.executable, os.path.join("tools", "serve.py"), str(port)],
         cwd=REPO,
@@ -150,11 +224,14 @@ def _start_server(port: int, rate_max: int) -> subprocess.Popen:
 
 
 def setUpModule() -> None:  # noqa: N802
-    global smtp_server
+    global smtp_server, zepto_server
     smtp_server = StubSMTP(SMTP_PORT)
     threading.Thread(target=smtp_server.serve_forever, daemon=True).start()
+    zepto_server = StubZepto(ZEPTO_PORT)
+    threading.Thread(target=zepto_server.serve_forever, daemon=True).start()
     servers.append(_start_server(HTTP_PORT, rate_max=500))
     servers.append(_start_server(RATE_PORT, rate_max=RATE_MAX))
+    servers.append(_start_server(ZEPTO_SITE_PORT, rate_max=500, transport="zeptomail"))
 
 
 def tearDownModule() -> None:  # noqa: N802
@@ -164,9 +241,10 @@ def tearDownModule() -> None:  # noqa: N802
             proc.wait(timeout=5)
         except subprocess.TimeoutExpired:
             proc.kill()
-    if smtp_server is not None:
-        smtp_server.shutdown()
-        smtp_server.server_close()
+    for server in (smtp_server, zepto_server):
+        if server is not None:
+            server.shutdown()
+            server.server_close()
 
 
 def post(payload: dict, url: str = FORMS_URL) -> tuple[int, dict]:
@@ -374,6 +452,162 @@ class Validation(unittest.TestCase):
             urllib.request.urlopen(req, timeout=10)
         self.assertEqual(ctx.exception.code, 403)
         self.assertEqual(inbox(), [])
+
+
+class ZeptoMailTransport(unittest.TestCase):
+    """The same flow, delivered through ZeptoMail's HTTPS API instead of SMTP."""
+
+    def setUp(self) -> None:
+        assert zepto_server is not None
+        zepto_server.received.clear()
+        zepto_server.fail_next = 0
+        inbox().clear()
+
+    @property
+    def sent(self) -> list[dict]:
+        assert zepto_server is not None
+        return zepto_server.received
+
+    def test_demo_request_goes_out_over_the_api(self) -> None:
+        status, body = post(DEMO, url=ZEPTO_FORMS_URL)
+        self.assertEqual(status, 200, body)
+        rid = body["request_id"]
+        self.assertRegex(rid, r"^BB-DEMO-\d{8}-[A-HJ-NP-Z2-9]{6}$")
+
+        self.assertEqual(len(self.sent), 2, "expected a team mail and an acknowledgement")
+        self.assertEqual(inbox(), [], "nothing should reach SMTP on this server")
+
+        team, ack = self.sent[0], self.sent[1]
+
+        # Authenticated the way ZeptoMail expects.
+        for call in (team, ack):
+            self.assertEqual(call["path"], "/v1.1/email")
+            self.assertEqual(call["auth"], f"Zoho-enczapikey {ZEPTO_TOKEN}")
+            self.assertIn("application/json", call["content_type"])
+
+        tp = team["payload"]
+        self.assertEqual(tp["from"]["address"], "partners@butlerbutton.co")
+        self.assertEqual(tp["to"][0]["email_address"]["address"], "partners@butlerbutton.co")
+        self.assertIn(rid, tp["subject"])
+        self.assertIn("Demo request", tp["subject"])
+        # Requester on reply_to, so a reply reaches them directly.
+        self.assertEqual(tp["reply_to"][0]["address"], DEMO["email"])
+        for value in ("The Beach House", "General Manager", "Lisbon, Portugal", "48"):
+            self.assertIn(value, tp["textbody"])
+        self.assertIn("<", tp["htmlbody"])
+
+        ap = ack["payload"]
+        self.assertEqual(ap["to"][0]["email_address"]["address"], DEMO["email"])
+        self.assertIn(rid, ap["subject"], "acknowledgement must carry the same ID")
+        self.assertIn(rid, ap["textbody"])
+        self.assertEqual(ap["reply_to"][0]["address"], "partners@butlerbutton.co")
+
+    def test_meeting_request_over_the_api(self) -> None:
+        status, body = post(MEETING, url=ZEPTO_FORMS_URL)
+        self.assertEqual(status, 200, body)
+        self.assertRegex(body["request_id"], r"^BB-MTG-\d{8}-[A-HJ-NP-Z2-9]{6}$")
+        self.assertEqual(len(self.sent), 2)
+        self.assertIn("15-minute meeting request", self.sent[0]["payload"]["subject"])
+        self.assertIn("2026-08-04", self.sent[0]["payload"]["textbody"])
+
+    def test_api_rejection_is_reported_not_swallowed(self) -> None:
+        assert zepto_server is not None
+        zepto_server.fail_next = 2  # both calls fail
+        status, body = post(DEMO, url=ZEPTO_FORMS_URL)
+        self.assertEqual(status, 502)
+        self.assertFalse(body["success"])
+        self.assertEqual(body["error"], "delivery_failed")
+        self.assertIn("request_id", body)
+
+    def test_acknowledgement_failure_does_not_fail_the_request(self) -> None:
+        """The team mail is what matters; a bounced ack must not force a resubmit."""
+        assert zepto_server is not None
+        zepto_server.fail_next = 0
+        # Let the first (team) call succeed, then fail the acknowledgement.
+        original = zepto_server.next_response
+        calls = {"n": 0}
+
+        def sequenced() -> tuple[int, dict]:
+            calls["n"] += 1
+            if calls["n"] == 2:
+                return 400, {"error": {"code": "TM_3201", "message": "Invalid recipient"}}
+            return original()
+
+        zepto_server.next_response = sequenced  # type: ignore[method-assign]
+        try:
+            status, body = post(DEMO, url=ZEPTO_FORMS_URL)
+        finally:
+            zepto_server.next_response = original  # type: ignore[method-assign]
+
+        self.assertEqual(status, 200, body)
+        self.assertTrue(body["success"])
+        self.assertEqual(len(self.sent), 2)
+
+    def test_validation_still_applies_and_sends_nothing(self) -> None:
+        status, _ = post({**DEMO, "email": "not-an-email"}, url=ZEPTO_FORMS_URL)
+        self.assertEqual(status, 400)
+        self.assertEqual(self.sent, [])
+
+
+class TransportSelection(unittest.TestCase):
+    """`active_transport()` picks the right sender for a given configuration."""
+
+    ENV_KEYS = ("ZEPTOMAIL_TOKEN", "SMTP_HOST", "BB_MAIL_TRANSPORT")
+
+    def _under(self, call: str, **env: str):
+        """Evaluate `request_forms.<call>()` with the module reloaded under `env`.
+
+        The module reads its config at import time, so the value has to be taken
+        while the environment is applied — reload() mutates in place, and the
+        restoring reload at the end would otherwise undo what we are asserting.
+        """
+        import importlib
+
+        saved = {k: os.environ.get(k) for k in self.ENV_KEYS}
+        os.environ.update({k: "" for k in self.ENV_KEYS})
+        os.environ.update(env)
+        try:
+            mod = importlib.reload(request_forms)
+            return getattr(mod, call)()
+        finally:
+            for k, v in saved.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+            importlib.reload(request_forms)
+
+    def test_token_alone_selects_the_api(self) -> None:
+        self.assertEqual(self._under("active_transport", ZEPTOMAIL_TOKEN="tok"), "zeptomail")
+
+    def test_smtp_host_alone_selects_smtp(self) -> None:
+        self.assertEqual(self._under("active_transport", SMTP_HOST="smtp.zeptomail.com"), "smtp")
+
+    def test_api_wins_when_both_are_set(self) -> None:
+        self.assertEqual(
+            self._under("active_transport", ZEPTOMAIL_TOKEN="tok", SMTP_HOST="smtp.zeptomail.com"),
+            "zeptomail",
+        )
+
+    def test_explicit_smtp_overrides_the_token(self) -> None:
+        self.assertEqual(
+            self._under("active_transport", ZEPTOMAIL_TOKEN="tok",
+                        SMTP_HOST="smtp.zeptomail.com", BB_MAIL_TRANSPORT="smtp"),
+            "smtp",
+        )
+
+    def test_nothing_configured(self) -> None:
+        self.assertEqual(self._under("active_transport"), "")
+
+    def test_token_pasted_with_its_prefix_is_not_doubled(self) -> None:
+        self.assertEqual(
+            self._under("_zepto_auth_header", ZEPTOMAIL_TOKEN="Zoho-enczapikey abc123"),
+            "Zoho-enczapikey abc123",
+        )
+        self.assertEqual(
+            self._under("_zepto_auth_header", ZEPTOMAIL_TOKEN="abc123"),
+            "Zoho-enczapikey abc123",
+        )
 
 
 class RateLimit(unittest.TestCase):
