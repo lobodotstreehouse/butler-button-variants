@@ -787,21 +787,62 @@ class RateLimit(unittest.TestCase):
 
 
 class PageWiring(unittest.TestCase):
-    def test_page_is_served_and_buttons_are_wired(self) -> None:
+    """The page posts to the Veltm Edge Function; this server sends no mail for it."""
+
+    # The field names butler-demo-request documents.
+    API_FIELDS = {
+        "full_name", "work_email", "property_name", "city_country", "role", "phone",
+        "property_type", "rooms", "notes", "source", "page_url", "company_website",
+    }
+    # Meeting-only inputs, folded into `notes` rather than sent as their own keys.
+    FOLDED_INTO_NOTES = {"preferred_date", "preferred_time", "timezone"}
+
+    @classmethod
+    def setUpClass(cls) -> None:
         with urllib.request.urlopen(f"{BASE}/hotel-concierge-program.html", timeout=10) as res:
-            html = res.read().decode()
-        self.assertIn('data-request="demo"', html)
-        self.assertIn('data-request="meeting"', html)
-        self.assertIn("/forms/request", html)
-        self.assertIn('id="rqForm"', html)
-        # Every field the form posts must be one the server knows about.
-        posted = set(re.findall(r'<(?:input|select|textarea)[^>]*\sname="([^"]+)"', html))
-        known = set(request_forms.FIELDS) | {"website"}
-        self.assertTrue(posted <= known, f"unexpected form fields: {sorted(posted - known)}")
-        # ...and the page must offer every field the request type expects.
-        for request_type in ("demo", "meeting"):
-            missing = set(request_forms.fields_for(request_type)) - posted
-            self.assertEqual(missing, set(), f"{request_type} form is missing {missing}")
+            cls.html = res.read().decode()
+
+    def test_both_buttons_are_wired(self) -> None:
+        self.assertIn('data-request="demo"', self.html)
+        self.assertIn('data-request="meeting"', self.html)
+        self.assertIn('id="rqForm"', self.html)
+
+    def test_posts_to_the_edge_function_with_the_anon_key(self) -> None:
+        self.assertIn("functions/v1/butler-demo-request", self.html)
+        self.assertIn("'apikey': API.anon", self.html)
+        self.assertIn("'Authorization': 'Bearer ' + API.anon", self.html)
+        # The old same-origin mail endpoint must no longer be the target.
+        self.assertNotIn("window.BB_FORMS_API", self.html)
+
+    def test_honeypot_is_named_and_kept_off_screen(self) -> None:
+        self.assertIn('name="company_website"', self.html)
+        hp = re.search(r"\.rq-hp\{([^}]*)\}", self.html)
+        self.assertIsNotNone(hp)
+        self.assertIn("left:-9999px", hp.group(1))
+        self.assertNotIn("display:none", hp.group(1),
+                         "bots skip display:none, which defeats the honeypot")
+
+    def _field_map(self) -> dict:
+        """The FIELD_MAP object literal from the page, as a dict."""
+        block = re.search(r"var FIELD_MAP = \{(.*?)\n  \};", self.html, re.S)
+        self.assertIsNotNone(block, "FIELD_MAP not found in the page")
+        return dict(re.findall(r"(\w+):\s*'(\w+)'", block.group(1)))
+
+    def test_every_input_is_either_mapped_or_folded(self) -> None:
+        inputs = set(re.findall(
+            r'<(?:input|select|textarea)[^>]*\sname="([^"]+)"', self.html))
+        our_names = set(self._field_map())
+        unaccounted = inputs - our_names - self.FOLDED_INTO_NOTES - {"company_website"}
+        self.assertEqual(unaccounted, set(), f"inputs sent nowhere: {sorted(unaccounted)}")
+
+    def test_mapped_targets_are_all_known_api_fields(self) -> None:
+        mapped = self._field_map()
+        self.assertTrue(mapped, "field map not found in the page")
+        unknown = set(mapped.values()) - self.API_FIELDS
+        self.assertEqual(unknown, set(), f"not in the API contract: {sorted(unknown)}")
+        # The four required fields must all be produced.
+        for required in ("full_name", "work_email", "property_name", "city_country"):
+            self.assertIn(required, mapped.values(), f"{required} is never sent")
 
 
 if __name__ == "__main__":
