@@ -75,9 +75,11 @@ VERIFIED_SENDER_DOMAINS = tuple(
     if d.strip()
 )
 
-# ZeptoMail HTTPS API. Regional hosts: .com (global), .eu, .in — override the
-# whole URL if the account does not live in the default region.
-ZEPTOMAIL_API_URL = os.environ.get("ZEPTOMAIL_API_URL", "https://api.zeptomail.com/v1.1/email")
+# ZeptoMail HTTPS API. The account is in the India region (its console shows
+# smtp.zeptomail.in), so the default host is .in — calling the wrong regional
+# host fails authentication even with a valid token. Other regions are
+# api.zeptomail.com (global) and api.zeptomail.eu.
+ZEPTOMAIL_API_URL = os.environ.get("ZEPTOMAIL_API_URL", "https://api.zeptomail.in/v1.1/email")
 ZEPTOMAIL_TOKEN = os.environ.get("ZEPTOMAIL_TOKEN", "").strip()
 ZEPTOMAIL_TIMEOUT = int(os.environ.get("ZEPTOMAIL_TIMEOUT", "20"))
 
@@ -444,6 +446,12 @@ def active_transport() -> str:
     return "smtp" if SMTP_HOST else ""
 
 
+def zepto_region(value: str) -> str:
+    """'in', 'eu' or 'com' from a ZeptoMail host or URL; '' if not one."""
+    match = re.search(r"zeptomail\.(com|eu|in)\b", value or "", re.I)
+    return match.group(1).lower() if match else ""
+
+
 def transport_summary() -> str:
     which = active_transport()
     if which == "zeptomail":
@@ -477,6 +485,15 @@ def config_warnings() -> list[str]:
         )
     if which == "smtp" and SMTP_HOST and "zeptomail" in SMTP_HOST.lower() and SMTP_USER != "emailapikey":
         warnings.append("ZeptoMail SMTP expects SMTP_USER=emailapikey")
+
+    # A token is region-scoped: the right credential against the wrong regional
+    # host fails authentication, which reads like a bad token.
+    api_region, smtp_region = zepto_region(ZEPTOMAIL_API_URL), zepto_region(SMTP_HOST)
+    if api_region and smtp_region and api_region != smtp_region:
+        warnings.append(
+            f"ZeptoMail region mismatch: the API URL is .{api_region} but "
+            f"SMTP_HOST is .{smtp_region} - the console shows which one is right"
+        )
     return warnings
 
 

@@ -634,6 +634,77 @@ class SenderDomain(unittest.TestCase):
         warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok")
         self.assertTrue(any("MAIL_FROM is not set" in w for w in warnings), warnings)
 
+
+class ZeptoRegion(unittest.TestCase):
+    """A token is region-scoped, so the API host has to match the account."""
+
+    ENV_KEYS = ("ZEPTOMAIL_TOKEN", "ZEPTOMAIL_API_URL", "SMTP_HOST", "SMTP_USER",
+                "BB_MAIL_TRANSPORT", "MAIL_FROM", "SMTP_FROM")
+
+    def _under(self, call: str, **env: str):
+        import importlib
+
+        saved = {k: os.environ.get(k) for k in self.ENV_KEYS}
+        for k in self.ENV_KEYS:
+            os.environ.pop(k, None)
+        os.environ.update(env)
+        try:
+            return getattr(importlib.reload(request_forms), call)()
+        finally:
+            for k, v in saved.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+            importlib.reload(request_forms)
+
+    def test_region_is_parsed_from_host_or_url(self) -> None:
+        parse = request_forms.zepto_region
+        self.assertEqual(parse("smtp.zeptomail.in"), "in")
+        self.assertEqual(parse("https://api.zeptomail.in/v1.1/email"), "in")
+        self.assertEqual(parse("https://api.zeptomail.eu/v1.1/email"), "eu")
+        self.assertEqual(parse("https://api.zeptomail.com/v1.1/email"), "com")
+        self.assertEqual(parse("smtp.example.net"), "")
+        self.assertEqual(parse(""), "")
+
+    def test_default_api_host_matches_the_account_region(self) -> None:
+        """The console shows smtp.zeptomail.in, so .com would fail to authenticate."""
+        import importlib
+
+        saved = os.environ.get("ZEPTOMAIL_API_URL")
+        os.environ.pop("ZEPTOMAIL_API_URL", None)
+        try:
+            mod = importlib.reload(request_forms)
+            self.assertEqual(mod.zepto_region(mod.ZEPTOMAIL_API_URL), "in", mod.ZEPTOMAIL_API_URL)
+        finally:
+            if saved is not None:
+                os.environ["ZEPTOMAIL_API_URL"] = saved
+            importlib.reload(request_forms)
+
+    def test_region_mismatch_warns(self) -> None:
+        warnings = self._under(
+            "config_warnings", ZEPTOMAIL_TOKEN="tok", MAIL_FROM="x@veltmtours.com",
+            ZEPTOMAIL_API_URL="https://api.zeptomail.com/v1.1/email",
+            SMTP_HOST="smtp.zeptomail.in",
+        )
+        self.assertTrue(any("region mismatch" in w for w in warnings), warnings)
+
+    def test_matching_regions_do_not_warn(self) -> None:
+        warnings = self._under(
+            "config_warnings", ZEPTOMAIL_TOKEN="tok", MAIL_FROM="x@veltmtours.com",
+            ZEPTOMAIL_API_URL="https://api.zeptomail.in/v1.1/email",
+            SMTP_HOST="smtp.zeptomail.in",
+        )
+        self.assertEqual(warnings, [])
+
+    def test_zeptomail_smtp_settings_from_the_console_are_accepted(self) -> None:
+        """The exact values the ZeptoMail console shows must raise no warnings."""
+        warnings = self._under(
+            "config_warnings", SMTP_HOST="smtp.zeptomail.in", SMTP_USER="emailapikey",
+            MAIL_FROM="partners@veltmtours.com", BB_MAIL_TRANSPORT="smtp",
+        )
+        self.assertEqual(warnings, [])
+
     def test_missing_transport_warns(self) -> None:
         warnings = self._under("config_warnings", MAIL_FROM="partners@veltmtours.com")
         self.assertTrue(any("no mail transport" in w for w in warnings), warnings)
