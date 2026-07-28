@@ -214,7 +214,9 @@ def main() -> None:
     print(f"Serving {web_root} on http://0.0.0.0:{port}  (root '/' -> {INDEX_FILE}; "
           f"proxy: {API_PREFIX}* -> {SUPABASE_BASE}/*; "
           f"forms: {FORMS_PATH} -> {request_forms.TEAM_EMAIL} "
-          f"[{request_forms.transport_summary()}])")
+          f"from {request_forms.FROM_EMAIL} [{request_forms.transport_summary()}])")
+    for warning in request_forms.config_warnings():
+        print(f"  [forms] WARNING: {warning}", file=sys.stderr, flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

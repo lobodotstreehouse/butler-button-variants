@@ -183,7 +183,9 @@ def _start_server(port: int, rate_max: int, transport: str = "smtp") -> subproce
         {
             "WEB_ROOT": "proposed",
             "INDEX_FILE": "home.html",
-            "MAIL_FROM": "partners@butlerbutton.co",
+            # Sends come FROM the ZeptoMail-verified domain (veltmtours.com);
+            # they land in the butlerbutton.co inbox. Recipients need no setup.
+            "MAIL_FROM": "partners@veltmtours.com",
             "BB_TEAM_EMAIL": "partners@butlerbutton.co",
             "BB_FORMS_RATE_MAX": str(rate_max),
             "BB_FORMS_RATE_WINDOW": "600",
@@ -315,6 +317,10 @@ class DemoRequest(unittest.TestCase):
 
         self.assertEqual(len(inbox()), 2, "expected a team mail and an acknowledgement")
         team, ack = parsed(inbox()[0]), parsed(inbox()[1])
+
+        # Sent from the ZeptoMail-verified domain, delivered to the team inbox.
+        self.assertIn("partners@veltmtours.com", team["From"])
+        self.assertIn("partners@veltmtours.com", ack["From"])
 
         # Team mail: request ID in the subject, requester on Reply-To.
         self.assertIn(rid, team["Subject"])
@@ -486,7 +492,8 @@ class ZeptoMailTransport(unittest.TestCase):
             self.assertIn("application/json", call["content_type"])
 
         tp = team["payload"]
-        self.assertEqual(tp["from"]["address"], "partners@butlerbutton.co")
+        # Sent from the verified domain, delivered to the Butler Button inbox.
+        self.assertEqual(tp["from"]["address"], "partners@veltmtours.com")
         self.assertEqual(tp["to"][0]["email_address"]["address"], "partners@butlerbutton.co")
         self.assertIn(rid, tp["subject"])
         self.assertIn("Demo request", tp["subject"])
@@ -497,6 +504,7 @@ class ZeptoMailTransport(unittest.TestCase):
         self.assertIn("<", tp["htmlbody"])
 
         ap = ack["payload"]
+        self.assertEqual(ap["from"]["address"], "partners@veltmtours.com")
         self.assertEqual(ap["to"][0]["email_address"]["address"], DEMO["email"])
         self.assertIn(rid, ap["subject"], "acknowledgement must carry the same ID")
         self.assertIn(rid, ap["textbody"])
@@ -547,6 +555,70 @@ class ZeptoMailTransport(unittest.TestCase):
         status, _ = post({**DEMO, "email": "not-an-email"}, url=ZEPTO_FORMS_URL)
         self.assertEqual(status, 400)
         self.assertEqual(self.sent, [])
+
+
+class SenderDomain(unittest.TestCase):
+    """ZeptoMail verifies the sending domain; the destination is unrestricted."""
+
+    ENV_KEYS = ("ZEPTOMAIL_TOKEN", "SMTP_HOST", "BB_MAIL_TRANSPORT", "MAIL_FROM",
+                "SMTP_FROM", "BB_TEAM_EMAIL", "BB_VERIFIED_SENDER_DOMAINS", "SMTP_USER")
+
+    def _under(self, call: str, **env: str):
+        import importlib
+
+        saved = {k: os.environ.get(k) for k in self.ENV_KEYS}
+        # Unset rather than blank: an empty BB_VERIFIED_SENDER_DOMAINS is a
+        # deliberate "skip the check", which would hide what we are asserting.
+        for k in self.ENV_KEYS:
+            os.environ.pop(k, None)
+        os.environ.update(env)
+        try:
+            return getattr(importlib.reload(request_forms), call)()
+        finally:
+            for k, v in saved.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+            importlib.reload(request_forms)
+
+    def test_default_sender_is_the_verified_domain(self) -> None:
+        """Defaulting MAIL_FROM to the team inbox would be rejected by ZeptoMail."""
+        import importlib
+
+        saved = {k: os.environ.get(k) for k in ("MAIL_FROM", "SMTP_FROM")}
+        for k in saved:
+            os.environ.pop(k, None)
+        try:
+            mod = importlib.reload(request_forms)
+            self.assertTrue(mod.FROM_EMAIL.endswith("@veltmtours.com"), mod.FROM_EMAIL)
+            self.assertEqual(mod.TEAM_EMAIL, "partners@butlerbutton.co")
+            self.assertNotEqual(mod.FROM_EMAIL, mod.TEAM_EMAIL)
+        finally:
+            for k, v in saved.items():
+                if v is not None:
+                    os.environ[k] = v
+            importlib.reload(request_forms)
+
+    def test_unverified_sender_domain_warns(self) -> None:
+        warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok",
+                               MAIL_FROM="partners@butlerbutton.co")
+        self.assertTrue(any("butlerbutton.co" in w and "verified" in w for w in warnings), warnings)
+
+    def test_verified_sender_domain_does_not_warn(self) -> None:
+        warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok",
+                               MAIL_FROM="partners@veltmtours.com")
+        self.assertEqual(warnings, [])
+
+    def test_missing_transport_warns(self) -> None:
+        warnings = self._under("config_warnings", MAIL_FROM="partners@veltmtours.com")
+        self.assertTrue(any("no mail transport" in w for w in warnings), warnings)
+
+    def test_zeptomail_smtp_username_is_checked(self) -> None:
+        warnings = self._under("config_warnings", SMTP_HOST="smtp.zeptomail.com",
+                               SMTP_USER="partners@veltmtours.com",
+                               MAIL_FROM="partners@veltmtours.com")
+        self.assertTrue(any("emailapikey" in w for w in warnings), warnings)
 
 
 class TransportSelection(unittest.TestCase):

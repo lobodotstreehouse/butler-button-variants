@@ -12,16 +12,26 @@ submission gets a unique request ID, then two mails go out:
 
 Standard library only, to keep requirements.txt empty.
 
-Mail goes out through ZeptoMail. Either of its two transports works:
+Mail goes out through the VELTM Tours ZeptoMail account. Either transport works:
 
   * its HTTPS API  — set ZEPTOMAIL_TOKEN (the "Send Mail" token), or
   * its SMTP relay — set SMTP_HOST=smtp.zeptomail.com, SMTP_USER=emailapikey
                      and SMTP_PASSWORD=<the mail agent's SMTP token>.
 
 The API is picked automatically when a token is present, since it needs only
-outbound 443. See .env.example for the full variable list. With neither
-configured, submissions are logged in full and the endpoint says mail is not
-set up, so the front end can fall back to a pre-filled mailto.
+outbound 443.
+
+ZeptoMail verifies the SENDING domain, not the destination. That account is set
+up for veltmtours.com, so MAIL_FROM lives there while BB_TEAM_EMAIL — a plain
+recipient — stays on butlerbutton.co. No butlerbutton.co verification, and no
+Veltm-side relay endpoint, is needed for this to work.
+
+Run this module directly to check the configuration, optionally sending a live
+test message:  python tools/request_forms.py [you@example.com]
+
+See .env.example for the full variable list. With neither transport configured,
+submissions are logged in full and the endpoint says mail is not set up, so the
+front end can fall back to a pre-filled mailto.
 """
 from __future__ import annotations
 
@@ -41,10 +51,25 @@ from email.utils import formataddr, formatdate, make_msgid
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
+# Where submissions land. Recipients are unrestricted — ZeptoMail verifies the
+# SENDING domain, not the destination — so this stays on butlerbutton.co.
 TEAM_EMAIL = os.environ.get("BB_TEAM_EMAIL", "partners@butlerbutton.co")
-FROM_EMAIL = os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM") or TEAM_EMAIL
+
+# Who the mail is FROM. This must sit on a domain verified in the ZeptoMail
+# account, which is veltmtours.com — butlerbutton.co is not set up there, so
+# defaulting this to TEAM_EMAIL would get every send rejected.
+FROM_EMAIL = (os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM")
+              or "partners@veltmtours.com")
 FROM_NAME = os.environ.get("MAIL_FROM_NAME") or os.environ.get("SMTP_FROM_NAME") or "Butler Button"
 SITE_URL = os.environ.get("BB_SITE_URL", "https://butlerbutton.co")
+
+# Domains the ZeptoMail account is allowed to send as. Used only to warn early;
+# ZeptoMail is the real authority.
+VERIFIED_SENDER_DOMAINS = tuple(
+    d.strip().lower()
+    for d in os.environ.get("BB_VERIFIED_SENDER_DOMAINS", "veltmtours.com").split(",")
+    if d.strip()
+)
 
 # ZeptoMail HTTPS API. Regional hosts: .com (global), .eu, .in — override the
 # whole URL if the account does not live in the default region.
@@ -420,6 +445,26 @@ def transport_summary() -> str:
     return "mail not configured"
 
 
+def config_warnings() -> list[str]:
+    """Configuration mistakes worth flagging before a real send fails."""
+    warnings = []
+    which = active_transport()
+    if not which:
+        warnings.append(
+            "no mail transport configured - set ZEPTOMAIL_TOKEN (or SMTP_HOST); "
+            "submissions will be logged but not emailed"
+        )
+    domain = FROM_EMAIL.rpartition("@")[2].lower()
+    if VERIFIED_SENDER_DOMAINS and domain not in VERIFIED_SENDER_DOMAINS:
+        warnings.append(
+            f"MAIL_FROM is {FROM_EMAIL}, but ZeptoMail is verified for "
+            f"{', '.join(VERIFIED_SENDER_DOMAINS)} - sends will likely be rejected"
+        )
+    if which == "smtp" and SMTP_HOST and "zeptomail" in SMTP_HOST.lower() and SMTP_USER != "emailapikey":
+        warnings.append("ZeptoMail SMTP expects SMTP_USER=emailapikey")
+    return warnings
+
+
 # ── ZeptoMail HTTPS API ──────────────────────────────────────────────────────
 
 
@@ -588,3 +633,54 @@ def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
              f"via {active_transport()}")
 
     return 200, {"success": True, "request_id": request_id}
+
+
+# ── Self-check ───────────────────────────────────────────────────────────────
+
+
+def _selftest(recipient: str | None) -> int:
+    """`python tools/request_forms.py [you@example.com]`
+
+    Prints the resolved mail configuration, and with an address, sends a real
+    test message through it. Handy for confirming a deployment without having
+    to submit the form.
+    """
+    print("Mail configuration")
+    print(f"  transport : {transport_summary()}")
+    print(f"  from      : {FROM_NAME} <{FROM_EMAIL}>")
+    print(f"  team inbox: {TEAM_EMAIL}")
+    print(f"  token set : {'yes' if ZEPTOMAIL_TOKEN else 'no'}")
+    for warning in config_warnings():
+        print(f"  WARNING   : {warning}")
+
+    if not recipient:
+        print("\nPass an email address to send a live test message.")
+        return 0 if active_transport() else 1
+
+    sample = {
+        "request_type": "demo", "name": "Config Test", "email": recipient,
+        "company": "Butler Button self-check", "location": "-",
+        "phone": "", "role": "", "property_type": "", "rooms": "",
+        "preferred_date": "", "preferred_time": "", "timezone": "",
+        "message": "This is a self-check message from tools/request_forms.py.",
+        "page": "selftest",
+    }
+    request_id = new_request_id("demo")
+    received = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    team = build_team_email(sample, request_id, {"received": received, "ip": "selftest"})
+    ack = build_ack_email(sample, request_id)
+    # Keep the self-check out of the real inbox: both copies go to the tester.
+    team["to_email"], team["to_name"] = recipient, "Config Test"
+
+    print(f"\nSending {request_id} to {recipient} ...")
+    try:
+        ack_error = deliver(team, ack)
+    except Exception as exc:  # noqa: BLE001
+        print(f"FAILED: {type(exc).__name__}: {exc}")
+        return 1
+    print("Sent." + (f" (acknowledgement copy failed: {ack_error})" if ack_error else ""))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(_selftest(sys.argv[1] if len(sys.argv) > 1 else None))
