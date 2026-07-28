@@ -89,6 +89,11 @@ SMTP_TIMEOUT = int(os.environ.get("SMTP_TIMEOUT", "20"))
 # auto (default) | zeptomail | smtp
 MAIL_TRANSPORT = os.environ.get("BB_MAIL_TRANSPORT", "auto").strip().lower()
 
+# When on, a failed send returns the provider's own reason in the JSON response
+# instead of only writing it to the logs. Useful while wiring up credentials
+# without shell access; leave it off in normal operation.
+FORMS_DEBUG = os.environ.get("BB_FORMS_DEBUG", "").strip().lower() in ("1", "true", "yes", "on")
+
 # Per-IP throttle: at most RATE_MAX submissions per RATE_WINDOW seconds.
 RATE_MAX = int(os.environ.get("BB_FORMS_RATE_MAX", "5"))
 RATE_WINDOW = int(os.environ.get("BB_FORMS_RATE_WINDOW", "600"))
@@ -579,6 +584,14 @@ def _log(*parts: str) -> None:
     print("[forms]", *parts, file=sys.stderr, flush=True)
 
 
+def _redact(text: str) -> str:
+    """Never let a credential ride out in a response, however it got there."""
+    for secret in (ZEPTOMAIL_TOKEN, SMTP_PASSWORD):
+        if secret and len(secret) > 6:
+            text = text.replace(secret, "***")
+    return text
+
+
 def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
     """Validate, mail, and return (http_status, json_response)."""
     cleaned, error = validate(payload)
@@ -618,12 +631,15 @@ def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
     except Exception as exc:  # noqa: BLE001
         _log(request_id, f"delivery failed via {active_transport()}: {type(exc).__name__}: {exc}")
         print(team_mail["text"], file=sys.stderr, flush=True)
-        return 502, {
+        response = {
             "success": False,
             "error": "delivery_failed",
             "message": "We could not send your request just now.",
             "request_id": request_id,
         }
+        if FORMS_DEBUG:
+            response["detail"] = _redact(f"{type(exc).__name__}: {exc}")
+        return 502, response
 
     if ack_error:
         _log(request_id, f"team mail sent, acknowledgement failed: {ack_error}")

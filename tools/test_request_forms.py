@@ -162,13 +162,16 @@ HTTP_PORT = free_port()
 # The throttle is per-IP and every test here comes from 127.0.0.1, so it gets
 # its own server with a low limit rather than eating the other tests' budget.
 RATE_PORT = free_port()
-# A third server delivers through the stub ZeptoMail API instead of SMTP.
+# A third server delivers through the stub ZeptoMail API instead of SMTP,
+# and a fourth does the same with BB_FORMS_DEBUG on.
 ZEPTO_SITE_PORT = free_port()
+DEBUG_SITE_PORT = free_port()
 
 BASE = f"http://127.0.0.1:{HTTP_PORT}"
 FORMS_URL = f"{BASE}/forms/request"
 RATE_FORMS_URL = f"http://127.0.0.1:{RATE_PORT}/forms/request"
 ZEPTO_FORMS_URL = f"http://127.0.0.1:{ZEPTO_SITE_PORT}/forms/request"
+DEBUG_FORMS_URL = f"http://127.0.0.1:{DEBUG_SITE_PORT}/forms/request"
 RATE_MAX = 3
 ZEPTO_TOKEN = "wSsVR61A.testtoken.example"
 
@@ -177,7 +180,8 @@ zepto_server: StubZepto | None = None
 servers: list[subprocess.Popen] = []
 
 
-def _start_server(port: int, rate_max: int, transport: str = "smtp") -> subprocess.Popen:
+def _start_server(port: int, rate_max: int, transport: str = "smtp",
+                  debug: bool = False) -> subprocess.Popen:
     env = dict(os.environ)
     env.update(
         {
@@ -192,6 +196,7 @@ def _start_server(port: int, rate_max: int, transport: str = "smtp") -> subproce
             # Clear both transports, then enable exactly the one under test.
             "ZEPTOMAIL_TOKEN": "",
             "SMTP_HOST": "",
+            "BB_FORMS_DEBUG": "1" if debug else "",
         }
     )
     if transport == "zeptomail":
@@ -234,6 +239,7 @@ def setUpModule() -> None:  # noqa: N802
     servers.append(_start_server(HTTP_PORT, rate_max=500))
     servers.append(_start_server(RATE_PORT, rate_max=RATE_MAX))
     servers.append(_start_server(ZEPTO_SITE_PORT, rate_max=500, transport="zeptomail"))
+    servers.append(_start_server(DEBUG_SITE_PORT, rate_max=500, transport="zeptomail", debug=True))
 
 
 def tearDownModule() -> None:  # noqa: N802
@@ -526,6 +532,19 @@ class ZeptoMailTransport(unittest.TestCase):
         self.assertFalse(body["success"])
         self.assertEqual(body["error"], "delivery_failed")
         self.assertIn("request_id", body)
+        # Off by default: the provider's wording stays in the logs.
+        self.assertNotIn("detail", body)
+
+    def test_debug_flag_returns_the_provider_reason(self) -> None:
+        assert zepto_server is not None
+        zepto_server.fail_next = 2
+        status, body = post(DEMO, url=DEBUG_FORMS_URL)
+        self.assertEqual(status, 502)
+        self.assertIn("detail", body)
+        # ZeptoMail's own message and sub-detail, so the cause is actionable.
+        self.assertIn("Invalid sender", body["detail"])
+        self.assertIn("from address is not verified", body["detail"])
+        self.assertNotIn(ZEPTO_TOKEN, body["detail"], "credentials must never be echoed")
 
     def test_acknowledgement_failure_does_not_fail_the_request(self) -> None:
         """The team mail is what matters; a bounced ack must not force a resubmit."""

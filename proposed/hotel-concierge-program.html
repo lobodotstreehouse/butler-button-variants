@@ -1290,7 +1290,10 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
       })
       .then(function (r) {
         if (!r.ok || !r.json || !r.json.success || !r.json.request_id) {
-          throw new Error((r.json && (r.json.message || r.json.error)) || 'Request failed');
+          var why = (r.json && (r.json.message || r.json.error)) || 'Request failed';
+          // Present only when BB_FORMS_DEBUG is on, to diagnose mail setup.
+          if (r.json && r.json.detail) why += ' [' + r.json.detail + ']';
+          throw new Error(why);
         }
         var c = COPY[currentType];
         document.getElementById('rqDoneTitle').textContent = c.doneTitle;
