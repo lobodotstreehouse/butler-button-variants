@@ -626,8 +626,13 @@ class SenderDomain(unittest.TestCase):
 
     def test_verified_sender_domain_does_not_warn(self) -> None:
         warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok",
-                               MAIL_FROM="partners@veltmtours.com")
+                               MAIL_FROM="bookings@veltmtours.com")
         self.assertEqual(warnings, [])
+
+    def test_unset_sender_is_flagged_as_a_guess(self) -> None:
+        """The default address is invented; it must not pass silently."""
+        warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok")
+        self.assertTrue(any("MAIL_FROM is not set" in w for w in warnings), warnings)
 
     def test_missing_transport_warns(self) -> None:
         warnings = self._under("config_warnings", MAIL_FROM="partners@veltmtours.com")

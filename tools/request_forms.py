@@ -58,8 +58,12 @@ TEAM_EMAIL = os.environ.get("BB_TEAM_EMAIL", "partners@butlerbutton.co")
 # Who the mail is FROM. This must sit on a domain verified in the ZeptoMail
 # account, which is veltmtours.com — butlerbutton.co is not set up there, so
 # defaulting this to TEAM_EMAIL would get every send rejected.
-FROM_EMAIL = (os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM")
-              or "partners@veltmtours.com")
+_FROM_ENV = os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM")
+# The fallback is a plausible guess, not a known-good address. ZeptoMail
+# verifies the domain but still rejects a sender the mail agent does not own,
+# so an unset MAIL_FROM is called out in config_warnings() rather than left to
+# fail at send time.
+FROM_EMAIL = _FROM_ENV or "partners@veltmtours.com"
 FROM_NAME = os.environ.get("MAIL_FROM_NAME") or os.environ.get("SMTP_FROM_NAME") or "Butler Button"
 SITE_URL = os.environ.get("BB_SITE_URL", "https://butlerbutton.co")
 
@@ -464,6 +468,12 @@ def config_warnings() -> list[str]:
         warnings.append(
             f"MAIL_FROM is {FROM_EMAIL}, but ZeptoMail is verified for "
             f"{', '.join(VERIFIED_SENDER_DOMAINS)} - sends will likely be rejected"
+        )
+    elif not _FROM_ENV:
+        warnings.append(
+            f"MAIL_FROM is not set, so mail goes out as {FROM_EMAIL} - a guess. "
+            "Set it to the address the ZeptoMail mail agent actually sends as, "
+            "or sends will be rejected as an unrecognised sender"
         )
     if which == "smtp" and SMTP_HOST and "zeptomail" in SMTP_HOST.lower() and SMTP_USER != "emailapikey":
         warnings.append("ZeptoMail SMTP expects SMTP_USER=emailapikey")
