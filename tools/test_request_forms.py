@@ -162,13 +162,16 @@ HTTP_PORT = free_port()
 # The throttle is per-IP and every test here comes from 127.0.0.1, so it gets
 # its own server with a low limit rather than eating the other tests' budget.
 RATE_PORT = free_port()
-# A third server delivers through the stub ZeptoMail API instead of SMTP.
+# A third server delivers through the stub ZeptoMail API instead of SMTP,
+# and a fourth does the same with BB_FORMS_DEBUG on.
 ZEPTO_SITE_PORT = free_port()
+DEBUG_SITE_PORT = free_port()
 
 BASE = f"http://127.0.0.1:{HTTP_PORT}"
 FORMS_URL = f"{BASE}/forms/request"
 RATE_FORMS_URL = f"http://127.0.0.1:{RATE_PORT}/forms/request"
 ZEPTO_FORMS_URL = f"http://127.0.0.1:{ZEPTO_SITE_PORT}/forms/request"
+DEBUG_FORMS_URL = f"http://127.0.0.1:{DEBUG_SITE_PORT}/forms/request"
 RATE_MAX = 3
 ZEPTO_TOKEN = "wSsVR61A.testtoken.example"
 
@@ -177,7 +180,8 @@ zepto_server: StubZepto | None = None
 servers: list[subprocess.Popen] = []
 
 
-def _start_server(port: int, rate_max: int, transport: str = "smtp") -> subprocess.Popen:
+def _start_server(port: int, rate_max: int, transport: str = "smtp",
+                  debug: bool = False) -> subprocess.Popen:
     env = dict(os.environ)
     env.update(
         {
@@ -192,6 +196,7 @@ def _start_server(port: int, rate_max: int, transport: str = "smtp") -> subproce
             # Clear both transports, then enable exactly the one under test.
             "ZEPTOMAIL_TOKEN": "",
             "SMTP_HOST": "",
+            "BB_FORMS_DEBUG": "1" if debug else "",
         }
     )
     if transport == "zeptomail":
@@ -234,6 +239,7 @@ def setUpModule() -> None:  # noqa: N802
     servers.append(_start_server(HTTP_PORT, rate_max=500))
     servers.append(_start_server(RATE_PORT, rate_max=RATE_MAX))
     servers.append(_start_server(ZEPTO_SITE_PORT, rate_max=500, transport="zeptomail"))
+    servers.append(_start_server(DEBUG_SITE_PORT, rate_max=500, transport="zeptomail", debug=True))
 
 
 def tearDownModule() -> None:  # noqa: N802
@@ -526,6 +532,19 @@ class ZeptoMailTransport(unittest.TestCase):
         self.assertFalse(body["success"])
         self.assertEqual(body["error"], "delivery_failed")
         self.assertIn("request_id", body)
+        # Off by default: the provider's wording stays in the logs.
+        self.assertNotIn("detail", body)
+
+    def test_debug_flag_returns_the_provider_reason(self) -> None:
+        assert zepto_server is not None
+        zepto_server.fail_next = 2
+        status, body = post(DEMO, url=DEBUG_FORMS_URL)
+        self.assertEqual(status, 502)
+        self.assertIn("detail", body)
+        # ZeptoMail's own message and sub-detail, so the cause is actionable.
+        self.assertIn("Invalid sender", body["detail"])
+        self.assertIn("from address is not verified", body["detail"])
+        self.assertNotIn(ZEPTO_TOKEN, body["detail"], "credentials must never be echoed")
 
     def test_acknowledgement_failure_does_not_fail_the_request(self) -> None:
         """The team mail is what matters; a bounced ack must not force a resubmit."""
@@ -607,7 +626,83 @@ class SenderDomain(unittest.TestCase):
 
     def test_verified_sender_domain_does_not_warn(self) -> None:
         warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok",
-                               MAIL_FROM="partners@veltmtours.com")
+                               MAIL_FROM="bookings@veltmtours.com")
+        self.assertEqual(warnings, [])
+
+    def test_unset_sender_is_flagged_as_a_guess(self) -> None:
+        """The default address is invented; it must not pass silently."""
+        warnings = self._under("config_warnings", ZEPTOMAIL_TOKEN="tok")
+        self.assertTrue(any("MAIL_FROM is not set" in w for w in warnings), warnings)
+
+
+class ZeptoRegion(unittest.TestCase):
+    """A token is region-scoped, so the API host has to match the account."""
+
+    ENV_KEYS = ("ZEPTOMAIL_TOKEN", "ZEPTOMAIL_API_URL", "SMTP_HOST", "SMTP_USER",
+                "BB_MAIL_TRANSPORT", "MAIL_FROM", "SMTP_FROM")
+
+    def _under(self, call: str, **env: str):
+        import importlib
+
+        saved = {k: os.environ.get(k) for k in self.ENV_KEYS}
+        for k in self.ENV_KEYS:
+            os.environ.pop(k, None)
+        os.environ.update(env)
+        try:
+            return getattr(importlib.reload(request_forms), call)()
+        finally:
+            for k, v in saved.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+            importlib.reload(request_forms)
+
+    def test_region_is_parsed_from_host_or_url(self) -> None:
+        parse = request_forms.zepto_region
+        self.assertEqual(parse("smtp.zeptomail.in"), "in")
+        self.assertEqual(parse("https://api.zeptomail.in/v1.1/email"), "in")
+        self.assertEqual(parse("https://api.zeptomail.eu/v1.1/email"), "eu")
+        self.assertEqual(parse("https://api.zeptomail.com/v1.1/email"), "com")
+        self.assertEqual(parse("smtp.example.net"), "")
+        self.assertEqual(parse(""), "")
+
+    def test_default_api_host_matches_the_account_region(self) -> None:
+        """The console shows smtp.zeptomail.in, so .com would fail to authenticate."""
+        import importlib
+
+        saved = os.environ.get("ZEPTOMAIL_API_URL")
+        os.environ.pop("ZEPTOMAIL_API_URL", None)
+        try:
+            mod = importlib.reload(request_forms)
+            self.assertEqual(mod.zepto_region(mod.ZEPTOMAIL_API_URL), "in", mod.ZEPTOMAIL_API_URL)
+        finally:
+            if saved is not None:
+                os.environ["ZEPTOMAIL_API_URL"] = saved
+            importlib.reload(request_forms)
+
+    def test_region_mismatch_warns(self) -> None:
+        warnings = self._under(
+            "config_warnings", ZEPTOMAIL_TOKEN="tok", MAIL_FROM="x@veltmtours.com",
+            ZEPTOMAIL_API_URL="https://api.zeptomail.com/v1.1/email",
+            SMTP_HOST="smtp.zeptomail.in",
+        )
+        self.assertTrue(any("region mismatch" in w for w in warnings), warnings)
+
+    def test_matching_regions_do_not_warn(self) -> None:
+        warnings = self._under(
+            "config_warnings", ZEPTOMAIL_TOKEN="tok", MAIL_FROM="x@veltmtours.com",
+            ZEPTOMAIL_API_URL="https://api.zeptomail.in/v1.1/email",
+            SMTP_HOST="smtp.zeptomail.in",
+        )
+        self.assertEqual(warnings, [])
+
+    def test_zeptomail_smtp_settings_from_the_console_are_accepted(self) -> None:
+        """The exact values the ZeptoMail console shows must raise no warnings."""
+        warnings = self._under(
+            "config_warnings", SMTP_HOST="smtp.zeptomail.in", SMTP_USER="emailapikey",
+            MAIL_FROM="partners@veltmtours.com", BB_MAIL_TRANSPORT="smtp",
+        )
         self.assertEqual(warnings, [])
 
     def test_missing_transport_warns(self) -> None:
@@ -692,21 +787,62 @@ class RateLimit(unittest.TestCase):
 
 
 class PageWiring(unittest.TestCase):
-    def test_page_is_served_and_buttons_are_wired(self) -> None:
+    """The page posts to the Veltm Edge Function; this server sends no mail for it."""
+
+    # The field names butler-demo-request documents.
+    API_FIELDS = {
+        "full_name", "work_email", "property_name", "city_country", "role", "phone",
+        "property_type", "rooms", "notes", "source", "page_url", "company_website",
+    }
+    # Meeting-only inputs, folded into `notes` rather than sent as their own keys.
+    FOLDED_INTO_NOTES = {"preferred_date", "preferred_time", "timezone"}
+
+    @classmethod
+    def setUpClass(cls) -> None:
         with urllib.request.urlopen(f"{BASE}/hotel-concierge-program.html", timeout=10) as res:
-            html = res.read().decode()
-        self.assertIn('data-request="demo"', html)
-        self.assertIn('data-request="meeting"', html)
-        self.assertIn("/forms/request", html)
-        self.assertIn('id="rqForm"', html)
-        # Every field the form posts must be one the server knows about.
-        posted = set(re.findall(r'<(?:input|select|textarea)[^>]*\sname="([^"]+)"', html))
-        known = set(request_forms.FIELDS) | {"website"}
-        self.assertTrue(posted <= known, f"unexpected form fields: {sorted(posted - known)}")
-        # ...and the page must offer every field the request type expects.
-        for request_type in ("demo", "meeting"):
-            missing = set(request_forms.fields_for(request_type)) - posted
-            self.assertEqual(missing, set(), f"{request_type} form is missing {missing}")
+            cls.html = res.read().decode()
+
+    def test_both_buttons_are_wired(self) -> None:
+        self.assertIn('data-request="demo"', self.html)
+        self.assertIn('data-request="meeting"', self.html)
+        self.assertIn('id="rqForm"', self.html)
+
+    def test_posts_to_the_edge_function_with_the_anon_key(self) -> None:
+        self.assertIn("functions/v1/butler-demo-request", self.html)
+        self.assertIn("'apikey': API.anon", self.html)
+        self.assertIn("'Authorization': 'Bearer ' + API.anon", self.html)
+        # The old same-origin mail endpoint must no longer be the target.
+        self.assertNotIn("window.BB_FORMS_API", self.html)
+
+    def test_honeypot_is_named_and_kept_off_screen(self) -> None:
+        self.assertIn('name="company_website"', self.html)
+        hp = re.search(r"\.rq-hp\{([^}]*)\}", self.html)
+        self.assertIsNotNone(hp)
+        self.assertIn("left:-9999px", hp.group(1))
+        self.assertNotIn("display:none", hp.group(1),
+                         "bots skip display:none, which defeats the honeypot")
+
+    def _field_map(self) -> dict:
+        """The FIELD_MAP object literal from the page, as a dict."""
+        block = re.search(r"var FIELD_MAP = \{(.*?)\n  \};", self.html, re.S)
+        self.assertIsNotNone(block, "FIELD_MAP not found in the page")
+        return dict(re.findall(r"(\w+):\s*'(\w+)'", block.group(1)))
+
+    def test_every_input_is_either_mapped_or_folded(self) -> None:
+        inputs = set(re.findall(
+            r'<(?:input|select|textarea)[^>]*\sname="([^"]+)"', self.html))
+        our_names = set(self._field_map())
+        unaccounted = inputs - our_names - self.FOLDED_INTO_NOTES - {"company_website"}
+        self.assertEqual(unaccounted, set(), f"inputs sent nowhere: {sorted(unaccounted)}")
+
+    def test_mapped_targets_are_all_known_api_fields(self) -> None:
+        mapped = self._field_map()
+        self.assertTrue(mapped, "field map not found in the page")
+        unknown = set(mapped.values()) - self.API_FIELDS
+        self.assertEqual(unknown, set(), f"not in the API contract: {sorted(unknown)}")
+        # The four required fields must all be produced.
+        for required in ("full_name", "work_email", "property_name", "city_country"):
+            self.assertIn(required, mapped.values(), f"{required} is never sent")
 
 
 if __name__ == "__main__":

@@ -58,8 +58,12 @@ TEAM_EMAIL = os.environ.get("BB_TEAM_EMAIL", "partners@butlerbutton.co")
 # Who the mail is FROM. This must sit on a domain verified in the ZeptoMail
 # account, which is veltmtours.com — butlerbutton.co is not set up there, so
 # defaulting this to TEAM_EMAIL would get every send rejected.
-FROM_EMAIL = (os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM")
-              or "partners@veltmtours.com")
+_FROM_ENV = os.environ.get("MAIL_FROM") or os.environ.get("SMTP_FROM")
+# The fallback is a plausible guess, not a known-good address. ZeptoMail
+# verifies the domain but still rejects a sender the mail agent does not own,
+# so an unset MAIL_FROM is called out in config_warnings() rather than left to
+# fail at send time.
+FROM_EMAIL = _FROM_ENV or "partners@veltmtours.com"
 FROM_NAME = os.environ.get("MAIL_FROM_NAME") or os.environ.get("SMTP_FROM_NAME") or "Butler Button"
 SITE_URL = os.environ.get("BB_SITE_URL", "https://butlerbutton.co")
 
@@ -71,9 +75,11 @@ VERIFIED_SENDER_DOMAINS = tuple(
     if d.strip()
 )
 
-# ZeptoMail HTTPS API. Regional hosts: .com (global), .eu, .in — override the
-# whole URL if the account does not live in the default region.
-ZEPTOMAIL_API_URL = os.environ.get("ZEPTOMAIL_API_URL", "https://api.zeptomail.com/v1.1/email")
+# ZeptoMail HTTPS API. The account is in the India region (its console shows
+# smtp.zeptomail.in), so the default host is .in — calling the wrong regional
+# host fails authentication even with a valid token. Other regions are
+# api.zeptomail.com (global) and api.zeptomail.eu.
+ZEPTOMAIL_API_URL = os.environ.get("ZEPTOMAIL_API_URL", "https://api.zeptomail.in/v1.1/email")
 ZEPTOMAIL_TOKEN = os.environ.get("ZEPTOMAIL_TOKEN", "").strip()
 ZEPTOMAIL_TIMEOUT = int(os.environ.get("ZEPTOMAIL_TIMEOUT", "20"))
 
@@ -88,6 +94,11 @@ SMTP_TIMEOUT = int(os.environ.get("SMTP_TIMEOUT", "20"))
 
 # auto (default) | zeptomail | smtp
 MAIL_TRANSPORT = os.environ.get("BB_MAIL_TRANSPORT", "auto").strip().lower()
+
+# When on, a failed send returns the provider's own reason in the JSON response
+# instead of only writing it to the logs. Useful while wiring up credentials
+# without shell access; leave it off in normal operation.
+FORMS_DEBUG = os.environ.get("BB_FORMS_DEBUG", "").strip().lower() in ("1", "true", "yes", "on")
 
 # Per-IP throttle: at most RATE_MAX submissions per RATE_WINDOW seconds.
 RATE_MAX = int(os.environ.get("BB_FORMS_RATE_MAX", "5"))
@@ -435,6 +446,12 @@ def active_transport() -> str:
     return "smtp" if SMTP_HOST else ""
 
 
+def zepto_region(value: str) -> str:
+    """'in', 'eu' or 'com' from a ZeptoMail host or URL; '' if not one."""
+    match = re.search(r"zeptomail\.(com|eu|in)\b", value or "", re.I)
+    return match.group(1).lower() if match else ""
+
+
 def transport_summary() -> str:
     which = active_transport()
     if which == "zeptomail":
@@ -460,8 +477,23 @@ def config_warnings() -> list[str]:
             f"MAIL_FROM is {FROM_EMAIL}, but ZeptoMail is verified for "
             f"{', '.join(VERIFIED_SENDER_DOMAINS)} - sends will likely be rejected"
         )
+    elif not _FROM_ENV:
+        warnings.append(
+            f"MAIL_FROM is not set, so mail goes out as {FROM_EMAIL} - a guess. "
+            "Set it to the address the ZeptoMail mail agent actually sends as, "
+            "or sends will be rejected as an unrecognised sender"
+        )
     if which == "smtp" and SMTP_HOST and "zeptomail" in SMTP_HOST.lower() and SMTP_USER != "emailapikey":
         warnings.append("ZeptoMail SMTP expects SMTP_USER=emailapikey")
+
+    # A token is region-scoped: the right credential against the wrong regional
+    # host fails authentication, which reads like a bad token.
+    api_region, smtp_region = zepto_region(ZEPTOMAIL_API_URL), zepto_region(SMTP_HOST)
+    if api_region and smtp_region and api_region != smtp_region:
+        warnings.append(
+            f"ZeptoMail region mismatch: the API URL is .{api_region} but "
+            f"SMTP_HOST is .{smtp_region} - the console shows which one is right"
+        )
     return warnings
 
 
@@ -579,6 +611,14 @@ def _log(*parts: str) -> None:
     print("[forms]", *parts, file=sys.stderr, flush=True)
 
 
+def _redact(text: str) -> str:
+    """Never let a credential ride out in a response, however it got there."""
+    for secret in (ZEPTOMAIL_TOKEN, SMTP_PASSWORD):
+        if secret and len(secret) > 6:
+            text = text.replace(secret, "***")
+    return text
+
+
 def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
     """Validate, mail, and return (http_status, json_response)."""
     cleaned, error = validate(payload)
@@ -618,12 +658,15 @@ def handle(payload: dict, client_ip: str = "") -> tuple[int, dict]:
     except Exception as exc:  # noqa: BLE001
         _log(request_id, f"delivery failed via {active_transport()}: {type(exc).__name__}: {exc}")
         print(team_mail["text"], file=sys.stderr, flush=True)
-        return 502, {
+        response = {
             "success": False,
             "error": "delivery_failed",
             "message": "We could not send your request just now.",
             "request_id": request_id,
         }
+        if FORMS_DEBUG:
+            response["detail"] = _redact(f"{type(exc).__name__}: {exc}")
+        return 502, response
 
     if ack_error:
         _log(request_id, f"team mail sent, acknowledgement failed: {ack_error}")

@@ -446,7 +446,7 @@ a{color:inherit;text-decoration:none;}
 .rq-f.bad input,.rq-f.bad select,.rq-f.bad textarea{border-color:#F87171;}
 .rq-f .msg-err{font-size:.72rem;color:#FCA5A5;}
 .rq-f .hint{font-size:.72rem;color:var(--text-mute);}
-.rq-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+.rq-hp{position:absolute;left:-9999px;opacity:0;height:0;width:0;overflow:hidden;}
 
 .rq-alert{grid-column:1/-1;margin:0;padding:.8rem 1rem;border-radius:12px;font-size:.85rem;line-height:1.5;
   background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.35);color:#FCA5A5;}
@@ -976,9 +976,12 @@ a{color:inherit;text-decoration:none;}
       </div>
 
       <form id="rqForm" novalidate>
+        <!-- Honeypot. Positioned off-screen rather than display:none, which
+             bots skip. Filled means bot; the API drops those silently. -->
         <div class="rq-hp" aria-hidden="true">
-          <label for="rq-website">Company website</label>
-          <input type="text" id="rq-website" name="website" tabindex="-1" autocomplete="off">
+          <label for="rq-company_website">Company website</label>
+          <input type="text" id="rq-company_website" name="company_website"
+                 tabindex="-1" autocomplete="off">
         </div>
 
         <div class="rq-grid">
@@ -1082,14 +1085,44 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
 
 <script>
 /* Request modal — demo + 15-minute meeting.
-   Submits to the site's own /forms/request endpoint (tools/serve.py), which
-   mails partners@butlerbutton.co and acknowledges the requester. Override the
-   endpoint by setting window.BB_FORMS_API before this script runs. If the
-   endpoint is unreachable (e.g. the page is embedded on a host without it),
-   the form degrades to a pre-filled mailto so nothing is lost. */
+   Posts to the Veltm butler-demo-request Edge Function, which emails the lead
+   to partners@butlerbutton.co (Reply-To the requester), sends the requester a
+   confirmation carrying the request ID, and stores the lead. Nothing is
+   emailed from this site.
+
+   The anon key is public by design (it already ships in veltmtours.com's
+   front-end JS); the function is protected server-side by an origin
+   allow-list. Override the endpoint with window.BB_DEMO_API before this
+   script runs. If the call fails the form degrades to a pre-filled mailto,
+   and it never auto-retries — a retry would create a second lead and a
+   second confirmation email. */
 (function () {
-  var ENDPOINT = window.BB_FORMS_API || '/forms/request';
+  var API = window.BB_DEMO_API || (function () {
+    var h = location.hostname;
+    var local = (h === 'localhost' || h === '127.0.0.1' || /\.app\.github\.dev$/.test(h));
+    return {
+      // Local previews go through tools/serve.py's /api/* proxy, which adds
+      // the Origin the function's allow-list expects.
+      url: local
+        ? location.origin + '/api/butler-demo-request'
+        : 'https://glhbwpfkykycexyygwjj.supabase.co/functions/v1/butler-demo-request',
+      anon: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsaGJ3cGZreWt5Y2V4eXlnd2pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NDYzMTcsImV4cCI6MjA1OTUyMjMxN30.k1acAq6Khe47kwZThROWypCfj-S4-zTVIBFOxy86DFU'
+    };
+  })();
   var TEAM_EMAIL = 'partners@butlerbutton.co';
+
+  // Our input names -> the field names the API expects.
+  var FIELD_MAP = {
+    name: 'full_name',
+    email: 'work_email',
+    company: 'property_name',
+    location: 'city_country',
+    role: 'role',
+    phone: 'phone',
+    property_type: 'property_type',
+    rooms: 'rooms',
+    message: 'notes'
+  };
 
   var COPY = {
     demo: {
@@ -1192,12 +1225,31 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
+  function val(name) {
+    var el = form.elements[name];
+    return el && !el.disabled ? (el.value || '').trim() : '';
+  }
+
   function collect() {
-    var data = { request_type: currentType, page: location.pathname || '/' };
-    Array.prototype.forEach.call(form.elements, function (el) {
-      if (!el.name || el.disabled || el.type === 'submit') return;
-      data[el.name] = (el.value || '').trim();
+    // The API models a demo request. A meeting request carries its scheduling
+    // details at the top of `notes` so nothing is dropped on the way.
+    var notes = val('message');
+    if (currentType === 'meeting') {
+      var lines = ['[15-minute meeting request]'];
+      if (val('preferred_date')) lines.push('Preferred date: ' + val('preferred_date'));
+      if (val('preferred_time')) lines.push('Preferred time: ' + val('preferred_time'));
+      if (val('timezone')) lines.push('Time zone: ' + val('timezone'));
+      notes = lines.join('\n') + (notes ? '\n\n' + notes : '');
+    }
+
+    var data = {};
+    Object.keys(FIELD_MAP).forEach(function (ours) {
+      data[FIELD_MAP[ours]] = val(ours);
     });
+    data.notes = notes;
+    data.source = 'butlerbutton.co';
+    data.page_url = location.href;
+    data.company_website = val('company_website');   // honeypot, normally empty
     return data;
   }
 
@@ -1222,24 +1274,21 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
     var label = currentType === 'meeting' ? '15-minute meeting request' : 'Demo request';
     var lines = [
       'Request type: ' + label,
-      'Name: ' + (data.name || ''),
-      'Email: ' + (data.email || ''),
+      'Name: ' + (data.full_name || ''),
+      'Email: ' + (data.work_email || ''),
       'Phone / WhatsApp: ' + (data.phone || ''),
-      'Property or company: ' + (data.company || ''),
+      'Property or company: ' + (data.property_name || ''),
       'Role: ' + (data.role || ''),
-      'City & country: ' + (data.location || '')
+      'City & country: ' + (data.city_country || '')
     ];
     if (currentType === 'demo') {
       lines.push('Property type: ' + (data.property_type || ''));
       lines.push('Rooms or keys: ' + (data.rooms || ''));
-    } else {
-      lines.push('Preferred date: ' + (data.preferred_date || ''));
-      lines.push('Preferred time: ' + (data.preferred_time || ''));
-      lines.push('Time zone: ' + (data.timezone || ''));
     }
-    lines.push('', 'Notes:', data.message || '(none)');
+    lines.push('', 'Notes:', data.notes || '(none)');
     return 'mailto:' + TEAM_EMAIL +
-      '?subject=' + encodeURIComponent(label + ' - ' + (data.company || data.name || 'website')) +
+      '?subject=' + encodeURIComponent(
+        label + ' - ' + (data.property_name || data.full_name || 'website')) +
       '&body=' + encodeURIComponent(lines.join('\n'));
   }
 
@@ -1269,32 +1318,64 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
     }
   }
 
+  // A 400 names the offending API field; point the user at our input for it.
+  function highlightFrom(message) {
+    if (!message) return false;
+    var hit = false;
+    Object.keys(FIELD_MAP).forEach(function (ours) {
+      if (hit) return;
+      if (message.indexOf(FIELD_MAP[ours]) !== -1) {
+        var el = field(ours);
+        if (el && !el.disabled) { markError(el, message); el.focus(); hit = true; }
+      }
+    });
+    return hit;
+  }
+
+  function messageForStatus(status, json) {
+    var reason = (json && (json.error || json.message)) || '';
+    if (status === 400) return reason || 'Please check the highlighted field.';
+    if (status === 429) return 'Too many requests just now. Please wait a few minutes and try again.';
+    if (status === 403) return 'This page is not yet allow-listed for requests.';
+    return 'We could not send that just now.';
+  }
+
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     // Enter in a text field bypasses the disabled button, and a second send
-    // would mint a second request ID for the same enquiry.
+    // would create a second lead and a second confirmation email.
     if (sending) return;
     if (!validate()) return;
     var data = collect();
     setBusy(true);
 
-    fetch(ENDPOINT, {
+    fetch(API.url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': API.anon,
+        'Authorization': 'Bearer ' + API.anon
+      },
       body: JSON.stringify(data)
     })
       .then(function (res) {
         return res.json()
           .catch(function () { return {}; })
-          .then(function (json) { return { ok: res.ok, json: json }; });
+          .then(function (json) { return { ok: res.ok, status: res.status, json: json }; });
       })
       .then(function (r) {
         if (!r.ok || !r.json || !r.json.success || !r.json.request_id) {
-          throw new Error((r.json && (r.json.message || r.json.error)) || 'Request failed');
+          var err = new Error(messageForStatus(r.status, r.json));
+          err.status = r.status;
+          err.reason = (r.json && (r.json.error || r.json.message)) || '';
+          throw err;
         }
         var c = COPY[currentType];
         document.getElementById('rqDoneTitle').textContent = c.doneTitle;
-        document.getElementById('rqDoneText').textContent = c.doneText;
+        document.getElementById('rqDoneText').textContent =
+          r.json.confirmation_sent === false
+            ? 'Our partnerships team has it. Quote this reference in any reply.'
+            : c.doneText;
         document.getElementById('rqDoneId').textContent = r.json.request_id;
         setBusy(false);
         body.hidden = true;
@@ -1302,10 +1383,17 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
         form.reset();
         document.getElementById('rqDoneClose').focus();
       })
+      // No auto-retry: a retry would create a duplicate lead. The button is
+      // re-enabled so the person can decide to try again themselves.
       .catch(function (err) {
         setBusy(false);
         try { console.error('[bb-request]', err); } catch (e) {}
-        showFailure(data, 'We could not send that just now.');
+        if (err.status === 400 && highlightFrom(err.reason)) {
+          alertEl.hidden = false;
+          alertEl.textContent = err.message;
+          return;
+        }
+        showFailure(data, err.message);
       });
   });
 
